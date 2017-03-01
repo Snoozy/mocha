@@ -1,0 +1,9 @@
+[submodule "ios/Marble/Alamofire"]
+	path = ios/Marble/Alamofire
+	url = https://github.com/Alamofire/Alamofire.git
+[submodule "ios/Marble/AlamofireNetworkActivityIndicator"]
+	path = ios/Marble/AlamofireNetworkActivityIndicator
+	url = https://github.com/Alamofire/AlamofireNetworkActivityIndicator.git
+[submodule "ios/Marble/AlamofireImage"]
+	path = ios/Marble/AlamofireImage
+	url = https://github.com/Alamofire/AlamofireImage.git
