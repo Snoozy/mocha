@@ -25,6 +25,9 @@
 		426FB0471E55A618000AFAF9 /* GroupTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426FB0461E55A618000AFAF9 /* GroupTVCell.swift */; };
 		427FFC741E3B1F600007159C /* AlamofireNetworkActivityIndicator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 427FFC711E3B1F470007159C /* AlamofireNetworkActivityIndicator.framework */; };
 		427FFC751E3B1F600007159C /* AlamofireNetworkActivityIndicator.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 427FFC711E3B1F470007159C /* AlamofireNetworkActivityIndicator.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4295B8A31E84C1880091C08B /* NoGroupsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4295B8A21E84C1880091C08B /* NoGroupsView.xib */; };
+		4295B8A71E84C21E0091C08B /* NoGroupsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4295B8A61E84C21E0091C08B /* NoGroupsView.swift */; };
+		4295B8A91E84C2E70091C08B /* AddMarble.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4295B8A81E84C2E70091C08B /* AddMarble.storyboard */; };
 		429991461E4D4F9D0049608F /* SCLAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429991441E4D4F9D0049608F /* SCLAlertView.swift */; };
 		429991471E4D4F9D0049608F /* SCLExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429991451E4D4F9D0049608F /* SCLExtensions.swift */; };
 		4299914C1E4D55A20049608F /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4299914B1E4D55A20049608F /* State.swift */; };
@@ -231,6 +234,9 @@
 		426E24C91E4ABD6400F24992 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Data/Constants.swift; sourceTree = "<group>"; };
 		426FB0461E55A618000AFAF9 /* GroupTVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GroupTVCell.swift; path = Views/GroupTVCell.swift; sourceTree = "<group>"; };
 		427FFC6A1E3B1F470007159C /* AlamofireNetworkActivityIndicator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireNetworkActivityIndicator.xcodeproj; path = AlamofireNetworkActivityIndicator/AlamofireNetworkActivityIndicator.xcodeproj; sourceTree = "<group>"; };
+		4295B8A21E84C1880091C08B /* NoGroupsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NoGroupsView.xib; path = StoryBoards/NoGroupsView.xib; sourceTree = "<group>"; };
+		4295B8A61E84C21E0091C08B /* NoGroupsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NoGroupsView.swift; path = Views/NoGroupsView.swift; sourceTree = "<group>"; };
+		4295B8A81E84C2E70091C08B /* AddMarble.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = AddMarble.storyboard; path = StoryBoards/AddMarble.storyboard; sourceTree = "<group>"; };
 		429991441E4D4F9D0049608F /* SCLAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SCLAlertView.swift; path = Vendor/SCLAlertView/SCLAlertView.swift; sourceTree = "<group>"; };
 		429991451E4D4F9D0049608F /* SCLExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SCLExtensions.swift; path = Vendor/SCLAlertView/SCLExtensions.swift; sourceTree = "<group>"; };
 		4299914B1E4D55A20049608F /* State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = State.swift; path = Data/State/State.swift; sourceTree = "<group>"; };
@@ -369,6 +375,7 @@
 				425D40641E4331EC00CBD8CB /* NumPlaceholderButton.swift */,
 				4241B8131E4DB5F5003CA796 /* MainGroupTVCell.swift */,
 				4241B8191E4DC197003CA796 /* StoryImageView.swift */,
+				4295B8A61E84C21E0091C08B /* NoGroupsView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -414,6 +421,8 @@
 				42CC20701E42FCCC00EC419A /* Left.storyboard */,
 				429AF4101E48872600475461 /* GroupTVCell.xib */,
 				4241B81B1E4DC208003CA796 /* StoryImage.xib */,
+				4295B8A21E84C1880091C08B /* NoGroupsView.xib */,
+				4295B8A81E84C2E70091C08B /* AddMarble.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -682,7 +691,9 @@
 				42D5759A1E371F0E0094037D /* ViewPickDest.xib in Resources */,
 				952AF8101DAB363D005E60C7 /* LaunchScreen.storyboard in Resources */,
 				952AF80D1DAB363D005E60C7 /* Assets.xcassets in Resources */,
+				4295B8A31E84C1880091C08B /* NoGroupsView.xib in Resources */,
 				952AF80B1DAB363D005E60C7 /* Main.storyboard in Resources */,
+				4295B8A91E84C2E70091C08B /* AddMarble.storyboard in Resources */,
 				4241B81C1E4DC208003CA796 /* StoryImage.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -696,6 +707,7 @@
 			files = (
 				425D40631E4330A600CBD8CB /* AddMarbleCodeVC.swift in Sources */,
 				429991471E4D4F9D0049608F /* SCLExtensions.swift in Sources */,
+				4295B8A71E84C21E0091C08B /* NoGroupsView.swift in Sources */,
 				42623CBF1E3B0B5A0068D4FA /* AuthNetworker.swift in Sources */,
 				429991541E4DA1F20049608F /* Story.swift in Sources */,
 				42CC207E1E4314A100EC419A /* AddMarbleVC.swift in Sources */,

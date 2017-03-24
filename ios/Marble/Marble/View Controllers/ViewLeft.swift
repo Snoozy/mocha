@@ -95,7 +95,14 @@ class ViewLeft: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return State.shared.userGroups.count
+        let count = State.shared.userGroups.count
+        if count == 0 {
+            let noGroupsView = UINib(nibName: "NoGroupsView", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! UIView
+            tableView.backgroundView = noGroupsView
+        } else {
+            tableView.backgroundView = nil
+        }
+        return count
     }
     
     let imageViewNib = UINib(nibName: "StoryImage", bundle: nil)
@@ -156,5 +163,11 @@ class ViewLeft: UITableViewController {
     
     func mediaUploadFinished(notificaion: Notification) {
         refresh()
+    }
+    
+    @IBAction func AddMarbleBtnPress(_ sender: UIBarButtonItem) {
+        OperationQueue.main.addOperation {
+            UIApplication.topViewController()?.present(UIStoryboard(name:"AddMarble", bundle: nil).instantiateInitialViewController()!, animated: true, completion: nil)
+        }
     }
 }
