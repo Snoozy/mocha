@@ -45,6 +45,7 @@ class ViewLeft: UITableViewController {
                 self.refreshStories()
             })
         } else {
+            self.tableView.reloadData()
             refreshStories()
         }
     }
@@ -54,9 +55,12 @@ class ViewLeft: UITableViewController {
             for (groupId, stories) in State.shared.groupStories {
                 var groupCell: MainGroupTVCell?
                 for cell in self.tableView.visibleCells {
-                    if (cell as! MainGroupTVCell).groupId! == groupId {
+                    if (cell as! MainGroupTVCell).group?.groupId == groupId {
                         groupCell = cell as? MainGroupTVCell
                     }
+                }
+                if groupCell == nil {
+                    continue
                 }
                 groupCell?.startLoading()
                 groupCell?.storyLoadCount = stories.count
@@ -65,8 +69,12 @@ class ViewLeft: UITableViewController {
                         groupCell?.storyLoadCount! -= 1
                         if groupCell?.storyLoadCount ?? 0 <= 0 {
                             groupCell?.stopLoading()
-                            let storyIdx = State.shared.findGroupBy(id: (groupCell?.groupId!)!)?.storyViewIdx
-                            groupCell?.storyPreview.image = stories[storyIdx!].media?.circleMasked
+                            var storyIdx = State.shared.findGroupBy(id: (groupCell?.group?.groupId)!)?.storyViewIdx
+                            if storyIdx! >= stories.count {
+                                storyIdx = 0
+                            }
+                            groupCell?.refreshPreview()
+                            groupCell?.refreshSeen()
                         }
                     })
                 }
@@ -78,7 +86,7 @@ class ViewLeft: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MainGroupCell", for: indexPath) as! MainGroupTVCell
         let group = State.shared.userGroups[indexPath.row]
         cell.title.text = group.name
-        cell.groupId = group.groupId
+        cell.group = group
         
         cell.preservesSuperviewLayoutMargins = false
         cell.separatorInset = UIEdgeInsets.zero
@@ -96,15 +104,16 @@ class ViewLeft: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         let cell = tableView.cellForRow(at: indexPath) as! MainGroupTVCell
         
-        if !State.shared.checkGroupStoriesReady(groupId: cell.groupId!) {
+        if !State.shared.checkGroupStoriesReady(groupId: (cell.group?.groupId)!) {
             return
         }
         
-        let group = State.shared.findGroupBy(id: cell.groupId!)
+        let group = State.shared.findGroupBy(id: (cell.group?.groupId)!)
 
         let imageViewer = imageViewNib.instantiate(withOwner: nil, options: nil)[0] as! StoryImageView
         
         imageViewer.group = group
+        imageViewer.cell = cell
         
         let tapGest = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         imageViewer.isUserInteractionEnabled = true
@@ -112,6 +121,9 @@ class ViewLeft: UITableViewController {
         
         UIApplication.shared.keyWindow?.addSubview(imageViewer)
         imageViewer.mediaStart()
+        Networker.shared.storySeen(groupId: (group?.groupId)! ,completionHandler: { _ in })  // empty completion handler
+        group?.lastSeen = Int64(Date().timeIntervalSince1970 * 1000)
+        cell.refreshSeen()
     }
     
     func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
@@ -124,11 +136,11 @@ class ViewLeft: UITableViewController {
     }
     
     @IBAction func createGroupSegue(_ segue: UIStoryboardSegue) {
-        refresh()
+        refresh(refreshGroups: true)
     }
     
     @IBAction func joinGroupToMainSegue(_ segue: UIStoryboardSegue) {
-        refresh()
+        refresh(refreshGroups: false)
     }
     
     func mediaPosted(notification: Notification) {
@@ -136,7 +148,7 @@ class ViewLeft: UITableViewController {
         let groups = userInfo["group_ids"] as! [Int]
         for cell in self.tableView.visibleCells {
             let groupCell = (cell as? MainGroupTVCell)
-            if groups.contains((groupCell?.groupId!)!) {
+            if groups.contains((groupCell?.group?.groupId)!) {
                 groupCell?.startLoading()
             }
         }

@@ -19,11 +19,14 @@ class StoryImageView: UIView {
     var originalHeight: CGFloat = 0.0
     var originalMinX: CGFloat = 0.0
     var group: Group?
+    var cell: MainGroupTVCell?
     
     @IBAction func storyViewPan(_ sender: UIPanGestureRecognizer) {
         let translation = sender.translation(in: self)
         if sender.state == .ended {
             if translation.y > 90 {
+                self.group?.storyViewIdx -= 1
+                self.cell?.refreshPreview()
                 UIView.animate(withDuration: 0.3, animations: {
                     self.alpha = 0.0
                 }, completion: { (_: Bool) in
@@ -62,12 +65,15 @@ class StoryImageView: UIView {
     
     func mediaStart() {
         UIApplication.shared.isStatusBarHidden = true
+        if (self.group?.storyViewIdx)! >= (State.shared.groupStories[(group?.groupId)!]?.count)! {
+            self.group?.storyViewIdx = 0
+        }
         mediaNext()
     }
     
     func mediaNext() {
         let stories = State.shared.groupStories[(group?.groupId)!]
-        if (self.group?.storyViewIdx)! <= (stories?.count)! - 1 {  // next story
+        if (self.group?.storyIdxValid())! {  // next story
             let image = stories?[(group?.storyViewIdx)!].media
             self.imageView.image = image
             self.nameLabel.text = stories?[(group?.storyViewIdx)!].posterName
@@ -75,8 +81,8 @@ class StoryImageView: UIView {
             self.group?.storyViewIdx += 1
         } else {
             UIApplication.shared.isStatusBarHidden = false
-            self.group?.storyViewIdx = 0
             self.removeFromSuperview()
+            self.cell?.refreshPreview()
         }
     }
 }

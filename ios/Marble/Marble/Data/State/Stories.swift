@@ -24,7 +24,7 @@ extension State {
                             self.groupStories[groupId] = [Story]()
                         }
                         if !self.storyExists(mediaUrl: mediaUrl, groupId: groupId) {
-                            self.groupStories[groupId]!.append(Story(url: mediaUrl, name: story["user_name"].stringValue))
+                            self.groupStories[groupId]!.append(Story(url: mediaUrl, name: story["user_name"].stringValue, time: story["timestamp"].int64 ?? 0))
                         }
                     }
                     completionHandler?()
@@ -37,12 +37,16 @@ extension State {
     
     func checkGroupStoriesReady(groupId: Int) -> Bool {
         let stories = self.groupStories[groupId]
-        for story in stories! {
-            if !story.mediaReady {
-                return false
+        if let stories = stories {
+            for story in stories {
+                if !story.mediaReady {
+                    return false
+                }
             }
+            return true
+        } else {
+            return false
         }
-        return true
     }
     
     func storyExists(mediaUrl: String, groupId: Int) -> Bool {

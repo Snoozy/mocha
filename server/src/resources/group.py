@@ -1,7 +1,6 @@
 import falcon
 from data.db.models.user import User
 from data.db.models.group import Group
-from data.db.models.user_to_group import UserToGroup
 import json
 
 class GroupCreateResource:
@@ -22,11 +21,16 @@ class FindGroupResource:
         user = req.session.query(User).filter(User.id == user_id).first()
         group = req.session.query(Group).filter(Group.id == int(code)).first()
         if group:
+            last_seen = None
+            for m in user.memberships:
+                if m.group.id == group.id:
+                    last_seen = m.last_seen
             resp.context['json'] = {
                     'status' : 0,
                     'group_name' : group.name,
-                    'member_count' : group.users.count(),
-                    'group_id' : group.id
+                    'member_count' : group.memberships.count(),
+                    'group_id' : group.id,
+                    'last_seen' : last_seen
                 }
         else:
             resp.context['json'] = {
@@ -38,10 +42,19 @@ class ListGroupsResource:
     def on_get(self, req, resp, user_id):
         user = req.session.query(User).filter(User.id == user_id).first()
         groups = user.groups
-        json_string = json.dumps([{"name" : g.name, "group_id" : g.id} for g in groups])
+        group_arr = []
+        for g in groups:
+            g_dict = g.to_dict()
+            last_seen = None
+            for m in user.memberships:
+                if m.group.id == g.id:
+                    last_seen = m.last_seen
+                    break
+            g_dict['last_seen'] = last_seen
+            group_arr.append(g_dict)
         resp.context['json'] = {
                 'status' : 0,
-                'groups' : json_string
+                'groups' : json.dumps(group_arr)
             }
 
 class GroupJoinResource:
@@ -51,6 +64,8 @@ class GroupJoinResource:
         user = req.session.query(User).filter(User.id == user_id).first()
         if user not in group.users:
             group.users.append(user)
+        req.session.commit()
         resp.context['json'] = {
-                'status' : 0
+                'status' : 0,
+                'group' : group.to_dict()
             }

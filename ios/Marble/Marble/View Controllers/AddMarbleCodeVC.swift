@@ -60,8 +60,13 @@ class AddMarbleCodeVC: UIViewController {
                                 alert.addButton("Join Marble", action: {
                                     Networker.shared.joinGroup(id: groupId, completionHandler: { response in
                                         switch response.result {
-                                        case .success:
+                                        case .success(let value):
                                             print("segue")
+                                            let json = JSON(value)
+                                            print(json)
+                                            let group = json["group"]
+                                            let groupId = group["group_id"].int!
+                                            State.shared.addGroup(name: group["name"].stringValue, id: groupId, lastSeen: group["last_seen"].int64 ?? 0)
                                             self.performSegue(withIdentifier: "JoinGroupToMainUnwind", sender: nil)
                                         case .failure:
                                             print(response.debugDescription)

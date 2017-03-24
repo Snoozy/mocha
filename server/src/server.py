@@ -10,6 +10,8 @@ from resources.upload import UploadResource
 from resources.auth import PingResource, SignUpResource, LogInResource
 from resources.group import GroupJoinResource, GroupCreateResource, ListGroupsResource, FindGroupResource
 from resources.user import GetStoriesResource
+from resources.health import HealthCheckResource
+from resources.story import StorySeenResource
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session
@@ -35,6 +37,8 @@ app.add_route('/v1/groups/create', GroupCreateResource())
 app.add_route('/v1/groups/list', ListGroupsResource())
 app.add_route('/v1/groups/find', FindGroupResource())
 app.add_route('/v1/stories', GetStoriesResource())
+app.add_route('/v1/stories/seen', StorySeenResource())
+app.add_route('/health', HealthCheckResource())
 
 app.req_options.auto_parse_form_urlencoded = True
 

@@ -10,7 +10,7 @@ import UIKit
 
 class MainGroupTVCell: UITableViewCell {
     
-    var groupId: Int?
+    var group: Group?
     var storyLoadCount: Int?
 
     override func awakeFromNib() {
@@ -34,6 +34,25 @@ class MainGroupTVCell: UITableViewCell {
         self.loadingIcon.isHidden = true
         self.loadingIcon.stopAnimating()
         self.storyPreview.isHidden = false
+    }
+    
+    func refreshPreview() {
+        if (group?.storyIdxValid())! {
+            let image = State.shared.groupStories[(group?.groupId)!]?[(group?.storyViewIdx)!].media
+            storyPreview.image = image?.circleMasked
+        }
+    }
+    
+    func refreshSeen() {
+        let lastSeen = group?.lastSeen
+        let lastStory = State.shared.groupStories[(group?.groupId)!]?.last
+        print(lastStory?.timestamp)
+        if lastSeen! < (lastStory?.timestamp)! {
+            print("bolding")
+            title.font = UIFont.boldSystemFont(ofSize: title.font.pointSize)
+        } else {
+            title.font = UIFont.systemFont(ofSize: title.font.pointSize)
+        }
     }
     
     @IBOutlet weak var loadingIcon: UIActivityIndicatorView!

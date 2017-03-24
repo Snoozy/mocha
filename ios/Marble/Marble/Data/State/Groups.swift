@@ -15,9 +15,11 @@ extension State {
             switch response.result {
             case .success:
                 let json = response.result.value as! [String : Any]
+                print(json)
                 let groupsJson = JSON.init(parseJSON: json["groups"] as! String)
                 for group in groupsJson {
-                    State.shared.addGroup(group: Group(name: group.1["name"].stringValue, id: group.1["group_id"].int!))
+                    let groupId = group.1["group_id"].int!
+                    self.addGroup(name: group.1["name"].stringValue, id: groupId, lastSeen: group.1["last_seen"].int64 ?? 0)
                 }
                 completionHandler?()
             case .failure:
@@ -26,9 +28,12 @@ extension State {
         })
     }
     
-    func addGroup(group: Group) {
-        if !checkGroupExists(id: group.groupId!) {
-            self.userGroups.append(group)
+    func addGroup(name: String, id: Int, lastSeen: Int64) {
+        let groupCheck: Group? = self.findGroupBy(id: id)
+        if groupCheck == nil {
+            self.userGroups.append(Group(name: name, id: id, lastSeen: lastSeen))
+        } else {
+            groupCheck?.updateInfo(name: name, lastSeen: lastSeen)
         }
     }
     
@@ -43,7 +48,7 @@ extension State {
     
     private func checkGroupExists(id: Int) -> Bool {
         for group in self.userGroups {
-            if group.groupId! == id {
+            if group.groupId == id {
                 return true
             }
         }

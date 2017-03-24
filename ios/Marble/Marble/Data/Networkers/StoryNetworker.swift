@@ -12,8 +12,14 @@ import Alamofire
 extension Networker {
     
     func getStories(completionHandler: @escaping (DataResponse<Any>) -> ()) {
-        print("network get stories")
         self.sessionManager.request(Router.GetStories).validate().responseJSON(completionHandler: completionHandler)
+    }
+    
+    func storySeen(groupId: Int, completionHandler: @escaping (DataResponse<Any>) -> ()) {
+        let params: Parameters = [
+            "group_id" : groupId
+        ]
+        self.sessionManager.request(Router.StorySeen, method: .post, parameters: params, encoding: URLEncoding.default).validate().responseJSON(completionHandler: completionHandler)
     }
     
 }

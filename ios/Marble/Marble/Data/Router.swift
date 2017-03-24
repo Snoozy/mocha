@@ -12,7 +12,8 @@ import Alamofire
 
 enum Router : URLConvertible {
     
-    static let baseUrl = "http://192.168.10.105:8000"
+    static let baseUrl = "http://192.168.1.13:8000"
+    //static let baseUrl = "https://api.amarbleapp.com"
     
     // GET requests
     case Ping
@@ -26,6 +27,7 @@ enum Router : URLConvertible {
     case ListGroups
     case FindGroup
     case GetStories
+    case StorySeen
     
     func asURL() throws -> URL {
         let versionNum = "v1"
@@ -50,6 +52,8 @@ enum Router : URLConvertible {
                 return "/groups/find"
             case .GetStories:
                 return "/stories"
+            case .StorySeen:
+                return "/stories/seen"
             }
         }()
         

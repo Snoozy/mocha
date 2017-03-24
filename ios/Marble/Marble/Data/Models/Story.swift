@@ -17,22 +17,25 @@ class Story {
     var posterName: String?
     var media: UIImage?
     var mediaReady: Bool = false
+    var timestamp: Int64
     
-    init(url: String, name: String) {
+    init(url: String, name: String, time: Int64) {
         self.mediaUrl = url
         self.posterName = name
+        self.timestamp = time
     }
     
     func loadMedia(completionHandler: ((Story) -> Void)? = nil) {
         if !self.mediaReady {
-            Alamofire.request(self.mediaUrl!).responseImage(completionHandler: { response in
+            let urlReq = URLRequest(url: URL(string: self.mediaUrl!)!)
+            Networker.shared.imageDownloader.download(urlReq) { response in
                 let screenBounds = UIScreen.main.bounds
                 self.media = response.result.value
                 self.media?.af_inflate()
                 self.media = self.media?.af_imageScaled(to: CGSize(width: screenBounds.width + 2, height: screenBounds.height + 2))
                 self.mediaReady = true
                 completionHandler?(self)
-            })
+            } 
         } else {
             completionHandler?(self)
         }

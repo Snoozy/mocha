@@ -9,12 +9,15 @@
 import Foundation
 import Alamofire
 import UIKit
+import AlamofireImage
 
 class Networker : NSObject {
     
     static let shared = Networker()
     
     let sessionManager = SessionManager()
+    
+    let imageDownloader = ImageDownloader()
     
     override init() {
         let authHandler = AuthorizationHandler()

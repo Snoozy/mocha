@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String
 from ..db import Base
-from .user_to_group import UserToGroup
 from sqlalchemy.orm import relationship
+from sqlalchemy.ext.associationproxy import association_proxy
 
 class User(Base):
     __tablename__ = 'users'
@@ -10,4 +10,5 @@ class User(Base):
     name = Column(String(20))
     username = Column(String(15), unique=True)
     password = Column(String(100))
-    groups = relationship('Group', secondary=UserToGroup, backref='user')
+    
+    groups = association_proxy('memberships', 'group')

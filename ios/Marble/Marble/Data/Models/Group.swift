@@ -10,18 +10,23 @@ import Foundation
 import UIKit
 
 class Group {
-    var groupId: Int?
-    var name: String?
+    var groupId: Int
+    var name: String
     var storyViewIdx: Int = 0
+    var lastSeen: Int64
     
-    init(name: String, id: Int) {
+    init(name: String, id: Int, lastSeen: Int64) {
         self.groupId = id
         self.name = name
+        self.lastSeen = lastSeen
     }
     
-    init(json: JSON) {
-        self.name = json["name"].string
-        self.groupId = json["group_id"].int
-        print("init with id: " + String(self.groupId!))
+    func storyIdxValid() -> Bool {
+        return storyViewIdx < (State.shared.groupStories[groupId]?.count)!
+    }
+    
+    func updateInfo(name: String, lastSeen: Int64) {
+        self.name = name
+        self.lastSeen = lastSeen
     }
 }
