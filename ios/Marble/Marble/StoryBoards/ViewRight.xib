@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ViewRight" customModule="Marble" customModuleProvider="target">
             <connections>
+                <outlet property="backButton" destination="hFx-m6-NCj" id="W8q-ZZ-yWU"/>
                 <outlet property="cameraView" destination="gC6-7d-etp" id="aRH-QF-LWv"/>
                 <outlet property="cancelButtonOut" destination="HhP-Mo-KqM" id="JqT-GO-4PS"/>
                 <outlet property="nextButtonOut" destination="TOK-8N-NbL" id="YL4-jB-FlK"/>
@@ -33,13 +34,37 @@
                     </connections>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4si-Dq-6zy">
-                    <rect key="frame" x="149" y="571" width="76" height="76"/>
+                    <rect key="frame" x="146" y="564" width="83" height="83"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <gestureRecognizers/>
                     <state key="normal" title="Button" image="take-photo-button"/>
                     <connections>
                         <outletCollection property="gestureRecognizers" destination="dxc-zd-t9n" appends="YES" id="JdP-Oe-nMf"/>
                         <outletCollection property="gestureRecognizers" destination="k3z-ps-VGC" appends="YES" id="PqW-Zz-Xej"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fp8-Ji-qYQ" userLabel="flash">
+                    <rect key="frame" x="266" y="28" width="37" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="flash-off"/>
+                    <connections>
+                        <action selector="flashToggleBtnPress:" destination="-1" eventType="touchUpInside" id="zWL-IR-zuW"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hFx-m6-NCj" userLabel="back">
+                    <rect key="frame" x="10" y="29" width="38" height="28"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="back-btn"/>
+                    <connections>
+                        <action selector="backBtnPressed:" destination="-1" eventType="touchUpInside" id="tHp-4J-UVO"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ppf-bj-vyN" userLabel="camera-flip">
+                    <rect key="frame" x="327" y="29" width="32" height="29"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="Button" image="camera-switch"/>
+                    <connections>
+                        <action selector="toggleCameraBtnPress:" destination="-1" eventType="touchUpInside" id="FCU-7J-ilE"/>
                     </connections>
                 </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UXt-6l-v0K" customClass="DIImageView" customModule="Marble" customModuleProvider="target">
@@ -77,7 +102,7 @@
                 <constraint firstItem="gC6-7d-etp" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="kKV-YB-0ML"/>
                 <constraint firstItem="gC6-7d-etp" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="krH-7M-38L"/>
             </constraints>
-            <point key="canvasLocation" x="33.5" y="53.5"/>
+            <point key="canvasLocation" x="22.5" y="38.5"/>
         </view>
         <tapGestureRecognizer id="vCx-QN-AMo">
             <connections>
@@ -101,6 +126,9 @@
         </tapGestureRecognizer>
     </objects>
     <resources>
-        <image name="take-photo-button" width="615" height="615"/>
+        <image name="back-btn" width="253" height="186"/>
+        <image name="camera-switch" width="512" height="512"/>
+        <image name="flash-off" width="200" height="200"/>
+        <image name="take-photo-button" width="149" height="149"/>
     </resources>
 </document>

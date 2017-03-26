@@ -101,6 +101,7 @@ class ViewLeft: UITableViewController {
             tableView.backgroundView = noGroupsView
         } else {
             tableView.backgroundView = nil
+            State.shared.sortGroupsRecent()
         }
         return count
     }
@@ -114,7 +115,7 @@ class ViewLeft: UITableViewController {
         if !State.shared.checkGroupStoriesReady(groupId: (cell.group?.groupId)!) {
             return
         }
-        
+
         let group = State.shared.findGroupBy(id: (cell.group?.groupId)!)
 
         let imageViewer = imageViewNib.instantiate(withOwner: nil, options: nil)[0] as! StoryImageView
@@ -169,5 +170,11 @@ class ViewLeft: UITableViewController {
         OperationQueue.main.addOperation {
             UIApplication.topViewController()?.present(UIStoryboard(name:"AddMarble", bundle: nil).instantiateInitialViewController()!, animated: true, completion: nil)
         }
+    }
+    
+    @IBAction func goToCameraBtnPress(_ sender: Any) {
+        let parentVC = UIApplication.topViewController() as? ViewController
+        let screenWidth = UIScreen.main.bounds.size.width
+        parentVC?.scrollView.setContentOffset(CGPoint.init(x: screenWidth, y: 0.0), animated: true)
     }
 }

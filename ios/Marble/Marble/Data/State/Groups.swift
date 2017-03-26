@@ -28,6 +28,14 @@ extension State {
         })
     }
     
+    func sortGroupsRecent() {
+        self.userGroups.sort(by: groupsRecentSort)
+    }
+    
+    private func groupsRecentSort(this: Group, that: Group) -> Bool {
+        return this.lastSeen > that.lastSeen
+    }
+    
     func addGroup(name: String, id: Int, lastSeen: Int64) {
         let groupCheck: Group? = self.findGroupBy(id: id)
         if groupCheck == nil {

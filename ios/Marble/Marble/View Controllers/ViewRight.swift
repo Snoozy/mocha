@@ -24,6 +24,8 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
     @IBOutlet weak var nextButtonOut: UIButton!
     @IBOutlet weak var takePhotoButton: UIButton!
     
+    @IBOutlet weak var backButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,7 +34,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         vPickDest?.delegate = self
         
         tempImageView.isUserInteractionEnabled = false
-        tempImageView.isHidden = true
+        tempImageView.isHidden = true        
     }
 
     override func didReceiveMemoryWarning() {
@@ -94,7 +96,10 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
     }
     
     @IBAction func cameraDoubleTapped(_ sender: Any) {
-        print("double")
+        toggleCameraPosition()
+    }
+    
+    func toggleCameraPosition() {
         if camera?.position == .front {
             camera = defaultBackCamera()
             if let camera = camera {
@@ -231,12 +236,17 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
     
     func capturePhoto() {
         let settings = AVCapturePhotoSettings()
-            let previewPixelType = settings.availablePreviewPhotoPixelFormatTypes.first!
-            let previewFormat = [kCVPixelBufferPixelFormatTypeKey as String: previewPixelType,
-                                 kCVPixelBufferWidthKey as String: 160,
-                                 kCVPixelBufferHeightKey as String: 160,
-                                 ]
+        let previewPixelType = settings.availablePreviewPhotoPixelFormatTypes.first!
+        let previewFormat = [kCVPixelBufferPixelFormatTypeKey as String: previewPixelType,
+                             kCVPixelBufferWidthKey as String: 160,
+                             kCVPixelBufferHeightKey as String: 160,
+                             ]
         settings.previewPhotoFormat = previewFormat
+        if flashActive {
+            settings.flashMode = .on
+        } else {
+            settings.flashMode = .off
+        }
         self.photoOutput?.capturePhoto(with: settings, delegate: self)
     }
     
@@ -332,6 +342,27 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         (self.parent as! ViewController).scrollView.contentOffset.x = 0
         let userInfo = ["group_ids" : groupIds]
         NotificationCenter.default.post(name: Constants.Notifications.StoryPosted, object: self, userInfo: userInfo)
+    }
+    
+    @IBAction func toggleCameraBtnPress(_ sender: UIButton) {
+        toggleCameraPosition()
+    }
+    
+    var flashActive = false
+    
+    @IBAction func flashToggleBtnPress(_ sender: UIButton) {
+        if !flashActive {
+            sender.setImage(UIImage(named: "flash-on"), for: .normal)
+            flashActive = true
+        } else {
+            sender.setImage(UIImage(named: "flash-off"), for: .normal)
+            flashActive = false
+        }
+    }
+    
+    @IBAction func backBtnPressed(_ sender: UIButton) {
+        let parentVC = parent as? ViewController
+        parentVC?.scrollView.setContentOffset(CGPoint.init(x: 0, y: 0), animated: true)
     }
     
 }

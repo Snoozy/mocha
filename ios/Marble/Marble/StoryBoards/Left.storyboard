@@ -60,6 +60,11 @@
                                 <action selector="AddMarbleBtnPress:" destination="651-EM-wLl" id="aHQ-pu-VXM"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="camera" id="IcQ-dU-n3j">
+                            <connections>
+                                <action selector="goToCameraBtnPress:" destination="651-EM-wLl" id="u4e-wJ-Ln9"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6bx-ff-77M" userLabel="First Responder" sceneMemberID="firstResponder"/>
