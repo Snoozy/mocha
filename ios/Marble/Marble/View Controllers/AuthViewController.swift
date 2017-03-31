@@ -12,12 +12,22 @@ import Alamofire
 
 class AuthViewController : UIViewController {
     
+    @IBOutlet weak var signUpBtn: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        State.shared.authorizing = true
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
+        
+        signUpBtn.layer.borderColor = Constants.Colors.MarbleBlue.cgColor
+        signUpBtn.backgroundColor = Constants.Colors.MarbleBlue
+        signUpBtn.layer.borderWidth = 1
+        signUpBtn.layer.cornerRadius = 10
+        signUpBtn.setTitleColor(UIColor.white, for: .normal)
     }
     
     override func didReceiveMemoryWarning() {

@@ -46,7 +46,6 @@ class MainGroupTVCell: UITableViewCell {
     func refreshSeen() {
         let lastSeen = group?.lastSeen
         let lastStory = State.shared.groupStories[(group?.groupId)!]?.last
-        print(lastStory?.timestamp)
         if lastSeen! < (lastStory?.timestamp)! {
             print("bolding")
             title.font = UIFont.boldSystemFont(ofSize: title.font.pointSize)

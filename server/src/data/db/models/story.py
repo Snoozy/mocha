@@ -13,10 +13,16 @@ class Story(Base):
     media_id = Column(String)
     group_id = Column(Integer, ForeignKey("groups.id"))
     user_id = Column(Integer, ForeignKey('users.id'))
-    timestamp = Column(BigInteger, default=(time.time() * 1000))
+    timestamp = Column(BigInteger)
 
     user = relationship("User", foreign_keys=[user_id])
     group = relationship("Group", foreign_keys=[group_id])
+
+    def __init__(self, media_id, group_id, user_id):
+        self.media_id = media_id
+        self.group_id = group_id
+        self.user_id = user_id
+        self.timestamp = time.time() * 1000
     
     def to_dict(self):
         return {

@@ -12,7 +12,7 @@ import Alamofire
 
 enum Router : URLConvertible {
     
-    static let baseUrl = "http://192.168.1.13:8000"
+    static let baseUrl = "http://192.168.10.105:8000"
     //static let baseUrl = "https://api.amarbleapp.com"
     
     // GET requests

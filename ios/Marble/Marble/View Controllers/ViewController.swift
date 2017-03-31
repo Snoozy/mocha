@@ -16,8 +16,11 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     let vRight = ViewRight(nibName: "ViewRight", bundle: nil)
     
     override func viewDidLoad() {
-        print("AUTH TOKEN: " + (KeychainWrapper.authToken() ?? "NONE"))
         super.viewDidLoad()
+        
+        print("AUTH TOKEN: " + (KeychainWrapper.authToken() ?? "NONE"))
+        
+        State.shared.authorizing = false
 
         scrollView.delegate = self
         

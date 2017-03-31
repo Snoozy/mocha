@@ -15,6 +15,7 @@ class SendGroupTV: UITableView, UITableViewDataSource, UITableViewDelegate {
     var parent: ViewPickDest?
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        SendGroupTV.checked = Array(repeating: (false, nil), count: State.shared.userGroups.count)
         return 1
     }
     

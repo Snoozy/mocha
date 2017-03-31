@@ -25,6 +25,7 @@
 		426FB0471E55A618000AFAF9 /* GroupTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426FB0461E55A618000AFAF9 /* GroupTVCell.swift */; };
 		427FFC741E3B1F600007159C /* AlamofireNetworkActivityIndicator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 427FFC711E3B1F470007159C /* AlamofireNetworkActivityIndicator.framework */; };
 		427FFC751E3B1F600007159C /* AlamofireNetworkActivityIndicator.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 427FFC711E3B1F470007159C /* AlamofireNetworkActivityIndicator.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		428CD7A81E8C788A00BEB5BA /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 428CD7A71E8C788A00BEB5BA /* Launch.storyboard */; };
 		4295B8A31E84C1880091C08B /* NoGroupsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4295B8A21E84C1880091C08B /* NoGroupsView.xib */; };
 		4295B8A71E84C21E0091C08B /* NoGroupsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4295B8A61E84C21E0091C08B /* NoGroupsView.swift */; };
 		4295B8A91E84C2E70091C08B /* AddMarble.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4295B8A81E84C2E70091C08B /* AddMarble.storyboard */; };
@@ -57,6 +58,8 @@
 		42D575A41E371F220094037D /* ViewRight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D575A01E371F220094037D /* ViewRight.swift */; };
 		42D575A51E371F220094037D /* ViewLeft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D575A11E371F220094037D /* ViewLeft.swift */; };
 		42D575A71E3720440094037D /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D575A61E3720440094037D /* AuthViewController.swift */; };
+		42E13D8B1E8DE4DA0016FA76 /* AuthSignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E13D8A1E8DE4DA0016FA76 /* AuthSignUpVC.swift */; };
+		42E13D8D1E8DF2340016FA76 /* AuthLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E13D8C1E8DF2340016FA76 /* AuthLoginVC.swift */; };
 		42F11AC91E405602005BFE0E /* UploadNetworker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F11AC81E405602005BFE0E /* UploadNetworker.swift */; };
 		42F7906C1E39C7B500D3B2AF /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F7906B1E39C7B500D3B2AF /* Router.swift */; };
 		952AF8061DAB363D005E60C7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952AF8051DAB363D005E60C7 /* AppDelegate.swift */; };
@@ -234,6 +237,7 @@
 		426E24C91E4ABD6400F24992 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Data/Constants.swift; sourceTree = "<group>"; };
 		426FB0461E55A618000AFAF9 /* GroupTVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GroupTVCell.swift; path = Views/GroupTVCell.swift; sourceTree = "<group>"; };
 		427FFC6A1E3B1F470007159C /* AlamofireNetworkActivityIndicator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireNetworkActivityIndicator.xcodeproj; path = AlamofireNetworkActivityIndicator/AlamofireNetworkActivityIndicator.xcodeproj; sourceTree = "<group>"; };
+		428CD7A71E8C788A00BEB5BA /* Launch.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Launch.storyboard; path = StoryBoards/Launch.storyboard; sourceTree = "<group>"; };
 		4295B8A21E84C1880091C08B /* NoGroupsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NoGroupsView.xib; path = StoryBoards/NoGroupsView.xib; sourceTree = "<group>"; };
 		4295B8A61E84C21E0091C08B /* NoGroupsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NoGroupsView.swift; path = Views/NoGroupsView.swift; sourceTree = "<group>"; };
 		4295B8A81E84C2E70091C08B /* AddMarble.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = AddMarble.storyboard; path = StoryBoards/AddMarble.storyboard; sourceTree = "<group>"; };
@@ -265,6 +269,8 @@
 		42D575A01E371F220094037D /* ViewRight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewRight.swift; path = "View Controllers/ViewRight.swift"; sourceTree = "<group>"; };
 		42D575A11E371F220094037D /* ViewLeft.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewLeft.swift; path = "View Controllers/ViewLeft.swift"; sourceTree = "<group>"; };
 		42D575A61E3720440094037D /* AuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthViewController.swift; path = "View Controllers/AuthViewController.swift"; sourceTree = "<group>"; };
+		42E13D8A1E8DE4DA0016FA76 /* AuthSignUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthSignUpVC.swift; path = "View Controllers/AuthSignUpVC.swift"; sourceTree = "<group>"; };
+		42E13D8C1E8DF2340016FA76 /* AuthLoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthLoginVC.swift; path = "View Controllers/AuthLoginVC.swift"; sourceTree = "<group>"; };
 		42F11AC81E405602005BFE0E /* UploadNetworker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UploadNetworker.swift; path = Data/Networkers/UploadNetworker.swift; sourceTree = "<group>"; };
 		42F7906B1E39C7B500D3B2AF /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Router.swift; path = Data/Router.swift; sourceTree = "<group>"; };
 		952AF8021DAB363D005E60C7 /* Marble.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Marble.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -423,6 +429,7 @@
 				4241B81B1E4DC208003CA796 /* StoryImage.xib */,
 				4295B8A21E84C1880091C08B /* NoGroupsView.xib */,
 				4295B8A81E84C2E70091C08B /* AddMarble.storyboard */,
+				428CD7A71E8C788A00BEB5BA /* Launch.storyboard */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -430,12 +437,14 @@
 		42D5759D1E371F150094037D /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				42D575A61E3720440094037D /* AuthViewController.swift */,
+				42E13D8C1E8DF2340016FA76 /* AuthLoginVC.swift */,
+				42E13D8A1E8DE4DA0016FA76 /* AuthSignUpVC.swift */,
 				425398C91E49923B00097934 /* SendGroupTV.swift */,
 				42D5759E1E371F220094037D /* ViewPickDest.swift */,
 				42D5759F1E371F220094037D /* ViewController.swift */,
 				42D575A01E371F220094037D /* ViewRight.swift */,
 				42D575A11E371F220094037D /* ViewLeft.swift */,
-				42D575A61E3720440094037D /* AuthViewController.swift */,
 				42CC207D1E4314A100EC419A /* AddMarbleVC.swift */,
 				425D40621E4330A600CBD8CB /* AddMarbleCodeVC.swift */,
 				429AF4051E486C0800475461 /* CreateMarbleVC.swift */,
@@ -527,7 +536,7 @@
 				TargetAttributes = {
 					952AF8011DAB363D005E60C7 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = 83GB4Z49AE;
+						DevelopmentTeam = UE4AVLL9FF;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -693,6 +702,7 @@
 				952AF80D1DAB363D005E60C7 /* Assets.xcassets in Resources */,
 				4295B8A31E84C1880091C08B /* NoGroupsView.xib in Resources */,
 				952AF80B1DAB363D005E60C7 /* Main.storyboard in Resources */,
+				428CD7A81E8C788A00BEB5BA /* Launch.storyboard in Resources */,
 				4295B8A91E84C2E70091C08B /* AddMarble.storyboard in Resources */,
 				4241B81C1E4DC208003CA796 /* StoryImage.xib in Resources */,
 			);
@@ -705,6 +715,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42E13D8B1E8DE4DA0016FA76 /* AuthSignUpVC.swift in Sources */,
 				425D40631E4330A600CBD8CB /* AddMarbleCodeVC.swift in Sources */,
 				429991471E4D4F9D0049608F /* SCLExtensions.swift in Sources */,
 				4295B8A71E84C21E0091C08B /* NoGroupsView.swift in Sources */,
@@ -716,6 +727,7 @@
 				42623CC11E3B0BE10068D4FA /* Networker.swift in Sources */,
 				4217546E1E5530AD00620E69 /* DIImageView.swift in Sources */,
 				4241B8141E4DB5F5003CA796 /* MainGroupTVCell.swift in Sources */,
+				42E13D8D1E8DF2340016FA76 /* AuthLoginVC.swift in Sources */,
 				42D575A71E3720440094037D /* AuthViewController.swift in Sources */,
 				4299914C1E4D55A20049608F /* State.swift in Sources */,
 				429AF4061E486C0800475461 /* CreateMarbleVC.swift in Sources */,
@@ -887,12 +899,14 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 83GB4Z49AE;
+				DEVELOPMENT_TEAM = UE4AVLL9FF;
 				INFOPLIST_FILE = Marble/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = co.themarble.Marble;
+				PRODUCT_BUNDLE_IDENTIFIER = com.amarbleapp.marble;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -901,12 +915,14 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 83GB4Z49AE;
+				DEVELOPMENT_TEAM = UE4AVLL9FF;
 				INFOPLIST_FILE = Marble/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = co.themarble.Marble;
+				PRODUCT_BUNDLE_IDENTIFIER = com.amarbleapp.marble;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

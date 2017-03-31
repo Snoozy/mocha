@@ -15,6 +15,8 @@ struct Constants {
         static let MarbleBlue = UIColor(red: CGFloat(49.0/255.0), green: CGFloat(113/255.0), blue:CGFloat(239/255.0), alpha: CGFloat(1.0))
         
         static let DisabledGray = UIColor(red: CGFloat(219.0/255.0), green: CGFloat(219/255.0), blue:CGFloat(219/255.0), alpha: CGFloat(1.0))
+        
+        static let FormUnderlineGray = UIColor(red: CGFloat(211.0/255.0), green: CGFloat(211/255.0), blue:CGFloat(211/255.0), alpha: CGFloat(1.0))
     }
     
     struct Notifications {

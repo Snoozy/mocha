@@ -13,22 +13,22 @@ extension State {
     func getMyStories(completionHandler: (() -> Void)? = nil) {
         Networker.shared.getStories(completionHandler: { response in
             switch response.result {
-            case .success:
-                let contentJson = JSON.init(rawValue: response.result.value!)
-                for tuple in (contentJson?["content"])! {
+            case .success(let val):
+                let contentJson = JSON(val)
+                for tuple in (contentJson["content"]) {
                     let groupId = tuple.1["group_id"].int!
                     let storiesJson = tuple.1["stories"].array
+                    if self.groupStories[groupId] == nil {
+                        self.groupStories[groupId] = [Story]()
+                    }
                     for story in storiesJson! {
                         let mediaUrl = story["media_url"].stringValue
-                        if self.groupStories[groupId] == nil {
-                            self.groupStories[groupId] = [Story]()
-                        }
                         if !self.storyExists(mediaUrl: mediaUrl, groupId: groupId) {
                             self.groupStories[groupId]!.append(Story(url: mediaUrl, name: story["user_name"].stringValue, time: story["timestamp"].int64 ?? 0))
                         }
                     }
-                    completionHandler?()
                 }
+                completionHandler?()
             case .failure:
                 print(response.debugDescription)
             }

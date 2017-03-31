@@ -6,34 +6,47 @@ import os, base64
 
 
 class SignUpResource:
+
     needs_auth = False
+
     def on_post(self, req, resp, user_id):
         name = req.get_param('name')
         raw_password = req.get_param('password')
         if not raw_password:
             raise falcon.HTTPBadRequest('Malformed request', "")
-        print(raw_password)
         password = pbkdf2_sha256.encrypt(req.get_param('password'), rounds=200000, salt_size=16)
         username = req.get_param('username')
+        if username_exists(username, req.session):
+            resp.context['json'] = {
+                    'error': 1
+                }
+            return
         new_user = User(name=name, username=username, password=password)
         req.session.add(new_user)
         req.session.commit()
         session_id = _log_in(new_user.id)
-
+        
         resp.context['json'] = {
                 "auth_token" : session_id,
                 "user_id" : new_user.id
             }
 
+def username_exists(username, session):
+    return session.query(User).filter(User.username == username).scalar() != None
 
 class LogInResource:
+
     needs_auth = False
+
     def on_post(self, req, resp, user_id):
         username = req.get_param('username')
         password_attempt = req.get_param('password')
         user = req.session.query(User).filter(User.username == username).first()
         if not user:
-            raise falcon.HTTPUnauthorized('Invalid credentials')
+            resp.context['json'] = {
+                    'error' : 1
+                }
+            return
         session_id = log_in(user, password_attempt)
         if session_id:
             resp.context['json'] = {
@@ -41,8 +54,9 @@ class LogInResource:
                     "user_id" : user.id
                 }
         else:
-            raise falcon.HTTPUnauthorized('Invalid credentials')
-
+            resp.context['json'] = {
+                    'error' : 1
+                }
 
 class PingResource:
     def on_get(self, req, resp, user_id):
