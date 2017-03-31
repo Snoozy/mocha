@@ -19,10 +19,12 @@ class Group {
         self.groupId = id
         self.name = name
         self.lastSeen = lastSeen
-        for (idx, story) in State.shared.groupStories[groupId]!.enumerated() {
-            if lastSeen < story.timestamp {
-                storyViewIdx = idx
-                return
+        if State.shared.groupStories[groupId] != nil {
+            for (idx, story) in State.shared.groupStories[groupId]!.enumerated() {
+                if lastSeen < story.timestamp {
+                    storyViewIdx = idx
+                    return
+                }
             }
         }
     }

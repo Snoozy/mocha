@@ -143,7 +143,6 @@ class ViewLeft: UITableViewController {
         tappedIV.mediaNext()
     }
 
-    
     @IBAction func cancelToViewLeft(_ segue:UIStoryboardSegue) {
     }
     

@@ -41,7 +41,6 @@
 		429AF4061E486C0800475461 /* CreateMarbleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429AF4051E486C0800475461 /* CreateMarbleVC.swift */; };
 		429AF4121E48872600475461 /* GroupTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 429AF4101E48872600475461 /* GroupTVCell.xib */; };
 		42CC20711E42FCCC00EC419A /* Left.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42CC20701E42FCCC00EC419A /* Left.storyboard */; };
-		42CC207E1E4314A100EC419A /* AddMarbleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CC207D1E4314A100EC419A /* AddMarbleVC.swift */; };
 		42CC20811E43238800EC419A /* NumberButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CC20801E43238800EC419A /* NumberButton.swift */; };
 		42D1F5BA1E4453E200BBCE82 /* GroupNetworker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D1F5B91E4453E200BBCE82 /* GroupNetworker.swift */; };
 		42D1F5C51E4460E100BBCE82 /* UIApplication_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D1F5C41E4460E100BBCE82 /* UIApplication_ext.swift */; };
@@ -252,7 +251,6 @@
 		429AF4051E486C0800475461 /* CreateMarbleVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateMarbleVC.swift; path = "View Controllers/CreateMarbleVC.swift"; sourceTree = "<group>"; };
 		429AF4101E48872600475461 /* GroupTVCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GroupTVCell.xib; path = StoryBoards/GroupTVCell.xib; sourceTree = "<group>"; };
 		42CC20701E42FCCC00EC419A /* Left.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Left.storyboard; path = StoryBoards/Left.storyboard; sourceTree = "<group>"; };
-		42CC207D1E4314A100EC419A /* AddMarbleVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddMarbleVC.swift; path = "View Controllers/AddMarbleVC.swift"; sourceTree = "<group>"; };
 		42CC20801E43238800EC419A /* NumberButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NumberButton.swift; path = Views/NumberButton.swift; sourceTree = "<group>"; };
 		42D1F5B91E4453E200BBCE82 /* GroupNetworker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GroupNetworker.swift; path = Data/Networkers/GroupNetworker.swift; sourceTree = "<group>"; };
 		42D1F5C41E4460E100BBCE82 /* UIApplication_ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIApplication_ext.swift; path = Extensions/UIApplication_ext.swift; sourceTree = "<group>"; };
@@ -445,7 +443,6 @@
 				42D5759F1E371F220094037D /* ViewController.swift */,
 				42D575A01E371F220094037D /* ViewRight.swift */,
 				42D575A11E371F220094037D /* ViewLeft.swift */,
-				42CC207D1E4314A100EC419A /* AddMarbleVC.swift */,
 				425D40621E4330A600CBD8CB /* AddMarbleCodeVC.swift */,
 				429AF4051E486C0800475461 /* CreateMarbleVC.swift */,
 			);
@@ -721,7 +718,6 @@
 				4295B8A71E84C21E0091C08B /* NoGroupsView.swift in Sources */,
 				42623CBF1E3B0B5A0068D4FA /* AuthNetworker.swift in Sources */,
 				429991541E4DA1F20049608F /* Story.swift in Sources */,
-				42CC207E1E4314A100EC419A /* AddMarbleVC.swift in Sources */,
 				4241B8181E4DB8F5003CA796 /* UIImage_ext.swift in Sources */,
 				425398C61E497D5B00097934 /* Group.swift in Sources */,
 				42623CC11E3B0BE10068D4FA /* Networker.swift in Sources */,
