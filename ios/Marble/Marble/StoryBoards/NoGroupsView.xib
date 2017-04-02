@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -15,24 +15,36 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xn6-FZ-gMD">
-                    <rect key="frame" x="126" y="218" width="122" height="34"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Oops! You aren't apart of any Marbles" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Boz-3F-HYY">
+                    <rect key="frame" x="40" y="177" width="295" height="35.5"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="295" id="PQa-tn-k3l"/>
+                        <constraint firstAttribute="height" constant="35.5" id="hcc-yr-e00"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xn6-FZ-gMD">
+                    <rect key="frame" x="118" y="225.5" width="139" height="35"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="35" id="LJ7-VF-0Lt"/>
+                        <constraint firstAttribute="width" constant="139" id="rhH-mN-jo5"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                     <state key="normal" title="Join A Marble"/>
                     <connections>
                         <action selector="joinBtnPress:" destination="iN0-l3-epB" eventType="touchUpInside" id="no9-RK-Acd"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Oops! You aren't apart of any Marbles" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Boz-3F-HYY">
-                    <rect key="frame" x="40" y="177" width="295" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Boz-3F-HYY" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="EDz-TI-Z7M"/>
+                <constraint firstItem="xn6-FZ-gMD" firstAttribute="top" secondItem="Boz-3F-HYY" secondAttribute="bottom" constant="13" id="FoL-0I-gcd"/>
+                <constraint firstItem="xn6-FZ-gMD" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="kAj-Qc-S5t"/>
+                <constraint firstItem="Boz-3F-HYY" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="177" id="lXM-l3-xew"/>
+            </constraints>
             <connections>
                 <outlet property="joinBtn" destination="xn6-FZ-gMD" id="oeO-Fx-6v6"/>
             </connections>

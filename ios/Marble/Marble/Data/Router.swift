@@ -12,9 +12,6 @@ import Alamofire
 
 enum Router : URLConvertible {
     
-    //static let baseUrl = "http://192.168.10.105:8000"
-    static let baseUrl = "https://api.amarbleapp.com"
-    
     // GET requests
     case Ping
     
@@ -57,7 +54,7 @@ enum Router : URLConvertible {
             }
         }()
         
-        return URL(string: Router.baseUrl + "/\(versionNum)" + path)!
+        return URL(string: Constants.ApiUrl + "/\(versionNum)" + path)!
     }
     
 }

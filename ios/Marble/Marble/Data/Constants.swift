@@ -9,6 +9,12 @@
 import Foundation
 import UIKit
 
+#if DEV
+    let API_URL = "http://192.168.10.105:8000"
+#else
+    let API_URL = "https://api.amarbleapp.com"
+#endif
+
 struct Constants {
     
     struct Colors {
@@ -23,5 +29,7 @@ struct Constants {
         static let StoryPosted = Notification.Name("com.amarbleapp.storyPosted")
         static let StoryUploadFinished = Notification.Name("com.amarbleapp.storyUploadFinished")
     }
+    
+    static let ApiUrl = API_URL
     
 }
