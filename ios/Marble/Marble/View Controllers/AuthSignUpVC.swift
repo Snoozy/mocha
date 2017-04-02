@@ -10,6 +10,8 @@ import UIKit
 
 class AuthSignUpVC: UIViewController, UITextFieldDelegate {
 
+    @IBOutlet weak var scrollView: UIScrollView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -34,10 +36,36 @@ class AuthSignUpVC: UIViewController, UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         AuthLoginVC.createTextFieldBorder(width: 2.0, field: textField, color: Constants.Colors.MarbleBlue.cgColor)
+        if UIScreen.main.bounds.height < 570 {
+            if textField == signupUsername {
+                animateViewMoving(up: true, moveValue: 60)
+            } else if textField == signupPassword {
+                animateViewMoving(up: true, moveValue: 80)
+            }
+        }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         AuthLoginVC.createTextFieldBorder(width: 2.0, field: textField, color: Constants.Colors.FormUnderlineGray.cgColor)
+        if UIScreen.main.bounds.height < 570 {
+            if textField == signupUsername {
+                animateViewMoving(up: false, moveValue: 60)
+            } else if textField == signupPassword {
+                animateViewMoving(up: false, moveValue: 80)
+            }
+        }
+    }
+    
+    func animateViewMoving (up:Bool, moveValue :CGFloat){
+        let movementDuration:TimeInterval = 0.3
+        let movement:CGFloat = ( up ? -moveValue : moveValue)
+        
+        UIView.beginAnimations("animateView", context: nil)
+        UIView.setAnimationBeginsFromCurrentState(true)
+        UIView.setAnimationDuration(movementDuration)
+        
+        self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
+        UIView.commitAnimations()
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

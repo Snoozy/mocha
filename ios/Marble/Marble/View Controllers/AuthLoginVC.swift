@@ -31,10 +31,28 @@ class AuthLoginVC: UIViewController, UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         AuthLoginVC.createTextFieldBorder(width: 2.0, field: textField, color: Constants.Colors.MarbleBlue.cgColor)
+        if textField == loginPassword && UIScreen.main.bounds.height < 570 {  // only scroll up on iphone 5 gen
+            animateViewMoving(up: true, moveValue: 70)
+        }
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         AuthLoginVC.createTextFieldBorder(width: 2.0, field: textField, color: Constants.Colors.FormUnderlineGray.cgColor)
+        if textField == loginPassword && UIScreen.main.bounds.height < 570 {
+            animateViewMoving(up: false, moveValue: 70)
+        }
+    }
+    
+    func animateViewMoving (up:Bool, moveValue :CGFloat){
+        let movementDuration:TimeInterval = 0.3
+        let movement:CGFloat = ( up ? -moveValue : moveValue)
+        
+        UIView.beginAnimations("animateView", context: nil)
+        UIView.setAnimationBeginsFromCurrentState(true)
+        UIView.setAnimationDuration(movementDuration)
+        
+        self.view.frame = self.view.frame.offsetBy(dx: 0, dy: movement)
+        UIView.commitAnimations()
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
