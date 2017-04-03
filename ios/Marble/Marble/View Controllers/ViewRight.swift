@@ -34,7 +34,14 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         vPickDest?.delegate = self
         
         tempImageView.isUserInteractionEnabled = false
-        tempImageView.isHidden = true        
+        tempImageView.isHidden = true
+        
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "outputVolume" {
+            print("volume pressed")
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -71,6 +78,28 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         if let camera = camera {
             initCamera(with: camera, captureSession: captureSession)
         }
+    }
+    
+    func initVolumeButtonCapture() {
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setActive(true)
+        } catch {
+            print("error init audio session")
+        }
+        
+        audioSession.addObserver(self, forKeyPath: "outputVolume", options: .new, context: nil)
+    }
+    
+    func removeVolumeButtonCapture() {
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setActive(false)
+        } catch {
+            print("error init audio session")
+        }
+        
+        audioSession.removeObserver(self, forKeyPath: "outputVolume")
     }
     
     func defaultBackCamera() -> AVCaptureDevice? {
