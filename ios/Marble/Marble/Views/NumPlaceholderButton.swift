@@ -24,7 +24,7 @@ class NumPlaceholderButton: UIButton {
         self.setTitle(String(value), for: .normal)
         layer.borderColor = UIColor.clear.cgColor
         backgroundColor = UIColor.clear
-        self.titleLabel?.font = UIFont.boldSystemFont(ofSize: 50.0)
+        self.titleLabel?.font = UIFont.boldSystemFont(ofSize: 33.0)
         self.frame = frame.offsetBy(dx: -5, dy: 0)
         self.frame.size = CGSize.init(width: 30, height: 20)
     }
@@ -39,14 +39,12 @@ class NumPlaceholderButton: UIButton {
     }
     
     public override init(frame: CGRect) {
-        
         super.init(frame: frame)
         
         setupView()
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        
         super.init(coder: aDecoder)
         setupView()
     }

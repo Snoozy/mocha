@@ -569,10 +569,10 @@
 		952AF7F91DAB363D005E60C7 = {
 			isa = PBXGroup;
 			children = (
-				429991551E4DAEB90049608F /* AlamofireImage.xcodeproj */,
-				427FFC6A1E3B1F470007159C /* AlamofireNetworkActivityIndicator.xcodeproj */,
 				952AF8041DAB363D005E60C7 /* Marble */,
 				952AF8031DAB363D005E60C7 /* Products */,
+				429991551E4DAEB90049608F /* AlamofireImage.xcodeproj */,
+				427FFC6A1E3B1F470007159C /* AlamofireNetworkActivityIndicator.xcodeproj */,
 				420A00611E31C6D400525DB0 /* Alamofire.xcodeproj */,
 			);
 			sourceTree = "<group>";

@@ -25,6 +25,8 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
     @IBOutlet weak var takePhotoButton: UIButton!
     
     @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var cameraFlipButton: UIButton!
+    @IBOutlet weak var flashButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +38,18 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         tempImageView.isUserInteractionEnabled = false
         tempImageView.isHidden = true
         
+        styleButton(button: backButton)
+        styleButton(button: cameraFlipButton)
+        styleButton(button: flashButton)
+        styleButton(button: takePhotoButton)
+        styleButton(button: cancelButtonOut)
+        styleButton(button: nextButtonOut)
+    }
+    
+    func styleButton(button: UIButton) {
+        button.layer.shadowOffset = CGSize(width: 0, height: 0)
+        button.layer.shadowOpacity = 0.7
+        button.layer.shadowRadius = 1.5
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -101,6 +115,43 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         
         audioSession.removeObserver(self, forKeyPath: "outputVolume")
     }
+    
+    let minimumZoom: CGFloat = 1.0
+    let maximumZoom: CGFloat = 3.0
+    var lastZoomFactor: CGFloat = 1.0
+    
+    @IBAction func pinch(_ sender: UIPinchGestureRecognizer) {
+        
+        guard let device = camera else { return }
+        
+        // Return zoom value between the minimum and maximum zoom values
+        func minMaxZoom(_ factor: CGFloat) -> CGFloat {
+            return min(min(max(factor, minimumZoom), maximumZoom), device.activeFormat.videoMaxZoomFactor)
+        }
+        
+        func update(scale factor: CGFloat) {
+            do {
+                try device.lockForConfiguration()
+                defer { device.unlockForConfiguration() }
+                device.videoZoomFactor = factor
+            } catch {
+                print("\(error.localizedDescription)")
+            }
+        }
+        
+        let newScaleFactor = minMaxZoom(sender.scale * lastZoomFactor)
+        
+        switch sender.state {
+        case .began: fallthrough
+        case .changed: update(scale: newScaleFactor)
+        case .ended:
+            lastZoomFactor = minMaxZoom(newScaleFactor)
+            update(scale: lastZoomFactor)
+        default: break
+        }
+
+    }
+    
     
     func defaultBackCamera() -> AVCaptureDevice? {
         if let device = AVCaptureDevice.defaultDevice(withDeviceType: .builtInDuoCamera,

@@ -13,7 +13,8 @@ class StoryImageView: UIView {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var innerView: UIView!
     @IBOutlet weak var nameLabel: UILabel!
-        
+    @IBOutlet weak var timeLabel: UILabel!
+    
     var originalCenterYCord: CGFloat = 0.0
     var originalWidth: CGFloat = 0.0
     var originalHeight: CGFloat = 0.0
@@ -74,9 +75,18 @@ class StoryImageView: UIView {
     func mediaNext() {
         let stories = State.shared.groupStories[(group?.groupId)!]
         if (self.group?.storyIdxValid())! {  // next story
-            let image = stories?[(group?.storyViewIdx)!].media
+            let story: Story = (stories?[(group?.storyViewIdx)!])!
+            let image = story.media
+            
+            self.imageView.frame = self.innerView.frame
             self.imageView.image = image
-            self.nameLabel.text = stories?[(group?.storyViewIdx)!].posterName
+            
+            styleLabel(label: self.nameLabel)
+            styleLabel(label: self.timeLabel)
+            
+            self.nameLabel.text = story.posterName
+            self.timeLabel.text = calcTime(time: story.timestamp) + " ago"
+            
             self.imageView.frame = CGRect.init(x: 0.0, y: 0.0, width: (image?.size.width)!, height: (image?.size.height)!)
             self.group?.storyViewIdx += 1
         } else {
@@ -84,5 +94,21 @@ class StoryImageView: UIView {
             self.removeFromSuperview()
             self.cell?.refreshPreview()
         }
+    }
+    
+    func styleLabel(label: UILabel) {
+        label.layer.shadowOffset = CGSize(width: 0, height: 0)
+        label.layer.shadowOpacity = 1
+        label.layer.shadowRadius = 3
+    }
+    
+    // Converts milliseconds delta to hours string
+    func calcTime(time: Int64) -> String {
+        let start: Int64 = Int64(NSDate().timeIntervalSince1970 * 1000)
+        let delta = start - time
+        if delta < 3600000 {  // less than 1 hr ago
+            return String(delta/60000) + "m"
+        }
+        return String(delta/3600000) + "h"
     }
 }
