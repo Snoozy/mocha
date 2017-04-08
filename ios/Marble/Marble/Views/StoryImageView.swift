@@ -87,7 +87,7 @@ class StoryImageView: UIView {
             self.nameLabel.text = story.posterName
             self.timeLabel.text = calcTime(time: story.timestamp) + " ago"
             
-            self.imageView.frame = CGRect.init(x: 0.0, y: 0.0, width: (image?.size.width)!, height: (image?.size.height)!)
+            //self.imageView.frame = CGRect.init(x: 0.0, y: 0.0, width: (image?.size.width)!, height: (image?.size.height)!)
             self.group?.storyViewIdx += 1
         } else {
             UIApplication.shared.isStatusBarHidden = false

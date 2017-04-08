@@ -52,8 +52,9 @@ class ViewLeft: UITableViewController {
     
     private func refreshStories() {
         State.shared.getMyStories(completionHandler: {
-            print(State.shared.userGroups.count)
             if State.shared.userGroups.count > 0 {
+                State.shared.sortGroupsRecent()
+                self.tableView.reloadData()
                 self.tableView.backgroundView = nil
                 for (groupId, stories) in State.shared.groupStories {
                     var groupCell: MainGroupTVCell?
@@ -86,7 +87,6 @@ class ViewLeft: UITableViewController {
                         }
                     }
                 }
-                self.tableView.reloadData()
             } else {
                 self.tableView.backgroundView = self.noGroupsView.instantiate(withOwner: nil, options: nil)[0] as? UIView
             }
