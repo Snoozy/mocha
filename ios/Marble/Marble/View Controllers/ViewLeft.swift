@@ -88,7 +88,9 @@ class ViewLeft: UITableViewController {
                     }
                 }
             } else {
-                self.tableView.backgroundView = self.noGroupsView.instantiate(withOwner: nil, options: nil)[0] as? UIView
+                let noGroupsView = self.noGroupsView.instantiate(withOwner: nil, options: nil)[0] as? UIView
+                noGroupsView?.frame.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                self.tableView.backgroundView = noGroupsView
             }
         })
     }

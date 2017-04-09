@@ -35,15 +35,8 @@
                                     <segue destination="zEG-qq-ozx" kind="show" id="nG2-Cq-HQ4"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="marble-logo" translatesAutoresizingMaskIntoConstraints="NO" id="wc3-nl-vZc">
-                                <rect key="frame" x="120.5" y="147" width="134" height="134"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="134" id="bTE-y9-G9M"/>
-                                    <constraint firstAttribute="width" constant="134" id="hkN-jT-tee"/>
-                                </constraints>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Marble" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fI1-OT-9xH">
-                                <rect key="frame" x="134" y="286" width="107" height="41"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Acme" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fI1-OT-9xH">
+                                <rect key="frame" x="143" y="286" width="89" height="41"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="34"/>
                                 <color key="textColor" red="0.44644273480000002" green="0.44644273480000002" blue="0.44644273480000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
@@ -65,10 +58,8 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="wc3-nl-vZc" firstAttribute="centerY" secondItem="9wo-am-8On" secondAttribute="centerY" constant="-119.5" id="8R7-S3-cna"/>
                             <constraint firstItem="fI1-OT-9xH" firstAttribute="centerX" secondItem="9wo-am-8On" secondAttribute="centerX" id="Bdw-gs-sJI"/>
                             <constraint firstItem="wRm-Er-kuM" firstAttribute="centerX" secondItem="9wo-am-8On" secondAttribute="centerX" id="JK1-e2-cL7"/>
-                            <constraint firstItem="wc3-nl-vZc" firstAttribute="centerX" secondItem="9wo-am-8On" secondAttribute="centerX" id="aUm-Pe-5eO"/>
                             <constraint firstItem="yqO-WU-rfu" firstAttribute="top" secondItem="wRm-Er-kuM" secondAttribute="bottom" constant="28" id="bh2-ch-V3M"/>
                             <constraint firstItem="yqO-WU-rfu" firstAttribute="centerX" secondItem="9wo-am-8On" secondAttribute="centerX" id="e72-Mh-fk8"/>
                             <constraint firstItem="wRm-Er-kuM" firstAttribute="centerY" secondItem="9wo-am-8On" secondAttribute="centerY" constant="94.5" id="fdg-6B-ejE"/>

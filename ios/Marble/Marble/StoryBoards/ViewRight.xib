@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -24,11 +24,11 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gC6-7d-etp">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <gestureRecognizers/>
                     <connections>
                         <outletCollection property="gestureRecognizers" destination="vCx-QN-AMo" appends="YES" id="j86-cx-60Y"/>
@@ -37,7 +37,7 @@
                     </connections>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4si-Dq-6zy">
-                    <rect key="frame" x="146" y="564" width="83" height="83"/>
+                    <rect key="frame" x="118.5" y="465" width="83" height="83"/>
                     <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="width" constant="83" id="O3x-hg-I3A"/>
@@ -61,7 +61,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ppf-bj-vyN" userLabel="camera-flip">
-                    <rect key="frame" x="327" y="29" width="32" height="28"/>
+                    <rect key="frame" x="272" y="29" width="32" height="28"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="28" id="Wzw-Xf-gfJ"/>
                         <constraint firstAttribute="width" constant="32" id="ZLq-0L-zER"/>
@@ -72,7 +72,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fp8-Ji-qYQ" userLabel="flash">
-                    <rect key="frame" x="273" y="29" width="36" height="28"/>
+                    <rect key="frame" x="218" y="29" width="36" height="28"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="28" id="YHP-HJ-koU"/>
                         <constraint firstAttribute="width" constant="36" id="ca5-BH-mow"/>
@@ -83,11 +83,11 @@
                     </connections>
                 </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UXt-6l-v0K" customClass="DIImageView" customModule="Marble" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <gestureRecognizers/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HhP-Mo-KqM">
-                    <rect key="frame" x="0.0" y="596" width="83" height="60"/>
+                    <rect key="frame" x="0.0" y="497" width="83" height="60"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="83" id="Ycu-Hw-wfj"/>
                         <constraint firstAttribute="height" constant="60" id="y1K-sx-46H"/>
@@ -101,7 +101,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TOK-8N-NbL">
-                    <rect key="frame" x="145.5" y="606" width="84" height="41"/>
+                    <rect key="frame" x="118" y="507" width="84" height="41"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="41" id="ZBY-bX-9ny"/>
                         <constraint firstAttribute="width" constant="84" id="jxB-c6-CxG"/>

@@ -69,6 +69,8 @@ class StoryImageView: UIView {
         if (self.group?.storyViewIdx)! >= (State.shared.groupStories[(group?.groupId)!]?.count)! {
             self.group?.storyViewIdx = 0
         }
+        self.frame.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        self.innerView.frame.size = self.frame.size
         mediaNext()
     }
     
@@ -85,7 +87,7 @@ class StoryImageView: UIView {
             styleLabel(label: self.timeLabel)
             
             self.nameLabel.text = story.posterName
-            self.timeLabel.text = calcTime(time: story.timestamp) + " ago"
+            self.timeLabel.text = calcTime(time: story.timestamp)
             
             //self.imageView.frame = CGRect.init(x: 0.0, y: 0.0, width: (image?.size.width)!, height: (image?.size.height)!)
             self.group?.storyViewIdx += 1
@@ -107,8 +109,12 @@ class StoryImageView: UIView {
         let start: Int64 = Int64(NSDate().timeIntervalSince1970 * 1000)
         let delta = start - time
         if delta < 3600000 {  // less than 1 hr ago
-            return String(delta/60000) + "m"
+            let temp = delta/60000
+            if temp <= 0 {  // less than 1 min ago
+                return "Just now"
+            }
+            return String(temp) + "m ago"
         }
-        return String(delta/3600000) + "h"
+        return String(delta/3600000) + "h ago"
     }
 }

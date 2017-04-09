@@ -32,6 +32,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         super.viewDidLoad()
         
         vPickDest = ViewPickDest(nibName: "ViewPickDest", bundle: nil)
+        vPickDest?.view.frame.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
 
         vPickDest?.delegate = self
         

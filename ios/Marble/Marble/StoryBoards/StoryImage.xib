@@ -49,15 +49,11 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <gestureRecognizers/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="qch-BV-Hes" secondAttribute="bottom" id="L9j-6b-jpu"/>
                 <constraint firstItem="qch-BV-Hes" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="MF7-35-YoC"/>
-                <constraint firstItem="qch-BV-Hes" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="OLB-w2-ajd"/>
                 <constraint firstAttribute="bottom" secondItem="qch-BV-Hes" secondAttribute="bottom" id="QFW-OM-jjr"/>
                 <constraint firstItem="qch-BV-Hes" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="RHt-FF-nQU"/>
                 <constraint firstItem="qch-BV-Hes" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="VaE-3K-670"/>
                 <constraint firstAttribute="trailing" secondItem="qch-BV-Hes" secondAttribute="trailing" id="cla-Tj-QP3"/>
-                <constraint firstAttribute="trailing" secondItem="qch-BV-Hes" secondAttribute="trailing" id="mUU-Ma-M7z"/>
-                <constraint firstItem="qch-BV-Hes" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="wkD-F5-Qpq"/>
                 <constraint firstItem="qch-BV-Hes" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="xFJ-kX-F4g"/>
             </constraints>
             <connections>

@@ -36,6 +36,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         
         var vRightFrame = vRight.view.frame
         vRightFrame.origin.x = view.frame.width
+        vRightFrame.size = CGSize.init(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         vRight.view.frame = vRightFrame
         
         scrollView.contentSize = CGSize(width: view.frame.width * 2, height: view.frame.height)
