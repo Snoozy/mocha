@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -12,11 +12,11 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="StoryImageView" customModule="Marble" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qch-BV-Hes">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jEl-uX-aUt">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
@@ -50,6 +50,7 @@
             <gestureRecognizers/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="qch-BV-Hes" secondAttribute="bottom" id="L9j-6b-jpu"/>
+                <constraint firstItem="qch-BV-Hes" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="MF7-35-YoC"/>
                 <constraint firstItem="qch-BV-Hes" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="OLB-w2-ajd"/>
                 <constraint firstAttribute="bottom" secondItem="qch-BV-Hes" secondAttribute="bottom" id="QFW-OM-jjr"/>
                 <constraint firstItem="qch-BV-Hes" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="RHt-FF-nQU"/>
@@ -57,6 +58,7 @@
                 <constraint firstAttribute="trailing" secondItem="qch-BV-Hes" secondAttribute="trailing" id="cla-Tj-QP3"/>
                 <constraint firstAttribute="trailing" secondItem="qch-BV-Hes" secondAttribute="trailing" id="mUU-Ma-M7z"/>
                 <constraint firstItem="qch-BV-Hes" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="wkD-F5-Qpq"/>
+                <constraint firstItem="qch-BV-Hes" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="xFJ-kX-F4g"/>
             </constraints>
             <connections>
                 <outlet property="imageView" destination="jEl-uX-aUt" id="lLk-RE-9MJ"/>
