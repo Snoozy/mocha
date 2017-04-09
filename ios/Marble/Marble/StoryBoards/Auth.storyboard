@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="tZr-44-zS9">
-    <device id="retina4_0" orientation="portrait">
+    <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -18,11 +18,11 @@
                         <viewControllerLayoutGuide type="bottom" id="gSj-dD-jsJ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="9wo-am-8On">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wRm-Er-kuM">
-                                <rect key="frame" x="37.5" y="354.5" width="245" height="48"/>
+                                <rect key="frame" x="65" y="404" width="245" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="245" id="MUr-Us-R4Y"/>
                                     <constraint firstAttribute="height" constant="48" id="nC0-m8-jTT"/>
@@ -36,20 +36,20 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="marble-logo" translatesAutoresizingMaskIntoConstraints="NO" id="wc3-nl-vZc">
-                                <rect key="frame" x="93" y="97.5" width="134" height="134"/>
+                                <rect key="frame" x="120.5" y="147" width="134" height="134"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="134" id="bTE-y9-G9M"/>
                                     <constraint firstAttribute="width" constant="134" id="hkN-jT-tee"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Marble" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fI1-OT-9xH">
-                                <rect key="frame" x="106.5" y="236.5" width="107" height="41"/>
+                                <rect key="frame" x="134" y="286" width="107" height="41"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="34"/>
                                 <color key="textColor" red="0.44644273480000002" green="0.44644273480000002" blue="0.44644273480000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yqO-WU-rfu">
-                                <rect key="frame" x="37.5" y="430.5" width="245" height="38"/>
+                                <rect key="frame" x="65" y="480" width="245" height="38"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="38" id="cBA-C8-KSG"/>
                                     <constraint firstAttribute="width" constant="245" id="tcM-vf-tNz"/>
@@ -93,11 +93,11 @@
                         <viewControllerLayoutGuide type="bottom" id="4l7-8b-iKR"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Zvo-8w-huO">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ucu-yC-F40">
-                                <rect key="frame" x="44.5" y="206" width="231" height="30"/>
+                                <rect key="frame" x="72" y="206" width="231" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="231" id="Pip-VW-OIt"/>
                                     <constraint firstAttribute="height" constant="30" id="iUE-Wj-IVV"/>
@@ -107,7 +107,7 @@
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3Jr-tg-QoQ">
-                                <rect key="frame" x="44.5" y="258" width="231" height="30"/>
+                                <rect key="frame" x="72" y="258" width="231" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Ztv-ch-0eJ"/>
                                     <constraint firstAttribute="width" constant="231" id="hzL-M7-Cu2"/>
@@ -117,7 +117,7 @@
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" secureTextEntry="YES"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5oT-MO-3oO">
-                                <rect key="frame" x="44.5" y="330" width="231" height="37"/>
+                                <rect key="frame" x="72" y="330" width="231" height="37"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="37" id="Muj-gx-tm4"/>
                                     <constraint firstAttribute="width" constant="231" id="jbD-rc-3PE"/>
@@ -131,14 +131,14 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="marble-logo" translatesAutoresizingMaskIntoConstraints="NO" id="GHo-CO-ver">
-                                <rect key="frame" x="127.5" y="64" width="65" height="65"/>
+                                <rect key="frame" x="155" y="64" width="65" height="65"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="65" id="1Z2-1i-gf3"/>
                                     <constraint firstAttribute="width" constant="65" id="ggD-4R-fBl"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login to Marble" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cYz-Ch-Flv">
-                                <rect key="frame" x="83.5" y="149" width="153" height="41"/>
+                                <rect key="frame" x="111" y="149" width="153" height="41"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="153" id="Fr3-HE-c2E"/>
                                     <constraint firstAttribute="height" constant="41" id="hTI-c0-cs8"/>
@@ -202,17 +202,17 @@
                         <viewControllerLayoutGuide type="bottom" id="BBg-fK-Bvd"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="ha3-ek-whR">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RUQ-d7-mB6">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EUg-Lb-Q3r">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vSz-hw-j5z">
-                                                <rect key="frame" x="40" y="124" width="240" height="30"/>
+                                                <rect key="frame" x="67.5" y="124" width="240" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="240" id="O52-Ts-kqY"/>
                                                     <constraint firstAttribute="height" constant="30" id="Ozw-BK-g1o"/>
@@ -222,7 +222,7 @@
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="next"/>
                                             </textField>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dZe-s7-sX1">
-                                                <rect key="frame" x="40" y="176" width="240" height="30"/>
+                                                <rect key="frame" x="67.5" y="176" width="240" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="bUV-LP-kJA"/>
                                                     <constraint firstAttribute="width" constant="240" id="nKb-Nx-07S"/>
@@ -232,7 +232,7 @@
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
                                             </textField>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" placeholder="Password" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="BZE-Cb-hvz">
-                                                <rect key="frame" x="40" y="228" width="240" height="30"/>
+                                                <rect key="frame" x="67.5" y="228" width="240" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="240" id="F64-gs-1Hh"/>
                                                     <constraint firstAttribute="height" constant="30" id="Tei-Aw-K9X"/>
@@ -241,7 +241,7 @@
                                                 <textInputTraits key="textInputTraits" spellCheckingType="no" returnKeyType="done" secureTextEntry="YES"/>
                                             </textField>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign Up for Marble" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KlX-1c-1uP">
-                                                <rect key="frame" x="77" y="73" width="166" height="41"/>
+                                                <rect key="frame" x="104.5" y="73" width="166" height="41"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="41" id="8mu-O6-xlb"/>
                                                     <constraint firstAttribute="width" constant="166" id="c0l-Bh-zMW"/>
@@ -251,14 +251,14 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="marble-logo" translatesAutoresizingMaskIntoConstraints="NO" id="jSQ-sh-FEV">
-                                                <rect key="frame" x="127.5" y="0.0" width="65" height="65"/>
+                                                <rect key="frame" x="155" y="0.0" width="65" height="65"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="65" id="e76-9P-9Qh"/>
                                                     <constraint firstAttribute="width" constant="65" id="j3c-Q5-uhG"/>
                                                 </constraints>
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j2Y-HA-7mu">
-                                                <rect key="frame" x="40" y="300" width="240" height="37"/>
+                                                <rect key="frame" x="67.5" y="300" width="240" height="37"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="37" id="6XB-qv-qMQ"/>
                                                     <constraint firstAttribute="width" constant="240" id="pzY-G2-TcM"/>

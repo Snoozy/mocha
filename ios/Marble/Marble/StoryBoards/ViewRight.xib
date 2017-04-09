@@ -137,7 +137,7 @@
                 <constraint firstItem="gC6-7d-etp" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="w0w-BQ-4a4"/>
                 <constraint firstItem="UXt-6l-v0K" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="wZP-ls-4Ws"/>
             </constraints>
-            <point key="canvasLocation" x="22.5" y="38.5"/>
+            <point key="canvasLocation" x="22" y="38"/>
         </view>
         <tapGestureRecognizer id="vCx-QN-AMo">
             <connections>

@@ -52,11 +52,16 @@ class DIImageView: UIImageView, UITextFieldDelegate {
     
     private lazy var caption: UITextField = {
         let textField = UITextField()
-        textField.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        textField.backgroundColor = UIColor.black.withAlphaComponent(0.0)
         textField.textAlignment = .center
         textField.textColor = .white
+        textField.font = .boldSystemFont(ofSize: 30)
         textField.tintColor = .white
-        textField.keyboardAppearance = .dark
+        textField.keyboardAppearance = .light
+        textField.layer.shadowOffset = CGSize(width: 0, height: 0)
+        textField.layer.shadowOpacity = 0.7
+        textField.layer.shadowRadius = 1.5
+        textField.returnKeyType = .done
         textField.delegate = self
         return textField
     }()
@@ -74,7 +79,7 @@ class DIImageView: UIImageView, UITextFieldDelegate {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        let captionSize = CGSize(width: bounds.size.width, height: 32)
+        let captionSize = CGSize(width: bounds.size.width, height: 50)
         caption.bounds = CGRect(origin: CGPoint.zero, size: captionSize)
         caption.center = CGPoint(x: center.x, y: captionCenterY)
     }
