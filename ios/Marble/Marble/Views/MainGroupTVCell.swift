@@ -40,6 +40,8 @@ class MainGroupTVCell: UITableViewCell {
         if (group?.storyIdxValid())! {
             let image = State.shared.groupStories[(group?.groupId)!]?[(group?.storyViewIdx)!].media
             storyPreview.image = image?.circleMasked
+        } else if State.shared.groupStories[(group?.groupId)!]?.count == 0{
+            storyPreview.image = nil
         }
     }
     

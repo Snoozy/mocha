@@ -96,6 +96,7 @@ class StoryImageView: UIView {
             styleLabel(label: self.nameLabel)
             styleLabel(label: self.timeLabel)
             
+            self.userId = story.userId
             self.nameLabel.text = story.posterName
             self.timeLabel.text = calcTime(time: story.timestamp)
             
@@ -142,8 +143,10 @@ class StoryImageView: UIView {
         let blockAction = UIAlertAction(title: "Block", style: .destructive, handler: { action in
             self.imageView.becomeFirstResponder()
             self.overlayVC.dismiss(animated: false, completion: nil)
-            Networker.shared.blockUser(blockeeId: self.userId!, completionHandler: { response in
-                
+            State.shared.blockUser(userId: self.userId!, completionHandler: { response in
+                UIApplication.shared.isStatusBarHidden = false
+                self.removeFromSuperview()
+                self.cell?.refreshPreview()
             })
         })
         alertController.addAction(blockAction)

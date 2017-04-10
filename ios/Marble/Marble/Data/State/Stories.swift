@@ -24,7 +24,7 @@ extension State {
                     for story in storiesJson! {
                         let mediaUrl = story["media_url"].stringValue
                         if !self.storyExists(mediaUrl: mediaUrl, groupId: groupId) {
-                            self.groupStories[groupId]!.append(Story(url: mediaUrl, name: story["user_name"].stringValue, time: story["timestamp"].int64 ?? 0))
+                            self.groupStories[groupId]!.append(Story(url: mediaUrl, name: story["user_name"].stringValue, userId: story["user_id"].int!, time: story["timestamp"].int64 ?? 0))
                         }
                     }
                 }

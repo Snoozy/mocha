@@ -58,12 +58,17 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             scrollView.contentOffset.x = view.frame.width
         } else {
             if scrollView.bounds.intersects(vRight.view.frame) {
-                UIApplication.shared.statusBarStyle = .lightContent
+                UIApplication.shared.isStatusBarHidden = true
             } else {
+                UIApplication.shared.isStatusBarHidden = false
                 UIApplication.shared.statusBarStyle = .default
             }
             setNeedsStatusBarAppearanceUpdate()
         }
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.view.frame = CGRect(x: 0, y: 0, width: (self.view.frame.width), height: self.view.frame.height + 20)
     }
 
 }

@@ -382,7 +382,6 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         takePhotoButton.isHidden = false
         photoTaken = false
         tempImageView.isUserInteractionEnabled = true
-        UIApplication.shared.isStatusBarHidden = false
         vPickDest = ViewPickDest(nibName: "ViewPickDest", bundle: nil)
     }
     

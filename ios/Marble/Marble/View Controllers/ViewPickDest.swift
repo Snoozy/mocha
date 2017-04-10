@@ -80,28 +80,21 @@ class ViewPickDest: UIViewController, UIGestureRecognizerDelegate {
         
     @IBAction func backButton(_ sender: Any) {
         active = false
-        
+        UIApplication.shared.isStatusBarHidden = true
         UIView.animate(withDuration: 0.3, animations: {
             self.view.frame = self.view.frame.offsetBy(dx: self.screenWidth, dy: 0)
         }, completion: { (value: Bool) in
-            UIApplication.shared.statusBarStyle = .lightContent
-            self.delegate?.setNeedsStatusBarAppearanceUpdate()
             self.view.removeFromSuperview()
         })
     }
     @IBOutlet weak var sendButton: UIButton!
 
     @IBAction func handlePan(_ sender: UIPanGestureRecognizer) {
-        if active {
-            active = false
-            self.delegate?.setNeedsStatusBarAppearanceUpdate()
-        }
+        UIApplication.shared.isStatusBarHidden = true
         if sender.state == UIGestureRecognizerState.ended {
             UIView.animate(withDuration: 0.3, animations: {
                 self.view.frame = self.view.frame.offsetBy(dx: self.screenWidth, dy: 0)
             }, completion: { (value: Bool) in
-                UIApplication.shared.statusBarStyle = .lightContent
-                self.delegate?.setNeedsStatusBarAppearanceUpdate()
                 self.view.removeFromSuperview()
             })
         }
@@ -133,6 +126,7 @@ class ViewPickDest: UIViewController, UIGestureRecognizerDelegate {
         self.view.frame = self.view.frame.offsetBy(dx: self.screenWidth, dy: 0)
         UIApplication.shared.statusBarStyle = .default
         self.view.removeFromSuperview()
+        active = false
         self.delegate?.mediaSent(groupIds: groups)
     }
     

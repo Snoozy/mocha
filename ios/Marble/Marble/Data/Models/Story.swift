@@ -18,11 +18,13 @@ class Story {
     var media: UIImage?
     var mediaReady: Bool = false
     var timestamp: Int64
+    var userId: Int
     
-    init(url: String, name: String, time: Int64) {
+    init(url: String, name: String, userId: Int, time: Int64) {
         self.mediaUrl = url
         self.posterName = name
         self.timestamp = time
+        self.userId = userId
     }
     
     func loadMedia(completionHandler: ((Story) -> Void)? = nil) {

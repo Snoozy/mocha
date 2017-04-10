@@ -1,6 +1,7 @@
 import falcon
 from data.db.models.user import User
 from data.db.models.group import Group
+from data.db.models.story import Story
 
 
 class GetStoriesResource:
@@ -9,7 +10,7 @@ class GetStoriesResource:
         groups = user.groups
         json = []
         for group in user.groups:
-            stories = group.stories.all()
+            stories = group.stories.filter(Story.user_id.notin_([u.id for u in user.blocks])).all()
             stories_dict = [story.to_dict() for story in stories]
             json.append({'group_id' : group.id, 'stories' : stories_dict})
         resp.context['json'] = {
