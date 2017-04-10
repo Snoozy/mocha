@@ -14,6 +14,7 @@
 		4241B8181E4DB8F5003CA796 /* UIImage_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4241B8171E4DB8F5003CA796 /* UIImage_ext.swift */; };
 		4241B81A1E4DC197003CA796 /* StoryImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4241B8191E4DC197003CA796 /* StoryImageView.swift */; };
 		4241B81C1E4DC208003CA796 /* StoryImage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4241B81B1E4DC208003CA796 /* StoryImage.xib */; };
+		42502DEC1E9B4BD8009B7E2E /* UserNetworker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42502DEB1E9B4BD8009B7E2E /* UserNetworker.swift */; };
 		425398C61E497D5B00097934 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425398C51E497D5B00097934 /* Group.swift */; };
 		425398C81E4985AB00097934 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425398C71E4985AB00097934 /* SwiftyJSON.swift */; };
 		425398CA1E49923B00097934 /* SendGroupTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425398C91E49923B00097934 /* SendGroupTV.swift */; };
@@ -40,6 +41,7 @@
 		429991701E4DAF000049608F /* AlamofireImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 429991621E4DAEB90049608F /* AlamofireImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		429AF4061E486C0800475461 /* CreateMarbleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429AF4051E486C0800475461 /* CreateMarbleVC.swift */; };
 		429AF4121E48872600475461 /* GroupTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 429AF4101E48872600475461 /* GroupTVCell.xib */; };
+		42B52BF91E9B6A40006D831A /* UserNetworker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42502DEB1E9B4BD8009B7E2E /* UserNetworker.swift */; };
 		42C62EC71E8E4D1000E042E9 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42C62EC61E8E4D1000E042E9 /* Launch.storyboard */; };
 		42CC20711E42FCCC00EC419A /* Left.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42CC20701E42FCCC00EC419A /* Left.storyboard */; };
 		42CC20811E43238800EC419A /* NumberButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CC20801E43238800EC419A /* NumberButton.swift */; };
@@ -318,6 +320,7 @@
 		4241B8171E4DB8F5003CA796 /* UIImage_ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIImage_ext.swift; path = Extensions/UIImage_ext.swift; sourceTree = "<group>"; };
 		4241B8191E4DC197003CA796 /* StoryImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StoryImageView.swift; path = Views/StoryImageView.swift; sourceTree = "<group>"; };
 		4241B81B1E4DC208003CA796 /* StoryImage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StoryImage.xib; path = StoryBoards/StoryImage.xib; sourceTree = "<group>"; };
+		42502DEB1E9B4BD8009B7E2E /* UserNetworker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserNetworker.swift; path = Data/Networkers/UserNetworker.swift; sourceTree = "<group>"; };
 		425398C51E497D5B00097934 /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Group.swift; path = Data/Models/Group.swift; sourceTree = "<group>"; };
 		425398C71E4985AB00097934 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = Vendor/SwiftyJSON.swift; sourceTree = "<group>"; };
 		425398C91E49923B00097934 /* SendGroupTV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SendGroupTV.swift; path = "View Controllers/SendGroupTV.swift"; sourceTree = "<group>"; };
@@ -428,6 +431,7 @@
 				42F11AC81E405602005BFE0E /* UploadNetworker.swift */,
 				42D1F5B91E4453E200BBCE82 /* GroupNetworker.swift */,
 				4299914F1E4DA0C90049608F /* StoryNetworker.swift */,
+				42502DEB1E9B4BD8009B7E2E /* UserNetworker.swift */,
 			);
 			name = Networkers;
 			sourceTree = "<group>";
@@ -891,6 +895,7 @@
 				42E13DB21E8E46610016FA76 /* ViewLeft.swift in Sources */,
 				42E13DB31E8E46610016FA76 /* UIApplication_ext.swift in Sources */,
 				42E13DB41E8E46610016FA76 /* GroupNetworker.swift in Sources */,
+				42B52BF91E9B6A40006D831A /* UserNetworker.swift in Sources */,
 				42E13DB51E8E46610016FA76 /* UploadNetworker.swift in Sources */,
 				42E13DB61E8E46610016FA76 /* KeychainWrapper_ext.swift in Sources */,
 				42E13DB71E8E46610016FA76 /* StoryImageView.swift in Sources */,
@@ -938,6 +943,7 @@
 				42D575A51E371F220094037D /* ViewLeft.swift in Sources */,
 				42D1F5C51E4460E100BBCE82 /* UIApplication_ext.swift in Sources */,
 				42D1F5BA1E4453E200BBCE82 /* GroupNetworker.swift in Sources */,
+				42502DEC1E9B4BD8009B7E2E /* UserNetworker.swift in Sources */,
 				42F11AC91E405602005BFE0E /* UploadNetworker.swift in Sources */,
 				42D5758A1E37164C0094037D /* KeychainWrapper_ext.swift in Sources */,
 				4241B81A1E4DC197003CA796 /* StoryImageView.swift in Sources */,

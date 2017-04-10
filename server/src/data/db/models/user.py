@@ -12,3 +12,6 @@ class User(Base):
     password = Column(String(100))
     
     groups = association_proxy('memberships', 'group')
+
+    blocks = association_proxy('blockings', 'blockee')
+    blockers = association_proxy('blockee_obj', 'blocker')

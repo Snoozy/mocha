@@ -21,6 +21,16 @@ class StoryImageView: UIView {
     var originalMinX: CGFloat = 0.0
     var group: Group?
     var cell: MainGroupTVCell?
+    var parentVC: UIViewController?
+    var userId: Int?
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        let nameTapGest = UITapGestureRecognizer(target: self, action: #selector(nameTouched(_:)))
+        nameLabel.isUserInteractionEnabled = true
+        nameLabel.addGestureRecognizer(nameTapGest)
+    }
     
     @IBAction func storyViewPan(_ sender: UIPanGestureRecognizer) {
         let translation = sender.translation(in: self)
@@ -116,5 +126,35 @@ class StoryImageView: UIView {
             return String(temp) + "m ago"
         }
         return String(delta/3600000) + "h ago"
+    }
+    
+    let overlayVC = UIViewController()  // kinda hacky way to get action sheet to display correctly
+    
+    func nameTouched(_ sender: UITapGestureRecognizer) {
+        let alertController = UIAlertController(title: nil, message: "User actions", preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
+            self.imageView.becomeFirstResponder()
+            self.overlayVC.dismiss(animated: false, completion: nil)
+        })
+        alertController.addAction(cancelAction)
+        
+        let blockAction = UIAlertAction(title: "Block", style: .destructive, handler: { action in
+            self.imageView.becomeFirstResponder()
+            self.overlayVC.dismiss(animated: false, completion: nil)
+            Networker.shared.blockUser(blockeeId: self.userId!, completionHandler: { response in
+                
+            })
+        })
+        alertController.addAction(blockAction)
+        
+        var topVC = UIApplication.shared.keyWindow?.rootViewController
+        while((topVC!.presentedViewController) != nil) {
+            topVC = topVC!.presentedViewController
+        }
+        
+        topVC?.present(overlayVC, animated: false, completion: {
+            self.overlayVC.present(alertController, animated: true, completion: nil)
+        })
     }
 }

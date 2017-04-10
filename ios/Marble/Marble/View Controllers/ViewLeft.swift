@@ -129,6 +129,8 @@ class ViewLeft: UITableViewController {
         imageViewer.group = group
         imageViewer.cell = cell
         
+        imageViewer.parentVC = self
+        
         let tapGest = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         imageViewer.isUserInteractionEnabled = true
         imageViewer.addGestureRecognizer(tapGest)
