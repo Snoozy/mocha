@@ -41,9 +41,10 @@ class AuthorizationHandler : RequestAdapter, RequestRetrier {
         if let response = request.task?.response as? HTTPURLResponse, response.statusCode == 401 && KeychainWrapper.hasAuthAndUser() {
             print("token:  " + KeychainWrapper.authToken()!)
             completion(false, 0.0)
-            KeychainWrapper.clearAuthToken()
-            OperationQueue.main.addOperation {
-                UIApplication.topViewController()?.present(UIStoryboard(name:"Auth", bundle: nil).instantiateInitialViewController()!, animated: true, completion: nil)
+            if KeychainWrapper.clearAuthToken() {
+                OperationQueue.main.addOperation {
+                    UIApplication.topViewController()?.present(UIStoryboard(name:"Auth", bundle: nil).instantiateInitialViewController()!, animated: true, completion: nil)
+                }
             }
         } else {
             completion(false, 0.0)

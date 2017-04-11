@@ -25,6 +25,8 @@ class ViewLeft: UITableViewController {
         self.view.addGestureRecognizer(longPressRecognizer)
         
         pullDownRefresh()
+        
+        becomeFirstResponder()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -34,6 +36,30 @@ class ViewLeft: UITableViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
+    
+    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            let alertController = UIAlertController(title: nil, message: "Shake Actions", preferredStyle: .actionSheet)
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
+            })
+            alertController.addAction(cancelAction)
+            
+            let logoutAction = UIAlertAction(title: "Logout", style: .destructive, handler: { action in
+                if KeychainWrapper.clearAuthToken() && KeychainWrapper.clearUserID() {
+                    OperationQueue.main.addOperation {
+                        UIApplication.topViewController()?.present(UIStoryboard(name:"Auth", bundle: nil).instantiateInitialViewController()!, animated: true, completion: nil)
+                    }
+                }
+            })
+            alertController.addAction(logoutAction)
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
     
     func pullDownRefresh() {
@@ -129,13 +155,17 @@ class ViewLeft: UITableViewController {
         imageViewer.group = group
         imageViewer.cell = cell
         
+        imageViewer.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        
         imageViewer.parentVC = self
         
         let tapGest = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         imageViewer.isUserInteractionEnabled = true
         imageViewer.addGestureRecognizer(tapGest)
         
-        UIApplication.shared.keyWindow?.addSubview(imageViewer)
+        //UIApplication.shared.keyWindow?.addSubview(imageViewer)
+        UIApplication.topViewController()?.view.addSubview(imageViewer)
+        
         imageViewer.mediaStart()
         Networker.shared.storySeen(groupId: (group?.groupId)! ,completionHandler: { _ in })  // empty completion handler
         group?.lastSeen = Int64(Date().timeIntervalSince1970 * 1000)
@@ -207,4 +237,5 @@ class ViewLeft: UITableViewController {
             }
         }
     }
+    
 }

@@ -19,6 +19,9 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
     
     var media : UIImage?
     
+    var loaded: Bool = false
+    
+    
     @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var cancelButtonOut: UIButton!
     @IBOutlet weak var nextButtonOut: UIButton!
@@ -27,6 +30,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var cameraFlipButton: UIButton!
     @IBOutlet weak var flashButton: UIButton!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,29 +74,42 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        previewLayer?.frame = cameraView.bounds
-        cancelButtonOut.isHidden = true
-        nextButtonOut.isHidden = true
-        takePhotoButton.isHidden = false
+        
+        initCameraView()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+    }
+    
+    func initCameraView() {
+        if loaded {
+            return
+        }
+        self.loaded = true
+
         
-        captureSession = AVCaptureSession()
+        self.captureSession = AVCaptureSession()
         
-        guard let captureSession = captureSession else {
+        guard let captureSession = self.captureSession else {
             print("Error making capture session")
             return;
         }
         
         captureSession.sessionPreset = AVCaptureSessionPresetHigh
         
-        camera = defaultBackCamera()
+        self.camera = self.defaultBackCamera()
         
-        if let camera = camera {
-            initCamera(with: camera, captureSession: captureSession)
+        if let camera = self.camera {
+            self.initCamera(with: camera, captureSession: captureSession)
         }
+        
+        self.previewLayer?.frame = self.cameraView.bounds
+        self.cancelButtonOut.isHidden = true
+        self.nextButtonOut.isHidden = true
+        self.takePhotoButton.isHidden = false
+        
     }
     
     func initVolumeButtonCapture() {
@@ -208,18 +225,18 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
                     photoOutput = AVCapturePhotoOutput()
                     
                     if captureSession.canAddOutput(photoOutput!) {
-                        captureSession.addOutput(photoOutput!)
-                        
-                        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-                        previewLayer!.videoGravity = AVLayerVideoGravityResizeAspect
-                        previewLayer!.connection.videoOrientation = .portrait
-                        cameraView.layer.addSublayer(previewLayer!)
+                        print("asdf")
+                        captureSession.addOutput(self.photoOutput!)
                     }
                 }
             }
             captureSession.commitConfiguration()
             if !captureSession.isRunning {
                 captureSession.startRunning()
+                self.previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+                self.previewLayer!.videoGravity = AVLayerVideoGravityResizeAspect
+                self.previewLayer!.connection.videoOrientation = .portrait
+                self.cameraView.layer.addSublayer(self.previewLayer!)
             }
         } catch {
             print("Error accessing input device")

@@ -26,9 +26,15 @@ class BlockUserResource:
         blockee = req.session.query(User).filter(User.id == blockee_id).first()
         if not user or not blockee:
             resp.context['json'] = {
-                    'status' : 1
+                    'status' : 1,
+                    'error': 'Blockee does not exist.'
                 }
             return
+        if user.id == blockee_id:
+            resp.context['json'] = {
+                    'status' : 2,
+                    'error' : 'Cannot block yourself.'
+                }
         if blockee not in user.blocks:
             user.blocks.append(blockee)
         resp.context['json'] = {

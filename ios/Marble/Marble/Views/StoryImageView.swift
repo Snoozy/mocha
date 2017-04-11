@@ -129,20 +129,26 @@ class StoryImageView: UIView {
         return String(delta/3600000) + "h ago"
     }
     
-    let overlayVC = UIViewController()  // kinda hacky way to get action sheet to display correctly
-    
     func nameTouched(_ sender: UITapGestureRecognizer) {
+        
         let alertController = UIAlertController(title: nil, message: "User actions", preferredStyle: .actionSheet)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
             self.imageView.becomeFirstResponder()
-            self.overlayVC.dismiss(animated: false, completion: nil)
         })
         alertController.addAction(cancelAction)
         
         let blockAction = UIAlertAction(title: "Block", style: .destructive, handler: { action in
             self.imageView.becomeFirstResponder()
-            self.overlayVC.dismiss(animated: false, completion: nil)
+            if KeychainWrapper.userID() == self.userId {
+                let alert = UIAlertController(title: "You cannot block yourself.", message: nil, preferredStyle: .alert)
+                let cancel = UIAlertAction(title: "Cancel", style: .cancel) { action in
+                    self.imageView.becomeFirstResponder()
+                }
+                alert.addAction(cancel)
+                UIApplication.topViewController()?.present(alert, animated: true, completion: nil)
+                return
+            }
             State.shared.blockUser(userId: self.userId!, completionHandler: { response in
                 UIApplication.shared.isStatusBarHidden = false
                 self.removeFromSuperview()
@@ -151,13 +157,7 @@ class StoryImageView: UIView {
         })
         alertController.addAction(blockAction)
         
-        var topVC = UIApplication.shared.keyWindow?.rootViewController
-        while((topVC!.presentedViewController) != nil) {
-            topVC = topVC!.presentedViewController
-        }
+        UIApplication.topViewController()?.present(alertController, animated: true, completion: nil)
         
-        topVC?.present(overlayVC, animated: false, completion: {
-            self.overlayVC.present(alertController, animated: true, completion: nil)
-        })
     }
 }

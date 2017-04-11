@@ -59,8 +59,8 @@ class DIImageView: UIImageView, UITextFieldDelegate {
         textField.tintColor = .white
         textField.keyboardAppearance = .light
         textField.layer.shadowOffset = CGSize(width: 0, height: 0)
-        textField.layer.shadowOpacity = 0.7
-        textField.layer.shadowRadius = 1.5
+        textField.layer.shadowOpacity = 0.9
+        textField.layer.shadowRadius = 2.0
         textField.returnKeyType = .done
         textField.delegate = self
         return textField
