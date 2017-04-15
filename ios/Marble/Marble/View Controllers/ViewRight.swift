@@ -8,8 +8,9 @@
 
 import UIKit
 import AVFoundation
+import AVKit
 
-class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigationBarDelegate, AVCapturePhotoCaptureDelegate /*, AVCaptureFileOutputRecordingDelegate*/ {
+class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigationBarDelegate, AVCapturePhotoCaptureDelegate, AVCaptureFileOutputRecordingDelegate {
 
     var captureSession : AVCaptureSession?
     var photoOutput : AVCapturePhotoOutput?
@@ -49,6 +50,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         styleButton(button: takePhotoButton)
         styleButton(button: cancelButtonOut)
         styleButton(button: nextButtonOut)
+        
     }
     
     func styleButton(button: UIButton) {
@@ -225,8 +227,14 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
                     photoOutput = AVCapturePhotoOutput()
                     
                     if captureSession.canAddOutput(photoOutput!) {
-                        print("asdf")
+                        print("photo output added")
                         captureSession.addOutput(self.photoOutput!)
+                    }
+                    
+                    videoFileOut = AVCaptureMovieFileOutput()
+                    if (captureSession.canAddOutput(videoFileOut)) {
+                        print("video output added")
+                        captureSession.addOutput(videoFileOut)
                     }
                 }
             }
@@ -268,66 +276,85 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         }
     }
     
-//    func startCaptureVideo() {
-//        print("start recording")
-//        
-//        captureSession?.removeOutput(photoOutput)
-//        
-//        videoFileOut = AVCaptureMovieFileOutput()
-//        if (captureSession?.canAddOutput(videoFileOut))! {
-//            captureSession?.addOutput(videoFileOut)
-//        }
-//        
-//        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-//        let filePath = documentsURL.appendingPathComponent("temp")
-//        
-//        if !(captureSession?.isRunning)! {
-//            captureSession?.startRunning()
-//        }
-//        
-//        videoFileOut?.startRecording(toOutputFileURL: filePath, recordingDelegate: self)
-//    }
-//    
-//    func stopCaptureVideo() {
-//        print("stop recording")
-//        videoFileOut?.stopRecording()
-//    }
-//    
-//    func capture(_ captureOutput: AVCaptureFileOutput!, didStartRecordingToOutputFileAt fileURL: URL!, fromConnections connections: [Any]!) {
-//        print("starting")
-//        print(captureOutput.debugDescription)
-//        return
-//    }
-//    
-//    func capture(_ captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAt outputFileURL: URL!, fromConnections connections: [Any]!, error: Error!) {
-//        
-//        do {
-//            //return [FileAttributeKey : Any]
-//            let attr = try FileManager.default.attributesOfItem(atPath: outputFileURL.absoluteString)
-//            var fileSize = attr[FileAttributeKey.size] as! UInt64
-//            
-//            //if you convert to NSDictionary, you can get file size old way as well.
-//            let dict = attr as NSDictionary
-//            fileSize = dict.fileSize()
-//            print(fileSize)
-//        } catch {
-//            print("Error: \(error)")
-//        }
-//        print("hi")
-//        if error != nil {
-//            print(error)
-//        }
-//        print(connections)
-//        
-//        print(outputFileURL)
-//        let player = AVPlayer(url: NSURL(fileURLWithPath: outputFileURL.absoluteString) as URL)
-//        let playerLayer = AVPlayerLayer(player: player)
-//        playerLayer.frame = self.view.bounds
-//        self.view.layer.addSublayer(playerLayer)
-//        player.play()
-//        print("playing")
-//        return
-//    }
+    // MARK: Video capture
+    
+    func startCaptureVideo() {
+        print("start recording")
+        
+        backButton.isHidden = true
+        flashButton.isHidden = true
+        
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let filePath = documentsURL.appendingPathComponent(randomString(length: 10) + ".mov")
+        
+        if !(captureSession?.isRunning)! {
+            captureSession?.startRunning()
+        }
+        
+        let fileManager = FileManager.default
+        let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first! as NSURL
+        let documentsPath = documentsUrl.path
+        do {
+            if let documentPath = documentsPath
+            {
+                let fileNames = try fileManager.contentsOfDirectory(atPath: "\(documentPath)")
+                print("all files in cache: \(fileNames)")
+                for fileName in fileNames {
+                    let filePathName = "\(documentPath)/\(fileName)"
+                    try fileManager.removeItem(atPath: filePathName)
+                }
+                
+                let files = try fileManager.contentsOfDirectory(atPath: "\(documentPath)")
+                print("all files in cache after deleting images: \(files)")
+            }
+            
+        } catch {
+            print("Could not clear temp folder: \(error)")
+        }
+        
+        videoFileOut?.startRecording(toOutputFileURL: filePath, recordingDelegate: self)
+    }
+    
+    func stopCaptureVideo() {
+        print("stop recording")
+        videoFileOut?.stopRecording()
+    }
+    
+    func capture(_ captureOutput: AVCaptureFileOutput!, didStartRecordingToOutputFileAt fileURL: URL!, fromConnections connections: [Any]!) {
+        print("starting")
+        print(captureOutput.outputFileURL)
+        return
+    }
+    
+    @IBOutlet weak var videoView: UIView!
+    
+    var playerLooper: AVPlayerLooper?
+    var player: AVQueuePlayer?
+    
+    func capture(_ captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAt outputFileURL: URL!, fromConnections connections: [Any]!, error: Error!) {
+        
+        takePhotoButton.isHidden = true
+        
+        if error != nil {
+            print(error)
+        }
+        print(connections)
+        
+        player = AVQueuePlayer()
+        let playerLayer = AVPlayerLayer(player: player)
+        let playerItem = AVPlayerItem(url: outputFileURL)
+        playerLooper = AVPlayerLooper(player: player!, templateItem: playerItem)
+        
+        playerLayer.frame = self.cameraView.bounds
+        videoView.layer.addSublayer(playerLayer)
+        playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+        videoView.isHidden = false
+        player?.play()
+        cancelButtonOut.isHidden = false
+        nextButtonOut.isHidden = false
+        print("playing")
+        return
+    }
     
     
     @IBOutlet weak var tempImageView: DIImageView!
@@ -400,15 +427,24 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         photoTaken = false
         tempImageView.isUserInteractionEnabled = true
         vPickDest = ViewPickDest(nibName: "ViewPickDest", bundle: nil)
+        backButton.isHidden = false
+        flashButton.isHidden = false
+        
+        // VIDEO PREVIEW
+        videoView.isHidden = true
+        playerLooper?.disableLooping()
+        player?.pause()
+        player = nil
+        playerLooper = nil
     }
     
     @IBAction func takeVideoAction(_ sender: UILongPressGestureRecognizer) {
-//        if sender.state == .began {
-//            photoTaken = true
-//            startCaptureVideo()
-//        } else if sender.state == .ended {
-//            stopCaptureVideo()
-//        }
+        if sender.state == .began {
+            photoTaken = true
+            startCaptureVideo()
+        } else if sender.state == .ended {
+            stopCaptureVideo()
+        }
     }
     
     var vPickDest: ViewPickDest?
@@ -460,6 +496,22 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
     @IBAction func backBtnPressed(_ sender: UIButton) {
         let parentVC = parent as? ViewController
         parentVC?.scrollView.setContentOffset(CGPoint.init(x: 0, y: 0), animated: true)
+    }
+    
+    func randomString(length: Int) -> String {
+        
+        let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        let len = UInt32(letters.length)
+        
+        var randomString = ""
+        
+        for _ in 0 ..< length {
+            let rand = arc4random_uniform(len)
+            var nextChar = letters.character(at: Int(rand))
+            randomString += NSString(characters: &nextChar, length: 1) as String
+        }
+        
+        return randomString
     }
     
 }

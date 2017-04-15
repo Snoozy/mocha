@@ -3,6 +3,6 @@ import json
 
 class JsonTranslator:
     def process_response(self, req, resp, resource):
-        if 'json' not in resp.context:
+        if not hasattr(resp, 'json'):
             return
-        resp.body = json.dumps(resp.context['json'])
+        resp.body = json.dumps(resp.json)

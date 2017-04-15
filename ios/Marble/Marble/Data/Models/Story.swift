@@ -13,6 +13,7 @@ import AlamofireImage
 
 class Story {
     
+    let id: Int
     var mediaUrl: String?
     var posterName: String?
     var media: UIImage?
@@ -20,11 +21,12 @@ class Story {
     var timestamp: Int64
     var userId: Int
     
-    init(url: String, name: String, userId: Int, time: Int64) {
+    init(url: String, name: String, userId: Int, time: Int64, id: Int) {
         self.mediaUrl = url
         self.posterName = name
         self.timestamp = time
         self.userId = userId
+        self.id = id
     }
     
     func loadMedia(completionHandler: ((Story) -> Void)? = nil) {

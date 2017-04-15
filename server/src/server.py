@@ -11,7 +11,7 @@ from resources.auth import PingResource, SignUpResource, LogInResource
 from resources.group import GroupJoinResource, GroupCreateResource, ListGroupsResource, FindGroupResource
 from resources.user import GetStoriesResource, BlockUserResource
 from resources.health import HealthCheckResource
-from resources.story import StorySeenResource
+from resources.story import StorySeenResource, FlagStoryResource
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session
@@ -39,6 +39,9 @@ app.add_route('/v1/groups/find', FindGroupResource())
 app.add_route('/v1/stories', GetStoriesResource())
 app.add_route('/v1/stories/seen', StorySeenResource())
 app.add_route('/v1/users/block', BlockUserResource())
+app.add_route('/v1/stories/flag', FlagStoryResource())
+
+# ELB Health Check ping
 app.add_route('/health', HealthCheckResource())
 
 app.req_options.auto_parse_form_urlencoded = True

@@ -19,6 +19,7 @@
                 <outlet property="nextButtonOut" destination="TOK-8N-NbL" id="YL4-jB-FlK"/>
                 <outlet property="takePhotoButton" destination="4si-Dq-6zy" id="uMb-Ao-pWq"/>
                 <outlet property="tempImageView" destination="UXt-6l-v0K" id="NmM-rq-J33"/>
+                <outlet property="videoView" destination="9vT-Lj-HGQ" id="AAb-vv-zNt"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -86,6 +87,10 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <gestureRecognizers/>
                 </imageView>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9vT-Lj-HGQ">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HhP-Mo-KqM">
                     <rect key="frame" x="0.0" y="497" width="83" height="60"/>
                     <constraints>
@@ -123,12 +128,17 @@
                 <constraint firstItem="gC6-7d-etp" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="76h-Y8-aki"/>
                 <constraint firstAttribute="bottom" secondItem="HhP-Mo-KqM" secondAttribute="bottom" constant="11" id="7vt-rN-XRq"/>
                 <constraint firstAttribute="bottom" secondItem="4si-Dq-6zy" secondAttribute="bottom" constant="20" id="BDX-aq-bAr"/>
+                <constraint firstItem="9vT-Lj-HGQ" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="C3y-9I-eNl"/>
                 <constraint firstItem="hFx-m6-NCj" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="29" id="Dzz-n0-9Cz"/>
                 <constraint firstItem="Ppf-bj-vyN" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="29" id="Fj6-LI-4la"/>
                 <constraint firstAttribute="bottom" secondItem="gC6-7d-etp" secondAttribute="bottom" id="OfE-VP-Ccq"/>
+                <constraint firstAttribute="bottom" secondItem="9vT-Lj-HGQ" secondAttribute="bottom" id="PNV-h4-Lxx"/>
+                <constraint firstAttribute="trailing" secondItem="9vT-Lj-HGQ" secondAttribute="trailing" id="QVG-HX-6Xi"/>
                 <constraint firstItem="hFx-m6-NCj" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="6" id="T0n-sk-lne"/>
+                <constraint firstItem="9vT-Lj-HGQ" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="TCe-k9-ytM"/>
                 <constraint firstAttribute="trailing" secondItem="Ppf-bj-vyN" secondAttribute="trailing" constant="16" id="Z3e-tw-NT8"/>
                 <constraint firstItem="4si-Dq-6zy" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="dDL-uZ-UDq"/>
+                <constraint firstItem="9vT-Lj-HGQ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="iES-wT-h7m"/>
                 <constraint firstItem="UXt-6l-v0K" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ji9-64-ZHl"/>
                 <constraint firstItem="HhP-Mo-KqM" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="kNd-Mj-6BF"/>
                 <constraint firstItem="TOK-8N-NbL" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="oOE-BI-jhr"/>
@@ -136,6 +146,7 @@
                 <constraint firstItem="Ppf-bj-vyN" firstAttribute="leading" secondItem="Fp8-Ji-qYQ" secondAttribute="trailing" constant="18" id="sMV-d0-dkb"/>
                 <constraint firstItem="gC6-7d-etp" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="w0w-BQ-4a4"/>
                 <constraint firstItem="UXt-6l-v0K" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="wZP-ls-4Ws"/>
+                <constraint firstItem="9vT-Lj-HGQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="ycZ-Iq-cgs"/>
             </constraints>
             <point key="canvasLocation" x="22" y="38"/>
         </view>

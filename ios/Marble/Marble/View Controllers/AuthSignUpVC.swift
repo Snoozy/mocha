@@ -11,6 +11,7 @@ import UIKit
 class AuthSignUpVC: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var legalText: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +33,18 @@ class AuthSignUpVC: UIViewController, UITextFieldDelegate {
         signupName.delegate = self
         signupPassword.delegate = self
         signupUsername.delegate = self
+        
+        let legalPlain = "By tapping Sign Up, you agree to the Terms of Service and Privacy Policy." as NSString
+        
+        let tosRange = legalPlain.range(of: "Terms of Service")
+        let attrStr = NSMutableAttributedString(string: legalPlain as String)
+        attrStr.addAttribute(NSLinkAttributeName, value: "https://amarbleapp.com/legal/tos", range: tosRange)
+        
+        let ppRange = legalPlain.range(of: "Privacy Policy")
+        attrStr.addAttribute(NSLinkAttributeName, value: "https://amarbleapp.com/legal/privacy-policy", range: ppRange)
+        
+        legalText.attributedText = attrStr
+        legalText.textAlignment = .center
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -110,6 +123,23 @@ class AuthSignUpVC: UIViewController, UITextFieldDelegate {
         let password = self.signupPassword.text
         
         if let username = username, let name = name, let password = password {
+            
+            if name.characters.count > 20  || name.characters.count < 3 {
+                AuthLoginVC.createTextFieldBorder(width: 2.0, field: self.signupName, color: UIColor.red.cgColor)
+                let alert = UIAlertController(title: "Name invalid", message: "Name must be between 3 and 20 characters.", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                return
+            }
+            
+            if username.characters.count > 15 || username.characters.count < 4 {
+                AuthLoginVC.createTextFieldBorder(width: 2.0, field: self.signupUsername, color: UIColor.red.cgColor)
+                let alert = UIAlertController(title: "Username invalid", message: "Username must be between 4 and 15 characters.", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                return
+            }
+            
             let alert = UIAlertController(title: nil, message: "Loading...", preferredStyle: .alert)
             
             let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
@@ -122,23 +152,29 @@ class AuthSignUpVC: UIViewController, UITextFieldDelegate {
             
             Networker.shared.signup(name: name, username: username, password: password, completionHandler: { response in
                 switch response.result {
-                case .success:
+                case .success(let val):
                     alert.dismiss(animated: true, completion: {
-                        let response = response.result.value as! NSDictionary
-                        if let auth_token = response["auth_token"] as? String, let userId = response["user_id"] as? Int {
+                        let json = JSON(val)
+                        let status = json["status"].int ?? -1
+                        if status == 0, let auth_token = json["auth_token"].string, let userId = json["user_id"].int {
                             if KeychainWrapper.setAuthToken(token: auth_token) && KeychainWrapper.setUserID(id: userId) {
                                 self.present(UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!, animated: true, completion: nil)
                             }
-                        } else if let error = response["error"] as? Int {
-                            switch error {
+                        } else  {
+                            switch status {
                             case 1:
+                                let title = json["title"].stringValue
+                                let message = json["message"].stringValue
                                 AuthLoginVC.createTextFieldBorder(width: 2.0, field: self.signupUsername, color: UIColor.red.cgColor)
-                                let alert = UIAlertController(title: "Username Taken", message: "This username has been taken.", preferredStyle: UIAlertControllerStyle.alert)
+                                let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
                                 alert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.default, handler: nil))
                                 self.present(alert, animated: true, completion: nil)
                                 return
                             default:
-                                debugPrint("unknown error code.")
+                                print("ERROR: " + String(describing: json))
+                                let alert = UIAlertController(title: "Oops", message: "Something went wrong...", preferredStyle: UIAlertControllerStyle.alert)
+                                alert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.default, handler: nil))
+                                self.present(alert, animated: true, completion: nil)
                                 return
                             }
                         }

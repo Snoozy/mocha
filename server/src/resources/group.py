@@ -10,7 +10,7 @@ class GroupCreateResource:
         group = Group(name=name)
         group.users.append(user)
         req.session.add(group)
-        resp.context['json'] = {
+        resp.json = {
                     'status' : 0
                 }
 
@@ -25,7 +25,7 @@ class FindGroupResource:
             for m in user.memberships:
                 if m.group.id == group.id:
                     last_seen = m.last_seen
-            resp.context['json'] = {
+            resp.json = {
                     'status' : 0,
                     'group_name' : group.name,
                     'member_count' : group.memberships.count(),
@@ -33,7 +33,7 @@ class FindGroupResource:
                     'last_seen' : last_seen
                 }
         else:
-            resp.context['json'] = {
+            resp.json = {
                     'status' : 1
                 }
 
@@ -52,7 +52,7 @@ class ListGroupsResource:
                     break
             g_dict['last_seen'] = last_seen
             group_arr.append(g_dict)
-        resp.context['json'] = {
+        resp.json = {
                 'status' : 0,
                 'groups' : json.dumps(group_arr)
             }
@@ -65,7 +65,7 @@ class GroupJoinResource:
         if user not in group.users:
             group.users.append(user)
         req.session.commit()
-        resp.context['json'] = {
+        resp.json = {
                 'status' : 0,
                 'group' : group.to_dict()
             }

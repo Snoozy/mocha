@@ -108,23 +108,24 @@ class AuthLoginVC: UIViewController, UITextFieldDelegate {
             let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
             loadingIndicator.hidesWhenStopped = true
             loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
-            loadingIndicator.startAnimating();
+            loadingIndicator.startAnimating()
             
             alert.view.addSubview(loadingIndicator)
             present(alert, animated: true, completion: nil)
             
             Networker.shared.login(username: username, password: password, completionHandler:  { response in
                 switch response.result {
-                case .success:
+                case .success(let val):
                     alert.dismiss(animated: true, completion: {
-                        let response = response.result.value as! NSDictionary
-                        if let auth_token = response["auth_token"] as? String, let userId = response["user_id"] as? Int {
+                        let json = JSON(val)
+                        let status = json["status"].int ?? -1
+                        if status == 0, let auth_token = json["auth_token"].string, let userId = json["user_id"].int {
                             print("NEW AUTH TOKEN: " + auth_token)
                             if KeychainWrapper.setAuthToken(token: auth_token) && KeychainWrapper.setUserID(id: userId) {
                                 self.present(UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()!, animated: true, completion: nil)
                             }
-                        } else if let error = response["error"] as? Int {
-                            switch error {
+                        } else {
+                            switch status {
                             case 1:
                                 AuthLoginVC.createTextFieldBorder(width: 2.0, field: self.loginPassword, color: UIColor.red.cgColor)
                                 let alert = UIAlertController(title: "Invalid Password", message: "Invalid username and password combination.", preferredStyle: UIAlertControllerStyle.alert)
@@ -133,7 +134,10 @@ class AuthLoginVC: UIViewController, UITextFieldDelegate {
                                 self.present(alert, animated: true, completion: nil)
                                 return
                             default:
-                                debugPrint("unknown error code.")
+                                print("ERROR: " + String(describing: json))
+                                let alert = UIAlertController(title: "Oops", message: "Something went wrong...", preferredStyle: UIAlertControllerStyle.alert)
+                                alert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.default, handler: nil))
+                                self.present(alert, animated: true, completion: nil)
                                 return
                             }
                         }

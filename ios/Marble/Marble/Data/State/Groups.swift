@@ -17,10 +17,12 @@ extension State {
                 let json = response.result.value as! [String : Any]
                 print(json)
                 let groupsJson = JSON.init(parseJSON: json["groups"] as! String)
+                var newGroups = [Group]()
                 for group in groupsJson {
                     let groupId = group.1["group_id"].int!
-                    self.addGroup(name: group.1["name"].stringValue, id: groupId, lastSeen: group.1["last_seen"].int64 ?? 0)
+                    self.addGroup(groups: &newGroups, cache: self.userGroups, name: group.1["name"].stringValue, id: groupId, lastSeen: group.1["last_seen"].int64 ?? 0)
                 }
+                self.userGroups = newGroups
                 completionHandler?()
             case .failure:
                 print(response.debugDescription)
@@ -32,23 +34,32 @@ extension State {
         self.userGroups.sort(by: groupsRecentSort)
     }
     
+    func addGroup(name: String, id: Int, lastSeen: Int64) {
+        self.addGroup(groups: &self.userGroups, cache: self.userGroups, name: name, id: id, lastSeen: lastSeen)
+    }
+    
+    func findGroupBy(id: Int) -> Group? {
+        return findGroupBy(groups: self.userGroups, id: id)
+    }
+    
     private func groupsRecentSort(this: Group, that: Group) -> Bool {
         let thisLastStory = self.groupStories[this.groupId]?.last?.timestamp ?? 0
         let thatLastStory = self.groupStories[that.groupId]?.last?.timestamp ?? 0
         return thisLastStory > thatLastStory
     }
     
-    func addGroup(name: String, id: Int, lastSeen: Int64) {
-        let groupCheck: Group? = self.findGroupBy(id: id)
+    private func addGroup(groups: inout [Group], cache: [Group], name: String, id: Int, lastSeen: Int64) {
+        let groupCheck: Group? = self.findGroupBy(groups: cache, id: id)
         if groupCheck == nil {
-            self.userGroups.append(Group(name: name, id: id, lastSeen: lastSeen))
+            groups.append(Group(name: name, id: id, lastSeen: lastSeen))
         } else {
             groupCheck?.updateInfo(name: name, lastSeen: lastSeen)
+            groups.append(groupCheck!)
         }
     }
     
-    func findGroupBy(id: Int) -> Group? {
-        for g in userGroups {
+    private func findGroupBy(groups: [Group], id: Int) -> Group? {
+        for g in groups {
             if g.groupId == id {
                 return g
             }
@@ -56,8 +67,8 @@ extension State {
         return nil
     }
     
-    private func checkGroupExists(id: Int) -> Bool {
-        for group in self.userGroups {
+    private func checkGroupExists(groups: [Group], id: Int) -> Bool {
+        for group in groups {
             if group.groupId == id {
                 return true
             }

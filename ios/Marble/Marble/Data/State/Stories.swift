@@ -21,12 +21,17 @@ extension State {
                     if self.groupStories[groupId] == nil {
                         self.groupStories[groupId] = [Story]()
                     }
+                    var newStories = [Story]()
                     for story in storiesJson! {
                         let mediaUrl = story["media_url"].stringValue
-                        if !self.storyExists(mediaUrl: mediaUrl, groupId: groupId) {
-                            self.groupStories[groupId]!.append(Story(url: mediaUrl, name: story["user_name"].stringValue, userId: story["user_id"].int!, time: story["timestamp"].int64 ?? 0))
-                        }
+                        let name = story["user_name"].stringValue
+                        let userId = story["user_id"].int!
+                        let time = story["timestamp"].int64 ?? 0
+                        let id = story["id"].int!
+                        
+                        self.addStory(stories: &newStories, cache: self.groupStories[groupId]!, groupId: groupId, url: mediaUrl, name: name, userId: userId, time: time, id: id)
                     }
+                    self.groupStories[groupId] = newStories
                 }
                 completionHandler?()
             case .failure:
@@ -49,13 +54,22 @@ extension State {
         }
     }
     
-    func storyExists(mediaUrl: String, groupId: Int) -> Bool {
+    func addStory(stories: inout [Story], cache: [Story], groupId: Int, url: String, name: String, userId: Int, time: Int64, id: Int) {
+        let storyCheck = findStory(mediaUrl: url, groupId: groupId)
+        if let story = storyCheck {
+            stories.append(story)
+        } else {
+            stories.append(Story(url: url, name: name, userId: userId, time: time, id: id))
+        }
+    }
+    
+    private func findStory(mediaUrl: String, groupId: Int) -> Story? {
         for story in self.groupStories[groupId]! {
             if story.mediaUrl == mediaUrl {
-                return true
+                return story
             }
         }
-        return false
+        return nil
     }
     
 }

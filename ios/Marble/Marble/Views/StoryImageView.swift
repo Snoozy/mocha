@@ -23,13 +23,14 @@ class StoryImageView: UIView {
     var cell: MainGroupTVCell?
     var parentVC: UIViewController?
     var userId: Int?
+    var story: Story?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        let nameTapGest = UITapGestureRecognizer(target: self, action: #selector(nameTouched(_:)))
-        nameLabel.isUserInteractionEnabled = true
-        nameLabel.addGestureRecognizer(nameTapGest)
+        let nameTapGest = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(_:)))
+        self.isUserInteractionEnabled = true
+        self.addGestureRecognizer(nameTapGest)
     }
     
     @IBAction func storyViewPan(_ sender: UIPanGestureRecognizer) {
@@ -89,6 +90,7 @@ class StoryImageView: UIView {
         if (self.group?.storyIdxValid())! {  // next story
             let story: Story = (stories?[(group?.storyViewIdx)!])!
             let image = story.media
+            self.story = story
             
             self.imageView.frame = self.innerView.frame
             self.imageView.image = image
@@ -100,7 +102,6 @@ class StoryImageView: UIView {
             self.nameLabel.text = story.posterName
             self.timeLabel.text = calcTime(time: story.timestamp)
             
-            //self.imageView.frame = CGRect.init(x: 0.0, y: 0.0, width: (image?.size.width)!, height: (image?.size.height)!)
             self.group?.storyViewIdx += 1
         } else {
             UIApplication.shared.isStatusBarHidden = false
@@ -129,35 +130,52 @@ class StoryImageView: UIView {
         return String(delta/3600000) + "h ago"
     }
     
-    func nameTouched(_ sender: UITapGestureRecognizer) {
+    func longPressed(_ sender: UILongPressGestureRecognizer) {
         
-        let alertController = UIAlertController(title: nil, message: "User actions", preferredStyle: .actionSheet)
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
-            self.imageView.becomeFirstResponder()
-        })
-        alertController.addAction(cancelAction)
-        
-        let blockAction = UIAlertAction(title: "Block", style: .destructive, handler: { action in
-            self.imageView.becomeFirstResponder()
-            if KeychainWrapper.userID() == self.userId {
-                let alert = UIAlertController(title: "You cannot block yourself.", message: nil, preferredStyle: .alert)
-                let cancel = UIAlertAction(title: "Cancel", style: .cancel) { action in
-                    self.imageView.becomeFirstResponder()
-                }
-                alert.addAction(cancel)
-                UIApplication.topViewController()?.present(alert, animated: true, completion: nil)
-                return
-            }
-            State.shared.blockUser(userId: self.userId!, completionHandler: { response in
-                UIApplication.shared.isStatusBarHidden = false
-                self.removeFromSuperview()
-                self.cell?.refreshPreview()
+        if sender.state == UIGestureRecognizerState.began {
+            
+            let alertController = UIAlertController(title: nil, message: "User actions", preferredStyle: .actionSheet)
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
+                self.imageView.becomeFirstResponder()
             })
-        })
-        alertController.addAction(blockAction)
-        
-        UIApplication.topViewController()?.present(alertController, animated: true, completion: nil)
-        
+            alertController.addAction(cancelAction)
+            
+            let blockAction = UIAlertAction(title: "Block User", style: .destructive, handler: { action in
+                self.imageView.becomeFirstResponder()
+                if KeychainWrapper.userID() == self.userId {
+                    let alert = UIAlertController(title: "You cannot block yourself.", message: nil, preferredStyle: .alert)
+                    let cancel = UIAlertAction(title: "Cancel", style: .cancel) { action in
+                        self.imageView.becomeFirstResponder()
+                    }
+                    alert.addAction(cancel)
+                    UIApplication.topViewController()?.present(alert, animated: true, completion: nil)
+                    return
+                }
+                State.shared.blockUser(userId: self.userId!, completionHandler: { response in
+                    UIApplication.shared.isStatusBarHidden = false
+                    self.removeFromSuperview()
+                    self.cell?.refreshPreview()
+                })
+            })
+            alertController.addAction(blockAction)
+            
+            let flagAction = UIAlertAction(title: "Flag Post", style: .destructive, handler: { action in
+                self.imageView.becomeFirstResponder()
+                Networker.shared.flagStory(storyId: (self.story?.id)!, completionHandler: { resp in
+                    let alert = UIAlertController(title: "Thank You", message: "Thank you for making Marble a better place.", preferredStyle: .alert)
+                    let cancel = UIAlertAction(title: "Cancel", style: .cancel) { action in
+                        self.imageView.becomeFirstResponder()
+                    }
+                    alert.addAction(cancel)
+                    UIApplication.topViewController()?.present(alert, animated: true, completion: nil)
+                    return
+
+                })
+            })
+            alertController.addAction(flagAction)
+            
+            UIApplication.topViewController()?.present(alertController, animated: true, completion: nil)
+        }
     }
 }

@@ -13,7 +13,7 @@ class GetStoriesResource:
             stories = group.stories.filter(Story.user_id.notin_([u.id for u in user.blocks])).all()
             stories_dict = [story.to_dict() for story in stories]
             json.append({'group_id' : group.id, 'stories' : stories_dict})
-        resp.context['json'] = {
+        resp.json = {
                 'status' : 0,
                 'content' : json
             }
@@ -25,19 +25,19 @@ class BlockUserResource:
         blockee_id = req.get_param('blockee_id')
         blockee = req.session.query(User).filter(User.id == blockee_id).first()
         if not user or not blockee:
-            resp.context['json'] = {
+            resp.json = {
                     'status' : 1,
                     'error': 'Blockee does not exist.'
                 }
             return
         if user.id == blockee_id:
-            resp.context['json'] = {
+            resp.json = {
                     'status' : 2,
                     'error' : 'Cannot block yourself.'
                 }
         if blockee not in user.blocks:
             user.blocks.append(blockee)
-        resp.context['json'] = {
+        resp.json = {
                 'status' : 0
             }
         return

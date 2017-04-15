@@ -30,6 +30,6 @@ class UploadResource:
             new_story = Story(media_id=rand_str, group_id=group_id, user_id=user_id)
             req.session.add(new_story)
 
-        resp.context['json'] = {
+        resp.json = {
                 "media_id" : rand_str
             }

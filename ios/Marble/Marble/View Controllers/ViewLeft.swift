@@ -163,7 +163,6 @@ class ViewLeft: UITableViewController {
         imageViewer.isUserInteractionEnabled = true
         imageViewer.addGestureRecognizer(tapGest)
         
-        //UIApplication.shared.keyWindow?.addSubview(imageViewer)
         UIApplication.topViewController()?.view.addSubview(imageViewer)
         
         imageViewer.mediaStart()

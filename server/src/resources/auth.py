@@ -1,8 +1,13 @@
+import re
+
 import falcon
 from data.redis import redis_client as redis
 from data.db.models.user import User
 from passlib.hash import pbkdf2_sha256
 import os, base64
+
+
+username_regex = re.compile('^[a-z0-9\.\-_]+$')
 
 
 class SignUpResource:
@@ -16,17 +21,50 @@ class SignUpResource:
             raise falcon.HTTPBadRequest('Malformed request', "")
         password = pbkdf2_sha256.encrypt(req.get_param('password'), rounds=200000, salt_size=16)
         username = req.get_param('username')
-        if username_exists(username, req.session):
-            resp.context['json'] = {
-                    'error': 1
+        if not username:
+            resp.json = {
+                    'status': 10,
+                    'error' : 'Username malformed.'
                 }
             return
+        username = username.lower()
+        if username_exists(username, req.session):
+            resp.json = {
+                    'status': 1,
+                    'title': 'Username taken',
+                    'message': 'This username is in use.'
+                }
+            return
+        if ' ' in username:
+            resp.json = {
+                    'status': 1,
+                    'title': 'Username invalid',
+                    'message': 'Username may not contain spaces.'
+                }
+            return
+        if not username[0].isalpha():
+            resp.json = {
+                    'status': 1,
+                    'title': 'Username invalid',
+                    'message': 'Username must start with letter.'
+                }
+            return
+        
+        if not bool(username_regex.match(username)):
+            resp.json = {
+                    'status': 1,
+                    'title': 'Username invalid',
+                    'message': 'Username can only contain letters, numbers, underscore ( _ ), hyphen ( - ), and period ( . ).'
+                }
+            return
+
         new_user = User(name=name, username=username, password=password)
         req.session.add(new_user)
         req.session.commit()
         session_id = _log_in(new_user.id)
         
-        resp.context['json'] = {
+        resp.json = {
+                'status': 0,
                 "auth_token" : session_id,
                 "user_id" : new_user.id
             }
@@ -41,21 +79,28 @@ class LogInResource:
     def on_post(self, req, resp, user_id):
         username = req.get_param('username')
         password_attempt = req.get_param('password')
+        if not username or not password_attempt:
+            resp.json = {
+                    'status' : 1
+                }
+            return
+        username = username.lower()
         user = req.session.query(User).filter(User.username == username).first()
         if not user:
-            resp.context['json'] = {
-                    'error' : 1
+            resp.json = {
+                    'status' : 1
                 }
             return
         session_id = log_in(user, password_attempt)
         if session_id:
-            resp.context['json'] = {
+            resp.json = {
+                    'status' : 0,
                     "auth_token" : session_id,
                     "user_id" : user.id
                 }
         else:
-            resp.context['json'] = {
-                    'error' : 1
+            resp.json = {
+                    'status' : 1
                 }
 
 class PingResource:
@@ -63,7 +108,7 @@ class PingResource:
         if user_id is not None:
             user = req.session.query.filter(User.id == user_id).first()
             if user:
-                resp.context['json'] = {
+                resp.json = {
                         "name" : user.name,
                         "username" : user.username,
                     }

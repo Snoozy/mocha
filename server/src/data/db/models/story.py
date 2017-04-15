@@ -29,5 +29,6 @@ class Story(Base):
                 'media_url' : CDN_URL + self.media_id,
                 'user_name' : self.user.name,
                 'user_id' : self.user_id,
-                'timestamp' : self.timestamp
+                'timestamp' : self.timestamp,
+                'id' : self.id
                 }
