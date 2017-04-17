@@ -19,6 +19,8 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
     var audioDevice: AVCaptureDevice?
     var videoFileOut: AVCaptureMovieFileOutput?
     
+    var cameraInput: AVCaptureDeviceInput?
+    
     var imageMedia : UIImage?
     var videoMediaUrl: URL?
     
@@ -174,28 +176,32 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
     }
     
     func toggleCameraPosition() {
+        captureSession?.beginConfiguration()
+        captureSession?.removeInput(cameraInput!)
         if camera?.position == .front {
             camera = defaultBackCamera()
-            if let camera = camera {
-                initCamera(with: camera, audio: audioDevice, captureSession: captureSession!)
-            }
         } else {
             camera = defaultFrontCamera()
-            if let camera = camera {
-                initCamera(with: camera, audio: audioDevice, captureSession: captureSession!)
+        }
+        if let camera = camera {
+            cameraInput = try! AVCaptureDeviceInput(device: camera)
+            if (captureSession?.canAddInput(cameraInput))! {
+                captureSession?.addInput(cameraInput)
             }
         }
+        captureSession?.commitConfiguration()
     }
     
     func initCamera(with device: AVCaptureDevice, audio: AVCaptureDevice?, captureSession: AVCaptureSession) {
         do {
-            let input = try AVCaptureDeviceInput(device: device)
+            cameraInput = try AVCaptureDeviceInput(device: device)
             captureSession.beginConfiguration()
             if captureSession.inputs.count > 0 {
-                captureSession.removeInput(captureSession.inputs?[0] as! AVCaptureInput!)
+                print("camera already initialized")
+                return
             }
-            if captureSession.canAddInput(input) {
-                captureSession.addInput(input)
+            if captureSession.canAddInput(cameraInput) {
+                captureSession.addInput(cameraInput)
                 if let audio = audio {
                     let input = try AVCaptureDeviceInput(device: audio)
                     if captureSession.canAddInput(input) {
@@ -291,6 +297,13 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             print("Could not clear temp folder: \(error)")
         }
         
+        if (videoFileOut?.connection(withMediaType: AVMediaTypeVideo).isVideoStabilizationSupported)! {
+            videoFileOut?.connection(withMediaType: AVMediaTypeVideo).preferredVideoStabilizationMode = .cinematic
+        }
+        if camera?.position == .front && (videoFileOut?.connection(withMediaType: AVMediaTypeVideo).isVideoMirroringSupported)! {
+            videoFileOut?.connection(withMediaType: AVMediaTypeVideo).isVideoMirrored = true
+        }
+        
         videoFileOut?.startRecording(toOutputFileURL: filePath, recordingDelegate: self)
     }
     
@@ -310,6 +323,8 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
     var playerLooper: AVPlayerLooper?
     var player: AVQueuePlayer?
     
+    
+    // VIDEO CAPTURE DELEGATE CALLBACK
     func capture(_ captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAt outputFileURL: URL!, fromConnections connections: [Any]!, error: Error!) {
         
         takePhotoButton.isHidden = true
@@ -357,6 +372,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         self.photoOutput?.capturePhoto(with: settings, delegate: self)
     }
     
+    // IMAGE CAPTURE DELEGATE CALLBACK
     func capture(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhotoSampleBuffer photoSampleBuffer: CMSampleBuffer?, previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
         
         if let error = error {
@@ -508,9 +524,10 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             
             let vidLayer = CALayer()
             vidLayer.frame = CGRect(x: 0, y: 0, width: size.height, height: size.width)
+            print(size)
             
             let parentLayer = CALayer()
-            parentLayer.frame = CGRect(x : 0, y: 0, width: size.width, height: size.height)
+            parentLayer.frame = CGRect(x : 0, y: 0, width: size.height, height: size.width)
             parentLayer.addSublayer(vidLayer)
             parentLayer.addSublayer(captionLayer)
             
@@ -524,7 +541,12 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             instruction.timeRange = CMTimeRange(start: kCMTimeZero, duration: composition.duration)
             let videoTrack = composition.tracks(withMediaType: AVMediaTypeVideo)[0]
             let layerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: videoTrack)
-            layerInstruction.setTransform(vidTrack.preferredTransform, at: kCMTimeZero)
+            if camera?.position == .front {
+                print(vidTrack.preferredTransform)
+                layerInstruction.setTransform(vidTrack.preferredTransform.translatedBy(x: -vidTrack.preferredTransform.ty, y: 0), at: kCMTimeZero)
+            } else {
+                layerInstruction.setTransform(vidTrack.preferredTransform, at: kCMTimeZero)
+            }
             instruction.layerInstructions = [layerInstruction]
             layerComposition.instructions = [instruction]
             
@@ -532,7 +554,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first! as NSURL
             let vidPath = documentsUrl.appendingPathComponent("result.mp4")
             
-            let assetExport = AVAssetExportSession(asset: composition, presetName: AVAssetExportPreset1920x1080)
+            let assetExport = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetHighestQuality)
             assetExport?.videoComposition = layerComposition
             assetExport?.outputFileType = AVFileTypeMPEG4
             assetExport?.outputURL = vidPath
