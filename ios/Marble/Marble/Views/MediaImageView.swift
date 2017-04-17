@@ -1,16 +1,15 @@
 //
-//  DIImageView.swift
-//  DIImageVIew
+//  MediaImageView.swift
+//  Marble
 //
-//  Created by Daniel Inoa on 7/31/16.
-//  Copyright © 2016 Daniel Inoa. All rights reserved.
+//  Created by Daniel Li on 4/15/17.
+//  Copyright © 2017 Marble, LLC. All rights reserved.
 //
 
 import UIKit
-import AVFoundation
 
-class DIImageView: UIImageView, UITextFieldDelegate {
-    
+class MediaImageView: UIImageView, UITextFieldDelegate {
+
     // MARK: - Lifecycle
     
     override init(frame: CGRect) {
@@ -21,7 +20,7 @@ class DIImageView: UIImageView, UITextFieldDelegate {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         configure()
@@ -124,4 +123,5 @@ class DIImageView: UIImageView, UITextFieldDelegate {
         return caption.resignFirstResponder()
     }
     
+
 }

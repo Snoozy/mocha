@@ -16,9 +16,11 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
     var photoOutput : AVCapturePhotoOutput?
     var previewLayer : AVCaptureVideoPreviewLayer?
     var camera: AVCaptureDevice?
+    var audioDevice: AVCaptureDevice?
     var videoFileOut: AVCaptureMovieFileOutput?
     
-    var media : UIImage?
+    var imageMedia : UIImage?
+    var videoMediaUrl: URL?
     
     var loaded: Bool = false
     
@@ -59,12 +61,6 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         button.layer.shadowRadius = 1.5
     }
     
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == "outputVolume" {
-            print("volume pressed")
-        }
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -79,10 +75,6 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         
         initCameraView()
         
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
     }
     
     func initCameraView() {
@@ -102,9 +94,10 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         captureSession.sessionPreset = AVCaptureSessionPresetHigh
         
         self.camera = self.defaultBackCamera()
+        self.audioDevice = getAudioDevice()
         
         if let camera = self.camera {
-            self.initCamera(with: camera, captureSession: captureSession)
+            self.initCamera(with: camera, audio: audioDevice, captureSession: captureSession)
         }
         
         self.previewLayer?.frame = self.cameraView.bounds
@@ -112,28 +105,6 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         self.nextButtonOut.isHidden = true
         self.takePhotoButton.isHidden = false
         
-    }
-    
-    func initVolumeButtonCapture() {
-        let audioSession = AVAudioSession.sharedInstance()
-        do {
-            try audioSession.setActive(true)
-        } catch {
-            print("error init audio session")
-        }
-        
-        audioSession.addObserver(self, forKeyPath: "outputVolume", options: .new, context: nil)
-    }
-    
-    func removeVolumeButtonCapture() {
-        let audioSession = AVAudioSession.sharedInstance()
-        do {
-            try audioSession.setActive(false)
-        } catch {
-            print("error init audio session")
-        }
-        
-        audioSession.removeObserver(self, forKeyPath: "outputVolume")
     }
     
     let minimumZoom: CGFloat = 1.0
@@ -172,6 +143,9 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
 
     }
     
+    func getAudioDevice() -> AVCaptureDevice? {
+        return AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeAudio)
+    }
     
     func defaultBackCamera() -> AVCaptureDevice? {
         if let device = AVCaptureDevice.defaultDevice(withDeviceType: .builtInDuoCamera,
@@ -203,17 +177,17 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         if camera?.position == .front {
             camera = defaultBackCamera()
             if let camera = camera {
-                initCamera(with: camera, captureSession: captureSession!)
+                initCamera(with: camera, audio: audioDevice, captureSession: captureSession!)
             }
         } else {
             camera = defaultFrontCamera()
             if let camera = camera {
-                initCamera(with: camera, captureSession: captureSession!)
+                initCamera(with: camera, audio: audioDevice, captureSession: captureSession!)
             }
         }
     }
     
-    func initCamera(with device: AVCaptureDevice, captureSession: AVCaptureSession) {
+    func initCamera(with device: AVCaptureDevice, audio: AVCaptureDevice?, captureSession: AVCaptureSession) {
         do {
             let input = try AVCaptureDeviceInput(device: device)
             captureSession.beginConfiguration()
@@ -222,7 +196,12 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             }
             if captureSession.canAddInput(input) {
                 captureSession.addInput(input)
-                
+                if let audio = audio {
+                    let input = try AVCaptureDeviceInput(device: audio)
+                    if captureSession.canAddInput(input) {
+                        captureSession.addInput(input)
+                    }
+                }
                 if captureSession.outputs.count == 0 {
                     photoOutput = AVCapturePhotoOutput()
                     
@@ -285,7 +264,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         flashButton.isHidden = true
         
         let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let filePath = documentsURL.appendingPathComponent(randomString(length: 10) + ".mov")
+        let filePath = documentsURL.appendingPathComponent(randomString(length: 10) + ".mp4")
         
         if !(captureSession?.isRunning)! {
             captureSession?.startRunning()
@@ -326,7 +305,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         return
     }
     
-    @IBOutlet weak var videoView: UIView!
+    @IBOutlet weak var videoView: MediaVideoView!
     
     var playerLooper: AVPlayerLooper?
     var player: AVQueuePlayer?
@@ -352,12 +331,15 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         player?.play()
         cancelButtonOut.isHidden = false
         nextButtonOut.isHidden = false
+        videoView.configure()
+        videoView.clearCaption()
+        videoMediaUrl = outputFileURL
+        mediaType = .video
         print("playing")
         return
     }
     
-    
-    @IBOutlet weak var tempImageView: DIImageView!
+    @IBOutlet weak var tempImageView: MediaImageView!
     
     func capturePhoto() {
         let settings = AVCapturePhotoSettings()
@@ -395,6 +377,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             tempImageView.isUserInteractionEnabled = true
             UIApplication.shared.isStatusBarHidden = true
             tempImageView.clearCaption()
+            mediaType = .image
         } else {
             print("Error processing image.")
         }
@@ -436,6 +419,8 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         player?.pause()
         player = nil
         playerLooper = nil
+        
+        mediaType = nil
     }
     
     @IBAction func takeVideoAction(_ sender: UILongPressGestureRecognizer) {
@@ -447,15 +432,33 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         }
     }
     
+    enum MediaType {
+        case video
+        case image
+    }
+    
+    var mediaType: MediaType?
+    
     var vPickDest: ViewPickDest?
     
     @IBAction func nextButton(_ sender: AnyObject) {
-        media = UIImage(view: tempImageView)
+        if mediaType == .image {
+            print("image")
+            imageMedia = UIImage(view: tempImageView)
+        } else if mediaType == .video {
+            print("video")
+            renderVideoWithCaption()
+            return
+        } else {
+            print("error")
+            return
+        }
+        
         vPickDest?.delegate = self
         let screenHeight = UIScreen.main.bounds.size.height
         let screenWidth = UIScreen.main.bounds.size.width
         vPickDest?.view.frame = CGRect(x: screenWidth, y: 0, width: screenWidth, height: screenHeight)
-        
+
         if let window = UIApplication.shared.keyWindow {
             window.insertSubview((vPickDest?.view)!, aboveSubview: self.view)
             
@@ -466,6 +469,83 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
                 UIApplication.shared.isStatusBarHidden = false
                 UIApplication.shared.statusBarStyle = .default
                 self.setNeedsStatusBarAppearanceUpdate()
+            })
+        }
+    }
+    
+    func renderVideoWithCaption() {
+        if let videoUrl = videoMediaUrl {
+            let vidAsset = AVURLAsset(url: videoUrl)
+            let composition = AVMutableComposition()
+            
+            
+            let vTrack = vidAsset.tracks(withMediaType: AVMediaTypeVideo)
+            let vidTrack: AVAssetTrack = vTrack[0]
+            let vidTimeRange = CMTimeRange(start: kCMTimeZero, duration: vidTrack.timeRange.duration)
+            
+            let aTracks = vidAsset.tracks(withMediaType: AVMediaTypeAudio)
+
+            let compositionVidTrack: AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: AVMediaTypeVideo, preferredTrackID: CMPersistentTrackID())
+            do {
+                try compositionVidTrack.insertTimeRange(vidTimeRange, of: vidTrack, at: kCMTimeZero)
+            } catch {
+                print("time range insert error")
+            }
+            
+            let compositionAudioTrack:AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: AVMediaTypeAudio, preferredTrackID: CMPersistentTrackID())
+            for audioTrack in aTracks {
+                try! compositionAudioTrack.insertTimeRange(audioTrack.timeRange, of: audioTrack, at: kCMTimeZero)
+            }
+            
+            
+            let size = vidTrack.naturalSize
+            
+            //videoView.caption.layer.frame.size = CGSize(width: size.height, height: size.width)
+            let captionImg = UIImage(view: videoView)
+            let captionLayer = CALayer()
+            captionLayer.contents = captionImg.cgImage
+            captionLayer.frame = CGRect(x: 0, y: 0, width: size.height, height: size.width)
+            
+            let vidLayer = CALayer()
+            vidLayer.frame = CGRect(x: 0, y: 0, width: size.height, height: size.width)
+            
+            let parentLayer = CALayer()
+            parentLayer.frame = CGRect(x : 0, y: 0, width: size.width, height: size.height)
+            parentLayer.addSublayer(vidLayer)
+            parentLayer.addSublayer(captionLayer)
+            
+            let layerComposition = AVMutableVideoComposition()
+            layerComposition.frameDuration = CMTimeMake(1, 30)
+            layerComposition.renderSize = CGSize(width: size.height, height: size.width)
+            layerComposition.animationTool = AVVideoCompositionCoreAnimationTool(postProcessingAsVideoLayer: vidLayer, in: parentLayer)
+            
+            // instructions
+            let instruction = AVMutableVideoCompositionInstruction()
+            instruction.timeRange = CMTimeRange(start: kCMTimeZero, duration: composition.duration)
+            let videoTrack = composition.tracks(withMediaType: AVMediaTypeVideo)[0]
+            let layerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: videoTrack)
+            layerInstruction.setTransform(vidTrack.preferredTransform, at: kCMTimeZero)
+            instruction.layerInstructions = [layerInstruction]
+            layerComposition.instructions = [instruction]
+            
+            // export file path
+            let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first! as NSURL
+            let vidPath = documentsUrl.appendingPathComponent("result.mp4")
+            
+            let assetExport = AVAssetExportSession(asset: composition, presetName: AVAssetExportPreset1920x1080)
+            assetExport?.videoComposition = layerComposition
+            assetExport?.outputFileType = AVFileTypeMPEG4
+            assetExport?.outputURL = vidPath
+            assetExport?.exportAsynchronously(completionHandler: {
+                print("complete")
+                DispatchQueue.main.async {
+                    let player = AVPlayer(url: vidPath!)
+                    let playerController = AVPlayerViewController()
+                    playerController.player = player
+                    UIApplication.topViewController()?.present(playerController, animated: true) {
+                        player.play()
+                    }
+                }
             })
         }
     }

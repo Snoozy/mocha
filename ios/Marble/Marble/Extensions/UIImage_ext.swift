@@ -40,7 +40,7 @@ extension UIImage {
     }
     
     convenience init(view: UIView) {
-        UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.isOpaque, 0.0)
+        UIGraphicsBeginImageContextWithOptions(view.bounds.size, false, 0.0)
         view.layer.render(in: UIGraphicsGetCurrentContext()!)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()

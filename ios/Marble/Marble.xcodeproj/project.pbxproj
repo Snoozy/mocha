@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		420A007A1E31C7CF00525DB0 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 420A006D1E31C6D400525DB0 /* Alamofire.framework */; };
 		420A007B1E31C7CF00525DB0 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 420A006D1E31C6D400525DB0 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		4217546E1E5530AD00620E69 /* DIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4217546D1E5530AD00620E69 /* DIImageView.swift */; };
+		4217546E1E5530AD00620E69 /* MediaVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4217546D1E5530AD00620E69 /* MediaVideoView.swift */; };
 		4241B8141E4DB5F5003CA796 /* MainGroupTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4241B8131E4DB5F5003CA796 /* MainGroupTVCell.swift */; };
 		4241B8181E4DB8F5003CA796 /* UIImage_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4241B8171E4DB8F5003CA796 /* UIImage_ext.swift */; };
 		4241B81A1E4DC197003CA796 /* StoryImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4241B8191E4DC197003CA796 /* StoryImageView.swift */; };
@@ -73,7 +73,7 @@
 		42E13D9E1E8E46610016FA76 /* UIImage_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4241B8171E4DB8F5003CA796 /* UIImage_ext.swift */; };
 		42E13D9F1E8E46610016FA76 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425398C51E497D5B00097934 /* Group.swift */; };
 		42E13DA01E8E46610016FA76 /* Networker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42623CC01E3B0BE10068D4FA /* Networker.swift */; };
-		42E13DA11E8E46610016FA76 /* DIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4217546D1E5530AD00620E69 /* DIImageView.swift */; };
+		42E13DA11E8E46610016FA76 /* MediaVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4217546D1E5530AD00620E69 /* MediaVideoView.swift */; };
 		42E13DA21E8E46610016FA76 /* MainGroupTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4241B8131E4DB5F5003CA796 /* MainGroupTVCell.swift */; };
 		42E13DA31E8E46610016FA76 /* AuthLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E13D8C1E8DF2340016FA76 /* AuthLoginVC.swift */; };
 		42E13DA41E8E46610016FA76 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D575A61E3720440094037D /* AuthViewController.swift */; };
@@ -124,6 +124,8 @@
 		42E13DDD1E8E4B4B0016FA76 /* Info-Dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42E13DDC1E8E4B4B0016FA76 /* Info-Dev.plist */; };
 		42F11AC91E405602005BFE0E /* UploadNetworker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F11AC81E405602005BFE0E /* UploadNetworker.swift */; };
 		42F7906C1E39C7B500D3B2AF /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F7906B1E39C7B500D3B2AF /* Router.swift */; };
+		42F92CEC1EA312BF0085DD0C /* MediaImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F92CEB1EA312BF0085DD0C /* MediaImageView.swift */; };
+		42F92CED1EA313540085DD0C /* MediaImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F92CEB1EA312BF0085DD0C /* MediaImageView.swift */; };
 		952AF8061DAB363D005E60C7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952AF8051DAB363D005E60C7 /* AppDelegate.swift */; };
 		952AF80B1DAB363D005E60C7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 952AF8091DAB363D005E60C7 /* Main.storyboard */; };
 		952AF80D1DAB363D005E60C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 952AF80C1DAB363D005E60C7 /* Assets.xcassets */; };
@@ -317,7 +319,7 @@
 
 /* Begin PBXFileReference section */
 		420A00611E31C6D400525DB0 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
-		4217546D1E5530AD00620E69 /* DIImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DIImageView.swift; path = Views/DIImageView.swift; sourceTree = "<group>"; };
+		4217546D1E5530AD00620E69 /* MediaVideoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaVideoView.swift; path = Views/MediaVideoView.swift; sourceTree = "<group>"; };
 		4241B8131E4DB5F5003CA796 /* MainGroupTVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainGroupTVCell.swift; path = Views/MainGroupTVCell.swift; sourceTree = "<group>"; };
 		4241B8171E4DB8F5003CA796 /* UIImage_ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIImage_ext.swift; path = Extensions/UIImage_ext.swift; sourceTree = "<group>"; };
 		4241B8191E4DC197003CA796 /* StoryImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StoryImageView.swift; path = Views/StoryImageView.swift; sourceTree = "<group>"; };
@@ -372,6 +374,7 @@
 		42E13DDC1E8E4B4B0016FA76 /* Info-Dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-Dev.plist"; sourceTree = "<group>"; };
 		42F11AC81E405602005BFE0E /* UploadNetworker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UploadNetworker.swift; path = Data/Networkers/UploadNetworker.swift; sourceTree = "<group>"; };
 		42F7906B1E39C7B500D3B2AF /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Router.swift; path = Data/Router.swift; sourceTree = "<group>"; };
+		42F92CEB1EA312BF0085DD0C /* MediaImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaImageView.swift; path = Views/MediaImageView.swift; sourceTree = "<group>"; };
 		952AF8021DAB363D005E60C7 /* Marble.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Marble.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		952AF8051DAB363D005E60C7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		952AF80A1DAB363D005E60C7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -486,7 +489,8 @@
 			isa = PBXGroup;
 			children = (
 				426FB0461E55A618000AFAF9 /* GroupTVCell.swift */,
-				4217546D1E5530AD00620E69 /* DIImageView.swift */,
+				4217546D1E5530AD00620E69 /* MediaVideoView.swift */,
+				42F92CEB1EA312BF0085DD0C /* MediaImageView.swift */,
 				42CC20801E43238800EC419A /* NumberButton.swift */,
 				425D40641E4331EC00CBD8CB /* NumPlaceholderButton.swift */,
 				4241B8131E4DB5F5003CA796 /* MainGroupTVCell.swift */,
@@ -877,9 +881,10 @@
 				42E13D9C1E8E46610016FA76 /* AuthNetworker.swift in Sources */,
 				42E13D9D1E8E46610016FA76 /* Story.swift in Sources */,
 				42E13D9E1E8E46610016FA76 /* UIImage_ext.swift in Sources */,
+				42F92CED1EA313540085DD0C /* MediaImageView.swift in Sources */,
 				42E13D9F1E8E46610016FA76 /* Group.swift in Sources */,
 				42E13DA01E8E46610016FA76 /* Networker.swift in Sources */,
-				42E13DA11E8E46610016FA76 /* DIImageView.swift in Sources */,
+				42E13DA11E8E46610016FA76 /* MediaVideoView.swift in Sources */,
 				42E13DA21E8E46610016FA76 /* MainGroupTVCell.swift in Sources */,
 				42E13DA31E8E46610016FA76 /* AuthLoginVC.swift in Sources */,
 				42E13DA41E8E46610016FA76 /* AuthViewController.swift in Sources */,
@@ -926,9 +931,10 @@
 				42623CBF1E3B0B5A0068D4FA /* AuthNetworker.swift in Sources */,
 				429991541E4DA1F20049608F /* Story.swift in Sources */,
 				4241B8181E4DB8F5003CA796 /* UIImage_ext.swift in Sources */,
+				42F92CEC1EA312BF0085DD0C /* MediaImageView.swift in Sources */,
 				425398C61E497D5B00097934 /* Group.swift in Sources */,
 				42623CC11E3B0BE10068D4FA /* Networker.swift in Sources */,
-				4217546E1E5530AD00620E69 /* DIImageView.swift in Sources */,
+				4217546E1E5530AD00620E69 /* MediaVideoView.swift in Sources */,
 				4241B8141E4DB5F5003CA796 /* MainGroupTVCell.swift in Sources */,
 				42E13D8D1E8DF2340016FA76 /* AuthLoginVC.swift in Sources */,
 				42D575A71E3720440094037D /* AuthViewController.swift in Sources */,

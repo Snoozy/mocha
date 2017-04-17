@@ -177,17 +177,21 @@ class ViewLeft: UITableViewController {
     }
 
     @IBAction func cancelToViewLeft(_ segue:UIStoryboardSegue) {
+        self.becomeFirstResponder()
     }
     
     @IBAction func createGroupSegue(_ segue: UIStoryboardSegue) {
+        self.becomeFirstResponder()
         refresh()
     }
     
     @IBAction func joinGroupToMainSegue(_ segue: UIStoryboardSegue) {
+        self.becomeFirstResponder()
         refresh()
     }
     
     func mediaPosted(notification: Notification) {
+        self.becomeFirstResponder()
         let userInfo = notification.userInfo as! [String:AnyObject]
         let groups = userInfo["group_ids"] as! [Int]
         for cell in self.tableView.visibleCells {

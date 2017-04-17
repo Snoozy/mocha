@@ -112,7 +112,7 @@ class ViewPickDest: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func sendMedia() {
-        let image: UIImage? = delegate?.media
+        let image: UIImage? = delegate?.imageMedia
         let groups = getSelectedGroupIds()
         if groups.count <= 0 {
             return

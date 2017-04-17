@@ -18,7 +18,7 @@
                 <outlet property="flashButton" destination="Fp8-Ji-qYQ" id="gzg-t3-oMo"/>
                 <outlet property="nextButtonOut" destination="TOK-8N-NbL" id="YL4-jB-FlK"/>
                 <outlet property="takePhotoButton" destination="4si-Dq-6zy" id="uMb-Ao-pWq"/>
-                <outlet property="tempImageView" destination="UXt-6l-v0K" id="NmM-rq-J33"/>
+                <outlet property="tempImageView" destination="UXt-6l-v0K" id="p6v-og-lDR"/>
                 <outlet property="videoView" destination="9vT-Lj-HGQ" id="AAb-vv-zNt"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -83,11 +83,11 @@
                         <action selector="flashToggleBtnPress:" destination="-1" eventType="touchUpInside" id="zWL-IR-zuW"/>
                     </connections>
                 </button>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UXt-6l-v0K" customClass="DIImageView" customModule="Marble" customModuleProvider="target">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UXt-6l-v0K" customClass="MediaImageView" customModule="Marble" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <gestureRecognizers/>
                 </imageView>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9vT-Lj-HGQ">
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9vT-Lj-HGQ" customClass="MediaVideoView" customModule="Marble" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
