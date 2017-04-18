@@ -6,7 +6,7 @@ from middleware.json import JsonTranslator
 from falcon_multipart.middleware import MultipartMiddleware
 
 from resources.auth import PingResource
-from resources.upload import UploadResource
+from resources.upload import ImageUploadResource, VideoUploadResource
 from resources.auth import PingResource, SignUpResource, LogInResource
 from resources.group import GroupJoinResource, GroupCreateResource, ListGroupsResource, FindGroupResource
 from resources.user import GetStoriesResource, BlockUserResource
@@ -28,7 +28,8 @@ session_factory = sessionmaker(bind=engine)
 Session = scoped_session(session_factory)
 
 app = falcon.API(middleware=[AuthMiddleware(), MultipartMiddleware(), SQLAlchemySessionManager(Session), JsonTranslator()])
-app.add_route('/v1/upload', UploadResource())
+app.add_route('/v1/image/upload', ImageUploadResource())
+app.add_route('/v1/video/upload', VideoUploadResource())
 app.add_route('/v1/ping', PingResource())
 app.add_route('/v1/signup', SignUpResource())
 app.add_route('/v1/login', LogInResource())

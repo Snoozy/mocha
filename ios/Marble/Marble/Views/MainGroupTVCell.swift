@@ -38,8 +38,15 @@ class MainGroupTVCell: UITableViewCell {
     
     func refreshPreview() {
         if (group?.storyIdxValid())! {
-            let image = State.shared.groupStories[(group?.groupId)!]?[(group?.storyViewIdx)!].media
-            storyPreview.image = image?.circleMasked
+            let story = State.shared.groupStories[(group?.groupId)!]?[(group?.storyViewIdx)!]
+            let image: UIImage = {
+                if story?.mediaType == .image {
+                    return story!.media!
+                } else {
+                    return videoPreviewImage(fileUrl: (story?.videoFileUrl)!)!
+                }
+            }()
+            storyPreview.image = image.circleMasked
         } else if State.shared.groupStories[(group?.groupId)!]?.count == 0{
             storyPreview.image = nil
         }

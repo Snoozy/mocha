@@ -30,9 +30,39 @@ extension Networker {
         self.sessionManager.upload(
             multipartFormData: { multipartFormData in
                 multipartFormData.append(groupStr.data(using: .utf8, allowLossyConversion: false)!, withName: "group_ids")
-                multipartFormData.append(data, withName: "media", fileName: "media.png", mimeType: "image/png")
+                multipartFormData.append(data, withName: "image", fileName: "media.png", mimeType: "image/png")
             },
-            to: Router.Upload,
+            to: Router.ImageUpload,
+            encodingCompletion: { encodingResult in
+                switch encodingResult {
+                case .success(let upload, _, _):
+                    upload.validate().responseJSON(completionHandler: completionHandler)
+                case .failure(let encodingError):
+                    print(encodingError)
+                }
+            }
+        )
+    }
+    
+    func uploadVideo(videoUrl: URL, groupIds: Array<Int>, completionHandler: @escaping (DataResponse<Any>) -> ()) {
+        var groupIds = groupIds
+        
+        if groupIds.count <= 0 {
+            return
+        }
+        
+        var groupStr = String(groupIds[0])
+        groupIds.remove(at: 0)
+        for id in groupIds {
+            groupStr += "," + String(id)
+        }
+        
+        self.sessionManager.upload(
+            multipartFormData: { multipartFormData in
+                multipartFormData.append(groupStr.data(using: .utf8, allowLossyConversion: false)!, withName: "group_ids")
+                multipartFormData.append(videoUrl, withName: "video")
+            },
+            to: Router.VideoUpload,
             encodingCompletion: { encodingResult in
                 switch encodingResult {
                 case .success(let upload, _, _):

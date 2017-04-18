@@ -112,22 +112,30 @@ class ViewPickDest: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func sendMedia() {
-        let image: UIImage? = delegate?.imageMedia
         let groups = getSelectedGroupIds()
         if groups.count <= 0 {
             return
         }
-        if let image = image {
-            Networker.shared.uploadImage(image: image, groupIds: groups, completionHandler: { response in
-                print("UPLOAD DONE")
-                NotificationCenter.default.post(name: Constants.Notifications.StoryUploadFinished, object: self)
-            })
+        
+        if delegate?.mediaType == .image {
+            let image: UIImage? = delegate?.imageMedia
+            if let image = image {
+                Networker.shared.uploadImage(image: image, groupIds: groups, completionHandler: { response in
+                    print("UPLOAD DONE")
+                    NotificationCenter.default.post(name: Constants.Notifications.StoryUploadFinished, object: self)
+                })
+            }
         }
+        
         self.view.frame = self.view.frame.offsetBy(dx: self.screenWidth, dy: 0)
         UIApplication.shared.statusBarStyle = .default
         self.view.removeFromSuperview()
         active = false
-        self.delegate?.mediaSent(groupIds: groups)
+        if delegate?.mediaType == .video {
+            self.delegate?.sendVideoMedia(groupIds: groups)
+        } else {
+            self.delegate?.imageMediaSent(groupIds: groups)
+        }
     }
     
     func getSelectedGroupIds() -> [Int] {

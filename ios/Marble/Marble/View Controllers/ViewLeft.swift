@@ -97,9 +97,18 @@ class ViewLeft: UITableViewController {
                     if stories.count == 0 {
                         groupCell?.stopLoading()
                     } else {
+                        func lock(obj: AnyObject, blk:() -> ()) {
+                            objc_sync_enter(obj)
+                            blk()
+                            objc_sync_exit(obj)
+                        }
+                        
                         for story in stories {
                             story.loadMedia(completionHandler: { story in
-                                groupCell?.storyLoadCount! -= 1
+                                lock(obj: groupCell?.storyLoadCount! as AnyObject, blk: {
+                                    groupCell?.storyLoadCount! -= 1
+                                })
+                                print("story load count: " + String(describing: groupCell?.storyLoadCount))
                                 if groupCell?.storyLoadCount ?? 0 <= 0 {
                                     groupCell?.stopLoading()
                                     var storyIdx = State.shared.findGroupBy(id: (groupCell?.group?.groupId)!)?.storyViewIdx
@@ -138,19 +147,21 @@ class ViewLeft: UITableViewController {
         return State.shared.userGroups.count
     }
     
-    let imageViewNib = UINib(nibName: "StoryImage", bundle: nil)
+    let storyViewNib = UINib(nibName: "StoryView", bundle: nil)
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let cell = tableView.cellForRow(at: indexPath) as! MainGroupTVCell
         
         if !State.shared.checkGroupStoriesReady(groupId: (cell.group?.groupId)!) {
+            print("stories not ready")
             return
         }
 
         let group = State.shared.findGroupBy(id: (cell.group?.groupId)!)
 
-        let imageViewer = imageViewNib.instantiate(withOwner: nil, options: nil)[0] as! StoryImageView
+        let imageViewer = storyViewNib.instantiate(withOwner: nil, options: nil)[0] as! StoryView
+        imageViewer.isHidden = true
         
         imageViewer.group = group
         imageViewer.cell = cell
@@ -159,23 +170,15 @@ class ViewLeft: UITableViewController {
         
         imageViewer.parentVC = self
         
-        let tapGest = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
-        imageViewer.isUserInteractionEnabled = true
-        imageViewer.addGestureRecognizer(tapGest)
-        
         UIApplication.topViewController()?.view.addSubview(imageViewer)
         
         imageViewer.mediaStart()
+        
         Networker.shared.storySeen(groupId: (group?.groupId)! ,completionHandler: { _ in })  // empty completion handler
         group?.lastSeen = Int64(Date().timeIntervalSince1970 * 1000)
         cell.refreshSeen()
     }
     
-    func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
-        let tappedIV = tapGestureRecognizer.view as! StoryImageView
-        tappedIV.mediaNext()
-    }
-
     @IBAction func cancelToViewLeft(_ segue:UIStoryboardSegue) {
         self.becomeFirstResponder()
     }

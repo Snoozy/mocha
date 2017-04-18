@@ -28,8 +28,10 @@ extension State {
                         let userId = story["user_id"].int!
                         let time = story["timestamp"].int64 ?? 0
                         let id = story["id"].int!
+                        let mediaType = story["media_type"].stringValue
                         
-                        self.addStory(stories: &newStories, cache: self.groupStories[groupId]!, groupId: groupId, url: mediaUrl, name: name, userId: userId, time: time, id: id)
+                        self.addStory(stories: &newStories, cache: self.groupStories[groupId]!,
+                                      groupId: groupId, url: mediaUrl, name: name, userId: userId, time: time, id: id, mediaType: mediaType)
                     }
                     self.groupStories[groupId] = newStories
                 }
@@ -45,6 +47,7 @@ extension State {
         if let stories = stories {
             for story in stories {
                 if !story.mediaReady {
+                    print(story.mediaUrl)
                     return false
                 }
             }
@@ -54,12 +57,13 @@ extension State {
         }
     }
     
-    func addStory(stories: inout [Story], cache: [Story], groupId: Int, url: String, name: String, userId: Int, time: Int64, id: Int) {
+    func addStory(stories: inout [Story], cache: [Story], groupId: Int, url: String,
+                  name: String, userId: Int, time: Int64, id: Int, mediaType: String) {
         let storyCheck = findStory(mediaUrl: url, groupId: groupId)
         if let story = storyCheck {
             stories.append(story)
         } else {
-            stories.append(Story(url: url, name: name, userId: userId, time: time, id: id))
+            stories.append(Story(url: url, name: name, userId: userId, time: time, id: id, mediaType: mediaType))
         }
     }
     

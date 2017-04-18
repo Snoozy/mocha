@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import Alamofire
 import AVKit
 
 class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigationBarDelegate, AVCapturePhotoCaptureDelegate, AVCaptureFileOutputRecordingDelegate {
@@ -179,8 +180,12 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         captureSession?.beginConfiguration()
         captureSession?.removeInput(cameraInput!)
         if camera?.position == .front {
+            videoFileOut?.connection(withMediaType: AVMediaTypeVideo).isVideoMirrored = false
             camera = defaultBackCamera()
         } else {
+            if (videoFileOut?.connection(withMediaType: AVMediaTypeVideo).isVideoMirroringSupported)! {
+                videoFileOut?.connection(withMediaType: AVMediaTypeVideo).isVideoMirrored = true
+            }
             camera = defaultFrontCamera()
         }
         if let camera = camera {
@@ -220,6 +225,10 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
                     if (captureSession.canAddOutput(videoFileOut)) {
                         print("video output added")
                         captureSession.addOutput(videoFileOut)
+                    }
+                    if (videoFileOut?.connection(withMediaType: AVMediaTypeVideo).isVideoStabilizationSupported)! {
+                        print("enable video stabilization")
+                        videoFileOut?.connection(withMediaType: AVMediaTypeVideo).preferredVideoStabilizationMode = .cinematic
                     }
                 }
             }
@@ -273,35 +282,8 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         let filePath = documentsURL.appendingPathComponent(randomString(length: 10) + ".mp4")
         
         if !(captureSession?.isRunning)! {
+            print("start capture video start capture session running")
             captureSession?.startRunning()
-        }
-        
-        let fileManager = FileManager.default
-        let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first! as NSURL
-        let documentsPath = documentsUrl.path
-        do {
-            if let documentPath = documentsPath
-            {
-                let fileNames = try fileManager.contentsOfDirectory(atPath: "\(documentPath)")
-                print("all files in cache: \(fileNames)")
-                for fileName in fileNames {
-                    let filePathName = "\(documentPath)/\(fileName)"
-                    try fileManager.removeItem(atPath: filePathName)
-                }
-                
-                let files = try fileManager.contentsOfDirectory(atPath: "\(documentPath)")
-                print("all files in cache after deleting images: \(files)")
-            }
-            
-        } catch {
-            print("Could not clear temp folder: \(error)")
-        }
-        
-        if (videoFileOut?.connection(withMediaType: AVMediaTypeVideo).isVideoStabilizationSupported)! {
-            videoFileOut?.connection(withMediaType: AVMediaTypeVideo).preferredVideoStabilizationMode = .cinematic
-        }
-        if camera?.position == .front && (videoFileOut?.connection(withMediaType: AVMediaTypeVideo).isVideoMirroringSupported)! {
-            videoFileOut?.connection(withMediaType: AVMediaTypeVideo).isVideoMirrored = true
         }
         
         videoFileOut?.startRecording(toOutputFileURL: filePath, recordingDelegate: self)
@@ -416,6 +398,10 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
     
     @IBAction func cancelPhoto(_ sender: AnyObject) {
         removeMediaPreview()
+        if mediaType == .video {
+            deleteVideoFile()
+        }
+        
     }
     
     func removeMediaPreview() {
@@ -439,6 +425,10 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         mediaType = nil
     }
     
+    func deleteVideoFile() {
+        try! FileManager.default.removeItem(at: videoMediaUrl!)
+    }
+    
     @IBAction func takeVideoAction(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
             photoTaken = true
@@ -448,14 +438,11 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         }
     }
     
-    enum MediaType {
-        case video
-        case image
-    }
-    
     var mediaType: MediaType?
     
     var vPickDest: ViewPickDest?
+    
+    var captionImage: UIImage?
     
     @IBAction func nextButton(_ sender: AnyObject) {
         if mediaType == .image {
@@ -463,8 +450,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             imageMedia = UIImage(view: tempImageView)
         } else if mediaType == .video {
             print("video")
-            renderVideoWithCaption()
-            return
+            captionImage = UIImage(view: videoView)
         } else {
             print("error")
             return
@@ -489,7 +475,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         }
     }
     
-    func renderVideoWithCaption() {
+    func renderVideoAndUpload(groupIds: [Int], completionHandler: @escaping (DataResponse<Any>) -> ()) {
         if let videoUrl = videoMediaUrl {
             let vidAsset = AVURLAsset(url: videoUrl)
             let composition = AVMutableComposition()
@@ -508,18 +494,19 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
                 print("time range insert error")
             }
             
-            let compositionAudioTrack:AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: AVMediaTypeAudio, preferredTrackID: CMPersistentTrackID())
-            for audioTrack in aTracks {
-                try! compositionAudioTrack.insertTimeRange(audioTrack.timeRange, of: audioTrack, at: kCMTimeZero)
+            if aTracks.count > 0 {
+                let compositionAudioTrack:AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: AVMediaTypeAudio, preferredTrackID: CMPersistentTrackID())
+                for audioTrack in aTracks {
+                    try! compositionAudioTrack.insertTimeRange(audioTrack.timeRange, of: audioTrack, at: kCMTimeZero)
+                }
             }
             
             
             let size = vidTrack.naturalSize
             
             //videoView.caption.layer.frame.size = CGSize(width: size.height, height: size.width)
-            let captionImg = UIImage(view: videoView)
             let captionLayer = CALayer()
-            captionLayer.contents = captionImg.cgImage
+            captionLayer.contents = captionImage!.cgImage
             captionLayer.frame = CGRect(x: 0, y: 0, width: size.height, height: size.width)
             
             let vidLayer = CALayer()
@@ -552,31 +539,45 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             
             // export file path
             let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first! as NSURL
-            let vidPath = documentsUrl.appendingPathComponent("result.mp4")
+            let vidPath = documentsUrl.appendingPathComponent("rendered_" + videoUrl.lastPathComponent)
             
             let assetExport = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetHighestQuality)
             assetExport?.videoComposition = layerComposition
             assetExport?.outputFileType = AVFileTypeMPEG4
             assetExport?.outputURL = vidPath
             assetExport?.exportAsynchronously(completionHandler: {
-                print("complete")
-                DispatchQueue.main.async {
-                    let player = AVPlayer(url: vidPath!)
-                    let playerController = AVPlayerViewController()
-                    playerController.player = player
-                    UIApplication.topViewController()?.present(playerController, animated: true) {
-                        player.play()
-                    }
-                }
+                print("export complete")
+//                DispatchQueue.main.async {
+//                    let player = AVPlayer(url: vidPath!)
+//                    let playerController = AVPlayerViewController()
+//                    playerController.player = player
+//                    UIApplication.topViewController()?.present(playerController, animated: true) {
+//                        player.play()
+//                    }
+//                }
+                Networker.shared.uploadVideo(videoUrl: vidPath!, groupIds: groupIds, completionHandler: completionHandler)
             })
         }
     }
     
-    func mediaSent(groupIds: [Int]) {
+    func imageMediaSent(groupIds: [Int]) {
         removeMediaPreview()
         (self.parent as! ViewController).scrollView.contentOffset.x = 0
         let userInfo = ["group_ids" : groupIds]
         NotificationCenter.default.post(name: Constants.Notifications.StoryPosted, object: self, userInfo: userInfo)
+    }
+    
+    func sendVideoMedia(groupIds: [Int]) {
+        print("groups: " + String(describing: groupIds))
+        removeMediaPreview()
+        (self.parent as! ViewController).scrollView.contentOffset.x = 0
+        let userInfo = ["group_ids" : groupIds]
+        NotificationCenter.default.post(name: Constants.Notifications.StoryPosted, object: self, userInfo: userInfo)
+        renderVideoAndUpload(groupIds: groupIds, completionHandler: { response in
+            print("VIDEO UPLOAD DONE")
+            print(response.debugDescription)
+            NotificationCenter.default.post(name: Constants.Notifications.StoryUploadFinished, object: self)
+        })
     }
     
     @IBAction func toggleCameraBtnPress(_ sender: UIButton) {
@@ -599,21 +600,5 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         let parentVC = parent as? ViewController
         parentVC?.scrollView.setContentOffset(CGPoint.init(x: 0, y: 0), animated: true)
     }
-    
-    func randomString(length: Int) -> String {
         
-        let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        let len = UInt32(letters.length)
-        
-        var randomString = ""
-        
-        for _ in 0 ..< length {
-            let rand = arc4random_uniform(len)
-            var nextChar = letters.character(at: Int(rand))
-            randomString += NSString(characters: &nextChar, length: 1) as String
-        }
-        
-        return randomString
-    }
-    
 }

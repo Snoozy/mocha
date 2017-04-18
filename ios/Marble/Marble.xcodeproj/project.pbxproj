@@ -12,8 +12,8 @@
 		4217546E1E5530AD00620E69 /* MediaVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4217546D1E5530AD00620E69 /* MediaVideoView.swift */; };
 		4241B8141E4DB5F5003CA796 /* MainGroupTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4241B8131E4DB5F5003CA796 /* MainGroupTVCell.swift */; };
 		4241B8181E4DB8F5003CA796 /* UIImage_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4241B8171E4DB8F5003CA796 /* UIImage_ext.swift */; };
-		4241B81A1E4DC197003CA796 /* StoryImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4241B8191E4DC197003CA796 /* StoryImageView.swift */; };
-		4241B81C1E4DC208003CA796 /* StoryImage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4241B81B1E4DC208003CA796 /* StoryImage.xib */; };
+		4241B81A1E4DC197003CA796 /* StoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4241B8191E4DC197003CA796 /* StoryView.swift */; };
+		4241B81C1E4DC208003CA796 /* StoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4241B81B1E4DC208003CA796 /* StoryView.xib */; };
 		42502DEC1E9B4BD8009B7E2E /* UserNetworker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42502DEB1E9B4BD8009B7E2E /* UserNetworker.swift */; };
 		425398C61E497D5B00097934 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425398C51E497D5B00097934 /* Group.swift */; };
 		425398C81E4985AB00097934 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425398C71E4985AB00097934 /* SwiftyJSON.swift */; };
@@ -95,7 +95,7 @@
 		42E13DB41E8E46610016FA76 /* GroupNetworker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D1F5B91E4453E200BBCE82 /* GroupNetworker.swift */; };
 		42E13DB51E8E46610016FA76 /* UploadNetworker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F11AC81E405602005BFE0E /* UploadNetworker.swift */; };
 		42E13DB61E8E46610016FA76 /* KeychainWrapper_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D575871E37164C0094037D /* KeychainWrapper_ext.swift */; };
-		42E13DB71E8E46610016FA76 /* StoryImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4241B8191E4DC197003CA796 /* StoryImageView.swift */; };
+		42E13DB71E8E46610016FA76 /* StoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4241B8191E4DC197003CA796 /* StoryView.swift */; };
 		42E13DB81E8E46610016FA76 /* SendGroupTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425398C91E49923B00097934 /* SendGroupTV.swift */; };
 		42E13DB91E8E46610016FA76 /* NumPlaceholderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425D40641E4331EC00CBD8CB /* NumPlaceholderButton.swift */; };
 		42E13DBA1E8E46610016FA76 /* Stories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429991511E4DA1860049608F /* Stories.swift */; };
@@ -117,13 +117,17 @@
 		42E13DCD1E8E46610016FA76 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 952AF8091DAB363D005E60C7 /* Main.storyboard */; };
 		42E13DCE1E8E46610016FA76 /* LaunchDEV.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 428CD7A71E8C788A00BEB5BA /* LaunchDEV.storyboard */; };
 		42E13DCF1E8E46610016FA76 /* AddMarble.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4295B8A81E84C2E70091C08B /* AddMarble.storyboard */; };
-		42E13DD01E8E46610016FA76 /* StoryImage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4241B81B1E4DC208003CA796 /* StoryImage.xib */; };
+		42E13DD01E8E46610016FA76 /* StoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4241B81B1E4DC208003CA796 /* StoryView.xib */; };
 		42E13DD21E8E46610016FA76 /* AlamofireImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 429991621E4DAEB90049608F /* AlamofireImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		42E13DD31E8E46610016FA76 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 420A006D1E31C6D400525DB0 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		42E13DD41E8E46610016FA76 /* AlamofireNetworkActivityIndicator.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 427FFC711E3B1F470007159C /* AlamofireNetworkActivityIndicator.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		42E13DDD1E8E4B4B0016FA76 /* Info-Dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42E13DDC1E8E4B4B0016FA76 /* Info-Dev.plist */; };
 		42F11AC91E405602005BFE0E /* UploadNetworker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F11AC81E405602005BFE0E /* UploadNetworker.swift */; };
 		42F7906C1E39C7B500D3B2AF /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F7906B1E39C7B500D3B2AF /* Router.swift */; };
+		42F8C0C11EA6A4EF00AFD4D4 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F8C0C01EA6A4EF00AFD4D4 /* Common.swift */; };
+		42F8C0D21EA6A57F00AFD4D4 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F8C0C01EA6A4EF00AFD4D4 /* Common.swift */; };
+		42F8C0D41EA6A95600AFD4D4 /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F8C0D31EA6A95600AFD4D4 /* Downloader.swift */; };
+		42F8C0D51EA6A95600AFD4D4 /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F8C0D31EA6A95600AFD4D4 /* Downloader.swift */; };
 		42F92CEC1EA312BF0085DD0C /* MediaImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F92CEB1EA312BF0085DD0C /* MediaImageView.swift */; };
 		42F92CED1EA313540085DD0C /* MediaImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F92CEB1EA312BF0085DD0C /* MediaImageView.swift */; };
 		952AF8061DAB363D005E60C7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952AF8051DAB363D005E60C7 /* AppDelegate.swift */; };
@@ -322,8 +326,8 @@
 		4217546D1E5530AD00620E69 /* MediaVideoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaVideoView.swift; path = Views/MediaVideoView.swift; sourceTree = "<group>"; };
 		4241B8131E4DB5F5003CA796 /* MainGroupTVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainGroupTVCell.swift; path = Views/MainGroupTVCell.swift; sourceTree = "<group>"; };
 		4241B8171E4DB8F5003CA796 /* UIImage_ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIImage_ext.swift; path = Extensions/UIImage_ext.swift; sourceTree = "<group>"; };
-		4241B8191E4DC197003CA796 /* StoryImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StoryImageView.swift; path = Views/StoryImageView.swift; sourceTree = "<group>"; };
-		4241B81B1E4DC208003CA796 /* StoryImage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StoryImage.xib; path = StoryBoards/StoryImage.xib; sourceTree = "<group>"; };
+		4241B8191E4DC197003CA796 /* StoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StoryView.swift; path = Views/StoryView.swift; sourceTree = "<group>"; };
+		4241B81B1E4DC208003CA796 /* StoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StoryView.xib; path = StoryBoards/StoryView.xib; sourceTree = "<group>"; };
 		42502DEB1E9B4BD8009B7E2E /* UserNetworker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserNetworker.swift; path = Data/Networkers/UserNetworker.swift; sourceTree = "<group>"; };
 		425398C51E497D5B00097934 /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Group.swift; path = Data/Models/Group.swift; sourceTree = "<group>"; };
 		425398C71E4985AB00097934 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = Vendor/SwiftyJSON.swift; sourceTree = "<group>"; };
@@ -374,6 +378,8 @@
 		42E13DDC1E8E4B4B0016FA76 /* Info-Dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-Dev.plist"; sourceTree = "<group>"; };
 		42F11AC81E405602005BFE0E /* UploadNetworker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UploadNetworker.swift; path = Data/Networkers/UploadNetworker.swift; sourceTree = "<group>"; };
 		42F7906B1E39C7B500D3B2AF /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Router.swift; path = Data/Router.swift; sourceTree = "<group>"; };
+		42F8C0C01EA6A4EF00AFD4D4 /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Common.swift; path = Data/Common.swift; sourceTree = "<group>"; };
+		42F8C0D31EA6A95600AFD4D4 /* Downloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Downloader.swift; path = Data/Networkers/Downloader.swift; sourceTree = "<group>"; };
 		42F92CEB1EA312BF0085DD0C /* MediaImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaImageView.swift; path = Views/MediaImageView.swift; sourceTree = "<group>"; };
 		952AF8021DAB363D005E60C7 /* Marble.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Marble.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		952AF8051DAB363D005E60C7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -438,6 +444,7 @@
 				42D1F5B91E4453E200BBCE82 /* GroupNetworker.swift */,
 				4299914F1E4DA0C90049608F /* StoryNetworker.swift */,
 				42502DEB1E9B4BD8009B7E2E /* UserNetworker.swift */,
+				42F8C0D31EA6A95600AFD4D4 /* Downloader.swift */,
 			);
 			name = Networkers;
 			sourceTree = "<group>";
@@ -494,7 +501,7 @@
 				42CC20801E43238800EC419A /* NumberButton.swift */,
 				425D40641E4331EC00CBD8CB /* NumPlaceholderButton.swift */,
 				4241B8131E4DB5F5003CA796 /* MainGroupTVCell.swift */,
-				4241B8191E4DC197003CA796 /* StoryImageView.swift */,
+				4241B8191E4DC197003CA796 /* StoryView.swift */,
 				4295B8A61E84C21E0091C08B /* NoGroupsView.swift */,
 			);
 			name = Views;
@@ -542,7 +549,7 @@
 				952AF8091DAB363D005E60C7 /* Main.storyboard */,
 				42CC20701E42FCCC00EC419A /* Left.storyboard */,
 				429AF4101E48872600475461 /* GroupTVCell.xib */,
-				4241B81B1E4DC208003CA796 /* StoryImage.xib */,
+				4241B81B1E4DC208003CA796 /* StoryView.xib */,
 				4295B8A21E84C1880091C08B /* NoGroupsView.xib */,
 				4295B8A81E84C2E70091C08B /* AddMarble.storyboard */,
 			);
@@ -574,6 +581,7 @@
 				42623CB41E3B0A570068D4FA /* Networkers */,
 				42F7906B1E39C7B500D3B2AF /* Router.swift */,
 				426E24C91E4ABD6400F24992 /* Constants.swift */,
+				42F8C0C01EA6A4EF00AFD4D4 /* Common.swift */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -843,7 +851,7 @@
 				42E13DCD1E8E46610016FA76 /* Main.storyboard in Resources */,
 				42E13DCE1E8E46610016FA76 /* LaunchDEV.storyboard in Resources */,
 				42E13DCF1E8E46610016FA76 /* AddMarble.storyboard in Resources */,
-				42E13DD01E8E46610016FA76 /* StoryImage.xib in Resources */,
+				42E13DD01E8E46610016FA76 /* StoryView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -863,7 +871,7 @@
 				952AF80B1DAB363D005E60C7 /* Main.storyboard in Resources */,
 				428CD7A81E8C788A00BEB5BA /* LaunchDEV.storyboard in Resources */,
 				4295B8A91E84C2E70091C08B /* AddMarble.storyboard in Resources */,
-				4241B81C1E4DC208003CA796 /* StoryImage.xib in Resources */,
+				4241B81C1E4DC208003CA796 /* StoryView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -878,6 +886,8 @@
 				42E13D991E8E46610016FA76 /* AddMarbleCodeVC.swift in Sources */,
 				42E13D9A1E8E46610016FA76 /* SCLExtensions.swift in Sources */,
 				42E13D9B1E8E46610016FA76 /* NoGroupsView.swift in Sources */,
+				42F8C0D21EA6A57F00AFD4D4 /* Common.swift in Sources */,
+				42F8C0D51EA6A95600AFD4D4 /* Downloader.swift in Sources */,
 				42E13D9C1E8E46610016FA76 /* AuthNetworker.swift in Sources */,
 				42E13D9D1E8E46610016FA76 /* Story.swift in Sources */,
 				42E13D9E1E8E46610016FA76 /* UIImage_ext.swift in Sources */,
@@ -907,7 +917,7 @@
 				42B52BF91E9B6A40006D831A /* UserNetworker.swift in Sources */,
 				42E13DB51E8E46610016FA76 /* UploadNetworker.swift in Sources */,
 				42E13DB61E8E46610016FA76 /* KeychainWrapper_ext.swift in Sources */,
-				42E13DB71E8E46610016FA76 /* StoryImageView.swift in Sources */,
+				42E13DB71E8E46610016FA76 /* StoryView.swift in Sources */,
 				42E13DB81E8E46610016FA76 /* SendGroupTV.swift in Sources */,
 				42B52C0C1E9B773E006D831A /* Users.swift in Sources */,
 				42E13DB91E8E46610016FA76 /* NumPlaceholderButton.swift in Sources */,
@@ -928,6 +938,8 @@
 				425D40631E4330A600CBD8CB /* AddMarbleCodeVC.swift in Sources */,
 				429991471E4D4F9D0049608F /* SCLExtensions.swift in Sources */,
 				4295B8A71E84C21E0091C08B /* NoGroupsView.swift in Sources */,
+				42F8C0C11EA6A4EF00AFD4D4 /* Common.swift in Sources */,
+				42F8C0D41EA6A95600AFD4D4 /* Downloader.swift in Sources */,
 				42623CBF1E3B0B5A0068D4FA /* AuthNetworker.swift in Sources */,
 				429991541E4DA1F20049608F /* Story.swift in Sources */,
 				4241B8181E4DB8F5003CA796 /* UIImage_ext.swift in Sources */,
@@ -957,7 +969,7 @@
 				42502DEC1E9B4BD8009B7E2E /* UserNetworker.swift in Sources */,
 				42F11AC91E405602005BFE0E /* UploadNetworker.swift in Sources */,
 				42D5758A1E37164C0094037D /* KeychainWrapper_ext.swift in Sources */,
-				4241B81A1E4DC197003CA796 /* StoryImageView.swift in Sources */,
+				4241B81A1E4DC197003CA796 /* StoryView.swift in Sources */,
 				425398CA1E49923B00097934 /* SendGroupTV.swift in Sources */,
 				42B52C0B1E9B773E006D831A /* Users.swift in Sources */,
 				425D40651E4331EC00CBD8CB /* NumPlaceholderButton.swift in Sources */,

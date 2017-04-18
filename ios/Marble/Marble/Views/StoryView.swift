@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import AVFoundation
+import AVKit
 
-class StoryImageView: UIView {
+class StoryView: UIView {
 
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var innerView: UIView!
@@ -25,17 +27,28 @@ class StoryImageView: UIView {
     var userId: Int?
     var story: Story?
     
+    var panning: Bool = false
+    
+    var playerLayer: AVPlayerLayer?
+    var player: AVPlayer?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
         let nameTapGest = UILongPressGestureRecognizer(target: self, action: #selector(longPressed(_:)))
         self.isUserInteractionEnabled = true
         self.addGestureRecognizer(nameTapGest)
+        
+        let tapGest = UITapGestureRecognizer(target: self, action: #selector(storyTapped(tapGestureRecognizer:)))
+        self.addGestureRecognizer(tapGest)
+        
+        NotificationCenter.default.addObserver(self, selector:#selector(self.playerDidFinishPlaying(note:)),name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
     }
     
     @IBAction func storyViewPan(_ sender: UIPanGestureRecognizer) {
         let translation = sender.translation(in: self)
         if sender.state == .ended {
+            panning = false
             if translation.y > 90 {
                 self.group?.storyViewIdx -= 1
                 self.cell?.refreshPreview()
@@ -48,12 +61,25 @@ class StoryImageView: UIView {
             } else {
                 UIView.animate(withDuration: 0.3, animations: {
                     self.innerView.center.y = self.originalCenterYCord
+                    let rect = CGRect(x: 0, y: 0, width: self.originalWidth, height: self.originalHeight)
                     self.innerView.frame = CGRect(x: 0, y: 0, width: self.originalWidth, height: self.originalHeight)
-                    self.imageView.frame = CGRect(x: 0, y: 0, width: self.originalWidth, height: self.originalHeight)
+                    self.imageView.frame = rect
+                    if let playerLayer = self.playerLayer {
+                        playerLayer.frame = rect
+                    }
                 })
             }
         } else if (sender.state == .began) {
+            panning = true
             self.backgroundColor = UIColor(white: 1, alpha: 1.0);
+            
+            if story?.mediaType == .video && imageView.image != nil {
+                imageView.image = nil
+            }
+            if imageView.layer.sublayers != nil && (imageView.layer.sublayers?.count)! > 1 {
+                print("asdfasdf")
+                imageView.layer.sublayers = [imageView.layer.sublayers!.last!]
+            }
             originalCenterYCord = self.innerView.center.y
             originalWidth = self.innerView.frame.width
             originalHeight = self.innerView.frame.height
@@ -66,8 +92,12 @@ class StoryImageView: UIView {
                 } else {
                     UIApplication.shared.isStatusBarHidden = true
                 }
+                let rect = CGRect(x: 0, y: 0, width: originalWidth - (translation.y/5), height: originalHeight - (translation.y/5))
                 self.innerView.center = CGPoint(x: innerView.center.x, y: originalCenterYCord + (translation.y/2))
-                self.imageView.frame = CGRect(x: 0, y: 0, width: originalWidth - (translation.y/5), height: originalHeight - (translation.y/5))
+                self.imageView.frame = rect
+                if let playerLayer = self.playerLayer {
+                    playerLayer.frame = rect
+                }
                 self.innerView.frame = CGRect(x: originalMinX + (translation.y/10), y: innerView.frame.minY, width: originalWidth - (translation.y/5), height: originalHeight - (translation.y/5))
             } else {
                 self.innerView.center.y = originalCenterYCord
@@ -83,31 +113,66 @@ class StoryImageView: UIView {
         self.frame.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         self.innerView.frame.size = self.frame.size
         mediaNext()
+        self.isHidden = false
     }
     
     func mediaNext() {
         let stories = State.shared.groupStories[(group?.groupId)!]
         if (self.group?.storyIdxValid())! {  // next story
             let story: Story = (stories?[(group?.storyViewIdx)!])!
-            let image = story.media
             self.story = story
-            
-            self.imageView.frame = self.innerView.frame
-            self.imageView.image = image
-            
-            styleLabel(label: self.nameLabel)
-            styleLabel(label: self.timeLabel)
-            
-            self.userId = story.userId
-            self.nameLabel.text = story.posterName
-            self.timeLabel.text = calcTime(time: story.timestamp)
-            
-            self.group?.storyViewIdx += 1
+            showStory(story: story)
         } else {
             UIApplication.shared.isStatusBarHidden = false
             self.removeFromSuperview()
             self.cell?.refreshPreview()
         }
+    }
+    
+    func mediaBack() {
+        let stories = State.shared.groupStories[(group?.groupId)!]
+        if (group?.storyViewIdx)! < 2 {
+            UIApplication.shared.isStatusBarHidden = false
+            self.removeFromSuperview()
+            self.cell?.refreshPreview()
+        } else {
+            group?.storyViewIdx -= 2
+            let story: Story = (stories?[(group?.storyViewIdx)!])!
+            self.story = story
+            showStory(story: story)
+        }
+    }
+    
+    func showStory(story: Story) {
+        player?.pause()
+        if story.mediaType == .image {
+            let image = story.media
+            
+            self.imageView.frame = self.innerView.frame
+            self.imageView.image = image
+            self.imageView.layer.sublayers = nil
+            player = nil
+            playerLayer = nil
+        } else if story.mediaType == .video {
+            let playerItem = AVPlayerItem(url: story.videoFileUrl!)
+            player = AVPlayer(playerItem: playerItem)
+            playerLayer = AVPlayerLayer(player: player)
+            playerLayer?.frame = self.imageView.frame
+            playerLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
+            playerLayer?.masksToBounds = true
+            self.imageView.layer.addSublayer(playerLayer!)
+            player?.play()
+            player?.actionAtItemEnd = .none
+        }
+        
+        styleLabel(label: self.nameLabel)
+        styleLabel(label: self.timeLabel)
+        
+        self.userId = story.userId
+        self.nameLabel.text = story.posterName
+        self.timeLabel.text = calcTime(time: story.timestamp)
+        
+        self.group?.storyViewIdx += 1
     }
     
     func styleLabel(label: UILabel) {
@@ -116,18 +181,67 @@ class StoryImageView: UIView {
         label.layer.shadowRadius = 3
     }
     
-    // Converts milliseconds delta to hours string
-    func calcTime(time: Int64) -> String {
-        let start: Int64 = Int64(NSDate().timeIntervalSince1970 * 1000)
-        let delta = start - time
-        if delta < 3600000 {  // less than 1 hr ago
-            let temp = delta/60000
-            if temp <= 0 {  // less than 1 min ago
-                return "Just now"
+    func playerDidFinishPlaying(note: NSNotification){
+        if panning {
+            if story?.mediaType == .video {
+                player?.seek(to: kCMTimeZero)
+                player?.play()
             }
-            return String(temp) + "m ago"
+        } else {
+            mediaNext()
         }
-        return String(delta/3600000) + "h ago"
+    }
+    
+    func storyTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+        let touchLocation = tapGestureRecognizer.location(in: self)
+        let x = touchLocation.x
+        let screenWidth = UIScreen.main.bounds.width
+        let percentage = Double(x) / Double(screenWidth)
+        
+        if tapGestureRecognizer.state == .began && percentage <= 0.33 {
+            print("gradient")
+            let backGradient = CAGradientLayer()
+            backGradient.bounds = self.bounds
+            var colors = [CGColor]()
+            colors.append(UIColor(red: 0, green: 0, blue: 0, alpha: 1).cgColor)
+            colors.append(UIColor(red: 0, green: 0, blue: 0, alpha: 0).cgColor)
+            
+            backGradient.startPoint = CGPoint(x: 0.0, y: 0.0)
+            backGradient.endPoint = CGPoint(x: 1.0, y: 1.0)
+            backGradient.colors = colors
+            
+            self.imageView.layer.addSublayer(backGradient)
+        } else if tapGestureRecognizer.state == .ended {
+            if percentage > 0.33 {
+                self.mediaNext()
+            } else {
+                mediaBack()
+            }
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+            let touchLocation = touch.location(in: self)
+            let x = touchLocation.x
+            let screenWidth = UIScreen.main.bounds.width
+            let percentage = Double(x) / Double(screenWidth)
+            if percentage <= 0.33 {
+                print("gradient")
+                let backGradient = CAGradientLayer()
+                backGradient.bounds = self.imageView.bounds
+                var colors = [CGColor]()
+                colors.append(UIColor(red: 0, green: 0, blue: 0, alpha: 1).cgColor)
+                colors.append(UIColor(red: 0, green: 0, blue: 0, alpha: 0).cgColor)
+                
+                backGradient.startPoint = CGPoint(x: 0.0, y: 0.0)
+                backGradient.endPoint = CGPoint(x: 1.0, y: 1.0)
+                backGradient.colors = colors
+                
+                self.layer.addSublayer(backGradient)
+            }
+        }
+        super.touchesBegan(touches, with: event)
     }
     
     func longPressed(_ sender: UILongPressGestureRecognizer) {
