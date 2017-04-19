@@ -67,8 +67,6 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         recordingProgress.trackTintColor = UIColor.clear
         
         let panGest = UIPanGestureRecognizer(target: self, action: #selector(cameraViewPan(_:)))
-        //self.view.isUserInteractionEnabled = true
-        //self.view.addGestureRecognizer(panGest)
         panGest.delegate = self
         self.parent?.view.isUserInteractionEnabled = true
         self.parent?.view.addGestureRecognizer(panGest)
@@ -171,8 +169,6 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             let deltaZoom = maximumZoom - minimumZoom
             
             guard let device = camera else { return }
-            
-            print(String(describing: lastZoomFactor + (zoomScale * deltaZoom)))
             
             let newScaleFactor = minMaxZoom(lastZoomFactor + (zoomScale * deltaZoom), device: device)
             
@@ -302,6 +298,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
                     device.exposureMode = .continuousAutoExposure
                     device.unlockForConfiguration()
                 } catch {
+                    
                 }
             }
         }
@@ -337,8 +334,8 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         }
         
         videoFileOut?.startRecording(toOutputFileURL: filePath, recordingDelegate: self)
-        timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(timerTick), userInfo: nil, repeats: true)
-        timer?.tolerance = 0.01
+        self.timer = Timer(timeInterval: 0.01, target: self, selector: #selector(timerTick), userInfo: nil, repeats: true)
+        RunLoop.main.add(timer!, forMode: .commonModes)
         recordingProgress.progress = 0
         timerCount = 0
         recordingProgress.isHidden = false
@@ -449,7 +446,6 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             print("Error processing image.")
         }
     }
-    
     
     func didPressTakePhoto() {
         if let videoConnection = photoOutput?.connection(withMediaType: AVMediaTypeVideo) {
@@ -577,7 +573,6 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             
             let size = vidTrack.naturalSize
             
-            //videoView.caption.layer.frame.size = CGSize(width: size.height, height: size.width)
             let captionLayer = CALayer()
             captionLayer.contents = captionImage!.cgImage
             captionLayer.frame = CGRect(x: 0, y: 0, width: size.height, height: size.width)
