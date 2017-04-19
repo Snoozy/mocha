@@ -108,7 +108,6 @@ class ViewLeft: UITableViewController {
                                 lock(obj: groupCell?.storyLoadCount! as AnyObject, blk: {
                                     groupCell?.storyLoadCount! -= 1
                                 })
-                                print("story load count: " + String(describing: groupCell?.storyLoadCount))
                                 if groupCell?.storyLoadCount ?? 0 <= 0 {
                                     groupCell?.stopLoading()
                                     var storyIdx = State.shared.findGroupBy(id: (groupCell?.group?.groupId)!)?.storyViewIdx

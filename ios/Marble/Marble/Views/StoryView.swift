@@ -193,25 +193,12 @@ class StoryView: UIView {
     }
     
     func storyTapped(tapGestureRecognizer: UITapGestureRecognizer) {
-        let touchLocation = tapGestureRecognizer.location(in: self)
-        let x = touchLocation.x
-        let screenWidth = UIScreen.main.bounds.width
-        let percentage = Double(x) / Double(screenWidth)
-        
-        if tapGestureRecognizer.state == .began && percentage <= 0.33 {
-            print("gradient")
-            let backGradient = CAGradientLayer()
-            backGradient.bounds = self.bounds
-            var colors = [CGColor]()
-            colors.append(UIColor(red: 0, green: 0, blue: 0, alpha: 1).cgColor)
-            colors.append(UIColor(red: 0, green: 0, blue: 0, alpha: 0).cgColor)
-            
-            backGradient.startPoint = CGPoint(x: 0.0, y: 0.0)
-            backGradient.endPoint = CGPoint(x: 1.0, y: 1.0)
-            backGradient.colors = colors
-            
-            self.imageView.layer.addSublayer(backGradient)
-        } else if tapGestureRecognizer.state == .ended {
+        if tapGestureRecognizer.state == .ended {
+            let touchLocation = tapGestureRecognizer.location(in: self)
+            let x = touchLocation.x
+            let screenWidth = UIScreen.main.bounds.width
+            let percentage = Double(x) / Double(screenWidth)
+
             if percentage > 0.33 {
                 self.mediaNext()
             } else {
@@ -220,29 +207,29 @@ class StoryView: UIView {
         }
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first {
-            let touchLocation = touch.location(in: self)
-            let x = touchLocation.x
-            let screenWidth = UIScreen.main.bounds.width
-            let percentage = Double(x) / Double(screenWidth)
-            if percentage <= 0.33 {
-                print("gradient")
-                let backGradient = CAGradientLayer()
-                backGradient.bounds = self.imageView.bounds
-                var colors = [CGColor]()
-                colors.append(UIColor(red: 0, green: 0, blue: 0, alpha: 1).cgColor)
-                colors.append(UIColor(red: 0, green: 0, blue: 0, alpha: 0).cgColor)
-                
-                backGradient.startPoint = CGPoint(x: 0.0, y: 0.0)
-                backGradient.endPoint = CGPoint(x: 1.0, y: 1.0)
-                backGradient.colors = colors
-                
-                self.layer.addSublayer(backGradient)
-            }
-        }
-        super.touchesBegan(touches, with: event)
-    }
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        if let touch = touches.first {
+//            let touchLocation = touch.location(in: self)
+//            let x = touchLocation.x
+//            let screenWidth = UIScreen.main.bounds.width
+//            let percentage = Double(x) / Double(screenWidth)
+//            if percentage <= 0.33 {
+//                print("gradient")
+//                let backGradient = CAGradientLayer()
+//                backGradient.bounds = self.imageView.bounds
+//                var colors = [CGColor]()
+//                colors.append(UIColor(red: 0, green: 0, blue: 0, alpha: 1).cgColor)
+//                colors.append(UIColor(red: 0, green: 0, blue: 0, alpha: 0).cgColor)
+//                
+//                backGradient.startPoint = CGPoint(x: 0.0, y: 0.0)
+//                backGradient.endPoint = CGPoint(x: 1.0, y: 1.0)
+//                backGradient.colors = colors
+//                
+//                self.layer.addSublayer(backGradient)
+//            }
+//        }
+//        super.touchesBegan(touches, with: event)
+//    }
     
     func longPressed(_ sender: UILongPressGestureRecognizer) {
         

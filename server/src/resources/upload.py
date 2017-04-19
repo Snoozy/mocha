@@ -37,7 +37,7 @@ class ImageUploadResource:
 
 class VideoUploadResource:
 
-    @falcon.before(max_body_length(1024 * 1024 * 8))  # 8 MB max size
+    @falcon.before(max_body_length(1024 * 1024 * 15))  # 15 MB max size
     def on_post(self, req, resp, user_id):
         group_ids = req.get_param('group_ids')
         video = req.get_param('video')

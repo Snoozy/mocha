@@ -32,4 +32,9 @@ struct Constants {
     
     static let ApiUrl = API_URL
     
+    // max video length in seconds
+    static let MaxVideoLength = 10
+    
+    static let MaxVideoSize: Int64 = 15000000
+    
 }

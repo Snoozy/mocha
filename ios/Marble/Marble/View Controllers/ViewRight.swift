@@ -11,7 +11,7 @@ import AVFoundation
 import Alamofire
 import AVKit
 
-class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigationBarDelegate, AVCapturePhotoCaptureDelegate, AVCaptureFileOutputRecordingDelegate {
+class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigationBarDelegate, AVCapturePhotoCaptureDelegate, AVCaptureFileOutputRecordingDelegate, UIGestureRecognizerDelegate {
 
     var captureSession : AVCaptureSession?
     var photoOutput : AVCapturePhotoOutput?
@@ -25,18 +25,25 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
     var imageMedia : UIImage?
     var videoMediaUrl: URL?
     
+    var timer: Timer?
+    var timerCount: Int = 0
+    
     var loaded: Bool = false
     
+    var isRecordingVideo: Bool = false
+    
+    @IBOutlet weak var recordingProgress: UIProgressView!
     
     @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var cancelButtonOut: UIButton!
     @IBOutlet weak var nextButtonOut: UIButton!
     @IBOutlet weak var takePhotoButton: UIButton!
     
+    @IBOutlet var takeVideoLongPress: UILongPressGestureRecognizer!
+    
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var cameraFlipButton: UIButton!
     @IBOutlet weak var flashButton: UIButton!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,6 +63,17 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         styleButton(button: cancelButtonOut)
         styleButton(button: nextButtonOut)
         
+        recordingProgress.transform = recordingProgress.transform.scaledBy(x: 1, y: 6)
+        recordingProgress.trackTintColor = UIColor.clear
+        
+        let panGest = UIPanGestureRecognizer(target: self, action: #selector(cameraViewPan(_:)))
+        //self.view.isUserInteractionEnabled = true
+        //self.view.addGestureRecognizer(panGest)
+        panGest.delegate = self
+        self.parent?.view.isUserInteractionEnabled = true
+        self.parent?.view.addGestureRecognizer(panGest)
+        
+        takeVideoLongPress.delegate = self
     }
     
     func styleButton(button: UIButton) {
@@ -68,16 +86,10 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         super.didReceiveMemoryWarning()
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        print("right")
-        return .lightContent
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         initCameraView()
-        
     }
     
     func initCameraView() {
@@ -107,43 +119,72 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         self.cancelButtonOut.isHidden = true
         self.nextButtonOut.isHidden = true
         self.takePhotoButton.isHidden = false
-        
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
     
     let minimumZoom: CGFloat = 1.0
-    let maximumZoom: CGFloat = 3.0
+    let maximumZoom: CGFloat = 5.0
     var lastZoomFactor: CGFloat = 1.0
+    
+    // Return zoom value between the minimum and maximum zoom values
+    func minMaxZoom(_ factor: CGFloat, device: AVCaptureDevice) -> CGFloat {
+        return min(min(max(factor, minimumZoom), maximumZoom), device.activeFormat.videoMaxZoomFactor)
+    }
+    
+    func update(device: AVCaptureDevice, scale factor: CGFloat) {
+        do {
+            try device.lockForConfiguration()
+            defer { device.unlockForConfiguration() }
+            device.videoZoomFactor = factor
+        } catch {
+            print("\(error.localizedDescription)")
+        }
+    }
     
     @IBAction func pinch(_ sender: UIPinchGestureRecognizer) {
         
         guard let device = camera else { return }
         
-        // Return zoom value between the minimum and maximum zoom values
-        func minMaxZoom(_ factor: CGFloat) -> CGFloat {
-            return min(min(max(factor, minimumZoom), maximumZoom), device.activeFormat.videoMaxZoomFactor)
-        }
-        
-        func update(scale factor: CGFloat) {
-            do {
-                try device.lockForConfiguration()
-                defer { device.unlockForConfiguration() }
-                device.videoZoomFactor = factor
-            } catch {
-                print("\(error.localizedDescription)")
-            }
-        }
-        
-        let newScaleFactor = minMaxZoom(sender.scale * lastZoomFactor)
+        let newScaleFactor = minMaxZoom(sender.scale * lastZoomFactor, device: device)
         
         switch sender.state {
         case .began: fallthrough
-        case .changed: update(scale: newScaleFactor)
+        case .changed: update(device: device, scale: newScaleFactor)
         case .ended:
-            lastZoomFactor = minMaxZoom(newScaleFactor)
-            update(scale: lastZoomFactor)
+            lastZoomFactor = minMaxZoom(newScaleFactor, device: device)
+            update(device: device, scale: lastZoomFactor)
         default: break
         }
-
+    }
+    
+    @IBAction func cameraViewPan(_ sender: UIPanGestureRecognizer) {
+        if isRecordingVideo {
+            let maxLength = UIScreen.main.bounds.height * 0.6
+            
+            let translation = sender.translation(in: self.view)
+            let deltaX = -translation.y
+            let zoomScale = min(deltaX / maxLength, 1.0)
+            
+            let deltaZoom = maximumZoom - minimumZoom
+            
+            guard let device = camera else { return }
+            
+            print(String(describing: lastZoomFactor + (zoomScale * deltaZoom)))
+            
+            let newScaleFactor = minMaxZoom(lastZoomFactor + (zoomScale * deltaZoom), device: device)
+            
+            switch sender.state {
+            case .began: fallthrough
+            case .changed: update(device: device, scale: newScaleFactor)
+            case .ended:
+                lastZoomFactor = minMaxZoom(newScaleFactor, device: device)
+                update(device: device, scale: lastZoomFactor)
+            default: break
+            }
+        }
     }
     
     func getAudioDevice() -> AVCaptureDevice? {
@@ -180,12 +221,8 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         captureSession?.beginConfiguration()
         captureSession?.removeInput(cameraInput!)
         if camera?.position == .front {
-            videoFileOut?.connection(withMediaType: AVMediaTypeVideo).isVideoMirrored = false
             camera = defaultBackCamera()
         } else {
-            if (videoFileOut?.connection(withMediaType: AVMediaTypeVideo).isVideoMirroringSupported)! {
-                videoFileOut?.connection(withMediaType: AVMediaTypeVideo).isVideoMirrored = true
-            }
             camera = defaultFrontCamera()
         }
         if let camera = camera {
@@ -275,8 +312,11 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
     func startCaptureVideo() {
         print("start recording")
         
+        isRecordingVideo = true
+        
         backButton.isHidden = true
         flashButton.isHidden = true
+        cameraFlipButton.isHidden = true
         
         let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let filePath = documentsURL.appendingPathComponent(randomString(length: 10) + ".mp4")
@@ -286,18 +326,43 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             captureSession?.startRunning()
         }
         
+        if flashActive {
+            try! camera?.lockForConfiguration()
+            camera?.torchMode = .on
+            camera?.unlockForConfiguration()
+        }
+        
+        if camera?.position == .front && (videoFileOut?.connection(withMediaType: AVMediaTypeVideo).isVideoMirroringSupported) ?? false {
+            videoFileOut?.connection(withMediaType: AVMediaTypeVideo).isVideoMirrored = true
+        }
+        
         videoFileOut?.startRecording(toOutputFileURL: filePath, recordingDelegate: self)
+        timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(timerTick), userInfo: nil, repeats: true)
+        timer?.tolerance = 0.01
+        recordingProgress.progress = 0
+        timerCount = 0
+        recordingProgress.isHidden = false
+    }
+    
+    func timerTick() {
+        timerCount += 1
+        if timerCount > Constants.MaxVideoLength * 100 {
+            stopCaptureVideo()
+        }
+        recordingProgress.progress += 0.001
     }
     
     func stopCaptureVideo() {
         print("stop recording")
         videoFileOut?.stopRecording()
-    }
-    
-    func capture(_ captureOutput: AVCaptureFileOutput!, didStartRecordingToOutputFileAt fileURL: URL!, fromConnections connections: [Any]!) {
-        print("starting")
-        print(captureOutput.outputFileURL)
-        return
+        
+        try! camera?.lockForConfiguration()
+        camera?.torchMode = .off
+        camera?.unlockForConfiguration()
+        
+        timer?.invalidate()
+        isRecordingVideo = false
+        recordingProgress.isHidden = true
     }
     
     @IBOutlet weak var videoView: MediaVideoView!
@@ -314,7 +379,6 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         if error != nil {
             print(error)
         }
-        print(connections)
         
         player = AVQueuePlayer()
         let playerLayer = AVPlayerLayer(player: player)
@@ -326,12 +390,17 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
         videoView.isHidden = false
         player?.play()
-        cancelButtonOut.isHidden = false
-        nextButtonOut.isHidden = false
+        
         videoView.configure()
         videoView.clearCaption()
+        
         videoMediaUrl = outputFileURL
         mediaType = .video
+
+        cancelButtonOut.isHidden = false
+        nextButtonOut.isHidden = false
+        cameraFlipButton.isHidden = true
+
         print("playing")
         return
     }
@@ -414,6 +483,10 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         vPickDest = ViewPickDest(nibName: "ViewPickDest", bundle: nil)
         backButton.isHidden = false
         flashButton.isHidden = false
+        cameraFlipButton.isHidden = false
+        
+        update(device: camera!, scale: minimumZoom)
+        lastZoomFactor = minimumZoom
         
         // VIDEO PREVIEW
         videoView.isHidden = true
@@ -541,21 +614,31 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first! as NSURL
             let vidPath = documentsUrl.appendingPathComponent("rendered_" + videoUrl.lastPathComponent)
             
-            let assetExport = AVAssetExportSession(asset: composition, presetName: AVAssetExportPresetHighestQuality)
+            let assetExport = AVAssetExportSession(asset: composition, presetName: AVAssetExportPreset1280x720)
+            
             assetExport?.videoComposition = layerComposition
             assetExport?.outputFileType = AVFileTypeMPEG4
+            assetExport?.shouldOptimizeForNetworkUse = true
             assetExport?.outputURL = vidPath
+            assetExport?.fileLengthLimit = Constants.MaxVideoSize
+            assetExport?.canPerformMultiplePassesOverSourceMediaData = true
+            
             assetExport?.exportAsynchronously(completionHandler: {
                 print("export complete")
-//                DispatchQueue.main.async {
-//                    let player = AVPlayer(url: vidPath!)
-//                    let playerController = AVPlayerViewController()
-//                    playerController.player = player
-//                    UIApplication.topViewController()?.present(playerController, animated: true) {
-//                        player.play()
-//                    }
-//                }
-                Networker.shared.uploadVideo(videoUrl: vidPath!, groupIds: groupIds, completionHandler: completionHandler)
+                let attr = try! FileManager.default.attributesOfItem(atPath: vidPath!.path)
+                let fileSize = attr[FileAttributeKey.size] as! UInt64
+                print("video file size: " + String(describing: fileSize))
+                Networker.shared.uploadVideo(videoUrl: vidPath!, groupIds: groupIds, completionHandler: { response in
+                    switch response.result {
+                    case .success(let val):
+                        let json = JSON(val)
+                        let cacheFilename = vidPath!.deletingLastPathComponent().appendingPathComponent(json["media_id"].stringValue + ".mp4")
+                        try! FileManager.default.moveItem(at: vidPath!, to: cacheFilename)
+                        completionHandler(response)
+                    case .failure:
+                        print(response.debugDescription)
+                    }
+                })
             })
         }
     }

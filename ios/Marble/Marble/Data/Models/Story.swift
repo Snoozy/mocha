@@ -50,7 +50,8 @@ class Story {
                     completionHandler?(self)
                 }
             } else {
-                let filename = String(self.id) + "_video.mp4"
+                let mediaId = mediaUrl.components(separatedBy: "/").last
+                let filename = String(mediaId!) + ".mp4"
                 var fileUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
                 fileUrl.appendPathComponent(filename)
                 if !FileManager.default.fileExists(atPath: fileUrl.path) {
