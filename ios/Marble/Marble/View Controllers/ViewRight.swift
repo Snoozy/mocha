@@ -353,9 +353,11 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         print("stop recording")
         videoFileOut?.stopRecording()
         
-        try! camera?.lockForConfiguration()
-        camera?.torchMode = .off
-        camera?.unlockForConfiguration()
+        if camera?.position == .back {
+            try! camera?.lockForConfiguration()
+            camera?.torchMode = .off
+            camera?.unlockForConfiguration()
+        }
         
         timer?.invalidate()
         isRecordingVideo = false
@@ -597,7 +599,8 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             let layerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: videoTrack)
             if camera?.position == .front {
                 print(vidTrack.preferredTransform)
-                layerInstruction.setTransform(vidTrack.preferredTransform.translatedBy(x: -vidTrack.preferredTransform.ty, y: 0), at: kCMTimeZero)
+                layerInstruction.setTransform(vidTrack.preferredTransform, at: kCMTimeZero)
+                //layerInstruction.setTransform(vidTrack.preferredTransform.translatedBy(x: -vidTrack.preferredTransform.ty, y: 0), at: kCMTimeZero)
             } else {
                 layerInstruction.setTransform(vidTrack.preferredTransform, at: kCMTimeZero)
             }
@@ -607,6 +610,8 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             // export file path
             let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first! as NSURL
             let vidPath = documentsUrl.appendingPathComponent("rendered_" + videoUrl.lastPathComponent)
+            
+            
             
             let assetExport = AVAssetExportSession(asset: composition, presetName: AVAssetExportPreset1280x720)
             
@@ -618,21 +623,30 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             assetExport?.canPerformMultiplePassesOverSourceMediaData = true
             
             assetExport?.exportAsynchronously(completionHandler: {
+                print(assetExport?.error)
                 print("export complete")
                 let attr = try! FileManager.default.attributesOfItem(atPath: vidPath!.path)
                 let fileSize = attr[FileAttributeKey.size] as! UInt64
                 print("video file size: " + String(describing: fileSize))
-                Networker.shared.uploadVideo(videoUrl: vidPath!, groupIds: groupIds, completionHandler: { response in
-                    switch response.result {
-                    case .success(let val):
-                        let json = JSON(val)
-                        let cacheFilename = vidPath!.deletingLastPathComponent().appendingPathComponent(json["media_id"].stringValue + ".mp4")
-                        try! FileManager.default.moveItem(at: vidPath!, to: cacheFilename)
-                        completionHandler(response)
-                    case .failure:
-                        print(response.debugDescription)
-                    }
-                })
+                
+                let player = AVPlayer(url: vidPath!)
+                let playerController = AVPlayerViewController()
+                playerController.player = player
+                self.present(playerController, animated: true) {
+                    player.play()
+                }
+                
+//                Networker.shared.uploadVideo(videoUrl: vidPath!, groupIds: groupIds, completionHandler: { response in
+//                    switch response.result {
+//                    case .success(let val):
+//                        let json = JSON(val)
+//                        let cacheFilename = vidPath!.deletingLastPathComponent().appendingPathComponent(json["media_id"].stringValue + ".mp4")
+//                        try! FileManager.default.moveItem(at: vidPath!, to: cacheFilename)
+//                        completionHandler(response)
+//                    case .failure:
+//                        print(response.debugDescription)
+//                    }
+//                })
             })
         }
     }

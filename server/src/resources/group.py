@@ -60,8 +60,13 @@ class ListGroupsResource:
 class GroupJoinResource:
     def on_post(self, req, resp, user_id):
         group_id = req.get_param('group_id')
-        group = req.session.query(Group).filter(Group.id == int(group_id)).first()
         user = req.session.query(User).filter(User.id == user_id).first()
+        group = req.session.query(Group).filter(Group.id == int(group_id)).first()
+        if not user or not group:
+            resp.json = {
+                'status' : 1
+                }
+            return
         if user not in group.users:
             group.users.append(user)
         req.session.commit()
