@@ -237,7 +237,7 @@ class ViewLeft: UITableViewController {
                     hideWhenBackgroundViewIsTapped: true
                 )
                 let alert = SCLAlertView(appearance: appearance)
-                let subTitle = String(format: "Code: %05d", (group?.groupId)!)
+                let subTitle = String(format: "Code: %d", (group?.groupId)!) + "\nMembers: " + String(describing:(group?.members)!)
                 alert.showInfo((group?.name)!, subTitle: subTitle)
             }
         }

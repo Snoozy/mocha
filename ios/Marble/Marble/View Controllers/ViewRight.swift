@@ -570,7 +570,6 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
                 }
             }
             
-            
             let size = vidTrack.naturalSize
             
             let captionLayer = CALayer()

@@ -20,7 +20,7 @@ extension State {
                 var newGroups = [Group]()
                 for group in groupsJson {
                     let groupId = group.1["group_id"].int!
-                    self.addGroup(groups: &newGroups, cache: self.userGroups, name: group.1["name"].stringValue, id: groupId, lastSeen: group.1["last_seen"].int64 ?? 0)
+                    self.addGroup(groups: &newGroups, cache: self.userGroups, name: group.1["name"].stringValue, id: groupId, lastSeen: group.1["last_seen"].int64 ?? 0, members: group.1["members"].int ?? 1)
                 }
                 self.userGroups = newGroups
                 completionHandler?()
@@ -34,8 +34,8 @@ extension State {
         self.userGroups.sort(by: groupsRecentSort)
     }
     
-    func addGroup(name: String, id: Int, lastSeen: Int64) {
-        self.addGroup(groups: &self.userGroups, cache: self.userGroups, name: name, id: id, lastSeen: lastSeen)
+    func addGroup(name: String, id: Int, lastSeen: Int64, members: Int) {
+        self.addGroup(groups: &self.userGroups, cache: self.userGroups, name: name, id: id, lastSeen: lastSeen, members: members)
     }
     
     func findGroupBy(id: Int) -> Group? {
@@ -48,12 +48,12 @@ extension State {
         return thisLastStory > thatLastStory
     }
     
-    private func addGroup(groups: inout [Group], cache: [Group], name: String, id: Int, lastSeen: Int64) {
+    private func addGroup(groups: inout [Group], cache: [Group], name: String, id: Int, lastSeen: Int64, members: Int) {
         let groupCheck: Group? = self.findGroupBy(groups: cache, id: id)
         if groupCheck == nil {
-            groups.append(Group(name: name, id: id, lastSeen: lastSeen))
+            groups.append(Group(name: name, id: id, lastSeen: lastSeen, members: members))
         } else {
-            groupCheck?.updateInfo(name: name, lastSeen: lastSeen)
+            groupCheck?.updateInfo(name: name, lastSeen: lastSeen, members: members)
             groups.append(groupCheck!)
         }
     }

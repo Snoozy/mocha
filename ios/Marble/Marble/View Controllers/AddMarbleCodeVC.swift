@@ -66,7 +66,7 @@ class AddMarbleCodeVC: UIViewController {
                                             print(json)
                                             let group = json["group"]
                                             let groupId = group["group_id"].int!
-                                            State.shared.addGroup(name: group["name"].stringValue, id: groupId, lastSeen: group["last_seen"].int64 ?? 0)
+                                            State.shared.addGroup(name: group["name"].stringValue, id: groupId, lastSeen: group["last_seen"].int64 ?? 0, members: group["members"].int ?? 1)
                                             self.performSegue(withIdentifier: "JoinGroupToMainUnwind", sender: nil)
                                         case .failure:
                                             print(response.debugDescription)

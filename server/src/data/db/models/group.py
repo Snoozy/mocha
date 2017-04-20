@@ -13,4 +13,8 @@ class Group(Base):
     users = association_proxy('memberships', 'user')
 
     def to_dict(self):
-        return {'name' : self.name, 'group_id' : self.id}
+        return {
+                'name' : self.name,
+                'group_id' : self.id,
+                'members' : self.memberships.count()
+                }
