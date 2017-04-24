@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MediaImageView: UIImageView, UITextFieldDelegate {
+class MediaImageView: UIImageView, UITextViewDelegate {
 
     // MARK: - Lifecycle
     
@@ -32,14 +32,16 @@ class MediaImageView: UIImageView, UITextFieldDelegate {
         addGestureRecognizer(panRecognizer)
         isUserInteractionEnabled = true
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidChangeFrame(notification:)), name: NSNotification.Name.UIKeyboardDidChangeFrame, object: nil)
     }
     
     private var prevCaptionHeight: CGFloat?
     
     func keyboardWillShow(notification: Notification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardHeight = keyboardSize.height
             prevCaptionHeight = captionCenterY
+            keyboardLastHeight = keyboardHeight
             captionCenterY = (bounds.height - keyboardHeight) - (caption.frame.height/2)
             if prevCaptionHeight == CGFloat(0) {
                 self.prevCaptionHeight = captionCenterY
@@ -47,10 +49,22 @@ class MediaImageView: UIImageView, UITextFieldDelegate {
         }
     }
     
+    private var keyboardLastHeight: CGFloat?
+    
+    func keyboardDidChangeFrame(notification: Notification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            let keyboardHeight = keyboardSize.height
+            keyboardLastHeight = keyboardHeight
+            if caption.isFirstResponder {
+                captionCenterY = (bounds.height - keyboardHeight) - (caption.frame.height/2)
+            }
+        }
+    }
+    
     // MARK: - Subviews
     
-    private lazy var caption: UITextField = {
-        let textField = UITextField()
+    private lazy var caption: UITextView = {
+        let textField = UITextView()
         textField.backgroundColor = UIColor.black.withAlphaComponent(0.0)
         textField.textAlignment = .center
         textField.textColor = .white
@@ -61,9 +75,31 @@ class MediaImageView: UIImageView, UITextFieldDelegate {
         textField.layer.shadowOpacity = 0.9
         textField.layer.shadowRadius = 2.0
         textField.returnKeyType = .done
+        textField.isScrollEnabled = false
         textField.delegate = self
+        textField.textContainer.lineBreakMode = .byWordWrapping
+        
+        let pinchGest = UIPinchGestureRecognizer(target: self, action: #selector(captionPinched(_:)))
+        textField.addGestureRecognizer(pinchGest)
+        textField.isUserInteractionEnabled = true
+        
         return textField
     }()
+    
+    var lastFontSize: CGFloat = 30
+    
+    func captionPinched(_ gesture: UIPinchGestureRecognizer) {
+        if caption.isFirstResponder {
+            return
+        }
+        let scale = gesture.scale
+        let size = min(max(lastFontSize * scale, 10), 80)
+        caption.font = caption.font?.withSize(size)
+        if gesture.state == .ended {
+            lastFontSize = size
+        }
+        textViewDidChange(caption)
+    }
     
     private var captionCenterY: CGFloat = 0 {
         didSet {
@@ -76,11 +112,32 @@ class MediaImageView: UIImageView, UITextFieldDelegate {
         caption.text = ""
     }
     
+    var captionInternalHeight: CGFloat?
+    
     override func layoutSubviews() {
         super.layoutSubviews()
-        let captionSize = CGSize(width: bounds.size.width, height: 50)
+        let captionSize = CGSize(width: bounds.size.width, height: captionInternalHeight ?? 50)
         caption.bounds = CGRect(origin: CGPoint.zero, size: captionSize)
         caption.center = CGPoint(x: center.x, y: captionCenterY)
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        let size = textView.sizeThatFits(CGSize(width: bounds.size.width, height: .infinity))
+        textView.bounds.size = size
+        if size.height != captionInternalHeight {
+            captionCenterY = (bounds.height - (keyboardLastHeight ?? 0)) - (caption.frame.height/2)
+        }
+        captionInternalHeight = size.height
+        layoutSubviews()
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.resignFirstResponder()
+            captionCenterY = prevCaptionHeight!
+            return false
+        }
+        return true
     }
     
     // MARK: - Gestures
@@ -88,40 +145,26 @@ class MediaImageView: UIImageView, UITextFieldDelegate {
     private lazy var tapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapped(_:)))
     private lazy var panRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panned(_:)))
     
-    @objc private func tapped(_ sender: AnyObject) {
+    @objc private func tapped(_ sender: UIPanGestureRecognizer) {
         if caption.isFirstResponder {
             caption.resignFirstResponder()
             caption.isHidden = caption.text?.isEmpty ?? true
+            captionCenterY = prevCaptionHeight!
         } else {
             caption.becomeFirstResponder()
             caption.isHidden = false
         }
     }
     
-    @objc private func panned(_ sender: AnyObject) {
-        guard let panRecognizer = sender as? UIPanGestureRecognizer else { return }
-        let location = panRecognizer.location(in: self)
+    @objc private func panned(_ sender: UIPanGestureRecognizer) {
+        if caption.isFirstResponder {
+            return
+        }
+        let location = sender.location(in: self)
+        if !caption.frame.contains(location) {
+            return
+        }
         captionCenterY = location.y
     }
-    
-    // MARK: - Text Field Delegate
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        guard let captionFont = textField.font, textField == caption && !string.isEmpty else { return true }
-        let textSize = textField.text?.size(attributes: [NSFontAttributeName: captionFont]) ?? CGSize.zero
-        return (textSize.width + 16 < textField.bounds.size.width)
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        guard caption == textField else { return }
-        caption.isHidden = caption.text?.isEmpty ?? true
-        captionCenterY = prevCaptionHeight ?? bounds.height/2
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        guard caption == textField else { return true }
-        return caption.resignFirstResponder()
-    }
-    
 
 }

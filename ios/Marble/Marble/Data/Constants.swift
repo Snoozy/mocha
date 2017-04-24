@@ -35,6 +35,6 @@ struct Constants {
     // max video length in seconds
     static let MaxVideoLength = 10
     
-    static let MaxVideoSize: Int64 = 15000000
+    static let MaxVideoSize: Int64 = 15500000
     
 }

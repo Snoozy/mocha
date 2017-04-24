@@ -18,6 +18,11 @@ class GroupCreateResource:
 class FindGroupResource:
     def on_get(self, req, resp, user_id):
         code = req.get_param('code').lstrip("0")
+        if not code or code == "":
+            resp.json = {
+                    'status': 1
+                }
+            return
         user = req.session.query(User).filter(User.id == user_id).first()
         group = req.session.query(Group).filter(Group.id == int(code)).first()
         if group:

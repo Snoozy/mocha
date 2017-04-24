@@ -89,7 +89,6 @@ class AddMarbleCodeVC: UIViewController {
             let value = sender.numValue
             numberLabel.text = numberLabel.text! + value
         }
-        joinBtn.isHidden = false
     }
     
     
@@ -153,15 +152,11 @@ class AddMarbleCodeVC: UIViewController {
     
     func clearNumbers() {
         self.numberLabel.text = ""
-        joinBtn.isHidden = true
     }
     
     @IBAction func backBtnPressed(_ sender: Any) {
         if numberLabel.text != "" {
             numberLabel.text = numberLabel.text?.substring(to: (numberLabel.text?.index(before: (numberLabel.text?.endIndex)!))!)
-            if numberLabel.text == "" {
-                joinBtn.isHidden = true
-            }
         }
     }
 

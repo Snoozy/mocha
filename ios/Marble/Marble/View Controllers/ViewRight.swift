@@ -550,7 +550,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         if let videoUrl = videoMediaUrl {
             let vidAsset = AVURLAsset(url: videoUrl)
             let composition = AVMutableComposition()
-            
+            print(videoUrl)
             
             let vTrack = vidAsset.tracks(withMediaType: AVMediaTypeVideo)
             let vidTrack: AVAssetTrack = vTrack[0]
@@ -599,8 +599,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             let layerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: videoTrack)
             if camera?.position == .front {
                 print(vidTrack.preferredTransform)
-                layerInstruction.setTransform(vidTrack.preferredTransform, at: kCMTimeZero)
-                //layerInstruction.setTransform(vidTrack.preferredTransform.translatedBy(x: -vidTrack.preferredTransform.ty, y: 0), at: kCMTimeZero)
+                layerInstruction.setTransform(vidTrack.preferredTransform.translatedBy(x: -vidTrack.preferredTransform.ty, y: 0), at: kCMTimeZero)
             } else {
                 layerInstruction.setTransform(vidTrack.preferredTransform, at: kCMTimeZero)
             }
@@ -612,7 +611,6 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             let vidPath = documentsUrl.appendingPathComponent("rendered_" + videoUrl.lastPathComponent)
             
             
-            
             let assetExport = AVAssetExportSession(asset: composition, presetName: AVAssetExportPreset1280x720)
             
             assetExport?.videoComposition = layerComposition
@@ -620,33 +618,34 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             assetExport?.shouldOptimizeForNetworkUse = true
             assetExport?.outputURL = vidPath
             assetExport?.fileLengthLimit = Constants.MaxVideoSize
-            assetExport?.canPerformMultiplePassesOverSourceMediaData = true
+            
+            // IDK WHY THIS DOESN'T WORK. CAUSES FRONT CAMERA RECORDING TO CRASH
+            //assetExport?.canPerformMultiplePassesOverSourceMediaData = true
             
             assetExport?.exportAsynchronously(completionHandler: {
-                print(assetExport?.error)
                 print("export complete")
                 let attr = try! FileManager.default.attributesOfItem(atPath: vidPath!.path)
                 let fileSize = attr[FileAttributeKey.size] as! UInt64
                 print("video file size: " + String(describing: fileSize))
                 
-                let player = AVPlayer(url: vidPath!)
-                let playerController = AVPlayerViewController()
-                playerController.player = player
-                self.present(playerController, animated: true) {
-                    player.play()
-                }
+//                let player = AVPlayer(url: vidPath!)
+//                let playerController = AVPlayerViewController()
+//                playerController.player = player
+//                self.present(playerController, animated: true) {
+//                    player.play()
+//                }
                 
-//                Networker.shared.uploadVideo(videoUrl: vidPath!, groupIds: groupIds, completionHandler: { response in
-//                    switch response.result {
-//                    case .success(let val):
-//                        let json = JSON(val)
-//                        let cacheFilename = vidPath!.deletingLastPathComponent().appendingPathComponent(json["media_id"].stringValue + ".mp4")
-//                        try! FileManager.default.moveItem(at: vidPath!, to: cacheFilename)
-//                        completionHandler(response)
-//                    case .failure:
-//                        print(response.debugDescription)
-//                    }
-//                })
+                Networker.shared.uploadVideo(videoUrl: vidPath!, groupIds: groupIds, completionHandler: { response in
+                    switch response.result {
+                    case .success(let val):
+                        let json = JSON(val)
+                        let cacheFilename = vidPath!.deletingLastPathComponent().appendingPathComponent(json["media_id"].stringValue + ".mp4")
+                        try! FileManager.default.moveItem(at: vidPath!, to: cacheFilename)
+                        completionHandler(response)
+                    case .failure:
+                        print(response.debugDescription)
+                    }
+                })
             })
         }
     }

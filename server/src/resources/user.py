@@ -10,7 +10,11 @@ class GetStoriesResource:
         groups = user.groups
         json = []
         for group in user.groups:
-            stories = group.stories.filter(Story.user_id.notin_([u.id for u in user.blocks])).all()
+            stories = None
+            if user.blocks:
+                stories = group.stories.filter(Story.user_id.notin_([u.id for u in user.blocks])).order_by(Story.timestamp).all()
+            else:
+                stories = group.stories.order_by(Story.timestamp).all()
             stories_dict = [story.to_dict() for story in stories]
             json.append({'group_id' : group.id, 'stories' : stories_dict})
         resp.json = {
