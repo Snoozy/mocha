@@ -27,6 +27,8 @@ class StoryView: UIView {
     var userId: Int?
     var story: Story?
     
+    
+    
     var panning: Bool = false
     
     var playerLayer: AVPlayerLayer?
@@ -77,7 +79,6 @@ class StoryView: UIView {
                 imageView.image = nil
             }
             if imageView.layer.sublayers != nil && (imageView.layer.sublayers?.count)! > 1 {
-                print("asdfasdf")
                 imageView.layer.sublayers = [imageView.layer.sublayers!.last!]
             }
             originalCenterYCord = self.innerView.center.y
@@ -92,13 +93,14 @@ class StoryView: UIView {
                 } else {
                     UIApplication.shared.isStatusBarHidden = true
                 }
-                let rect = CGRect(x: 0, y: 0, width: originalWidth - (translation.y/5), height: originalHeight - (translation.y/5))
+                let scale: CGFloat = 15
+                let rect = CGRect(x: 0, y: 0, width: originalWidth - (translation.y/scale), height: originalHeight - (translation.y/scale))
                 self.innerView.center = CGPoint(x: innerView.center.x, y: originalCenterYCord + (translation.y/2))
                 self.imageView.frame = rect
                 if let playerLayer = self.playerLayer {
                     playerLayer.frame = rect
                 }
-                self.innerView.frame = CGRect(x: originalMinX + (translation.y/10), y: innerView.frame.minY, width: originalWidth - (translation.y/5), height: originalHeight - (translation.y/5))
+                self.innerView.frame = CGRect(x: originalMinX + (translation.y/(scale * 2)), y: innerView.frame.minY, width: originalWidth - (translation.y/scale), height: originalHeight - (translation.y/scale))
             } else {
                 self.innerView.center.y = originalCenterYCord
             }
@@ -206,30 +208,6 @@ class StoryView: UIView {
             }
         }
     }
-    
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        if let touch = touches.first {
-//            let touchLocation = touch.location(in: self)
-//            let x = touchLocation.x
-//            let screenWidth = UIScreen.main.bounds.width
-//            let percentage = Double(x) / Double(screenWidth)
-//            if percentage <= 0.33 {
-//                print("gradient")
-//                let backGradient = CAGradientLayer()
-//                backGradient.bounds = self.imageView.bounds
-//                var colors = [CGColor]()
-//                colors.append(UIColor(red: 0, green: 0, blue: 0, alpha: 1).cgColor)
-//                colors.append(UIColor(red: 0, green: 0, blue: 0, alpha: 0).cgColor)
-//                
-//                backGradient.startPoint = CGPoint(x: 0.0, y: 0.0)
-//                backGradient.endPoint = CGPoint(x: 1.0, y: 1.0)
-//                backGradient.colors = colors
-//                
-//                self.layer.addSublayer(backGradient)
-//            }
-//        }
-//        super.touchesBegan(touches, with: event)
-//    }
     
     func longPressed(_ sender: UILongPressGestureRecognizer) {
         

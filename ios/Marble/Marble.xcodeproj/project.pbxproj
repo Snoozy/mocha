@@ -41,6 +41,8 @@
 		429991701E4DAF000049608F /* AlamofireImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 429991621E4DAEB90049608F /* AlamofireImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		429AF4061E486C0800475461 /* CreateMarbleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429AF4051E486C0800475461 /* CreateMarbleVC.swift */; };
 		429AF4121E48872600475461 /* GroupTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 429AF4101E48872600475461 /* GroupTVCell.xib */; };
+		42A228BD1EAFE07300496392 /* CaptionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42A228BC1EAFE07300496392 /* CaptionView.xib */; };
+		42A228BE1EAFE07300496392 /* CaptionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42A228BC1EAFE07300496392 /* CaptionView.xib */; };
 		42B52BF91E9B6A40006D831A /* UserNetworker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42502DEB1E9B4BD8009B7E2E /* UserNetworker.swift */; };
 		42B52C0B1E9B773E006D831A /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B52C0A1E9B773E006D831A /* Users.swift */; };
 		42B52C0C1E9B773E006D831A /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B52C0A1E9B773E006D831A /* Users.swift */; };
@@ -353,6 +355,7 @@
 		429991551E4DAEB90049608F /* AlamofireImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireImage.xcodeproj; path = AlamofireImage/AlamofireImage.xcodeproj; sourceTree = "<group>"; };
 		429AF4051E486C0800475461 /* CreateMarbleVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateMarbleVC.swift; path = "View Controllers/CreateMarbleVC.swift"; sourceTree = "<group>"; };
 		429AF4101E48872600475461 /* GroupTVCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GroupTVCell.xib; path = StoryBoards/GroupTVCell.xib; sourceTree = "<group>"; };
+		42A228BC1EAFE07300496392 /* CaptionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CaptionView.xib; path = StoryBoards/CaptionView.xib; sourceTree = "<group>"; };
 		42B52C0A1E9B773E006D831A /* Users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Users.swift; path = Data/State/Users.swift; sourceTree = "<group>"; };
 		42C62EC61E8E4D1000E042E9 /* Launch.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Launch.storyboard; path = StoryBoards/Launch.storyboard; sourceTree = "<group>"; };
 		42CC20701E42FCCC00EC419A /* Left.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Left.storyboard; path = StoryBoards/Left.storyboard; sourceTree = "<group>"; };
@@ -552,6 +555,7 @@
 				4241B81B1E4DC208003CA796 /* StoryView.xib */,
 				4295B8A21E84C1880091C08B /* NoGroupsView.xib */,
 				4295B8A81E84C2E70091C08B /* AddMarble.storyboard */,
+				42A228BC1EAFE07300496392 /* CaptionView.xib */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -850,6 +854,7 @@
 				42E13DCC1E8E46610016FA76 /* NoGroupsView.xib in Resources */,
 				42E13DCD1E8E46610016FA76 /* Main.storyboard in Resources */,
 				42E13DCE1E8E46610016FA76 /* LaunchDEV.storyboard in Resources */,
+				42A228BE1EAFE07300496392 /* CaptionView.xib in Resources */,
 				42E13DCF1E8E46610016FA76 /* AddMarble.storyboard in Resources */,
 				42E13DD01E8E46610016FA76 /* StoryView.xib in Resources */,
 			);
@@ -866,6 +871,7 @@
 				42D5759A1E371F0E0094037D /* ViewPickDest.xib in Resources */,
 				952AF80D1DAB363D005E60C7 /* Assets.xcassets in Resources */,
 				42E13DDD1E8E4B4B0016FA76 /* Info-Dev.plist in Resources */,
+				42A228BD1EAFE07300496392 /* CaptionView.xib in Resources */,
 				42C62EC71E8E4D1000E042E9 /* Launch.storyboard in Resources */,
 				4295B8A31E84C1880091C08B /* NoGroupsView.xib in Resources */,
 				952AF80B1DAB363D005E60C7 /* Main.storyboard in Resources */,
