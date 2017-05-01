@@ -20,6 +20,7 @@ enum Router : URLConvertible {
     case Login
     case ImageUpload
     case VideoUpload
+    case CommentUpload
     case JoinGroup
     case CreateGroup
     case ListGroups
@@ -44,6 +45,8 @@ enum Router : URLConvertible {
                 return "/image/upload"
             case .VideoUpload:
                 return "/video/upload"
+            case .CommentUpload:
+                return "/comment/upload"
             case .JoinGroup:
                 return "/groups/join"
             case .CreateGroup:

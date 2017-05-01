@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 #if DEV
-    let API_URL = "http://192.168.10.105:8000"
+    let API_URL = "http://192.168.10.106:8000"
 #else
     let API_URL = "https://api.amarbleapp.com"
 #endif
@@ -36,5 +36,7 @@ struct Constants {
     static let MaxVideoLength = 10
     
     static let MaxVideoSize: Int64 = 15500000
+        
+    static let ImageJpegCompression: CGFloat = 0.8
     
 }

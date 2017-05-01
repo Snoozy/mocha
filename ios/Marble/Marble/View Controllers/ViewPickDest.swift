@@ -120,9 +120,19 @@ class ViewPickDest: UIViewController, UIGestureRecognizerDelegate {
         if delegate?.mediaType == .image {
             let image: UIImage? = delegate?.imageMedia
             if let image = image {
-                Networker.shared.uploadImage(image: image, groupIds: groups, completionHandler: { response in
+                Networker.shared.uploadImage(image: image, caption: delegate?.captionImage, groupIds: groups, completionHandler: { response in
                     print("UPLOAD DONE")
-                    NotificationCenter.default.post(name: Constants.Notifications.StoryUploadFinished, object: self)
+                    switch response.result {
+                    case .success(let val):
+                        let json = JSON(val)
+                        var fileUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                        fileUrl.appendPathComponent(json["media_id"].stringValue + ".jpg")
+                        let data = UIImageJPEGRepresentation(image, 1.0)
+                        try? data?.write(to: fileUrl)
+                        NotificationCenter.default.post(name: Constants.Notifications.StoryUploadFinished, object: self)
+                    case .failure:
+                        print(response.debugDescription)
+                    }
                 })
             }
         }

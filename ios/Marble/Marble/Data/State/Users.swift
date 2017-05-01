@@ -31,4 +31,16 @@ extension State {
         })
     }
     
+    func ping() {
+        Networker.shared.ping(completionHandler: { response in
+            switch response.result {
+            case .success(let val):
+                let json = JSON(val)
+                self.me = User(id: json["user_id"].intValue, username: json["username"].stringValue, name: json["name"].stringValue)
+            case .failure:
+                print(response.debugDescription)
+            }
+        })
+    }
+    
 }

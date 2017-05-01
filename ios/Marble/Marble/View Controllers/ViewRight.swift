@@ -56,12 +56,15 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         tempImageView.isUserInteractionEnabled = false
         tempImageView.isHidden = true
         
-        styleButton(button: backButton)
-        styleButton(button: cameraFlipButton)
-        styleButton(button: flashButton)
-        styleButton(button: takePhotoButton)
-        styleButton(button: cancelButtonOut)
-        styleButton(button: nextButtonOut)
+        videoView.isHidden = true
+        captionView.isHidden = true
+        
+        styleLayer(layer: backButton.layer)
+        styleLayer(layer: cameraFlipButton.layer)
+        styleLayer(layer: flashButton.layer)
+        styleLayer(layer: takePhotoButton.layer)
+        styleLayer(layer: cancelButtonOut.layer)
+        styleLayer(layer: nextButtonOut.layer)
         
         recordingProgress.transform = recordingProgress.transform.scaledBy(x: 1, y: 6)
         recordingProgress.trackTintColor = UIColor.clear
@@ -72,12 +75,6 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         self.parent?.view.addGestureRecognizer(panGest)
         
         takeVideoLongPress.delegate = self
-    }
-    
-    func styleButton(button: UIButton) {
-        button.layer.shadowOffset = CGSize(width: 0, height: 0)
-        button.layer.shadowOpacity = 0.7
-        button.layer.shadowRadius = 1.5
     }
     
     override func didReceiveMemoryWarning() {
@@ -364,7 +361,9 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         recordingProgress.isHidden = true
     }
     
-    @IBOutlet weak var videoView: MediaVideoView!
+    @IBOutlet weak var videoView: UIView!
+    
+    @IBOutlet weak var captionView: MediaCaptionView!
     
     var playerLooper: AVPlayerLooper?
     var player: AVQueuePlayer?
@@ -390,8 +389,9 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         videoView.isHidden = false
         player?.play()
         
-        videoView.configure()
-        videoView.clearCaption()
+        captionView.configure()
+        captionView.clearCaption()
+        captionView.isHidden = false
         
         videoMediaUrl = outputFileURL
         mediaType = .video
@@ -442,7 +442,12 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             takePhotoButton.isHidden = true
             tempImageView.isUserInteractionEnabled = true
             UIApplication.shared.isStatusBarHidden = true
-            tempImageView.clearCaption()
+            
+            captionView.configure()
+            captionView.clearCaption()
+            captionView.isHidden = false
+//            tempImageView.clearCaption()
+            
             mediaType = .image
         } else {
             print("Error processing image.")
@@ -483,6 +488,8 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         flashButton.isHidden = false
         cameraFlipButton.isHidden = false
         
+        captionView.isHidden = true
+        
         update(device: camera!, scale: minimumZoom)
         lastZoomFactor = minimumZoom
         
@@ -521,10 +528,15 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             imageMedia = UIImage(view: tempImageView)
         } else if mediaType == .video {
             print("video")
-            captionImage = UIImage(view: videoView)
         } else {
             print("error")
             return
+        }
+        
+        if !captionView.isEmpty() {
+            captionImage = UIImage(view: captionView)
+        } else {
+            captionImage = nil
         }
         
         vPickDest?.delegate = self
@@ -574,10 +586,6 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             
             let size = vidTrack.naturalSize
             
-            let captionLayer = CALayer()
-            captionLayer.contents = captionImage!.cgImage
-            captionLayer.frame = CGRect(x: 0, y: 0, width: size.height, height: size.width)
-            
             let vidLayer = CALayer()
             vidLayer.frame = CGRect(x: 0, y: 0, width: size.height, height: size.width)
             print(size)
@@ -585,7 +593,6 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             let parentLayer = CALayer()
             parentLayer.frame = CGRect(x : 0, y: 0, width: size.height, height: size.width)
             parentLayer.addSublayer(vidLayer)
-            parentLayer.addSublayer(captionLayer)
             
             let layerComposition = AVMutableVideoComposition()
             layerComposition.frameDuration = CMTimeMake(1, 30)
@@ -635,7 +642,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
 //                    player.play()
 //                }
                 
-                Networker.shared.uploadVideo(videoUrl: vidPath!, groupIds: groupIds, completionHandler: { response in
+                Networker.shared.uploadVideo(videoUrl: vidPath!, caption: self.captionImage, groupIds: groupIds, completionHandler: { response in
                     switch response.result {
                     case .success(let val):
                         let json = JSON(val)

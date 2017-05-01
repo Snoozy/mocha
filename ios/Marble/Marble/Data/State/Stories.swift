@@ -30,8 +30,16 @@ extension State {
                         let id = story["id"].int!
                         let mediaType = story["media_type"].stringValue
                         
+                        var comments = [Comment]()
+                        
+                        for commentJson in story["comments"].arrayValue {
+                            let comment = Comment(id: commentJson["id"].intValue, mediaUrl: commentJson["media_url"].stringValue, posterName: commentJson["user_name"].stringValue, timestamp: commentJson["timestamp"].int64Value, userId: commentJson["user_id"].intValue)
+                            comments.append(comment)
+                        }
+                        
                         self.addStory(stories: &newStories, cache: self.groupStories[groupId]!,
-                                      groupId: groupId, url: mediaUrl, name: name, userId: userId, time: time, id: id, mediaType: mediaType)
+                                      groupId: groupId, url: mediaUrl, name: name, userId: userId,
+                                      time: time, id: id, mediaType: mediaType, comments: comments)
                     }
                     self.groupStories[groupId] = newStories
                 }
@@ -58,16 +66,17 @@ extension State {
     }
     
     func addStory(stories: inout [Story], cache: [Story], groupId: Int, url: String,
-                  name: String, userId: Int, time: Int64, id: Int, mediaType: String) {
-        let storyCheck = findStory(mediaUrl: url, groupId: groupId)
+                  name: String, userId: Int, time: Int64, id: Int, mediaType: String, comments: [Comment]) {
+        let storyCheck = findStory(mediaUrl: url, groupId: groupId, comments: comments)
         if let story = storyCheck {
+            story.comments = comments
             stories.append(story)
         } else {
-            stories.append(Story(url: url, name: name, userId: userId, time: time, id: id, mediaType: mediaType))
+            stories.append(Story(url: url, name: name, userId: userId, time: time, id: id, mediaType: mediaType, comments: comments))
         }
     }
     
-    private func findStory(mediaUrl: String, groupId: Int) -> Story? {
+    private func findStory(mediaUrl: String, groupId: Int, comments: [Comment]) -> Story? {
         for story in self.groupStories[groupId]! {
             if story.mediaUrl == mediaUrl {
                 return story

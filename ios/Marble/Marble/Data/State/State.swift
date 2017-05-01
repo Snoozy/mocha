@@ -18,4 +18,5 @@ class State {
     
     var authorizing: Bool = false
     
+    var me: User?
 }

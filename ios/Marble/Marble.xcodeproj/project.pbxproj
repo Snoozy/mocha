@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		420A007A1E31C7CF00525DB0 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 420A006D1E31C6D400525DB0 /* Alamofire.framework */; };
 		420A007B1E31C7CF00525DB0 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 420A006D1E31C6D400525DB0 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		4217546E1E5530AD00620E69 /* MediaVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4217546D1E5530AD00620E69 /* MediaVideoView.swift */; };
+		4217546E1E5530AD00620E69 /* MediaCaptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4217546D1E5530AD00620E69 /* MediaCaptionView.swift */; };
 		4241B8141E4DB5F5003CA796 /* MainGroupTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4241B8131E4DB5F5003CA796 /* MainGroupTVCell.swift */; };
 		4241B8181E4DB8F5003CA796 /* UIImage_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4241B8171E4DB8F5003CA796 /* UIImage_ext.swift */; };
 		4241B81A1E4DC197003CA796 /* StoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4241B8191E4DC197003CA796 /* StoryView.swift */; };
@@ -18,8 +18,18 @@
 		425398C61E497D5B00097934 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425398C51E497D5B00097934 /* Group.swift */; };
 		425398C81E4985AB00097934 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425398C71E4985AB00097934 /* SwiftyJSON.swift */; };
 		425398CA1E49923B00097934 /* SendGroupTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425398C91E49923B00097934 /* SendGroupTV.swift */; };
+		4259F4A41EB1B8E200866D12 /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4259F49F1EB1B8E200866D12 /* Enum.swift */; };
+		4259F4A51EB1B8E200866D12 /* FontAwesome.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4259F4A11EB1B8E200866D12 /* FontAwesome.otf */; };
+		4259F4A61EB1B8E200866D12 /* FontAwesome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4259F4A21EB1B8E200866D12 /* FontAwesome.swift */; };
+		4259F4A71EB1B8E200866D12 /* FontAwesomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4259F4A31EB1B8E200866D12 /* FontAwesomeView.swift */; };
 		425D40631E4330A600CBD8CB /* AddMarbleCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425D40621E4330A600CBD8CB /* AddMarbleCodeVC.swift */; };
 		425D40651E4331EC00CBD8CB /* NumPlaceholderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425D40641E4331EC00CBD8CB /* NumPlaceholderButton.swift */; };
+		425F35621EB1BA440014F90F /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4259F49F1EB1B8E200866D12 /* Enum.swift */; };
+		425F35731EB1BA4A0014F90F /* FontAwesome.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4259F4A11EB1B8E200866D12 /* FontAwesome.otf */; };
+		425F35741EB1BA520014F90F /* FontAwesome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4259F4A21EB1B8E200866D12 /* FontAwesome.swift */; };
+		425F35751EB1BA540014F90F /* FontAwesomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4259F4A31EB1B8E200866D12 /* FontAwesomeView.swift */; };
+		425F357A1EB687530014F90F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425F35791EB687530014F90F /* User.swift */; };
+		425F357B1EB687530014F90F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425F35791EB687530014F90F /* User.swift */; };
 		42623CBF1E3B0B5A0068D4FA /* AuthNetworker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42623CBE1E3B0B5A0068D4FA /* AuthNetworker.swift */; };
 		42623CC11E3B0BE10068D4FA /* Networker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42623CC01E3B0BE10068D4FA /* Networker.swift */; };
 		426E24CA1E4ABD6400F24992 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426E24C91E4ABD6400F24992 /* Constants.swift */; };
@@ -43,6 +53,10 @@
 		429AF4121E48872600475461 /* GroupTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 429AF4101E48872600475461 /* GroupTVCell.xib */; };
 		42A228BD1EAFE07300496392 /* CaptionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42A228BC1EAFE07300496392 /* CaptionView.xib */; };
 		42A228BE1EAFE07300496392 /* CaptionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42A228BC1EAFE07300496392 /* CaptionView.xib */; };
+		42A228D01EAFE19D00496392 /* CaptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A228CF1EAFE19D00496392 /* CaptionView.swift */; };
+		42A228D11EAFE19D00496392 /* CaptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A228CF1EAFE19D00496392 /* CaptionView.swift */; };
+		42A228D31EAFE25500496392 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A228D21EAFE25500496392 /* Comment.swift */; };
+		42A228D41EAFE25500496392 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A228D21EAFE25500496392 /* Comment.swift */; };
 		42B52BF91E9B6A40006D831A /* UserNetworker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42502DEB1E9B4BD8009B7E2E /* UserNetworker.swift */; };
 		42B52C0B1E9B773E006D831A /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B52C0A1E9B773E006D831A /* Users.swift */; };
 		42B52C0C1E9B773E006D831A /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B52C0A1E9B773E006D831A /* Users.swift */; };
@@ -75,7 +89,7 @@
 		42E13D9E1E8E46610016FA76 /* UIImage_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4241B8171E4DB8F5003CA796 /* UIImage_ext.swift */; };
 		42E13D9F1E8E46610016FA76 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425398C51E497D5B00097934 /* Group.swift */; };
 		42E13DA01E8E46610016FA76 /* Networker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42623CC01E3B0BE10068D4FA /* Networker.swift */; };
-		42E13DA11E8E46610016FA76 /* MediaVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4217546D1E5530AD00620E69 /* MediaVideoView.swift */; };
+		42E13DA11E8E46610016FA76 /* MediaCaptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4217546D1E5530AD00620E69 /* MediaCaptionView.swift */; };
 		42E13DA21E8E46610016FA76 /* MainGroupTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4241B8131E4DB5F5003CA796 /* MainGroupTVCell.swift */; };
 		42E13DA31E8E46610016FA76 /* AuthLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E13D8C1E8DF2340016FA76 /* AuthLoginVC.swift */; };
 		42E13DA41E8E46610016FA76 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D575A61E3720440094037D /* AuthViewController.swift */; };
@@ -325,7 +339,7 @@
 
 /* Begin PBXFileReference section */
 		420A00611E31C6D400525DB0 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
-		4217546D1E5530AD00620E69 /* MediaVideoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaVideoView.swift; path = Views/MediaVideoView.swift; sourceTree = "<group>"; };
+		4217546D1E5530AD00620E69 /* MediaCaptionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaCaptionView.swift; path = Views/MediaCaptionView.swift; sourceTree = "<group>"; };
 		4241B8131E4DB5F5003CA796 /* MainGroupTVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainGroupTVCell.swift; path = Views/MainGroupTVCell.swift; sourceTree = "<group>"; };
 		4241B8171E4DB8F5003CA796 /* UIImage_ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIImage_ext.swift; path = Extensions/UIImage_ext.swift; sourceTree = "<group>"; };
 		4241B8191E4DC197003CA796 /* StoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StoryView.swift; path = Views/StoryView.swift; sourceTree = "<group>"; };
@@ -334,8 +348,14 @@
 		425398C51E497D5B00097934 /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Group.swift; path = Data/Models/Group.swift; sourceTree = "<group>"; };
 		425398C71E4985AB00097934 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyJSON.swift; path = Vendor/SwiftyJSON.swift; sourceTree = "<group>"; };
 		425398C91E49923B00097934 /* SendGroupTV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SendGroupTV.swift; path = "View Controllers/SendGroupTV.swift"; sourceTree = "<group>"; };
+		4259F49F1EB1B8E200866D12 /* Enum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Enum.swift; path = Vendor/FontAwesome/Enum.swift; sourceTree = "<group>"; };
+		4259F4A01EB1B8E200866D12 /* FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FontAwesome.h; path = Vendor/FontAwesome/FontAwesome.h; sourceTree = "<group>"; };
+		4259F4A11EB1B8E200866D12 /* FontAwesome.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.otf; path = Vendor/FontAwesome/FontAwesome.otf; sourceTree = "<group>"; };
+		4259F4A21EB1B8E200866D12 /* FontAwesome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FontAwesome.swift; path = Vendor/FontAwesome/FontAwesome.swift; sourceTree = "<group>"; };
+		4259F4A31EB1B8E200866D12 /* FontAwesomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FontAwesomeView.swift; path = Vendor/FontAwesome/FontAwesomeView.swift; sourceTree = "<group>"; };
 		425D40621E4330A600CBD8CB /* AddMarbleCodeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddMarbleCodeVC.swift; path = "View Controllers/AddMarbleCodeVC.swift"; sourceTree = "<group>"; };
 		425D40641E4331EC00CBD8CB /* NumPlaceholderButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NumPlaceholderButton.swift; path = Views/NumPlaceholderButton.swift; sourceTree = "<group>"; };
+		425F35791EB687530014F90F /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Data/Models/User.swift; sourceTree = "<group>"; };
 		42623CBE1E3B0B5A0068D4FA /* AuthNetworker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthNetworker.swift; path = Data/Networkers/AuthNetworker.swift; sourceTree = "<group>"; };
 		42623CC01E3B0BE10068D4FA /* Networker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Networker.swift; path = Data/Networkers/Networker.swift; sourceTree = "<group>"; };
 		426E24C91E4ABD6400F24992 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Data/Constants.swift; sourceTree = "<group>"; };
@@ -356,6 +376,8 @@
 		429AF4051E486C0800475461 /* CreateMarbleVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateMarbleVC.swift; path = "View Controllers/CreateMarbleVC.swift"; sourceTree = "<group>"; };
 		429AF4101E48872600475461 /* GroupTVCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GroupTVCell.xib; path = StoryBoards/GroupTVCell.xib; sourceTree = "<group>"; };
 		42A228BC1EAFE07300496392 /* CaptionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CaptionView.xib; path = StoryBoards/CaptionView.xib; sourceTree = "<group>"; };
+		42A228CF1EAFE19D00496392 /* CaptionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CaptionView.swift; path = Views/CaptionView.swift; sourceTree = "<group>"; };
+		42A228D21EAFE25500496392 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Comment.swift; path = Data/Models/Comment.swift; sourceTree = "<group>"; };
 		42B52C0A1E9B773E006D831A /* Users.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Users.swift; path = Data/State/Users.swift; sourceTree = "<group>"; };
 		42C62EC61E8E4D1000E042E9 /* Launch.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Launch.storyboard; path = StoryBoards/Launch.storyboard; sourceTree = "<group>"; };
 		42CC20701E42FCCC00EC419A /* Left.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Left.storyboard; path = StoryBoards/Left.storyboard; sourceTree = "<group>"; };
@@ -434,8 +456,22 @@
 			children = (
 				425398C51E497D5B00097934 /* Group.swift */,
 				429991531E4DA1F20049608F /* Story.swift */,
+				42A228D21EAFE25500496392 /* Comment.swift */,
+				425F35791EB687530014F90F /* User.swift */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		4259F48E1EB1B8D600866D12 /* FontAwesome */ = {
+			isa = PBXGroup;
+			children = (
+				4259F49F1EB1B8E200866D12 /* Enum.swift */,
+				4259F4A01EB1B8E200866D12 /* FontAwesome.h */,
+				4259F4A11EB1B8E200866D12 /* FontAwesome.otf */,
+				4259F4A21EB1B8E200866D12 /* FontAwesome.swift */,
+				4259F4A31EB1B8E200866D12 /* FontAwesomeView.swift */,
+			);
+			name = FontAwesome;
 			sourceTree = "<group>";
 		};
 		42623CB41E3B0A570068D4FA /* Networkers */ = {
@@ -499,13 +535,14 @@
 			isa = PBXGroup;
 			children = (
 				426FB0461E55A618000AFAF9 /* GroupTVCell.swift */,
-				4217546D1E5530AD00620E69 /* MediaVideoView.swift */,
+				4217546D1E5530AD00620E69 /* MediaCaptionView.swift */,
 				42F92CEB1EA312BF0085DD0C /* MediaImageView.swift */,
 				42CC20801E43238800EC419A /* NumberButton.swift */,
 				425D40641E4331EC00CBD8CB /* NumPlaceholderButton.swift */,
 				4241B8131E4DB5F5003CA796 /* MainGroupTVCell.swift */,
 				4241B8191E4DC197003CA796 /* StoryView.swift */,
 				4295B8A61E84C21E0091C08B /* NoGroupsView.swift */,
+				42A228CF1EAFE19D00496392 /* CaptionView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -525,6 +562,7 @@
 		42D575821E37161A0094037D /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				4259F48E1EB1B8D600866D12 /* FontAwesome */,
 				4299913A1E4D4F900049608F /* SCLAlertView */,
 				425398C71E4985AB00097934 /* SwiftyJSON.swift */,
 				42D5758D1E3717DD0094037D /* KeychainWrapper */,
@@ -857,6 +895,7 @@
 				42A228BE1EAFE07300496392 /* CaptionView.xib in Resources */,
 				42E13DCF1E8E46610016FA76 /* AddMarble.storyboard in Resources */,
 				42E13DD01E8E46610016FA76 /* StoryView.xib in Resources */,
+				425F35731EB1BA4A0014F90F /* FontAwesome.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -875,6 +914,7 @@
 				42C62EC71E8E4D1000E042E9 /* Launch.storyboard in Resources */,
 				4295B8A31E84C1880091C08B /* NoGroupsView.xib in Resources */,
 				952AF80B1DAB363D005E60C7 /* Main.storyboard in Resources */,
+				4259F4A51EB1B8E200866D12 /* FontAwesome.otf in Resources */,
 				428CD7A81E8C788A00BEB5BA /* LaunchDEV.storyboard in Resources */,
 				4295B8A91E84C2E70091C08B /* AddMarble.storyboard in Resources */,
 				4241B81C1E4DC208003CA796 /* StoryView.xib in Resources */,
@@ -889,6 +929,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				42E13D981E8E46610016FA76 /* AuthSignUpVC.swift in Sources */,
+				42A228D41EAFE25500496392 /* Comment.swift in Sources */,
 				42E13D991E8E46610016FA76 /* AddMarbleCodeVC.swift in Sources */,
 				42E13D9A1E8E46610016FA76 /* SCLExtensions.swift in Sources */,
 				42E13D9B1E8E46610016FA76 /* NoGroupsView.swift in Sources */,
@@ -900,18 +941,21 @@
 				42F92CED1EA313540085DD0C /* MediaImageView.swift in Sources */,
 				42E13D9F1E8E46610016FA76 /* Group.swift in Sources */,
 				42E13DA01E8E46610016FA76 /* Networker.swift in Sources */,
-				42E13DA11E8E46610016FA76 /* MediaVideoView.swift in Sources */,
+				42E13DA11E8E46610016FA76 /* MediaCaptionView.swift in Sources */,
 				42E13DA21E8E46610016FA76 /* MainGroupTVCell.swift in Sources */,
 				42E13DA31E8E46610016FA76 /* AuthLoginVC.swift in Sources */,
 				42E13DA41E8E46610016FA76 /* AuthViewController.swift in Sources */,
 				42E13DA51E8E46610016FA76 /* State.swift in Sources */,
 				42E13DA61E8E46610016FA76 /* CreateMarbleVC.swift in Sources */,
 				42E13DA71E8E46610016FA76 /* Groups.swift in Sources */,
+				42A228D11EAFE19D00496392 /* CaptionView.swift in Sources */,
 				42E13DA81E8E46610016FA76 /* AppDelegate.swift in Sources */,
 				42E13DA91E8E46610016FA76 /* UIView_ext.swift in Sources */,
 				42E13DAA1E8E46610016FA76 /* ViewPickDest.swift in Sources */,
 				42E13DAB1E8E46610016FA76 /* GroupTVCell.swift in Sources */,
 				42E13DAC1E8E46610016FA76 /* SwiftyJSON.swift in Sources */,
+				425F35741EB1BA520014F90F /* FontAwesome.swift in Sources */,
+				425F35621EB1BA440014F90F /* Enum.swift in Sources */,
 				42E13DAD1E8E46610016FA76 /* NumberButton.swift in Sources */,
 				42E13DAE1E8E46610016FA76 /* Router.swift in Sources */,
 				42E13DAF1E8E46610016FA76 /* StoryNetworker.swift in Sources */,
@@ -925,6 +969,8 @@
 				42E13DB61E8E46610016FA76 /* KeychainWrapper_ext.swift in Sources */,
 				42E13DB71E8E46610016FA76 /* StoryView.swift in Sources */,
 				42E13DB81E8E46610016FA76 /* SendGroupTV.swift in Sources */,
+				425F357B1EB687530014F90F /* User.swift in Sources */,
+				425F35751EB1BA540014F90F /* FontAwesomeView.swift in Sources */,
 				42B52C0C1E9B773E006D831A /* Users.swift in Sources */,
 				42E13DB91E8E46610016FA76 /* NumPlaceholderButton.swift in Sources */,
 				42E13DBA1E8E46610016FA76 /* Stories.swift in Sources */,
@@ -941,6 +987,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				42E13D8B1E8DE4DA0016FA76 /* AuthSignUpVC.swift in Sources */,
+				42A228D31EAFE25500496392 /* Comment.swift in Sources */,
 				425D40631E4330A600CBD8CB /* AddMarbleCodeVC.swift in Sources */,
 				429991471E4D4F9D0049608F /* SCLExtensions.swift in Sources */,
 				4295B8A71E84C21E0091C08B /* NoGroupsView.swift in Sources */,
@@ -952,18 +999,21 @@
 				42F92CEC1EA312BF0085DD0C /* MediaImageView.swift in Sources */,
 				425398C61E497D5B00097934 /* Group.swift in Sources */,
 				42623CC11E3B0BE10068D4FA /* Networker.swift in Sources */,
-				4217546E1E5530AD00620E69 /* MediaVideoView.swift in Sources */,
+				4217546E1E5530AD00620E69 /* MediaCaptionView.swift in Sources */,
 				4241B8141E4DB5F5003CA796 /* MainGroupTVCell.swift in Sources */,
 				42E13D8D1E8DF2340016FA76 /* AuthLoginVC.swift in Sources */,
 				42D575A71E3720440094037D /* AuthViewController.swift in Sources */,
 				4299914C1E4D55A20049608F /* State.swift in Sources */,
 				429AF4061E486C0800475461 /* CreateMarbleVC.swift in Sources */,
 				4299914E1E4D56CD0049608F /* Groups.swift in Sources */,
+				42A228D01EAFE19D00496392 /* CaptionView.swift in Sources */,
 				952AF8061DAB363D005E60C7 /* AppDelegate.swift in Sources */,
 				42D5758C1E37164C0094037D /* UIView_ext.swift in Sources */,
 				42D575A21E371F220094037D /* ViewPickDest.swift in Sources */,
 				426FB0471E55A618000AFAF9 /* GroupTVCell.swift in Sources */,
 				425398C81E4985AB00097934 /* SwiftyJSON.swift in Sources */,
+				4259F4A61EB1B8E200866D12 /* FontAwesome.swift in Sources */,
+				4259F4A41EB1B8E200866D12 /* Enum.swift in Sources */,
 				42CC20811E43238800EC419A /* NumberButton.swift in Sources */,
 				42F7906C1E39C7B500D3B2AF /* Router.swift in Sources */,
 				429991501E4DA0C90049608F /* StoryNetworker.swift in Sources */,
@@ -977,6 +1027,8 @@
 				42D5758A1E37164C0094037D /* KeychainWrapper_ext.swift in Sources */,
 				4241B81A1E4DC197003CA796 /* StoryView.swift in Sources */,
 				425398CA1E49923B00097934 /* SendGroupTV.swift in Sources */,
+				425F357A1EB687530014F90F /* User.swift in Sources */,
+				4259F4A71EB1B8E200866D12 /* FontAwesomeView.swift in Sources */,
 				42B52C0B1E9B773E006D831A /* Users.swift in Sources */,
 				425D40651E4331EC00CBD8CB /* NumPlaceholderButton.swift in Sources */,
 				429991521E4DA1860049608F /* Stories.swift in Sources */,

@@ -24,32 +24,80 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <gestureRecognizers/>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" highlighted="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hqh-gh-akD">
-                            <rect key="frame" x="15" y="23" width="47" height="22"/>
-                            <gestureRecognizers/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                            <color key="shadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                            <size key="shadowOffset" width="0.0" height="0.0"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="30L-Ai-C8C">
-                            <rect key="frame" x="15" y="49" width="136" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                            <size key="shadowOffset" width="0.0" height="0.0"/>
-                        </label>
-                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LTW-hk-7ND">
+                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" scrollEnabled="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LTW-hk-7ND">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </scrollView>
+                        <button opaque="NO" alpha="0.84999999999999998" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tyc-WC-Ujc">
+                            <rect key="frame" x="376" y="698" width="35" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="35" id="hwP-iz-vk0"/>
+                                <constraint firstAttribute="height" constant="35" id="uGX-os-pRj"/>
+                            </constraints>
+                            <inset key="imageEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                            <state key="normal" image="add-comment">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="addCommentPress:" destination="iN0-l3-epB" eventType="touchUpInside" id="Xhk-mu-Cqr"/>
+                            </connections>
+                        </button>
+                        <button hidden="YES" opaque="NO" alpha="0.84999999999999998" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e6X-rO-aD7">
+                            <rect key="frame" x="3" y="700" width="36" height="34"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="34" id="PZe-RU-ELO"/>
+                                <constraint firstAttribute="width" constant="36" id="rRB-07-me7"/>
+                            </constraints>
+                            <state key="normal" image="double-up-arrow"/>
+                            <connections>
+                                <action selector="toTopPress:" destination="iN0-l3-epB" eventType="touchUpInside" id="gTi-i5-WUY"/>
+                            </connections>
+                        </button>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vKr-o3-FcJ">
+                            <rect key="frame" x="8" y="690" width="68" height="38"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="68" id="0ea-sU-xep"/>
+                                <constraint firstAttribute="height" constant="38" id="4Sg-dv-HHB"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                            <state key="normal" title="Cancel">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="cancelCommentPress:" destination="iN0-l3-epB" eventType="touchUpInside" id="s3v-eQ-hMH"/>
+                            </connections>
+                        </button>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p7N-xc-4NT">
+                            <rect key="frame" x="346" y="690" width="60" height="38"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="60" id="bcS-DC-Lg5"/>
+                                <constraint firstAttribute="height" constant="38" id="edw-sl-BwJ"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                            <state key="normal" title="Send">
+                                <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="sendCaptionPress:" destination="iN0-l3-epB" eventType="touchUpInside" id="BYl-1U-LDq"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="hqh-gh-akD" firstAttribute="top" secondItem="qch-BV-Hes" secondAttribute="top" constant="23" id="NIV-18-s5n"/>
-                        <constraint firstItem="hqh-gh-akD" firstAttribute="leading" secondItem="qch-BV-Hes" secondAttribute="leading" constant="15" id="R3G-KB-x9i"/>
+                        <constraint firstAttribute="trailing" secondItem="LTW-hk-7ND" secondAttribute="trailing" id="0DN-SW-bq3"/>
+                        <constraint firstAttribute="trailing" secondItem="p7N-xc-4NT" secondAttribute="trailing" constant="8" id="2tD-5S-2o8"/>
+                        <constraint firstAttribute="bottom" secondItem="p7N-xc-4NT" secondAttribute="bottom" constant="8" id="8WW-VI-Gom"/>
+                        <constraint firstItem="vKr-o3-FcJ" firstAttribute="leading" secondItem="qch-BV-Hes" secondAttribute="leading" constant="8" id="AOt-MI-Arx"/>
+                        <constraint firstAttribute="bottom" secondItem="vKr-o3-FcJ" secondAttribute="bottom" constant="8" id="Eop-qv-E8t"/>
+                        <constraint firstAttribute="bottom" secondItem="Tyc-WC-Ujc" secondAttribute="bottom" constant="3" id="EvI-AC-enS"/>
+                        <constraint firstAttribute="trailing" secondItem="Tyc-WC-Ujc" secondAttribute="trailing" constant="3" id="Op2-2g-Y5O"/>
+                        <constraint firstAttribute="bottom" secondItem="LTW-hk-7ND" secondAttribute="bottom" id="PjE-sb-uAy"/>
+                        <constraint firstAttribute="bottom" secondItem="e6X-rO-aD7" secondAttribute="bottom" constant="2" id="WjL-D4-BA1"/>
+                        <constraint firstItem="LTW-hk-7ND" firstAttribute="top" secondItem="qch-BV-Hes" secondAttribute="top" id="YiA-Rj-YHO"/>
+                        <constraint firstItem="e6X-rO-aD7" firstAttribute="leading" secondItem="qch-BV-Hes" secondAttribute="leading" constant="3" id="sT4-VV-c8M"/>
+                        <constraint firstItem="LTW-hk-7ND" firstAttribute="leading" secondItem="qch-BV-Hes" secondAttribute="leading" id="yz6-mf-Wyj"/>
                     </constraints>
                 </view>
             </subviews>
@@ -64,10 +112,13 @@
                 <constraint firstItem="qch-BV-Hes" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="xFJ-kX-F4g"/>
             </constraints>
             <connections>
+                <outlet property="addCommentBtn" destination="Tyc-WC-Ujc" id="BjX-zc-nJw"/>
+                <outlet property="cancelCaptionBtn" destination="vKr-o3-FcJ" id="bFj-Pj-xIh"/>
+                <outlet property="captionScrollView" destination="LTW-hk-7ND" id="qGS-bz-lQ3"/>
                 <outlet property="imageView" destination="jEl-uX-aUt" id="lLk-RE-9MJ"/>
                 <outlet property="innerView" destination="qch-BV-Hes" id="2pk-se-ogy"/>
-                <outlet property="nameLabel" destination="hqh-gh-akD" id="C9x-Qb-HeC"/>
-                <outlet property="timeLabel" destination="30L-Ai-C8C" id="Ddr-mB-xbD"/>
+                <outlet property="sendCaptionBtn" destination="p7N-xc-4NT" id="CBc-WG-qIC"/>
+                <outlet property="toTopBtn" destination="e6X-rO-aD7" id="VRS-aa-vnF"/>
                 <outletCollection property="gestureRecognizers" destination="OX5-tO-JW3" appends="YES" id="tYW-7T-3tj"/>
             </connections>
             <point key="canvasLocation" x="34" y="53"/>
@@ -78,4 +129,8 @@
             </connections>
         </panGestureRecognizer>
     </objects>
+    <resources>
+        <image name="add-comment" width="128" height="128"/>
+        <image name="double-up-arrow" width="128" height="128"/>
+    </resources>
 </document>

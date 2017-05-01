@@ -106,9 +106,10 @@ class LogInResource:
 class PingResource:
     def on_get(self, req, resp, user_id):
         if user_id is not None:
-            user = req.session.query.filter(User.id == user_id).first()
+            user = req.session.query(User).filter(User.id == user_id).first()
             if user:
                 resp.json = {
+                        "user_id" : user.id,
                         "name" : user.name,
                         "username" : user.username,
                     }

@@ -10,12 +10,10 @@ import UIKit
 import AVFoundation
 import AVKit
 
-class StoryView: UIView {
+class StoryView: UIView, UIScrollViewDelegate {
 
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var innerView: UIView!
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var timeLabel: UILabel!
     
     var originalCenterYCord: CGFloat = 0.0
     var originalWidth: CGFloat = 0.0
@@ -27,7 +25,12 @@ class StoryView: UIView {
     var userId: Int?
     var story: Story?
     
+    @IBOutlet weak var captionScrollView: UIScrollView!
+    var viewingComments: Bool = false
     
+    @IBOutlet weak var sendCaptionBtn: UIButton!
+    @IBOutlet weak var cancelCaptionBtn: UIButton!
+    @IBOutlet weak var toTopBtn: UIButton!
     
     var panning: Bool = false
     
@@ -45,9 +48,27 @@ class StoryView: UIView {
         self.addGestureRecognizer(tapGest)
         
         NotificationCenter.default.addObserver(self, selector:#selector(self.playerDidFinishPlaying(note:)),name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
+        
+        captionScrollView.delegate = self
+        captionScrollView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        
+        styleLayer(layer: addCommentBtn.layer)
+        
+        sendCaptionBtn.layer.cornerRadius = 5
+        styleLayer(layer: sendCaptionBtn.layer)
+        
+        cancelCaptionBtn.layer.borderWidth = 1
+        cancelCaptionBtn.layer.cornerRadius = 5
+        cancelCaptionBtn.layer.borderColor = UIColor.white.cgColor
+        styleLayer(layer: cancelCaptionBtn.layer)
+        
+        styleLayer(layer: toTopBtn.layer)
     }
     
     @IBAction func storyViewPan(_ sender: UIPanGestureRecognizer) {
+        if viewingComments {
+            return
+        }
         let translation = sender.translation(in: self)
         if sender.state == .ended {
             panning = false
@@ -60,16 +81,24 @@ class StoryView: UIView {
                     UIApplication.shared.isStatusBarHidden = false
                     self.removeFromSuperview()
                 })
-            } else {
+            } else if translation.y >= 0 {
                 UIView.animate(withDuration: 0.3, animations: {
                     self.innerView.center.y = self.originalCenterYCord
+                    
                     let rect = CGRect(x: 0, y: 0, width: self.originalWidth, height: self.originalHeight)
+                    
                     self.innerView.frame = CGRect(x: 0, y: 0, width: self.originalWidth, height: self.originalHeight)
                     self.imageView.frame = rect
                     if let playerLayer = self.playerLayer {
                         playerLayer.frame = rect
                     }
+                    
                 })
+            } else if translation.y > -70 {
+                captionScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+            } else if story?.comments.count ?? 0 > 1 {
+                captionScrollView.setContentOffset(CGPoint(x: 0, y: UIScreen.main.bounds.height), animated: true)
+                enableComments()
             }
         } else if (sender.state == .began) {
             panning = true
@@ -81,10 +110,11 @@ class StoryView: UIView {
             if imageView.layer.sublayers != nil && (imageView.layer.sublayers?.count)! > 1 {
                 imageView.layer.sublayers = [imageView.layer.sublayers!.last!]
             }
+            let bounds = UIScreen.main.bounds
             originalCenterYCord = self.innerView.center.y
-            originalWidth = self.innerView.frame.width
-            originalHeight = self.innerView.frame.height
-            originalMinX = self.innerView.frame.minX
+            originalWidth = bounds.width
+            originalHeight = bounds.height
+            originalMinX = 0
         } else {
             if translation.y > 0 {
                 if translation.y > 90 {
@@ -93,17 +123,128 @@ class StoryView: UIView {
                 } else {
                     UIApplication.shared.isStatusBarHidden = true
                 }
-                let scale: CGFloat = 15
+                let scale: CGFloat = 20
                 let rect = CGRect(x: 0, y: 0, width: originalWidth - (translation.y/scale), height: originalHeight - (translation.y/scale))
+                
                 self.innerView.center = CGPoint(x: innerView.center.x, y: originalCenterYCord + (translation.y/2))
                 self.imageView.frame = rect
+                self.captionScrollView.subviews.first?.frame = rect
                 if let playerLayer = self.playerLayer {
                     playerLayer.frame = rect
                 }
+                
                 self.innerView.frame = CGRect(x: originalMinX + (translation.y/(scale * 2)), y: innerView.frame.minY, width: originalWidth - (translation.y/scale), height: originalHeight - (translation.y/scale))
             } else {
                 self.innerView.center.y = originalCenterYCord
+                if story?.comments.count ?? 0 > 1 {
+                    captionScrollView.contentOffset = CGPoint(x: 0, y: -translation.y)
+                }
             }
+        }
+    }
+    
+    func enableComments() {
+        self.viewingComments = true
+        
+        self.toTopBtn.isHidden = false
+        
+        self.captionScrollView.isHidden = false
+        
+        self.sendCaptionBtn.isHidden = true
+        self.cancelCaptionBtn.isHidden = true
+        
+        self.addCommentBtn.isHidden = false
+
+        captionScrollView.isScrollEnabled = true
+
+    }
+    
+    func disableComments() {
+        captionScrollView.isScrollEnabled = false
+        viewingComments = false
+        toTopBtn.isHidden = true
+        
+        self.sendCaptionBtn.isHidden = true
+        self.cancelCaptionBtn.isHidden = true
+    }
+    
+    @IBAction func toTopPress(_ sender: Any) {
+        print("to top")
+        captionScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+        disableComments()
+    }
+    
+    @IBOutlet weak var addCommentBtn: UIButton!
+    
+    var addCaptionView: MediaCaptionView!
+    
+    @IBAction func cancelCommentPress(_ sender: Any) {
+        print("cancel comment")
+        addCaptionView.removeFromSuperview()
+        captionScrollView.isHidden = false
+        
+        sendCaptionBtn.isHidden = true
+        cancelCaptionBtn.isHidden = true
+        addCommentBtn.isHidden = false
+    }
+    
+    @IBAction func addCommentPress(_ sender: Any) {
+        print("add comment")
+        captionScrollView.isHidden = true
+        addCaptionView = MediaCaptionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+        addCaptionView.configure()
+        
+        viewingComments = true
+        
+        self.innerView.insertSubview(addCaptionView, aboveSubview: imageView)
+        
+        sendCaptionBtn.isHidden = false
+        cancelCaptionBtn.isHidden = false
+        addCommentBtn.isHidden = true
+        
+        addCaptionView.caption.isHidden = false
+        addCaptionView.caption.becomeFirstResponder()
+    }
+    
+    @IBAction func sendCaptionPress(_ sender: Any) {
+        print("send caption")
+        let captionImg = UIImage(view: addCaptionView)
+        Networker.shared.uploadComment(image: captionImg, storyId: (story?.id)!, completionHandler: { response in
+            switch response.result {
+            case .success:
+                print("comment upload done")
+                State.shared.getMyStories()
+            case .failure:
+                self.addCaptionView.removeFromSuperview()
+                self.captionScrollView.isHidden = false
+                print(response.debugDescription)
+            }
+        })
+        
+        self.addCaptionView.caption.resignFirstResponder()
+        self.addCaptionView.removeFromSuperview()
+
+        let first = captionScrollView.subviews.first as! CaptionView
+        first.commentLabel.isHidden = false
+        
+        enableComments()
+        
+        story?.comments.append(Comment(id: 0, mediaUrl: "", posterName: (State.shared.me?.name)!, timestamp: Int64(NSDate().timeIntervalSince1970 * 1000), userId: (State.shared.me?.id)!))
+        
+        captionImg.af_inflate()
+        let bounds = UIScreen.main.bounds
+        let img = captionImg.af_imageScaled(to: CGSize(width: bounds.width, height: bounds.height))
+        print(img.size)
+        
+        self.appendComment(posterName: (State.shared.me?.name)!, timestamp: Int64(NSDate().timeIntervalSince1970 * 1000), image: img)
+        let offset = CGFloat(self.captionScrollView.subviews.count - 1) * bounds.height
+        self.captionScrollView.setContentOffset(CGPoint(x: 0, y: offset), animated: true)
+
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if scrollView.contentOffset.y <= 0 {
+            disableComments()
         }
     }
     
@@ -151,6 +292,7 @@ class StoryView: UIView {
             let image = story.media
             
             self.imageView.frame = self.innerView.frame
+            print(story.mediaUrl)
             self.imageView.image = image
             self.imageView.layer.sublayers = nil
             player = nil
@@ -167,24 +309,48 @@ class StoryView: UIView {
             player?.actionAtItemEnd = .none
         }
         
-        styleLabel(label: self.nameLabel)
-        styleLabel(label: self.timeLabel)
+        disableComments()
+        
+        let comments = story.comments
+        
+        
+        print(comments.count)
+        captionScrollView.subviews.forEach({ $0.removeFromSuperview() })
+        
+        for comment in comments {
+            appendComment(posterName: comment.posterName, timestamp: comment.timestamp, image: comment.image!)
+        }
         
         self.userId = story.userId
-        self.nameLabel.text = story.posterName
-        self.timeLabel.text = calcTime(time: story.timestamp)
         
         self.group?.storyViewIdx += 1
     }
     
-    func styleLabel(label: UILabel) {
-        label.layer.shadowOffset = CGSize(width: 0, height: 0)
-        label.layer.shadowOpacity = 1
-        label.layer.shadowRadius = 3
+    func appendComment(posterName: String, timestamp: Int64, image: UIImage) {
+        let captionView = UINib(nibName: "CaptionView", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! CaptionView
+        
+        styleLayer(layer: captionView.nameLabel.layer)
+        styleLayer(layer: captionView.timeLabel.layer)
+        
+        captionView.nameLabel.text = posterName
+        captionView.timeLabel.text = calcTime(time: timestamp)
+        captionView.image = image
+        
+        let count = captionScrollView.subviews.count
+        
+        captionView.frame = CGRect(x: innerView.frame.minX, y: innerView.frame.minY + (CGFloat(count) * UIScreen.main.bounds.height), width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        
+        if count > 0 || (story?.comments.count ?? 0) < 2 {
+            captionView.commentLabel.isHidden = true
+        }
+        
+        captionScrollView.addSubview(captionView)
+        
+        captionScrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: CGFloat(count + 1) * UIScreen.main.bounds.height)
     }
     
     func playerDidFinishPlaying(note: NSNotification){
-        if panning {
+        if panning || viewingComments {
             if story?.mediaType == .video {
                 player?.seek(to: kCMTimeZero)
                 player?.play()

@@ -3,6 +3,7 @@ import time
 from sqlalchemy import Column, Integer, String, ForeignKey, BigInteger, SmallInteger
 from sqlalchemy.orm import relationship
 from ..db import Base
+from .comment import Comment
 
 CDN_URL = "https://static.amarbleapp.com/media/"
 
@@ -33,5 +34,6 @@ class Story(Base):
                 'user_name' : self.user.name,
                 'user_id' : self.user_id,
                 'timestamp' : self.timestamp,
-                'id' : self.id
+                'id' : self.id,
+                'comments': [comment.to_dict() for comment in self.comments.order_by(Comment.timestamp).all()]
                 }

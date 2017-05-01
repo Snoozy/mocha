@@ -9,13 +9,13 @@
 import UIKit
 import AVFoundation
 
-class MediaVideoView: UIView, UITextViewDelegate {
+class MediaCaptionView: UIView, UITextViewDelegate {
     
     // MARK: - Lifecycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        //configure()
+        configure()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -24,10 +24,11 @@ class MediaVideoView: UIView, UITextViewDelegate {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        //configure()
+        configure()
     }
     
     func configure() {
+        clearCaption()
         addSubview(caption)
         addGestureRecognizer(tapRecognizer)
         addGestureRecognizer(panRecognizer)
@@ -36,9 +37,13 @@ class MediaVideoView: UIView, UITextViewDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidChangeFrame(notification:)), name: NSNotification.Name.UIKeyboardDidChangeFrame, object: nil)
     }
     
+    func isEmpty() -> Bool {
+        return caption.text == ""
+    }
+    
     private var prevCaptionHeight: CGFloat?
     
-    func keyboardWillShow(notification: Notification) {
+    internal func keyboardWillShow(notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardHeight = keyboardSize.height
             prevCaptionHeight = captionCenterY
@@ -52,7 +57,7 @@ class MediaVideoView: UIView, UITextViewDelegate {
     
     private var keyboardLastHeight: CGFloat?
     
-    func keyboardDidChangeFrame(notification: Notification) {
+    internal func keyboardDidChangeFrame(notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardHeight = keyboardSize.height
             keyboardLastHeight = keyboardHeight
@@ -64,7 +69,7 @@ class MediaVideoView: UIView, UITextViewDelegate {
     
     // MARK: - Subviews
     
-    private lazy var caption: UITextView = {
+    lazy var caption: UITextView = {
         let textField = UITextView()
         textField.backgroundColor = UIColor.black.withAlphaComponent(0.0)
         textField.textAlignment = .center
@@ -72,9 +77,9 @@ class MediaVideoView: UIView, UITextViewDelegate {
         textField.font = .boldSystemFont(ofSize: 30)
         textField.tintColor = .white
         textField.keyboardAppearance = .light
-        textField.layer.shadowOffset = CGSize(width: 0, height: 0)
-        textField.layer.shadowOpacity = 0.9
-        textField.layer.shadowRadius = 2.0
+        
+        styleLayer(layer: textField.layer)
+        
         textField.returnKeyType = .done
         textField.isScrollEnabled = false
         textField.delegate = self
@@ -87,9 +92,9 @@ class MediaVideoView: UIView, UITextViewDelegate {
         return textField
     }()
     
-    var lastFontSize: CGFloat = 30
+    private var lastFontSize: CGFloat = 30
     
-    func captionPinched(_ gesture: UIPinchGestureRecognizer) {
+    internal func captionPinched(_ gesture: UIPinchGestureRecognizer) {
         if caption.isFirstResponder {
             return
         }
@@ -122,7 +127,7 @@ class MediaVideoView: UIView, UITextViewDelegate {
         caption.center = CGPoint(x: center.x, y: captionCenterY)
     }
     
-    func textViewDidChange(_ textView: UITextView) {
+    internal func textViewDidChange(_ textView: UITextView) {
         let size = textView.sizeThatFits(CGSize(width: bounds.size.width, height: .infinity))
         textView.bounds.size = size
         if size.height != captionInternalHeight {
@@ -146,7 +151,7 @@ class MediaVideoView: UIView, UITextViewDelegate {
     private lazy var tapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapped(_:)))
     private lazy var panRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panned(_:)))
     
-    @objc private func tapped(_ sender: UIPanGestureRecognizer) {
+    internal func tapped(_ sender: UIPanGestureRecognizer) {
         if caption.isFirstResponder {
             caption.resignFirstResponder()
             caption.isHidden = caption.text?.isEmpty ?? true
@@ -157,7 +162,7 @@ class MediaVideoView: UIView, UITextViewDelegate {
         }
     }
     
-    @objc private func panned(_ sender: UIPanGestureRecognizer) {
+    internal func panned(_ sender: UIPanGestureRecognizer) {
         if caption.isFirstResponder {
             return
         }

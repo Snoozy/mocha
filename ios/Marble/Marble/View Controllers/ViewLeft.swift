@@ -26,6 +26,8 @@ class ViewLeft: UITableViewController {
         
         pullDownRefresh()
         
+        State.shared.ping()
+        
         becomeFirstResponder()
     }
     

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -15,13 +15,14 @@
                 <outlet property="cameraFlipButton" destination="Ppf-bj-vyN" id="BX9-so-Hi2"/>
                 <outlet property="cameraView" destination="gC6-7d-etp" id="aRH-QF-LWv"/>
                 <outlet property="cancelButtonOut" destination="HhP-Mo-KqM" id="JqT-GO-4PS"/>
+                <outlet property="captionView" destination="UrR-4c-M7D" id="KfM-Fs-0Wu"/>
                 <outlet property="flashButton" destination="Fp8-Ji-qYQ" id="gzg-t3-oMo"/>
                 <outlet property="nextButtonOut" destination="TOK-8N-NbL" id="YL4-jB-FlK"/>
                 <outlet property="recordingProgress" destination="igO-4s-pVS" id="gTh-NG-9H3"/>
                 <outlet property="takePhotoButton" destination="4si-Dq-6zy" id="uMb-Ao-pWq"/>
                 <outlet property="takeVideoLongPress" destination="dxc-zd-t9n" id="yBK-ZX-BHR"/>
                 <outlet property="tempImageView" destination="UXt-6l-v0K" id="p6v-og-lDR"/>
-                <outlet property="videoView" destination="9vT-Lj-HGQ" id="AAb-vv-zNt"/>
+                <outlet property="videoView" destination="9vT-Lj-HGQ" id="68T-hp-nbJ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -90,11 +91,15 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="0.82515517979452058" colorSpace="calibratedRGB"/>
                 </progressView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UXt-6l-v0K" customClass="MediaImageView" customModule="Marble" customModuleProvider="target">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UXt-6l-v0K">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                     <gestureRecognizers/>
                 </imageView>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9vT-Lj-HGQ" customClass="MediaVideoView" customModule="Marble" customModuleProvider="target">
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9vT-Lj-HGQ">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UrR-4c-M7D" customClass="MediaCaptionView" customModule="Marble" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -129,6 +134,7 @@
             </subviews>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="TOK-8N-NbL" secondAttribute="bottom" constant="20" id="0cz-Z1-ygi"/>
+                <constraint firstAttribute="trailing" secondItem="UrR-4c-M7D" secondAttribute="trailing" id="1Jn-fv-QQO"/>
                 <constraint firstAttribute="trailing" secondItem="UXt-6l-v0K" secondAttribute="trailing" id="3Dd-1y-5sj"/>
                 <constraint firstItem="Fp8-Ji-qYQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="29" id="6Vx-Gl-Rbk"/>
                 <constraint firstAttribute="trailing" secondItem="gC6-7d-etp" secondAttribute="trailing" id="75f-w8-sU3"/>
@@ -141,11 +147,14 @@
                 <constraint firstAttribute="bottom" secondItem="gC6-7d-etp" secondAttribute="bottom" id="OfE-VP-Ccq"/>
                 <constraint firstAttribute="bottom" secondItem="9vT-Lj-HGQ" secondAttribute="bottom" id="PNV-h4-Lxx"/>
                 <constraint firstAttribute="trailing" secondItem="9vT-Lj-HGQ" secondAttribute="trailing" id="QVG-HX-6Xi"/>
+                <constraint firstAttribute="bottom" secondItem="UrR-4c-M7D" secondAttribute="bottom" id="SDn-qd-zoA"/>
                 <constraint firstItem="hFx-m6-NCj" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="6" id="T0n-sk-lne"/>
                 <constraint firstItem="9vT-Lj-HGQ" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="TCe-k9-ytM"/>
                 <constraint firstAttribute="trailing" secondItem="Ppf-bj-vyN" secondAttribute="trailing" constant="16" id="Z3e-tw-NT8"/>
                 <constraint firstItem="4si-Dq-6zy" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="dDL-uZ-UDq"/>
+                <constraint firstItem="UrR-4c-M7D" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="ftJ-Qh-Sgu"/>
                 <constraint firstItem="9vT-Lj-HGQ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="iES-wT-h7m"/>
+                <constraint firstItem="UrR-4c-M7D" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="iJG-Ej-n4L"/>
                 <constraint firstItem="igO-4s-pVS" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="jCQ-gz-7H0"/>
                 <constraint firstItem="igO-4s-pVS" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="jLe-29-EVd"/>
                 <constraint firstItem="UXt-6l-v0K" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ji9-64-ZHl"/>
@@ -191,6 +200,6 @@
         <image name="back-btn" width="253" height="186"/>
         <image name="camera-switch" width="512" height="512"/>
         <image name="flash-off" width="200" height="200"/>
-        <image name="take-photo-button" width="149" height="149"/>
+        <image name="take-photo-button" width="146" height="146"/>
     </resources>
 </document>

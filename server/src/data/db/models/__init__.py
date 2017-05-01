@@ -1,1 +1,1 @@
-__all__ = ["group", "story", "user", "membership", "block", "flag"]
+__all__ = ["group", "story", "user", "membership", "block", "flag", "comment"]
