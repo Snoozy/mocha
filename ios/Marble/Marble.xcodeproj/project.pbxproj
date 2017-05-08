@@ -358,6 +358,7 @@
 		425F35791EB687530014F90F /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Data/Models/User.swift; sourceTree = "<group>"; };
 		42623CBE1E3B0B5A0068D4FA /* AuthNetworker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthNetworker.swift; path = Data/Networkers/AuthNetworker.swift; sourceTree = "<group>"; };
 		42623CC01E3B0BE10068D4FA /* Networker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Networker.swift; path = Data/Networkers/Networker.swift; sourceTree = "<group>"; };
+		42651EA31EB879E4006BEF33 /* Marble.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Marble.entitlements; sourceTree = "<group>"; };
 		426E24C91E4ABD6400F24992 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Data/Constants.swift; sourceTree = "<group>"; };
 		426FB0461E55A618000AFAF9 /* GroupTVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GroupTVCell.swift; path = Views/GroupTVCell.swift; sourceTree = "<group>"; };
 		427FFC6A1E3B1F470007159C /* AlamofireNetworkActivityIndicator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireNetworkActivityIndicator.xcodeproj; path = AlamofireNetworkActivityIndicator/AlamofireNetworkActivityIndicator.xcodeproj; sourceTree = "<group>"; };
@@ -651,6 +652,7 @@
 		952AF8041DAB363D005E60C7 /* Marble */ = {
 			isa = PBXGroup;
 			children = (
+				42651EA31EB879E4006BEF33 /* Marble.entitlements */,
 				42F790631E39C78500D3B2AF /* Data */,
 				42CC207F1E43235B00EC419A /* Views */,
 				42D5759D1E371F150094037D /* View Controllers */,
@@ -722,11 +724,21 @@
 				TargetAttributes = {
 					42E13D901E8E46610016FA76 = {
 						DevelopmentTeam = UE4AVLL9FF;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 0;
+							};
+						};
 					};
 					952AF8011DAB363D005E60C7 = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = UE4AVLL9FF;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1221,6 +1233,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Marble/Marble.entitlements;
 				DEVELOPMENT_TEAM = UE4AVLL9FF;
 				INFOPLIST_FILE = Marble/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -1238,6 +1251,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Marble/Marble.entitlements;
 				DEVELOPMENT_TEAM = UE4AVLL9FF;
 				INFOPLIST_FILE = Marble/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;

@@ -47,7 +47,7 @@ class MainGroupTVCell: UITableViewCell {
                 }
             }()
             storyPreview.image = image.circleMasked
-        } else if State.shared.groupStories[(group?.groupId)!]?.count == 0{
+        } else if State.shared.groupStories[(group?.groupId)!]?.count == 0 {
             storyPreview.image = nil
         }
     }

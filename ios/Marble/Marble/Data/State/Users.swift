@@ -31,8 +31,8 @@ extension State {
         })
     }
     
-    func ping() {
-        Networker.shared.ping(completionHandler: { response in
+    func ping(deviceToken: String) {
+        Networker.shared.ping(deviceToken: deviceToken, completionHandler: { response in
             switch response.result {
             case .success(let val):
                 let json = JSON(val)

@@ -11,8 +11,11 @@ import Alamofire
 
 extension Networker {
     
-    func ping(completionHandler: @escaping (DataResponse<Any>) -> ()) {
-        self.sessionManager.request(Router.Ping).validate().responseJSON(completionHandler: completionHandler)
+    func ping(deviceToken: String, completionHandler: @escaping (DataResponse<Any>) -> ()) {
+        let params: Parameters = [
+            "device_token": deviceToken
+        ]
+        self.sessionManager.request(Router.Ping, method: .post, parameters: params, encoding: URLEncoding.default).validate().responseJSON(completionHandler: completionHandler)
     }
     
     func signup(name: String, username: String, password: String, completionHandler: @escaping (DataResponse<Any>) -> ()) {

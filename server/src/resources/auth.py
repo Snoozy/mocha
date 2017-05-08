@@ -3,9 +3,10 @@ import re
 import falcon
 from data.redis import redis_client as redis
 from data.db.models.user import User
+from data.db.models.device import Device
 from passlib.hash import pbkdf2_sha256
 import os, base64
-
+from data.aws import boto_session
 
 username_regex = re.compile('^[a-z0-9\.\-_]+$')
 
@@ -116,6 +117,35 @@ class PingResource:
                 return
         resp.status = falcon.HTTP_UNAUTHORIZED
 
+    def on_post(self, req, resp, user_id):
+        if user_id is not None:
+            device_token = req.get_param('device_token')
+            user = req.session.query(User).filter(User.id == user_id).first()
+            if user:
+                resp.json = {
+                        "user_id" : user.id,
+                        "name" : user.name,
+                        "username" : user.username,
+                    }
+                if device_token:
+                    process_device_token(device_token, user, req.session)
+                return
+        resp.status = falcon.HTTP_UNAUTHORIZED
+
+APNS_PLATFORM_APP_ARN = 'arn:aws:sns:us-west-2:005648703137:app/APNS/marble'
+SNS_REGION = 'us-west-2'
+
+def process_device_token(token, user, session):
+    device = session.query(Device).filter(Device.token == token).first()
+    if not device:
+        sns = boto_session.resource('sns', region_name=SNS_REGION)
+        plat_app = sns.PlatformApplication(APNS_PLATFORM_APP_ARN)
+        plat_endpoint = plat_app.create_platform_endpoint(
+                    Token=token,
+                    CustomUserData='user_id : ' + str(user.id),
+                )
+        new_device = Device(user_id=user.id, type=0, arn=plat_endpoint.arn, token=token)
+        session.add(new_device)
 
 def log_in(user, attempt):
     if pbkdf2_sha256.verify(attempt, user.password):

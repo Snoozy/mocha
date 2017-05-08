@@ -49,6 +49,20 @@ extension State {
             }
         })
     }
+    
+    func loadStories() {
+        for (_, stories) in State.shared.groupStories {
+            for story in stories {
+                story.loadMedia()
+            }
+        }
+    }
+    
+    func getAndLoadStories() {
+        self.getMyStories(completionHandler: { _ in
+            self.loadStories()
+        })
+    }
         
     func checkGroupStoriesReady(groupId: Int) -> Bool {
         let stories = self.groupStories[groupId]

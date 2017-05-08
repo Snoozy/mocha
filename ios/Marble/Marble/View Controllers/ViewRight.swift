@@ -75,6 +75,12 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         self.parent?.view.addGestureRecognizer(panGest)
         
         takeVideoLongPress.delegate = self
+        
+        nextButtonOut.layer.cornerRadius = 5
+        
+        cancelButtonOut.layer.borderWidth = 1
+        cancelButtonOut.layer.cornerRadius = 5
+        cancelButtonOut.layer.borderColor = UIColor.white.cgColor
     }
     
     override func didReceiveMemoryWarning() {
@@ -320,7 +326,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             captureSession?.startRunning()
         }
         
-        if flashActive {
+        if flashActive && (camera?.isTorchModeSupported(.on) ?? false) {
             try! camera?.lockForConfiguration()
             camera?.torchMode = .on
             camera?.unlockForConfiguration()

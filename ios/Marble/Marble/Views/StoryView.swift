@@ -34,6 +34,8 @@ class StoryView: UIView, UIScrollViewDelegate {
     
     var panning: Bool = false
     
+    //var numComments: Int = 0
+    
     var playerLayer: AVPlayerLayer?
     var player: AVPlayer?
     
@@ -92,7 +94,6 @@ class StoryView: UIView, UIScrollViewDelegate {
                     if let playerLayer = self.playerLayer {
                         playerLayer.frame = rect
                     }
-                    
                 })
             } else if translation.y > -70 {
                 captionScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
@@ -136,7 +137,7 @@ class StoryView: UIView, UIScrollViewDelegate {
                 self.innerView.frame = CGRect(x: originalMinX + (translation.y/(scale * 2)), y: innerView.frame.minY, width: originalWidth - (translation.y/scale), height: originalHeight - (translation.y/scale))
             } else {
                 self.innerView.center.y = originalCenterYCord
-                if story?.comments.count ?? 0 > 1 {
+                if captionScrollView.subviews.count > 1 {
                     captionScrollView.contentOffset = CGPoint(x: 0, y: -translation.y)
                 }
             }
@@ -186,6 +187,15 @@ class StoryView: UIView, UIScrollViewDelegate {
         sendCaptionBtn.isHidden = true
         cancelCaptionBtn.isHidden = true
         addCommentBtn.isHidden = false
+        
+        if captionScrollView.contentOffset.y <= 0 {
+            toTopBtn.isHidden = true
+            captionScrollView.isScrollEnabled = true
+            viewingComments = false
+        } else {
+            toTopBtn.isHidden = false
+            viewingComments = true
+        }
     }
     
     @IBAction func addCommentPress(_ sender: Any) {
@@ -202,18 +212,35 @@ class StoryView: UIView, UIScrollViewDelegate {
         cancelCaptionBtn.isHidden = false
         addCommentBtn.isHidden = true
         
+        toTopBtn.isHidden = true
+        
         addCaptionView.caption.isHidden = false
         addCaptionView.caption.becomeFirstResponder()
     }
     
     @IBAction func sendCaptionPress(_ sender: Any) {
         print("send caption")
+        if addCaptionView.isEmpty() {
+            let alert = UIAlertController(title: "Comment cannot be empty", message: nil, preferredStyle: .alert)
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+            alert.addAction(cancel)
+            UIApplication.topViewController()?.present(alert, animated: true, completion: nil)
+            return
+        }
         let captionImg = UIImage(view: addCaptionView)
         Networker.shared.uploadComment(image: captionImg, storyId: (story?.id)!, completionHandler: { response in
             switch response.result {
-            case .success:
+            case .success(let val):
                 print("comment upload done")
-                State.shared.getMyStories()
+                let json = JSON(val)
+                let mediaId = json["media_url"].stringValue.components(separatedBy: "/").last
+                var fileUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                fileUrl.appendPathComponent(mediaId! + ".png")
+                let data = UIImagePNGRepresentation(captionImg)
+                try? data?.write(to: fileUrl)
+                State.shared.getMyStories(completionHandler: { _ in
+                    State.shared.loadStories()
+                })
             case .failure:
                 self.addCaptionView.removeFromSuperview()
                 self.captionScrollView.isHidden = false
@@ -229,7 +256,7 @@ class StoryView: UIView, UIScrollViewDelegate {
         
         enableComments()
         
-        story?.comments.append(Comment(id: 0, mediaUrl: "", posterName: (State.shared.me?.name)!, timestamp: Int64(NSDate().timeIntervalSince1970 * 1000), userId: (State.shared.me?.id)!))
+        //numComments += 1
         
         captionImg.af_inflate()
         let bounds = UIScreen.main.bounds
@@ -313,6 +340,7 @@ class StoryView: UIView, UIScrollViewDelegate {
         
         let comments = story.comments
         
+        //numComments = comments.count
         
         print(comments.count)
         captionScrollView.subviews.forEach({ $0.removeFromSuperview() })
@@ -338,7 +366,7 @@ class StoryView: UIView, UIScrollViewDelegate {
         
         let count = captionScrollView.subviews.count
         
-        captionView.frame = CGRect(x: innerView.frame.minX, y: innerView.frame.minY + (CGFloat(count) * UIScreen.main.bounds.height), width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        captionView.frame = CGRect(x: 0, y: (CGFloat(count) * UIScreen.main.bounds.height), width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         if count > 0 || (story?.comments.count ?? 0) < 2 {
             captionView.commentLabel.isHidden = true

@@ -4,7 +4,10 @@ from data.aws import boto_session
 import uuid
 from data.db.models.story import Story
 from data.db.models.comment import Comment
+from data.notificaions import send_notification, get_user_badge_num
 from io import StringIO
+import multiprocessing
+
 
 BLANK_CAPTION_RAND_STR = 'a67722d1-c43b-492a-b899-3131057bee3a'
 
@@ -12,6 +15,8 @@ class ImageUploadResource:
 
     @falcon.before(max_body_length(1024 * 1024 * 6))  # 6MB max size
     def on_post(self, req, resp, user_id):
+        user = req.session.query(User).filter(User.id == user_id).first()
+        
         group_ids = req.get_param('group_ids')
         media = req.get_param('image')
         caption = req.get_param('caption')
@@ -47,6 +52,9 @@ class ImageUploadResource:
             else:
                 comment = Comment(story_id=new_story.id, media_id=BLANK_CAPTION_RAND_STR, user_id=user_id)
                 new_story.comments.append(comment)
+        
+        groups = req.session.query(Group).filter(Group.id.in_(group_ids)).all()
+        async_send_posted_notifs(user, groups)
 
         resp.json = {
                 "media_id" : rand_str
@@ -57,6 +65,13 @@ class VideoUploadResource:
 
     @falcon.before(max_body_length(1024 * 1024 * 15))  # 18 MB max size
     def on_post(self, req, resp, user_id):
+        user = req.session.query(User).filter(User.id == user_id).first()
+        if not user:
+            resp.json = {
+                    'status': 1
+                }
+            return
+
         group_ids = req.get_param('group_ids')
         video = req.get_param('video')
         caption = req.get_param('caption')
@@ -90,6 +105,9 @@ class VideoUploadResource:
             else:
                 comment = Comment(story_id=new_story.id, media_id=BLANK_CAPTION_RAND_STR, user_id=user_id)
                 new_story.comments.append(comment)
+        
+        groups = req.session.query(Group).filter(Group.id.in_(group_ids)).all()
+        async_send_posted_notifs(user, groups)
 
         resp.json = {
                 'media_id' : rand_str
@@ -126,3 +144,19 @@ class CommentUploadResource:
 
         resp.json = new_comment.to_dict()
         return
+
+def async_send_posted_notifs(poster, groups):
+    process = multiprocessing.Process(target=send_notifications, args=(poster, groups,))
+    process.daemon = True
+    p.start()
+
+def send_posted_notifications(poster, groups):
+    for group in groups:
+        members = group.members
+        for member in members:
+            if member.id != poster.id:
+                badge_num = get_user_badge_num(poster)
+                msg = "{} posted to {}".format(poster.name, group.name)
+                for device in member.devices:
+                    send_notification(device, msg, badge_num=badge_num)
+

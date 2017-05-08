@@ -25,9 +25,7 @@ class ViewLeft: UITableViewController {
         self.view.addGestureRecognizer(longPressRecognizer)
         
         pullDownRefresh()
-        
-        State.shared.ping()
-        
+                
         becomeFirstResponder()
     }
     
@@ -60,6 +58,22 @@ class ViewLeft: UITableViewController {
                 }
             })
             alertController.addAction(logoutAction)
+            
+            let clearCacheAction = UIAlertAction(title: "Clear Cache", style: .destructive, handler: { action in
+                do {
+                    let docDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                    let paths = try FileManager.default.contentsOfDirectory(atPath: docDir.path)
+                    for file in paths {
+                        print("removing: " + file)
+                        try FileManager.default.removeItem(atPath: docDir.path + "/" + file)
+                    }
+                    self.pullDownRefresh()
+                } catch let error {
+                    print("error clearing cache: \(error.localizedDescription)")
+                }
+            })
+            alertController.addAction(clearCacheAction)
+            
             self.present(alertController, animated: true, completion: nil)
         }
     }
@@ -94,17 +108,16 @@ class ViewLeft: UITableViewController {
                     if groupCell == nil {
                         continue
                     }
-                    groupCell?.startLoading()
                     groupCell?.storyLoadCount = stories.count
-                    if stories.count == 0 {
-                        groupCell?.stopLoading()
-                    } else {
+                    if stories.count > 0 {
                         func lock(obj: AnyObject, blk:() -> ()) {
                             objc_sync_enter(obj)
                             blk()
                             objc_sync_exit(obj)
                         }
-                        
+                        if !State.shared.checkGroupStoriesReady(groupId: groupId) {
+                            groupCell?.startLoading()
+                        }
                         for story in stories {
                             story.loadMedia(completionHandler: { story in
                                 lock(obj: groupCell?.storyLoadCount! as AnyObject, blk: {
@@ -121,6 +134,8 @@ class ViewLeft: UITableViewController {
                                 }
                             })
                         }
+                    } else {
+                        groupCell?.refreshPreview()
                     }
                 }
             } else {
@@ -174,6 +189,10 @@ class ViewLeft: UITableViewController {
         UIApplication.topViewController()?.view.addSubview(imageViewer)
         
         imageViewer.mediaStart()
+        
+//        if (group?.lastSeen)! < (State.shared.groupStories[(group?.groupId)!]?.last?.timestamp)! {
+//            UIApplication.shared.applicationIconBadgeNumber = max(0, UIApplication.shared.applicationIconBadgeNumber - 1)
+//        }
         
         Networker.shared.storySeen(groupId: (group?.groupId)! ,completionHandler: { _ in })  // empty completion handler
         group?.lastSeen = Int64(Date().timeIntervalSince1970 * 1000)
