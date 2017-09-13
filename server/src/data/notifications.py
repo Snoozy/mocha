@@ -36,7 +36,7 @@ def get_user_badge_num(user):
     for membership in user.memberships:
         last_seen = membership.last_seen
         last_story = membership.group.stories.order_by(Story.timestamp.desc()).first()
-        if last_story.timestamp > last_seen:
+        if last_story and last_seen and last_story.timestamp > last_seen:
             badge_num += 1
     return badge_num
 

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 class ViewLeft: UITableViewController {
     
@@ -24,8 +25,26 @@ class ViewLeft: UITableViewController {
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPress(_:)))
         self.view.addGestureRecognizer(longPressRecognizer)
         
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
+            
+            guard error == nil else {
+                print("error")
+                return
+            }
+            
+            if granted {
+                //Register for RemoteNotifications. Your Remote Notifications can display alerts now :)
+                print("user granted notifications")
+                UIApplication.shared.registerForRemoteNotifications()
+            }
+            else {
+                print("User denied notifications")
+                UIApplication.shared.registerForRemoteNotifications()
+            }
+        }
+        
         pullDownRefresh()
-                
+        
         becomeFirstResponder()
     }
     
@@ -190,9 +209,17 @@ class ViewLeft: UITableViewController {
         
         imageViewer.mediaStart()
         
-//        if (group?.lastSeen)! < (State.shared.groupStories[(group?.groupId)!]?.last?.timestamp)! {
-//            UIApplication.shared.applicationIconBadgeNumber = max(0, UIApplication.shared.applicationIconBadgeNumber - 1)
-//        }
+        if State.shared.groupStories[(group?.groupId)!]?.count == 0 {
+            let alert = UIAlertController(title: "Doesn't seem to be anything there..", message: "Swipe left to add something", preferredStyle: .alert)
+            let cancel = UIAlertAction(title: "Ok", style: .cancel)
+            alert.addAction(cancel)
+            UIApplication.topViewController()?.present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        if (group?.lastSeen ?? 1) < (State.shared.groupStories[(group?.groupId)!]?.last?.timestamp ??  0) {
+            UIApplication.shared.applicationIconBadgeNumber = max(0, UIApplication.shared.applicationIconBadgeNumber - 1)
+        }
         
         Networker.shared.storySeen(groupId: (group?.groupId)! ,completionHandler: { _ in })  // empty completion handler
         group?.lastSeen = Int64(Date().timeIntervalSince1970 * 1000)

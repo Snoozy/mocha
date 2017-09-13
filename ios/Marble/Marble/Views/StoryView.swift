@@ -25,6 +25,8 @@ class StoryView: UIView, UIScrollViewDelegate {
     var userId: Int?
     var story: Story?
     
+    @IBOutlet weak var addCommentLabel: UILabel!
+    
     @IBOutlet weak var captionScrollView: UIScrollView!
     var viewingComments: Bool = false
     
@@ -64,6 +66,8 @@ class StoryView: UIView, UIScrollViewDelegate {
         cancelCaptionBtn.layer.borderColor = UIColor.white.cgColor
         styleLayer(layer: cancelCaptionBtn.layer)
         
+        styleLayer(layer: addCommentLabel.layer)
+        
         styleLayer(layer: toTopBtn.layer)
     }
     
@@ -72,9 +76,12 @@ class StoryView: UIView, UIScrollViewDelegate {
             return
         }
         let translation = sender.translation(in: self)
+        
+        let pointOfNoReturn: CGFloat = 70  // at what point the drag will cancel story
+        
         if sender.state == .ended {
             panning = false
-            if translation.y > 90 {
+            if translation.y > pointOfNoReturn {
                 self.group?.storyViewIdx -= 1
                 self.cell?.refreshPreview()
                 UIView.animate(withDuration: 0.3, animations: {
@@ -95,7 +102,7 @@ class StoryView: UIView, UIScrollViewDelegate {
                         playerLayer.frame = rect
                     }
                 })
-            } else if translation.y > -70 {
+            } else if translation.y > -pointOfNoReturn {
                 captionScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
             } else if story?.comments.count ?? 0 > 1 {
                 captionScrollView.setContentOffset(CGPoint(x: 0, y: UIScreen.main.bounds.height), animated: true)
@@ -103,7 +110,7 @@ class StoryView: UIView, UIScrollViewDelegate {
             }
         } else if (sender.state == .began) {
             panning = true
-            self.backgroundColor = UIColor(white: 1, alpha: 1.0);
+            self.backgroundColor = UIColor(white: 0, alpha: 1.0);
             
             if story?.mediaType == .video && imageView.image != nil {
                 imageView.image = nil
@@ -118,13 +125,13 @@ class StoryView: UIView, UIScrollViewDelegate {
             originalMinX = 0
         } else {
             if translation.y > 0 {
-                if translation.y > 90 {
+                if translation.y > pointOfNoReturn {
                     UIApplication.shared.isStatusBarHidden = false
-                    self.backgroundColor = self.backgroundColor?.withAlphaComponent(1.0 - ((translation.y - 90.0)/UIScreen.main.bounds.height))
+                    self.backgroundColor = self.backgroundColor?.withAlphaComponent(1.0 - ((translation.y - pointOfNoReturn)/UIScreen.main.bounds.height))
                 } else {
                     UIApplication.shared.isStatusBarHidden = true
                 }
-                let scale: CGFloat = 20
+                let scale: CGFloat = 15  // lower means more photo shrinkage
                 let rect = CGRect(x: 0, y: 0, width: originalWidth - (translation.y/scale), height: originalHeight - (translation.y/scale))
                 
                 self.innerView.center = CGPoint(x: innerView.center.x, y: originalCenterYCord + (translation.y/2))
@@ -188,6 +195,8 @@ class StoryView: UIView, UIScrollViewDelegate {
         cancelCaptionBtn.isHidden = true
         addCommentBtn.isHidden = false
         
+        addCommentLabel.isHidden = true
+        
         if captionScrollView.contentOffset.y <= 0 {
             toTopBtn.isHidden = true
             captionScrollView.isScrollEnabled = true
@@ -212,6 +221,8 @@ class StoryView: UIView, UIScrollViewDelegate {
         cancelCaptionBtn.isHidden = false
         addCommentBtn.isHidden = true
         
+        addCommentLabel.isHidden = false
+        
         toTopBtn.isHidden = true
         
         addCaptionView.caption.isHidden = false
@@ -227,6 +238,7 @@ class StoryView: UIView, UIScrollViewDelegate {
             UIApplication.topViewController()?.present(alert, animated: true, completion: nil)
             return
         }
+        addCommentLabel.isHidden = true
         let captionImg = UIImage(view: addCaptionView)
         Networker.shared.uploadComment(image: captionImg, storyId: (story?.id)!, completionHandler: { response in
             switch response.result {
@@ -319,7 +331,6 @@ class StoryView: UIView, UIScrollViewDelegate {
             let image = story.media
             
             self.imageView.frame = self.innerView.frame
-            print(story.mediaUrl)
             self.imageView.image = image
             self.imageView.layer.sublayers = nil
             player = nil
@@ -340,9 +351,6 @@ class StoryView: UIView, UIScrollViewDelegate {
         
         let comments = story.comments
         
-        //numComments = comments.count
-        
-        print(comments.count)
         captionScrollView.subviews.forEach({ $0.removeFromSuperview() })
         
         for comment in comments {
@@ -378,11 +386,9 @@ class StoryView: UIView, UIScrollViewDelegate {
     }
     
     func playerDidFinishPlaying(note: NSNotification){
-        if panning || viewingComments {
-            if story?.mediaType == .video {
+        if story?.mediaType == .video {
                 player?.seek(to: kCMTimeZero)
                 player?.play()
-            }
         } else {
             mediaNext()
         }

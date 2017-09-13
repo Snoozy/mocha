@@ -21,7 +21,7 @@ extension State {
                             print("asdfasdf")
                             return $0.userId != userId
                         })
-                        print(self.groupStories[id])
+                        print(self.groupStories[id] ?? "error")
                     }
                 }
                 completionHandler?()
@@ -31,11 +31,12 @@ extension State {
         })
     }
     
-    func ping(deviceToken: String) {
+    func ping(deviceToken: String?) {
         Networker.shared.ping(deviceToken: deviceToken, completionHandler: { response in
             switch response.result {
             case .success(let val):
                 let json = JSON(val)
+                print(json)
                 self.me = User(id: json["user_id"].intValue, username: json["username"].stringValue, name: json["name"].stringValue)
             case .failure:
                 print(response.debugDescription)

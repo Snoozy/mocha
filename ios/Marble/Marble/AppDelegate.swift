@@ -19,36 +19,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?)
         -> Bool {
             
-            NetworkActivityIndicatorManager.shared.isEnabled = true
+        NetworkActivityIndicatorManager.shared.isEnabled = true
             
-            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (granted, error) in
-                
-                guard error == nil else {
-                    print("error")
-                    return
-                }
-                
-                if granted {
-                    //Register for RemoteNotifications. Your Remote Notifications can display alerts now :)
-                    application.registerForRemoteNotifications()
-                }
-                else {
-                    print("User denied notifications")
-                    application.registerForRemoteNotifications()
-                }
-            }
-            
-            if KeychainWrapper.hasAuthAndUser() {  // User is logged into app
-                self.window?.rootViewController = UIStoryboard.init(name: "Main", bundle: nil).instantiateInitialViewController()
-            } else {  // User not auth'd
-                self.window?.rootViewController = UIStoryboard.init(name: "Auth", bundle: nil).instantiateInitialViewController()
-            }
+        if KeychainWrapper.hasAuthAndUser() {  // User is logged into app
+            self.window?.rootViewController = UIStoryboard.init(name: "Main", bundle: nil).instantiateInitialViewController()
+        } else {  // User not auth'd
+            self.window?.rootViewController = UIStoryboard.init(name: "Auth", bundle: nil).instantiateInitialViewController()
+        }
         return true
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Zero out badge number whenever it enters foreground
-        application.applicationIconBadgeNumber = 0
+        //application.applicationIconBadgeNumber = 0
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
@@ -56,8 +39,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         for i in 0..<deviceToken.count {
             token = token + String(format: "%02.2hhx", arguments: [deviceToken[i]])
         }
-        print("Device Token: " + token)
+        print("DEVICE TOKEN: " + token)
         State.shared.ping(deviceToken: token)
+    }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("failed to register notifs")
+        print(error)
+        State.shared.ping(deviceToken: nil)
     }
 
 }

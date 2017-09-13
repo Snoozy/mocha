@@ -9,6 +9,7 @@
 import Foundation
 
 private let authTokenString: String = "auth_token"
+private let deviceTokenString: String = "device_token"
 private let userString: String = "user_id"
 
 extension KeychainWrapper {
@@ -40,5 +41,5 @@ extension KeychainWrapper {
     class func hasAuthAndUser() -> Bool {
         return KeychainWrapper.authToken() != nil && KeychainWrapper.userID() != nil
     }
-    
+        
 }

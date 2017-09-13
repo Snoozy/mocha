@@ -42,6 +42,16 @@
                                 <action selector="addCommentPress:" destination="iN0-l3-epB" eventType="touchUpInside" id="Xhk-mu-Cqr"/>
                             </connections>
                         </button>
+                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add a Comment" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YKj-24-MEu">
+                            <rect key="frame" x="142" y="8" width="130" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="21" id="42m-hP-8mL"/>
+                                <constraint firstAttribute="width" constant="130" id="Hvf-6m-shZ"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <button hidden="YES" opaque="NO" alpha="0.84999999999999998" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e6X-rO-aD7">
                             <rect key="frame" x="3" y="700" width="36" height="34"/>
                             <constraints>
@@ -92,8 +102,10 @@
                         <constraint firstItem="vKr-o3-FcJ" firstAttribute="leading" secondItem="qch-BV-Hes" secondAttribute="leading" constant="8" id="AOt-MI-Arx"/>
                         <constraint firstAttribute="bottom" secondItem="vKr-o3-FcJ" secondAttribute="bottom" constant="8" id="Eop-qv-E8t"/>
                         <constraint firstAttribute="bottom" secondItem="LTW-hk-7ND" secondAttribute="bottom" id="PjE-sb-uAy"/>
+                        <constraint firstItem="YKj-24-MEu" firstAttribute="centerX" secondItem="qch-BV-Hes" secondAttribute="centerX" id="Sfk-eP-77J"/>
                         <constraint firstAttribute="bottom" secondItem="e6X-rO-aD7" secondAttribute="bottom" constant="2" id="WjL-D4-BA1"/>
                         <constraint firstItem="LTW-hk-7ND" firstAttribute="top" secondItem="qch-BV-Hes" secondAttribute="top" id="YiA-Rj-YHO"/>
+                        <constraint firstItem="YKj-24-MEu" firstAttribute="top" secondItem="qch-BV-Hes" secondAttribute="top" constant="8" id="dgJ-a8-zEa"/>
                         <constraint firstItem="e6X-rO-aD7" firstAttribute="leading" secondItem="qch-BV-Hes" secondAttribute="leading" constant="3" id="sT4-VV-c8M"/>
                         <constraint firstAttribute="bottom" secondItem="Tyc-WC-Ujc" secondAttribute="bottom" constant="2" id="uUe-6Z-kWd"/>
                         <constraint firstAttribute="trailing" secondItem="Tyc-WC-Ujc" secondAttribute="trailing" constant="2" id="uYo-WQ-JHF"/>
@@ -101,7 +113,7 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <gestureRecognizers/>
             <constraints>
                 <constraint firstItem="qch-BV-Hes" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="MF7-35-YoC"/>
@@ -113,6 +125,7 @@
             </constraints>
             <connections>
                 <outlet property="addCommentBtn" destination="Tyc-WC-Ujc" id="BjX-zc-nJw"/>
+                <outlet property="addCommentLabel" destination="YKj-24-MEu" id="Pi6-7V-qu2"/>
                 <outlet property="cancelCaptionBtn" destination="vKr-o3-FcJ" id="bFj-Pj-xIh"/>
                 <outlet property="captionScrollView" destination="LTW-hk-7ND" id="qGS-bz-lQ3"/>
                 <outlet property="imageView" destination="jEl-uX-aUt" id="lLk-RE-9MJ"/>

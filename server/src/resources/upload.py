@@ -2,9 +2,12 @@ import falcon
 from utils import max_body_length
 from data.aws import boto_session
 import uuid
+from config import config
 from data.db.models.story import Story
 from data.db.models.comment import Comment
-from data.notificaions import send_notification, get_user_badge_num
+from data.db.models.user import User
+from data.db.models.group import Group
+from data.notifications import send_notification, get_user_badge_num
 from io import StringIO
 import multiprocessing
 
@@ -54,7 +57,7 @@ class ImageUploadResource:
                 new_story.comments.append(comment)
         
         groups = req.session.query(Group).filter(Group.id.in_(group_ids)).all()
-        async_send_posted_notifs(user, groups)
+        send_posted_notifications(user, groups)
 
         resp.json = {
                 "media_id" : rand_str
@@ -107,7 +110,7 @@ class VideoUploadResource:
                 new_story.comments.append(comment)
         
         groups = req.session.query(Group).filter(Group.id.in_(group_ids)).all()
-        async_send_posted_notifs(user, groups)
+        send_posted_notifications(user, groups)
 
         resp.json = {
                 'media_id' : rand_str
@@ -145,18 +148,13 @@ class CommentUploadResource:
         resp.json = new_comment.to_dict()
         return
 
-def async_send_posted_notifs(poster, groups):
-    process = multiprocessing.Process(target=send_notifications, args=(poster, groups,))
-    process.daemon = True
-    p.start()
-
 def send_posted_notifications(poster, groups):
     for group in groups:
-        members = group.members
-        for member in members:
-            if member.id != poster.id:
-                badge_num = get_user_badge_num(poster)
+        for user in group.users:
+            if user.id != poster.id:
+                badge_num = get_user_badge_num(user)
                 msg = "{} posted to {}".format(poster.name, group.name)
-                for device in member.devices:
+                for device in user.devices:
+                    print("sending notif to id: " + str(user.id))
                     send_notification(device, msg, badge_num=badge_num)
 

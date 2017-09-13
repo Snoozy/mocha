@@ -46,7 +46,7 @@ class MainGroupTVCell: UITableViewCell {
                     return videoPreviewImage(fileUrl: (story?.videoFileUrl)!)!
                 }
             }()
-            storyPreview.image = image.circleMasked
+            storyPreview.image = image.maskRectangle(width: storyPreview.frame.width, height: storyPreview.frame.height)
         } else if State.shared.groupStories[(group?.groupId)!]?.count == 0 {
             storyPreview.image = nil
         }

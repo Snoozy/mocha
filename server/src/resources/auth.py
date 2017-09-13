@@ -7,6 +7,7 @@ from data.db.models.device import Device
 from passlib.hash import pbkdf2_sha256
 import os, base64
 from data.aws import boto_session
+from config import config
 
 username_regex = re.compile('^[a-z0-9\.\-_]+$')
 
@@ -132,7 +133,7 @@ class PingResource:
                 return
         resp.status = falcon.HTTP_UNAUTHORIZED
 
-APNS_PLATFORM_APP_ARN = 'arn:aws:sns:us-west-2:005648703137:app/APNS/marble'
+APNS_PLATFORM_APP_ARN = 'arn:aws:sns:us-west-2:005648703137:app/APNS/marble' if config['env']['mode'] == 'prod' else 'arn:aws:sns:us-west-2:005648703137:app/APNS_SANDBOX/marble-dev'
 SNS_REGION = 'us-west-2'
 
 def process_device_token(token, user, session):

@@ -52,6 +52,7 @@ extension UIImage {
     var breadth:     CGFloat { return min(size.width, size.height) }
     var breadthSize: CGSize  { return CGSize(width: breadth, height: breadth) }
     var breadthRect: CGRect  { return CGRect(origin: .zero, size: breadthSize) }
+    
     var circleMasked: UIImage? {
         UIGraphicsBeginImageContextWithOptions(breadthSize, false, scale)
         defer { UIGraphicsEndImageContext() }
@@ -60,5 +61,16 @@ extension UIImage {
         UIImage(cgImage: cgImage).draw(in: breadthRect)
         return UIGraphicsGetImageFromCurrentImageContext()
     }
-
+    
+    func maskRectangle(width: CGFloat, height: CGFloat) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: width, height: height), false, 0)
+        defer { UIGraphicsEndImageContext() }
+        let imgRect = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: size.width, height: size.height - (floor((size.height - size.width) / 2))))
+        guard let cgImage = cgImage?.cropping(to: imgRect) else { return nil }
+        let rect = CGRect(x: 0, y: 0, width: width, height: height)
+        UIBezierPath(roundedRect: rect, cornerRadius: 3).addClip()
+        UIImage(cgImage: cgImage).draw(in: rect)
+        return UIGraphicsGetImageFromCurrentImageContext()
+    }
+    
 }
