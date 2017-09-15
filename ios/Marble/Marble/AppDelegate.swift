@@ -9,6 +9,7 @@
 import UIKit
 import AlamofireNetworkActivityIndicator
 import UserNotifications
+import AVFoundation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,6 +20,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?)
         -> Bool {
             
+            do {
+                print("configuring AVAudioSession")
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient,
+                                                                with: [.mixWithOthers, .allowBluetoothA2DP, .allowAirPlay])
+            } catch {
+                print("error configuring AVAudioSession")
+            }
+        
         NetworkActivityIndicatorManager.shared.isEnabled = true
             
         if KeychainWrapper.hasAuthAndUser() {  // User is logged into app
@@ -30,8 +39,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
-        // Zero out badge number whenever it enters foreground
-        //application.applicationIconBadgeNumber = 0
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {

@@ -27,7 +27,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>To take pictures</string>
+	<string>To take pictures and videos</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>To get audio for video recordings</string>
 	<key>UILaunchStoryboardName</key>

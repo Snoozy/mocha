@@ -608,8 +608,8 @@ open class SCLAlertView: UIViewController {
     
     // showInfo(view, title, subTitle)
     @discardableResult
-    open func showInfo(_ title: String, subTitle: String, closeButtonTitle:String?=nil, duration:TimeInterval=0.0, colorStyle: UInt=SCLAlertViewStyle.info.defaultColorInt, colorTextButton: UInt=0xFFFFFF, circleIconImage: UIImage? = nil, animationStyle: SCLAnimationStyle = .topToBottom) -> SCLAlertViewResponder {
-        return showTitle(title, subTitle: subTitle, duration: duration, completeText:closeButtonTitle, style: .info, colorStyle: colorStyle, colorTextButton: colorTextButton, circleIconImage: circleIconImage, animationStyle: animationStyle)
+    open func showInfo(_ title: String, subTitle: String, closeButtonTitle:String?=nil, duration:TimeInterval=0.0, colorStyle: UInt=SCLAlertViewStyle.info.defaultColorInt, colorTextButton: UInt=0xFFFFFF, circleIconImage: UIImage? = nil, animationStyle: SCLAnimationStyle = .topToBottom, iconHeightDeviation: Int = 0) -> SCLAlertViewResponder {
+        return showTitle(title, subTitle: subTitle, duration: duration, completeText:closeButtonTitle, style: .info, colorStyle: colorStyle, colorTextButton: colorTextButton, circleIconImage: circleIconImage, animationStyle: animationStyle, iconHeightDeviation: iconHeightDeviation)
     }
     
     // showWait(view, title, subTitle)
@@ -632,7 +632,7 @@ open class SCLAlertView: UIViewController {
     
     // showTitle(view, title, subTitle, duration, style)
     @discardableResult
-    open func showTitle(_ title: String, subTitle: String, duration: TimeInterval?, completeText: String?, style: SCLAlertViewStyle, colorStyle: UInt?=0x000000, colorTextButton: UInt?=0xFFFFFF, circleIconImage: UIImage? = nil, animationStyle: SCLAnimationStyle = .topToBottom) -> SCLAlertViewResponder {
+    open func showTitle(_ title: String, subTitle: String, duration: TimeInterval?, completeText: String?, style: SCLAlertViewStyle, colorStyle: UInt?=0x000000, colorTextButton: UInt?=0xFFFFFF, circleIconImage: UIImage? = nil, animationStyle: SCLAnimationStyle = .topToBottom, iconHeightDeviation: Int = 0) -> SCLAlertViewResponder {
         selfReference = self
         view.alpha = 0
         let rv = UIApplication.shared.keyWindow! as UIWindow
@@ -728,8 +728,8 @@ open class SCLAlertView: UIViewController {
         }
         circleView.addSubview(circleIconView!)
         let x = (appearance.kCircleHeight - appearance.kCircleIconHeight) / 2
-        circleIconView!.frame = CGRect( x: x, y: x, width: appearance.kCircleIconHeight, height: appearance.kCircleIconHeight)
-        circleIconView?.layer.cornerRadius = circleIconView!.bounds.height / 2
+        circleIconView!.frame = CGRect( x: x, y: x - CGFloat(iconHeightDeviation), width: appearance.kCircleIconHeight, height: appearance.kCircleIconHeight)
+        circleIconView?.layer.cornerRadius = 4
         circleIconView?.layer.masksToBounds = true
         
         for txt in inputs {

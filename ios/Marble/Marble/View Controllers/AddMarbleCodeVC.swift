@@ -132,7 +132,7 @@ class AddMarbleCodeVC: UIViewController {
                                 self.clearNumbers()
                                 self.responder?.close()
                             })
-                            self.responder = alert.showInfo(name, subTitle: String(memberCount) + " members")
+                            self.responder = alert.showInfo(name, subTitle: String(memberCount) + (memberCount > 1 ? " members" : " member"))
                         } else {  // error occurred
                             
                             let alert = UIAlertController(title: "Error", message: "Group does not exist", preferredStyle: .alert)

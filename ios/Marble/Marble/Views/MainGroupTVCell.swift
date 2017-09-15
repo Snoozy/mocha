@@ -47,6 +47,9 @@ class MainGroupTVCell: UITableViewCell {
                 }
             }()
             storyPreview.image = image.maskRectangle(width: storyPreview.frame.width, height: storyPreview.frame.height)
+            storyPreview.layer.shadowOffset = CGSize(width: 0, height: 0)
+            storyPreview.layer.shadowOpacity = 1
+            storyPreview.layer.shadowRadius = 2
         } else if State.shared.groupStories[(group?.groupId)!]?.count == 0 {
             storyPreview.image = nil
         }
@@ -57,8 +60,12 @@ class MainGroupTVCell: UITableViewCell {
         let lastStory = State.shared.groupStories[(group?.groupId)!]?.last
         if lastStory != nil && lastSeen! < (lastStory?.timestamp)! {
             title.font = UIFont.boldSystemFont(ofSize: title.font.pointSize)
+            storyPreview.layer.shadowColor = Constants.Colors.MarbleBlue.cgColor
+            storyPreview.layer.shadowRadius = 6
         } else {
             title.font = UIFont.systemFont(ofSize: title.font.pointSize)
+            storyPreview.layer.shadowColor = nil
+            storyPreview.layer.shadowRadius = 2
         }
     }
     

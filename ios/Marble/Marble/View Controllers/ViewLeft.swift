@@ -218,7 +218,7 @@ class ViewLeft: UITableViewController {
         }
         
         if (group?.lastSeen ?? 1) < (State.shared.groupStories[(group?.groupId)!]?.last?.timestamp ??  0) {
-            UIApplication.shared.applicationIconBadgeNumber = max(0, UIApplication.shared.applicationIconBadgeNumber - 1)
+            //UIApplication.shared.applicationIconBadgeNumber = max(0, UIApplication.shared.applicationIconBadgeNumber - 1)
         }
         
         Networker.shared.storySeen(groupId: (group?.groupId)! ,completionHandler: { _ in })  // empty completion handler
@@ -282,13 +282,69 @@ class ViewLeft: UITableViewController {
                 }
                 let group = cell?.group
                 let appearance = SCLAlertView.SCLAppearance(
+                    kCircleIconHeight: 100,
                     hideWhenBackgroundViewIsTapped: true
                 )
                 let alert = SCLAlertView(appearance: appearance)
                 let subTitle = String(format: "Marble Code: %d", (group?.groupId)!) + "\nMembers: " + String(describing:(group?.members)!)
-                alert.showInfo((group?.name)!, subTitle: subTitle)
+                let qrCodeImg = createMarbleQRCode(content: String(format: "marble.group:%d", (group?.groupId)!), color: CIColor(color: Constants.Colors.MarbleBlue))
+                let context = CIContext(options: nil)
+                let img = UIImage(cgImage: context.createCGImage(qrCodeImg!, from: (qrCodeImg?.extent)!)!)
+                alert.showInfo((group?.name)!, subTitle: subTitle, circleIconImage: img, iconHeightDeviation: 25)
             }
         }
+    }
+    
+    func createMarbleQRCode(content: String, color: CIColor, backgroundColor: CIColor = CIColor(red: 1, green: 1, blue: 1)) -> CIImage? {
+        guard let qrFilter = CIFilter(name: "CIQRCodeGenerator") else { return nil }
+        
+        qrFilter.setDefaults()
+        qrFilter.setValue(content.data(using: .isoLatin1), forKey: "inputMessage")
+        qrFilter.setValue("Q", forKey: "inputCorrectionLevel")
+        
+        // Color code and background
+        guard let colorFilter = CIFilter(name: "CIFalseColor") else { return nil }
+        
+        colorFilter.setDefaults()
+        colorFilter.setValue(qrFilter.outputImage, forKey: "inputImage")
+        colorFilter.setValue(color, forKey: "inputColor0")
+        colorFilter.setValue(backgroundColor, forKey: "inputColor1")
+        
+        let coloredQR = colorFilter.outputImage
+        
+        let scaleX = 100 / (coloredQR?.extent.size.width)!
+        let scaleY = 100 / (coloredQR?.extent.size.height)!
+        
+        return coloredQR?.applying(CGAffineTransform(scaleX: scaleX, y: scaleY))
+    }
+    
+    // code for overlaying icon on QR code. not in use.
+    func overlayIcon(image: UIImage) -> UIImage {
+        let logo = UIImage.init(named: "marble-logo-full")
+        let size = image.size
+        let logoSideLen = CGFloat(28)
+        let padding = CGFloat(3)
+        
+        UIGraphicsBeginImageContext(CGSize(width: logoSideLen, height: logoSideLen))
+        var whiteImg: UIImage?
+        if let context = UIGraphicsGetCurrentContext() {
+            context.setFillColor(UIColor.white.cgColor)
+            let rect = CGRect(origin: CGPoint.zero, size: size)
+            UIBezierPath(roundedRect: rect, cornerRadius: 3).addClip()
+            context.addRect(rect)
+            context.drawPath(using: .fill)
+            whiteImg = UIGraphicsGetImageFromCurrentImageContext()
+        }
+        UIGraphicsEndImageContext()
+        
+        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+        defer { UIGraphicsEndImageContext() }
+
+        image.draw(in: CGRect(origin: .zero, size: size))
+        whiteImg?.draw(in: CGRect(x: (size.width/2) - (logoSideLen/2), y: (size.height/2) - (logoSideLen/2), width: logoSideLen, height: logoSideLen))
+        logo?.draw(in: CGRect(x: (size.width/2) - (logoSideLen/2), y: (size.height/2) - (logoSideLen/2), width: logoSideLen, height: logoSideLen))
+        
+        return UIGraphicsGetImageFromCurrentImageContext()!
     }
     
 }

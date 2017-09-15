@@ -50,7 +50,6 @@ class Comment: Equatable {
                     completionHandler?(self)
                 }
             } else {
-                print("image cached")
                 let image = try? UIImage(data: Data(contentsOf: fileUrl))
                 self.image = image!
                 self.mediaReady = true

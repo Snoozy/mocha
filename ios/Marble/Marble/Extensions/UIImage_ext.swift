@@ -19,7 +19,7 @@ extension UIImage {
     
     func rotated(by rotationAngle: Measurement<UnitAngle>, options: RotationOptions = []) -> UIImage? {
         guard let cgImage = self.cgImage else { return nil }
-        
+
         let rotationInRadians = CGFloat(rotationAngle.converted(to: .radians).value)
         let transform = CGAffineTransform(rotationAngle: rotationInRadians)
         var rect = CGRect(origin: .zero, size: self.size).applying(transform)

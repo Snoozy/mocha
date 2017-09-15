@@ -10,14 +10,15 @@ import UIKit
 import AVFoundation
 import Alamofire
 import AVKit
+import AudioToolbox
 
-class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigationBarDelegate, AVCapturePhotoCaptureDelegate, AVCaptureFileOutputRecordingDelegate, UIGestureRecognizerDelegate {
+class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigationBarDelegate, AVCapturePhotoCaptureDelegate, AVCaptureFileOutputRecordingDelegate, UIGestureRecognizerDelegate, AVCaptureMetadataOutputObjectsDelegate {
 
     var captureSession : AVCaptureSession?
     var photoOutput : AVCapturePhotoOutput?
     var previewLayer : AVCaptureVideoPreviewLayer?
     var camera: AVCaptureDevice?
-    var audioDevice: AVCaptureDevice?
+    var audioDeviceInput: AVCaptureDeviceInput?
     var videoFileOut: AVCaptureMovieFileOutput?
     
     var cameraInput: AVCaptureDeviceInput?
@@ -31,6 +32,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
     var loaded: Bool = false
     
     var isRecordingVideo: Bool = false
+    var isPlayingVideoPreview: Bool = false
     
     @IBOutlet weak var recordingProgress: UIProgressView!
     
@@ -100,7 +102,9 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         self.loaded = true
 
         
-        self.captureSession = AVCaptureSession()
+        captureSession = AVCaptureSession()
+        captureSession?.automaticallyConfiguresApplicationAudioSession = false
+        captureSession?.usesApplicationAudioSession = true
         
         guard let captureSession = self.captureSession else {
             print("Error making capture session")
@@ -110,10 +114,10 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         captureSession.sessionPreset = AVCaptureSessionPresetHigh
         
         self.camera = self.defaultBackCamera()
-        self.audioDevice = getAudioDevice()
+        self.audioDeviceInput = try? AVCaptureDeviceInput(device: getAudioDevice())
         
         if let camera = self.camera {
-            self.initCamera(with: camera, audio: audioDevice, captureSession: captureSession)
+            self.initCamera(with: camera, captureSession: captureSession)
         }
         
         self.previewLayer?.frame = self.cameraView.bounds
@@ -233,7 +237,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         captureSession?.commitConfiguration()
     }
     
-    func initCamera(with device: AVCaptureDevice, audio: AVCaptureDevice?, captureSession: AVCaptureSession) {
+    func initCamera(with device: AVCaptureDevice?, captureSession: AVCaptureSession) {
         do {
             cameraInput = try AVCaptureDeviceInput(device: device)
             captureSession.beginConfiguration()
@@ -243,28 +247,19 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             }
             if captureSession.canAddInput(cameraInput) {
                 captureSession.addInput(cameraInput)
-                if let audio = audio {
-                    let input = try AVCaptureDeviceInput(device: audio)
-                    if captureSession.canAddInput(input) {
-                        captureSession.addInput(input)
-                    }
-                }
                 if captureSession.outputs.count == 0 {
+                    let captureMetadataOutput = AVCaptureMetadataOutput()
+                    if captureSession.canAddOutput(captureMetadataOutput) {
+                        print("add qr code detection")
+                        captureSession.addOutput(captureMetadataOutput)
+                        captureMetadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
+                        print("types: \(captureMetadataOutput.availableMetadataObjectTypes)")
+                        captureMetadataOutput.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
+                    }
                     photoOutput = AVCapturePhotoOutput()
-                    
                     if captureSession.canAddOutput(photoOutput!) {
                         print("photo output added")
                         captureSession.addOutput(self.photoOutput!)
-                    }
-                    
-                    videoFileOut = AVCaptureMovieFileOutput()
-                    if (captureSession.canAddOutput(videoFileOut)) {
-                        print("video output added")
-                        captureSession.addOutput(videoFileOut)
-                    }
-                    if (videoFileOut?.connection(withMediaType: AVMediaTypeVideo).isVideoStabilizationSupported)! {
-                        print("enable video stabilization")
-                        videoFileOut?.connection(withMediaType: AVMediaTypeVideo).preferredVideoStabilizationMode = .cinematic
                     }
                 }
             }
@@ -274,8 +269,22 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
                 self.previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
                 self.previewLayer!.videoGravity = AVLayerVideoGravityResizeAspect
                 self.previewLayer!.connection.videoOrientation = .portrait
+                self.previewLayer!.frame = cameraView.layer.bounds
                 self.cameraView.layer.addSublayer(self.previewLayer!)
+                captureSession.beginConfiguration()
+                videoFileOut = AVCaptureMovieFileOutput()
+                if (captureSession.canAddOutput(videoFileOut)) {
+                    print("video output added")
+                    captureSession.addOutput(videoFileOut)
+                    if (videoFileOut?.connection(withMediaType: AVMediaTypeVideo).isVideoStabilizationSupported)! {
+                        print("enable video stabilization")
+                        videoFileOut?.connection(withMediaType: AVMediaTypeVideo).preferredVideoStabilizationMode = .cinematic
+                    }
+                }
+                captureSession.commitConfiguration()
+                print("started capture session")
             }
+            print("capture session: \(captureSession.outputs)")
         } catch {
             print("Error accessing input device")
             return;
@@ -284,6 +293,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
     }
     
     @IBAction func cameraTouched(_ sender: UITapGestureRecognizer) {
+        ignoreQR = false
         if (camera?.isFocusModeSupported(.autoFocus))! {
             let screenSize = cameraView.bounds.size
             let touchPoint = sender.location(in: cameraView)
@@ -307,7 +317,99 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         }
     }
     
+    var ignoreQR: Bool = false
+    var responder: SCLAlertViewResponder?
+    let qrLockQueue = DispatchQueue(label: "com.amarbleapp.QrLockQueue")
+    func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
+        qrLockQueue.sync() {
+            if ignoreQR || metadataObjects == nil || metadataObjects.count == 0 || isRecordingVideo || isPlayingVideoPreview {
+                return
+            }
+            let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
+            
+            if metadataObj.type == AVMetadataObjectTypeQRCode {
+                let qrStr = metadataObj.stringValue
+                if let qrStr = qrStr {
+                    if qrStr.contains("marble.group") {
+                        ignoreQR = true
+                        let alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
+                        
+                        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+                        loadingIndicator.hidesWhenStopped = true
+                        loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+                        loadingIndicator.startAnimating();
+                        
+                        alert.view.addSubview(loadingIndicator)
+                        present(alert, animated: true, completion: nil)
+                        let groupId = String(qrStr.characters.split(separator: ":", maxSplits: 1, omittingEmptySubsequences: true)[1])
+                        Networker.shared.findGroupBy(code: groupId, completionHandler: { response in
+                            self.dismiss(animated: false, completion: nil)
+                            switch response.result {
+                            case .success:
+                                let response = response.result.value as! NSDictionary
+                                if let status = response["status"] as? Int {
+                                    if status == 0 {  // successfuly found group
+                                        
+                                        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+
+                                        let name = response["group_name"] as! String
+                                        let memberCount = response["member_count"] as! Int
+                                        let groupId = response["group_id"] as! Int
+                                        
+                                        let appearance = SCLAlertView.SCLAppearance(
+                                            showCloseButton: false,
+                                            hideWhenBackgroundViewIsTapped: true
+                                        )
+                                        
+                                        let alert = SCLAlertView(appearance: appearance)
+                                        alert.addButton("Join Marble", action: {
+                                            Networker.shared.joinGroup(id: groupId, completionHandler: { response in
+                                                switch response.result {
+                                                case .success(let value):
+                                                    print("segue")
+                                                    let json = JSON(value)
+                                                    print(json)
+                                                    let group = json["group"]
+                                                    let groupId = group["group_id"].int!
+                                                    State.shared.addGroup(name: group["name"].stringValue, id: groupId, lastSeen: group["last_seen"].int64 ?? 0, members: group["members"].int ?? 1)
+                                                    let parentVC = self.parent as? ViewController
+                                                    parentVC?.scrollView.setContentOffset(CGPoint.init(x: 0, y: 0), animated: true)
+                                                    NotificationCenter.default.post(name: Constants.Notifications.StoryUploadFinished, object: self)
+                                                case .failure:
+                                                    print(response.debugDescription)
+                                                    let parentVC = self.parent as? ViewController
+                                                    parentVC?.scrollView.setContentOffset(CGPoint.init(x: 0, y: 0), animated: true)
+                                                }
+                                            })
+                                        })
+                                        alert.addButton("Cancel", backgroundColor: UIColor.white, textColor: Constants.Colors.MarbleBlue, action: {
+                                            self.responder?.close()
+                                        })
+                                        self.responder = alert.showInfo(name, subTitle: String(memberCount) + (memberCount > 1 ? " members" : " member"))
+                                        self.responder?.setDismissBlock {
+                                            self.ignoreQR = false
+                                        }
+                                    } else {  // error occurred
+                                        self.ignoreQR = false
+                                    }
+                                }
+                            case .failure:
+                                print(response.debugDescription)
+                            }
+                            
+                        })
+                    }
+                }
+            }
+        }
+    }
+    
     // MARK: Video capture
+    
+    var audioSessionCatOpts: AVAudioSessionCategoryOptions?
+    var audioSessionCat: String?
+    var audioSessionInit: Bool = false
+    var audioSessionOriginal: AVAudioSession?
     
     func startCaptureVideo() {
         print("start recording")
@@ -317,6 +419,28 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         backButton.isHidden = true
         flashButton.isHidden = true
         cameraFlipButton.isHidden = true
+        
+//        try! AVAudioSession.sharedInstance().setActive(true)
+        print("configuring audio session")
+        let audioSession = AVAudioSession.sharedInstance()
+        audioSessionCatOpts = audioSession.categoryOptions
+        audioSessionCat = audioSession.category
+        print("audio: \(audioSession.category), \(audioSession.mode), \(audioSession.categoryOptions)")
+        try! audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord,
+                                                        with: [.mixWithOthers, .allowBluetoothA2DP, .allowAirPlay])
+        try! audioSession.setActive(true)
+        captureSession?.beginConfiguration()
+        if (captureSession?.canAddInput(audioDeviceInput!))! {
+            captureSession?.addInput(audioDeviceInput!)
+        }
+        captureSession?.commitConfiguration()
+//        captureSession?.beginConfiguration()
+//        if let audioDeviceInput = audioDeviceInput {
+//            if (captureSession?.canAddInput(audioDeviceInput))! {
+//                captureSession?.addInput(audioDeviceInput)
+//            }
+//        }
+//        captureSession?.commitConfiguration()
         
         let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let filePath = documentsURL.appendingPathComponent(randomString(length: 10) + ".mp4")
@@ -354,6 +478,16 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
     
     func stopCaptureVideo() {
         print("stop recording")
+        
+        let audioSession = AVAudioSession.sharedInstance()
+        try! audioSession.setCategory(AVAudioSessionCategoryAmbient, with: [.mixWithOthers, .allowAirPlay])
+
+        captureSession?.beginConfiguration()
+        print("removing audio device input")
+        captureSession?.removeInput(audioDeviceInput)
+        captureSession?.commitConfiguration()
+        
+        print("reverting audio session: \(audioSessionCat)")
         videoFileOut?.stopRecording()
         
         if camera?.position == .back {
@@ -365,6 +499,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         timer?.invalidate()
         isRecordingVideo = false
         recordingProgress.isHidden = true
+        
     }
     
     @IBOutlet weak var videoView: UIView!
@@ -405,6 +540,8 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         cancelButtonOut.isHidden = false
         nextButtonOut.isHidden = false
         cameraFlipButton.isHidden = true
+        
+        isPlayingVideoPreview = true
 
         print("playing")
         return
@@ -479,7 +616,6 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         if mediaType == .video {
             deleteVideoFile()
         }
-        
     }
     
     func removeMediaPreview() {
@@ -502,6 +638,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         // VIDEO PREVIEW
         videoView.isHidden = true
         playerLooper?.disableLooping()
+        isPlayingVideoPreview = false
         player?.pause()
         player = nil
         playerLooper = nil
@@ -538,7 +675,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             print("error")
             return
         }
-        
+        isPlayingVideoPreview = false
         if !captionView.isEmpty() {
             captionImage = UIImage(view: captionView)
         } else {

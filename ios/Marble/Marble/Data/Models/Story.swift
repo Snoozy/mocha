@@ -83,7 +83,6 @@ class Story {
                         }
                     }
                 } else {
-                    print("image cached")
                     let image = try? UIImage(data: Data(contentsOf: fileUrl))
                     self.media = image!
                     self.mediaReady = true
