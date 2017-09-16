@@ -149,7 +149,6 @@ class ViewLeft: UITableViewController {
                                         storyIdx = 0
                                     }
                                     groupCell?.refreshPreview()
-                                    groupCell?.refreshSeen()
                                 }
                             })
                         }
@@ -223,7 +222,7 @@ class ViewLeft: UITableViewController {
         
         Networker.shared.storySeen(groupId: (group?.groupId)! ,completionHandler: { _ in })  // empty completion handler
         group?.lastSeen = Int64(Date().timeIntervalSince1970 * 1000)
-        cell.refreshSeen()
+        cell.refreshPreview()
     }
     
     @IBAction func cancelToViewLeft(_ segue:UIStoryboardSegue) {

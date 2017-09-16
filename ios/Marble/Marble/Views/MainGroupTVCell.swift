@@ -12,12 +12,17 @@ class MainGroupTVCell: UITableViewCell {
     
     var group: Group?
     var storyLoadCount: Int?
+    
+    static var reloadIcon: UIImage?
 
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        if MainGroupTVCell.reloadIcon == nil {
+            MainGroupTVCell.reloadIcon = UIImage(named: "reload")!.addShadow(blurSize: 35.0)
+        }
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
@@ -37,36 +42,63 @@ class MainGroupTVCell: UITableViewCell {
     }
     
     func refreshPreview() {
-        if (group?.storyIdxValid())! {
-            let story = State.shared.groupStories[(group?.groupId)!]?[(group?.storyViewIdx)!]
+        if (State.shared.groupStories[(group?.groupId)!]?.count)! > 0{
+            let stories = State.shared.groupStories[(group?.groupId)!]!
+            var previewStory: Story = stories.first!
+            let lastSeen = group?.lastSeen
+            for story in stories {
+                previewStory = story
+                if story.timestamp > lastSeen! {
+                    break
+                }
+            }
+            
+            let seen: Bool = previewStory.timestamp <= lastSeen!
+            
             let image: UIImage = {
-                if story?.mediaType == .image {
-                    return story!.media!
+                if previewStory.mediaType == .image {
+                    return seen ? seenOpaqueOverlay(image: previewStory.media!) : previewStory.media!
                 } else {
-                    return videoPreviewImage(fileUrl: (story?.videoFileUrl)!)!
+                    return seen ? seenOpaqueOverlay(image: videoPreviewImage(fileUrl: (previewStory.videoFileUrl)!)!) : videoPreviewImage(fileUrl: (previewStory.videoFileUrl)!)!
                 }
             }()
-            storyPreview.image = image.maskRectangle(width: storyPreview.frame.width, height: storyPreview.frame.height)
+            let imgMasked = image.maskRectangle(width: storyPreview.frame.width, height: storyPreview.frame.height)
+            storyPreview.image = seen ? seenReplayOverlay(image: imgMasked!) : imgMasked!
+            
             storyPreview.layer.shadowOffset = CGSize(width: 0, height: 0)
             storyPreview.layer.shadowOpacity = 1
-            storyPreview.layer.shadowRadius = 2
-        } else if State.shared.groupStories[(group?.groupId)!]?.count == 0 {
+            if !seen {
+                title.font = UIFont.boldSystemFont(ofSize: title.font.pointSize)
+                storyPreview.layer.shadowColor = Constants.Colors.MarbleBlue.cgColor
+                storyPreview.layer.shadowRadius = 6
+            } else {
+                title.font = UIFont.systemFont(ofSize: title.font.pointSize)
+                storyPreview.layer.shadowColor = nil
+                storyPreview.layer.shadowRadius = 2
+            }
+        } else {
             storyPreview.image = nil
         }
     }
     
-    func refreshSeen() {
-        let lastSeen = group?.lastSeen
-        let lastStory = State.shared.groupStories[(group?.groupId)!]?.last
-        if lastStory != nil && lastSeen! < (lastStory?.timestamp)! {
-            title.font = UIFont.boldSystemFont(ofSize: title.font.pointSize)
-            storyPreview.layer.shadowColor = Constants.Colors.MarbleBlue.cgColor
-            storyPreview.layer.shadowRadius = 6
-        } else {
-            title.font = UIFont.systemFont(ofSize: title.font.pointSize)
-            storyPreview.layer.shadowColor = nil
-            storyPreview.layer.shadowRadius = 2
-        }
+    func seenOpaqueOverlay(image: UIImage) -> UIImage {
+        let whiteImg = UIImage(color: UIColor.white, size: image.size)
+        
+        UIGraphicsBeginImageContext(image.size)
+        defer { UIGraphicsEndImageContext() }
+        image.draw(at: .zero)
+        whiteImg?.draw(at: .zero, blendMode: .normal, alpha: 0.35)
+        return UIGraphicsGetImageFromCurrentImageContext()!
+    }
+    
+    func seenReplayOverlay(image: UIImage) -> UIImage {
+        let reloadIconSize: CGFloat = 20
+        
+        UIGraphicsBeginImageContextWithOptions(image.size, false, 0.0)
+        defer { UIGraphicsEndImageContext() }
+        image.draw(at: .zero)
+        MainGroupTVCell.reloadIcon?.draw(in: CGRect(x: (image.size.width/2) - (reloadIconSize/2), y: (image.size.height/2) - (reloadIconSize/2), width: reloadIconSize, height: reloadIconSize))
+        return UIGraphicsGetImageFromCurrentImageContext()!
     }
     
     @IBOutlet weak var loadingIcon: UIActivityIndicatorView!

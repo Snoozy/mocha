@@ -289,8 +289,18 @@ class StoryView: UIView, UIScrollViewDelegate {
     
     func mediaStart() {
         UIApplication.shared.isStatusBarHidden = true
-        if (self.group?.storyViewIdx)! >= (State.shared.groupStories[(group?.groupId)!]?.count)! {
-            self.group?.storyViewIdx = 0
+        self.group?.storyViewIdx = 0
+        let stories = State.shared.groupStories[(group?.groupId)!]!
+        if stories.count == 0 {
+            return
+        }
+        
+        let lastSeen = (self.group?.lastSeen)!
+        for (idx, story) in stories.enumerated() {
+            if lastSeen < story.timestamp {
+                self.group?.storyViewIdx = idx
+                break
+            }
         }
         self.frame.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         self.innerView.frame.size = self.frame.size
