@@ -14,7 +14,7 @@ class MainGroupTVCell: UITableViewCell {
     var storyLoadCount: Int?
     
     static var reloadIcon: UIImage?
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -39,6 +39,42 @@ class MainGroupTVCell: UITableViewCell {
         self.loadingIcon.isHidden = true
         self.loadingIcon.stopAnimating()
         self.storyPreview.isHidden = false
+    }
+    
+    @IBAction func cellInfoButtonPressed(_ sender: UIButton) {
+        let appearance = SCLAlertView.SCLAppearance(
+            kCircleIconHeight: 100,
+            hideWhenBackgroundViewIsTapped: true
+        )
+        let alert = SCLAlertView(appearance: appearance)
+        let subTitle = String(format: "Marble Code: %d", (group?.groupId)!) + "\nMembers: " + String(describing:(group?.members)!)
+        let qrCodeImg = createMarbleQRCode(content: String(format: "marble.group:%d", (group?.groupId)!), color: CIColor(color: Constants.Colors.MarbleBlue))
+        let context = CIContext(options: nil)
+        let img = UIImage(cgImage: context.createCGImage(qrCodeImg!, from: (qrCodeImg?.extent)!)!)
+        alert.showInfo((group?.name)!, subTitle: subTitle, circleIconImage: img, iconHeightDeviation: 25)
+    }
+    
+    func createMarbleQRCode(content: String, color: CIColor, backgroundColor: CIColor = CIColor(red: 1, green: 1, blue: 1)) -> CIImage? {
+        guard let qrFilter = CIFilter(name: "CIQRCodeGenerator") else { return nil }
+        
+        qrFilter.setDefaults()
+        qrFilter.setValue(content.data(using: .isoLatin1), forKey: "inputMessage")
+        qrFilter.setValue("Q", forKey: "inputCorrectionLevel")
+        
+        // Color code and background
+        guard let colorFilter = CIFilter(name: "CIFalseColor") else { return nil }
+        
+        colorFilter.setDefaults()
+        colorFilter.setValue(qrFilter.outputImage, forKey: "inputImage")
+        colorFilter.setValue(color, forKey: "inputColor0")
+        colorFilter.setValue(backgroundColor, forKey: "inputColor1")
+        
+        let coloredQR = colorFilter.outputImage
+        
+        let scaleX = 100 / (coloredQR?.extent.size.width)!
+        let scaleY = 100 / (coloredQR?.extent.size.height)!
+        
+        return coloredQR?.applying(CGAffineTransform(scaleX: scaleX, y: scaleY))
     }
     
     func refreshPreview() {

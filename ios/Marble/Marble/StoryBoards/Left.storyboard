@@ -6,10 +6,11 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Home-->
+        <!--Marble-->
         <scene sceneID="Tg8-id-l8U">
             <objects>
                 <tableViewController id="651-EM-wLl" customClass="ViewLeft" customModule="Marble" customModuleProvider="target" sceneMemberID="viewController">
@@ -40,7 +41,23 @@
                                             <rect key="frame" x="19" y="10" width="50" height="73"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
+                                        <button opaque="NO" alpha="0.45000000000000001" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fHS-nZ-wcu" userLabel="infoButton">
+                                            <rect key="frame" x="336" y="31" width="31" height="31"/>
+                                            <gestureRecognizers/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="31" id="3Eb-hG-fSy"/>
+                                                <constraint firstAttribute="width" constant="31" id="lrA-8o-ZFF"/>
+                                            </constraints>
+                                            <state key="normal" image="dots"/>
+                                            <connections>
+                                                <action selector="cellInfoButtonPressed:" destination="6GT-Cq-lZd" eventType="touchUpInside" id="v9M-x9-dih"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="fHS-nZ-wcu" firstAttribute="centerY" secondItem="hT7-xB-Soo" secondAttribute="centerY" id="PTH-Fa-xTs"/>
+                                        <constraint firstItem="fHS-nZ-wcu" firstAttribute="trailing" secondItem="hT7-xB-Soo" secondAttribute="trailingMargin" id="rce-lt-EFY"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="loadingIcon" destination="sIA-fg-Xgg" id="bb6-TD-RRK"/>
@@ -54,7 +71,7 @@
                             <outlet property="delegate" destination="651-EM-wLl" id="B7N-gX-PLL"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Home" id="qtV-Bw-EXe">
+                    <navigationItem key="navigationItem" title="Marble" id="qtV-Bw-EXe">
                         <barButtonItem key="leftBarButtonItem" systemItem="add" id="Gv4-W6-U3o">
                             <connections>
                                 <action selector="AddMarbleBtnPress:" destination="651-EM-wLl" id="aHQ-pu-VXM"/>
@@ -76,7 +93,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="B8C-BA-0sC" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Co1-rj-UfV">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="Co1-rj-UfV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -90,4 +107,7 @@
             <point key="canvasLocation" x="1693.5999999999999" y="139.880059970015"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="dots" width="200" height="200"/>
+    </resources>
 </document>

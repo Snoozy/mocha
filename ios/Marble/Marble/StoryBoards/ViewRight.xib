@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,6 +18,7 @@
                 <outlet property="captionView" destination="UrR-4c-M7D" id="KfM-Fs-0Wu"/>
                 <outlet property="flashButton" destination="Fp8-Ji-qYQ" id="gzg-t3-oMo"/>
                 <outlet property="nextButtonOut" destination="TOK-8N-NbL" id="YL4-jB-FlK"/>
+                <outlet property="postingToGroup" destination="xOy-Wp-Ije" id="3bQ-rQ-UWw"/>
                 <outlet property="recordingProgress" destination="igO-4s-pVS" id="gTh-NG-9H3"/>
                 <outlet property="takePhotoButton" destination="4si-Dq-6zy" id="uMb-Ao-pWq"/>
                 <outlet property="takeVideoLongPress" destination="dxc-zd-t9n" id="yBK-ZX-BHR"/>
@@ -40,8 +41,15 @@
                         <outletCollection property="gestureRecognizers" destination="JNk-Ot-H2w" appends="YES" id="m0q-nZ-f6s"/>
                     </connections>
                 </view>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xOy-Wp-Ije" userLabel="Posting to group">
+                    <rect key="frame" x="71" y="665" width="76" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4si-Dq-6zy">
-                    <rect key="frame" x="165.66666666666666" y="633" width="83" height="83"/>
+                    <rect key="frame" x="166" y="633" width="83" height="83"/>
                     <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="width" constant="83" id="O3x-hg-I3A"/>

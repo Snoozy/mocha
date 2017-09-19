@@ -35,11 +35,15 @@ class ViewLeft: UITableViewController {
             if granted {
                 //Register for RemoteNotifications. Your Remote Notifications can display alerts now :)
                 print("user granted notifications")
-                UIApplication.shared.registerForRemoteNotifications()
+                DispatchQueue.main.async {
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
             }
             else {
                 print("User denied notifications")
-                UIApplication.shared.registerForRemoteNotifications()
+                DispatchQueue.main.async {
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
             }
         }
         
@@ -185,15 +189,19 @@ class ViewLeft: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        self.cellSingleTap(indexPath: indexPath)
+    }
+    
+    private func cellSingleTap(indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! MainGroupTVCell
         
         if !State.shared.checkGroupStoriesReady(groupId: (cell.group?.groupId)!) {
             print("stories not ready")
             return
         }
-
+        
         let group = State.shared.findGroupBy(id: (cell.group?.groupId)!)
-
+        
         let imageViewer = storyViewNib.instantiate(withOwner: nil, options: nil)[0] as! StoryView
         imageViewer.isHidden = true
         
@@ -280,43 +288,13 @@ class ViewLeft: UITableViewController {
                     return
                 }
                 let group = cell?.group
-                let appearance = SCLAlertView.SCLAppearance(
-                    kCircleIconHeight: 100,
-                    hideWhenBackgroundViewIsTapped: true
-                )
-                let alert = SCLAlertView(appearance: appearance)
-                let subTitle = String(format: "Marble Code: %d", (group?.groupId)!) + "\nMembers: " + String(describing:(group?.members)!)
-                let qrCodeImg = createMarbleQRCode(content: String(format: "marble.group:%d", (group?.groupId)!), color: CIColor(color: Constants.Colors.MarbleBlue))
-                let context = CIContext(options: nil)
-                let img = UIImage(cgImage: context.createCGImage(qrCodeImg!, from: (qrCodeImg?.extent)!)!)
-                alert.showInfo((group?.name)!, subTitle: subTitle, circleIconImage: img, iconHeightDeviation: 25)
+                let parentVC = UIApplication.topViewController() as? ViewController
+                let screenWidth = UIScreen.main.bounds.size.width
+                parentVC?.scrollView.setContentOffset(CGPoint.init(x: screenWidth, y: 0.0), animated: true)
             }
         }
     }
-    
-    func createMarbleQRCode(content: String, color: CIColor, backgroundColor: CIColor = CIColor(red: 1, green: 1, blue: 1)) -> CIImage? {
-        guard let qrFilter = CIFilter(name: "CIQRCodeGenerator") else { return nil }
         
-        qrFilter.setDefaults()
-        qrFilter.setValue(content.data(using: .isoLatin1), forKey: "inputMessage")
-        qrFilter.setValue("Q", forKey: "inputCorrectionLevel")
-        
-        // Color code and background
-        guard let colorFilter = CIFilter(name: "CIFalseColor") else { return nil }
-        
-        colorFilter.setDefaults()
-        colorFilter.setValue(qrFilter.outputImage, forKey: "inputImage")
-        colorFilter.setValue(color, forKey: "inputColor0")
-        colorFilter.setValue(backgroundColor, forKey: "inputColor1")
-        
-        let coloredQR = colorFilter.outputImage
-        
-        let scaleX = 100 / (coloredQR?.extent.size.width)!
-        let scaleY = 100 / (coloredQR?.extent.size.height)!
-        
-        return coloredQR?.applying(CGAffineTransform(scaleX: scaleX, y: scaleY))
-    }
-    
     // code for overlaying icon on QR code. not in use.
     func overlayIcon(image: UIImage) -> UIImage {
         let logo = UIImage.init(named: "marble-logo-full")

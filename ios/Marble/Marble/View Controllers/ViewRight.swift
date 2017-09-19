@@ -46,6 +46,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var cameraFlipButton: UIButton!
     @IBOutlet weak var flashButton: UIButton!
+    @IBOutlet weak var postingToGroup: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -480,7 +481,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         print("stop recording")
         
         let audioSession = AVAudioSession.sharedInstance()
-        try! audioSession.setCategory(AVAudioSessionCategoryAmbient, with: [.mixWithOthers, .allowAirPlay])
+        try! audioSession.setCategory(AVAudioSessionCategoryAmbient, with: AVAudioSessionCategoryOptions(rawValue: 1))
 
         captureSession?.beginConfiguration()
         print("removing audio device input")
@@ -551,7 +552,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
     
     func capturePhoto() {
         let settings = AVCapturePhotoSettings()
-        let previewPixelType = settings.availablePreviewPhotoPixelFormatTypes.first!
+        let previewPixelType = settings.__availablePreviewPhotoPixelFormatTypes.first!
         let previewFormat = [kCVPixelBufferPixelFormatTypeKey as String: previewPixelType,
                              kCVPixelBufferWidthKey as String: 160,
                              kCVPixelBufferHeightKey as String: 160,
@@ -839,6 +840,16 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
     @IBAction func backBtnPressed(_ sender: UIButton) {
         let parentVC = parent as? ViewController
         parentVC?.scrollView.setContentOffset(CGPoint.init(x: 0, y: 0), animated: true)
+    }
+    
+    func setPostingGroup(name: String) {
+        postingToGroup.text = "Posting to: " + name
+        postingToGroup.isHidden = false
+    }
+    
+    func clearPostingGroup() {
+        postingToGroup.text = ""
+        postingToGroup.isHidden = true
     }
         
 }

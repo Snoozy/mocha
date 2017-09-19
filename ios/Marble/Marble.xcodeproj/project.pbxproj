@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4203A13B1F6E07170094ED3A /* TableViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4203A13A1F6E07170094ED3A /* TableViewCellDelegate.swift */; };
+		4203A13C1F6E07170094ED3A /* TableViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4203A13A1F6E07170094ED3A /* TableViewCellDelegate.swift */; };
 		420A007A1E31C7CF00525DB0 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 420A006D1E31C6D400525DB0 /* Alamofire.framework */; };
 		420A007B1E31C7CF00525DB0 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 420A006D1E31C6D400525DB0 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4217546E1E5530AD00620E69 /* MediaCaptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4217546D1E5530AD00620E69 /* MediaCaptionView.swift */; };
@@ -139,6 +141,11 @@
 		42E13DD41E8E46610016FA76 /* AlamofireNetworkActivityIndicator.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 427FFC711E3B1F470007159C /* AlamofireNetworkActivityIndicator.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		42E13DDD1E8E4B4B0016FA76 /* Info-Dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42E13DDC1E8E4B4B0016FA76 /* Info-Dev.plist */; };
 		42F11AC91E405602005BFE0E /* UploadNetworker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F11AC81E405602005BFE0E /* UploadNetworker.swift */; };
+		42F2CBEC1F71DC220042F691 /* SwiftyCamViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2CBE71F71DC220042F691 /* SwiftyCamViewControllerDelegate.swift */; };
+		42F2CBED1F71DC220042F691 /* Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2CBE81F71DC220042F691 /* Orientation.swift */; };
+		42F2CBEE1F71DC220042F691 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2CBE91F71DC220042F691 /* PreviewView.swift */; };
+		42F2CBEF1F71DC220042F691 /* SwiftyCamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2CBEA1F71DC220042F691 /* SwiftyCamViewController.swift */; };
+		42F2CBF01F71DC220042F691 /* SwiftyCamButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2CBEB1F71DC220042F691 /* SwiftyCamButton.swift */; };
 		42F7906C1E39C7B500D3B2AF /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F7906B1E39C7B500D3B2AF /* Router.swift */; };
 		42F8C0C11EA6A4EF00AFD4D4 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F8C0C01EA6A4EF00AFD4D4 /* Common.swift */; };
 		42F8C0D21EA6A57F00AFD4D4 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F8C0C01EA6A4EF00AFD4D4 /* Common.swift */; };
@@ -338,6 +345,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4203A13A1F6E07170094ED3A /* TableViewCellDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableViewCellDelegate.swift; path = Delegates/TableViewCellDelegate.swift; sourceTree = "<group>"; };
 		420A00611E31C6D400525DB0 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
 		4217546D1E5530AD00620E69 /* MediaCaptionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaCaptionView.swift; path = Views/MediaCaptionView.swift; sourceTree = "<group>"; };
 		4241B8131E4DB5F5003CA796 /* MainGroupTVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainGroupTVCell.swift; path = Views/MainGroupTVCell.swift; sourceTree = "<group>"; };
@@ -403,6 +411,11 @@
 		42E13DD81E8E46610016FA76 /* Marble Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Marble Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		42E13DDC1E8E4B4B0016FA76 /* Info-Dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-Dev.plist"; sourceTree = "<group>"; };
 		42F11AC81E405602005BFE0E /* UploadNetworker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UploadNetworker.swift; path = Data/Networkers/UploadNetworker.swift; sourceTree = "<group>"; };
+		42F2CBE71F71DC220042F691 /* SwiftyCamViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyCamViewControllerDelegate.swift; path = Vendor/SwiftyCam/SwiftyCamViewControllerDelegate.swift; sourceTree = "<group>"; };
+		42F2CBE81F71DC220042F691 /* Orientation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Orientation.swift; path = Vendor/SwiftyCam/Orientation.swift; sourceTree = "<group>"; };
+		42F2CBE91F71DC220042F691 /* PreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreviewView.swift; path = Vendor/SwiftyCam/PreviewView.swift; sourceTree = "<group>"; };
+		42F2CBEA1F71DC220042F691 /* SwiftyCamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyCamViewController.swift; path = Vendor/SwiftyCam/SwiftyCamViewController.swift; sourceTree = "<group>"; };
+		42F2CBEB1F71DC220042F691 /* SwiftyCamButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyCamButton.swift; path = Vendor/SwiftyCam/SwiftyCamButton.swift; sourceTree = "<group>"; };
 		42F7906B1E39C7B500D3B2AF /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Router.swift; path = Data/Router.swift; sourceTree = "<group>"; };
 		42F8C0C01EA6A4EF00AFD4D4 /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Common.swift; path = Data/Common.swift; sourceTree = "<group>"; };
 		42F8C0D31EA6A95600AFD4D4 /* Downloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Downloader.swift; path = Data/Networkers/Downloader.swift; sourceTree = "<group>"; };
@@ -438,6 +451,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4203A1291F6E06DB0094ED3A /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				4203A13A1F6E07170094ED3A /* TableViewCellDelegate.swift */,
+			);
+			name = Delegates;
+			sourceTree = "<group>";
+		};
 		420A00621E31C6D400525DB0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -563,6 +584,7 @@
 		42D575821E37161A0094037D /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				42F2CBCE1F71DB9E0042F691 /* SwiftyCam */,
 				4259F48E1EB1B8D600866D12 /* FontAwesome */,
 				4299913A1E4D4F900049608F /* SCLAlertView */,
 				425398C71E4985AB00097934 /* SwiftyJSON.swift */,
@@ -616,6 +638,18 @@
 			name = "View Controllers";
 			sourceTree = "<group>";
 		};
+		42F2CBCE1F71DB9E0042F691 /* SwiftyCam */ = {
+			isa = PBXGroup;
+			children = (
+				42F2CBE81F71DC220042F691 /* Orientation.swift */,
+				42F2CBE91F71DC220042F691 /* PreviewView.swift */,
+				42F2CBEB1F71DC220042F691 /* SwiftyCamButton.swift */,
+				42F2CBEA1F71DC220042F691 /* SwiftyCamViewController.swift */,
+				42F2CBE71F71DC220042F691 /* SwiftyCamViewControllerDelegate.swift */,
+			);
+			name = SwiftyCam;
+			sourceTree = "<group>";
+		};
 		42F790631E39C78500D3B2AF /* Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -652,6 +686,7 @@
 		952AF8041DAB363D005E60C7 /* Marble */ = {
 			isa = PBXGroup;
 			children = (
+				4203A1291F6E06DB0094ED3A /* Delegates */,
 				42651EA31EB879E4006BEF33 /* Marble.entitlements */,
 				42F790631E39C78500D3B2AF /* Data */,
 				42CC207F1E43235B00EC419A /* Views */,
@@ -960,6 +995,7 @@
 				42E13DA51E8E46610016FA76 /* State.swift in Sources */,
 				42E13DA61E8E46610016FA76 /* CreateMarbleVC.swift in Sources */,
 				42E13DA71E8E46610016FA76 /* Groups.swift in Sources */,
+				4203A13C1F6E07170094ED3A /* TableViewCellDelegate.swift in Sources */,
 				42A228D11EAFE19D00496392 /* CaptionView.swift in Sources */,
 				42E13DA81E8E46610016FA76 /* AppDelegate.swift in Sources */,
 				42E13DA91E8E46610016FA76 /* UIView_ext.swift in Sources */,
@@ -999,6 +1035,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				42E13D8B1E8DE4DA0016FA76 /* AuthSignUpVC.swift in Sources */,
+				42F2CBEC1F71DC220042F691 /* SwiftyCamViewControllerDelegate.swift in Sources */,
 				42A228D31EAFE25500496392 /* Comment.swift in Sources */,
 				425D40631E4330A600CBD8CB /* AddMarbleCodeVC.swift in Sources */,
 				429991471E4D4F9D0049608F /* SCLExtensions.swift in Sources */,
@@ -1018,13 +1055,17 @@
 				4299914C1E4D55A20049608F /* State.swift in Sources */,
 				429AF4061E486C0800475461 /* CreateMarbleVC.swift in Sources */,
 				4299914E1E4D56CD0049608F /* Groups.swift in Sources */,
+				42F2CBF01F71DC220042F691 /* SwiftyCamButton.swift in Sources */,
+				4203A13B1F6E07170094ED3A /* TableViewCellDelegate.swift in Sources */,
 				42A228D01EAFE19D00496392 /* CaptionView.swift in Sources */,
 				952AF8061DAB363D005E60C7 /* AppDelegate.swift in Sources */,
 				42D5758C1E37164C0094037D /* UIView_ext.swift in Sources */,
+				42F2CBEE1F71DC220042F691 /* PreviewView.swift in Sources */,
 				42D575A21E371F220094037D /* ViewPickDest.swift in Sources */,
 				426FB0471E55A618000AFAF9 /* GroupTVCell.swift in Sources */,
 				425398C81E4985AB00097934 /* SwiftyJSON.swift in Sources */,
 				4259F4A61EB1B8E200866D12 /* FontAwesome.swift in Sources */,
+				42F2CBEF1F71DC220042F691 /* SwiftyCamViewController.swift in Sources */,
 				4259F4A41EB1B8E200866D12 /* Enum.swift in Sources */,
 				42CC20811E43238800EC419A /* NumberButton.swift in Sources */,
 				42F7906C1E39C7B500D3B2AF /* Router.swift in Sources */,
@@ -1048,6 +1089,7 @@
 				42D575A31E371F220094037D /* ViewController.swift in Sources */,
 				42D575911E3717ED0094037D /* KeychainWrapper.swift in Sources */,
 				429991461E4D4F9D0049608F /* SCLAlertView.swift in Sources */,
+				42F2CBED1F71DC220042F691 /* Orientation.swift in Sources */,
 				426E24CA1E4ABD6400F24992 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
