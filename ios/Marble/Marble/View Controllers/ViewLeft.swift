@@ -211,8 +211,9 @@ class ViewLeft: UITableViewController {
         imageViewer.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         imageViewer.parentVC = self
-        
-        UIApplication.topViewController()?.view.addSubview(imageViewer)
+        imageViewer.window?.windowLevel = UIWindowLevelStatusBar
+        self.view.window?.windowLevel = UIWindowLevelStatusBar
+        UIApplication.shared.keyWindow?.addSubview(imageViewer)
         
         imageViewer.mediaStart()
         

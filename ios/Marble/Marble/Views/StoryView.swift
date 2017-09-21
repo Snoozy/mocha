@@ -87,8 +87,7 @@ class StoryView: UIView, UIScrollViewDelegate {
                 UIView.animate(withDuration: 0.3, animations: {
                     self.alpha = 0.0
                 }, completion: { (_: Bool) in
-                    UIApplication.shared.isStatusBarHidden = false
-                    self.removeFromSuperview()
+                    self.exitStory()
                 })
             } else if translation.y >= 0 {
                 UIView.animate(withDuration: 0.3, animations: {
@@ -99,7 +98,11 @@ class StoryView: UIView, UIScrollViewDelegate {
                     self.innerView.frame = CGRect(x: 0, y: 0, width: self.originalWidth, height: self.originalHeight)
                     self.imageView.frame = rect
                     if let playerLayer = self.playerLayer {
+                        CATransaction.begin()
+                        CATransaction.setAnimationDuration(0)
+                        CATransaction.setDisableActions(true)
                         playerLayer.frame = rect
+                        CATransaction.commit()
                     }
                 })
             } else if translation.y > -pointOfNoReturn {
@@ -126,10 +129,7 @@ class StoryView: UIView, UIScrollViewDelegate {
         } else {
             if translation.y > 0 {
                 if translation.y > pointOfNoReturn {
-                    UIApplication.shared.isStatusBarHidden = false
                     self.backgroundColor = self.backgroundColor?.withAlphaComponent(1.0 - ((translation.y - pointOfNoReturn)/UIScreen.main.bounds.height))
-                } else {
-                    UIApplication.shared.isStatusBarHidden = true
                 }
                 let scale: CGFloat = 15  // lower means more photo shrinkage
                 let rect = CGRect(x: 0, y: 0, width: originalWidth - (translation.y/scale), height: originalHeight - (translation.y/scale))
@@ -138,7 +138,11 @@ class StoryView: UIView, UIScrollViewDelegate {
                 self.imageView.frame = rect
                 self.captionScrollView.subviews.first?.frame = rect
                 if let playerLayer = self.playerLayer {
+                    CATransaction.begin()
+                    CATransaction.setAnimationDuration(0)
+                    CATransaction.setDisableActions(true)
                     playerLayer.frame = rect
+                    CATransaction.commit()
                 }
                 
                 self.innerView.frame = CGRect(x: originalMinX + (translation.y/(scale * 2)), y: innerView.frame.minY, width: originalWidth - (translation.y/scale), height: originalHeight - (translation.y/scale))
@@ -288,7 +292,6 @@ class StoryView: UIView, UIScrollViewDelegate {
     }
     
     func mediaStart() {
-        UIApplication.shared.isStatusBarHidden = true
         self.group?.storyViewIdx = 0
         let stories = State.shared.groupStories[(group?.groupId)!]!
         if stories.count == 0 {
@@ -315,18 +318,14 @@ class StoryView: UIView, UIScrollViewDelegate {
             self.story = story
             showStory(story: story)
         } else {
-            UIApplication.shared.isStatusBarHidden = false
-            self.removeFromSuperview()
-            self.cell?.refreshPreview()
+            exitStory()
         }
     }
     
     func mediaBack() {
         let stories = State.shared.groupStories[(group?.groupId)!]
         if (group?.storyViewIdx)! < 2 {
-            UIApplication.shared.isStatusBarHidden = false
-            self.removeFromSuperview()
-            self.cell?.refreshPreview()
+            exitStory()
         } else {
             group?.storyViewIdx -= 2
             let story: Story = (stories?[(group?.storyViewIdx)!])!
@@ -337,10 +336,11 @@ class StoryView: UIView, UIScrollViewDelegate {
     
     func showStory(story: Story) {
         player?.pause()
+        let bounds = UIScreen.main.bounds
         if story.mediaType == .image {
             let image = story.media
             
-            self.imageView.frame = self.innerView.frame
+            self.imageView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height)
             self.imageView.image = image
             self.imageView.layer.sublayers = nil
             player = nil
@@ -349,7 +349,8 @@ class StoryView: UIView, UIScrollViewDelegate {
             let playerItem = AVPlayerItem(url: story.videoFileUrl!)
             player = AVPlayer(playerItem: playerItem)
             playerLayer = AVPlayerLayer(player: player)
-            playerLayer?.frame = self.imageView.frame
+            
+            playerLayer?.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height)
             playerLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
             playerLayer?.masksToBounds = true
             self.imageView.layer.addSublayer(playerLayer!)
@@ -370,6 +371,12 @@ class StoryView: UIView, UIScrollViewDelegate {
         self.userId = story.userId
         
         self.group?.storyViewIdx += 1
+    }
+    
+    private func exitStory() {
+        self.removeFromSuperview()
+        self.parentVC?.view.window?.windowLevel = UIWindowLevelNormal
+        self.cell?.refreshPreview()
     }
     
     func appendComment(posterName: String, timestamp: Int64, image: UIImage) {
