@@ -38,10 +38,10 @@ class AuthSignUpVC: UIViewController, UITextFieldDelegate {
         
         let tosRange = legalPlain.range(of: "Terms of Service")
         let attrStr = NSMutableAttributedString(string: legalPlain as String)
-        attrStr.addAttribute(NSLinkAttributeName, value: "https://amarbleapp.com/legal/tos", range: tosRange)
+        attrStr.addAttribute(NSAttributedStringKey.link, value: "https://amarbleapp.com/legal/tos", range: tosRange)
         
         let ppRange = legalPlain.range(of: "Privacy Policy")
-        attrStr.addAttribute(NSLinkAttributeName, value: "https://amarbleapp.com/legal/privacy-policy", range: ppRange)
+        attrStr.addAttribute(NSAttributedStringKey.link, value: "https://amarbleapp.com/legal/privacy-policy", range: ppRange)
         
         legalText.attributedText = attrStr
         legalText.textAlignment = .center

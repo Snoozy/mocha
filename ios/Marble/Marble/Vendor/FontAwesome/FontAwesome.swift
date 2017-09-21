@@ -98,7 +98,7 @@ public extension UIImage {
         let fontAspectRatio: CGFloat = 1.28571429
 
         let fontSize = min(size.width / fontAspectRatio, size.height)
-        let attributedString = NSAttributedString(string: String.fontAwesomeIcon(name: name), attributes: [NSFontAttributeName: UIFont.fontAwesome(ofSize: fontSize), NSForegroundColorAttributeName: textColor, NSBackgroundColorAttributeName: backgroundColor, NSParagraphStyleAttributeName: paragraph])
+        let attributedString = NSAttributedString(string: String.fontAwesomeIcon(name: name), attributes: [NSAttributedStringKey.font: UIFont.fontAwesome(ofSize: fontSize), NSAttributedStringKey.foregroundColor: textColor, NSAttributedStringKey.backgroundColor: backgroundColor, NSAttributedStringKey.paragraphStyle: paragraph])
         UIGraphicsBeginImageContextWithOptions(size, false , 0.0)
         attributedString.draw(in: CGRect(x: 0, y: (size.height - fontSize) / 2, width: size.width, height: fontSize))
         let image = UIGraphicsGetImageFromCurrentImageContext()
@@ -140,7 +140,7 @@ private class FontLoader {
         let font = CGFont(provider!)
 
         var error: Unmanaged<CFError>?
-        if !CTFontManagerRegisterGraphicsFont(font, &error) {
+        if !CTFontManagerRegisterGraphicsFont(font!, &error) {
             let errorDescription: CFString = CFErrorCopyDescription(error!.takeUnretainedValue())
             let nsError = error!.takeUnretainedValue() as AnyObject as! NSError
             NSException(name: NSExceptionName.internalInconsistencyException, reason: errorDescription as String, userInfo: [NSUnderlyingErrorKey: nsError]).raise()

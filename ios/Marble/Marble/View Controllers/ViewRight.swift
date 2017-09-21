@@ -12,16 +12,7 @@ import Alamofire
 import AVKit
 import AudioToolbox
 
-class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigationBarDelegate, AVCapturePhotoCaptureDelegate, AVCaptureFileOutputRecordingDelegate, UIGestureRecognizerDelegate, AVCaptureMetadataOutputObjectsDelegate {
-
-    var captureSession : AVCaptureSession?
-    var photoOutput : AVCapturePhotoOutput?
-    var previewLayer : AVCaptureVideoPreviewLayer?
-    var camera: AVCaptureDevice?
-    var audioDeviceInput: AVCaptureDeviceInput?
-    var videoFileOut: AVCaptureMovieFileOutput?
-    
-    var cameraInput: AVCaptureDeviceInput?
+class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate, AVCaptureMetadataOutputObjectsDelegate {
     
     var imageMedia : UIImage?
     var videoMediaUrl: URL?
@@ -36,7 +27,6 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
     
     @IBOutlet weak var recordingProgress: UIProgressView!
     
-    @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var cancelButtonOut: UIButton!
     @IBOutlet weak var nextButtonOut: UIButton!
     @IBOutlet weak var takePhotoButton: UIButton!
@@ -49,7 +39,12 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
     @IBOutlet weak var postingToGroup: UILabel!
     
     override func viewDidLoad() {
+        captureButton = takePhotoButton
+        
         super.viewDidLoad()
+        cameraDelegate = self
+        
+        swipeToZoomInverted = true
         
         vPickDest = ViewPickDest(nibName: "ViewPickDest", bundle: nil)
         vPickDest?.view.frame.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
@@ -72,11 +67,6 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         recordingProgress.transform = recordingProgress.transform.scaledBy(x: 1, y: 6)
         recordingProgress.trackTintColor = UIColor.clear
         
-        let panGest = UIPanGestureRecognizer(target: self, action: #selector(cameraViewPan(_:)))
-        panGest.delegate = self
-        self.parent?.view.isUserInteractionEnabled = true
-        self.parent?.view.addGestureRecognizer(panGest)
-        
         takeVideoLongPress.delegate = self
         
         nextButtonOut.layer.cornerRadius = 5
@@ -84,6 +74,91 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         cancelButtonOut.layer.borderWidth = 1
         cancelButtonOut.layer.cornerRadius = 5
         cancelButtonOut.layer.borderColor = UIColor.white.cgColor
+        
+        cancelButtonOut.isHidden = true
+        nextButtonOut.isHidden = true
+        
+        NotificationCenter.default.addObserver(self, selector:#selector(self.playerDidFinishPlaying(note:)),name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
+        
+        self.view.isUserInteractionEnabled = true
+    }
+    
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
+        print("photo taken")
+        
+        tempImageView.image = photo
+        tempImageView.isHidden = false
+        cancelButtonOut.isHidden = false
+        nextButtonOut.isHidden = false
+        takePhotoButton.isHidden = true
+        tempImageView.isUserInteractionEnabled = true
+        UIApplication.shared.isStatusBarHidden = true
+
+        captionView.configure()
+        captionView.clearCaption()
+        captionView.isHidden = false
+
+        mediaType = .image
+    }
+    
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
+        isRecordingVideo = true
+        
+        backButton.isHidden = true
+        flashButton.isHidden = true
+        cameraFlipButton.isHidden = true
+        
+        self.timer = Timer(timeInterval: 0.01, target: self, selector: #selector(timerTick), userInfo: nil, repeats: true)
+        RunLoop.main.add(timer!, forMode: .commonModes)
+        recordingProgress.progress = 0
+        timerCount = 0
+        recordingProgress.isHidden = false
+    }
+    
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
+        self.setZoomScaleWithLock(to: beginZoomScale)
+    }
+    
+    var playerLooper: AVPlayerLooper?
+    var player: AVPlayer?
+    
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
+        takePhotoButton.isHidden = true
+        
+        let playerItem = AVPlayerItem(url: url)
+        player = AVPlayer(playerItem: playerItem)
+        let playerLayer = AVPlayerLayer(player: player)
+        
+        playerLayer.frame = self.view.bounds
+        playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        playerLayer.masksToBounds = true
+        videoView.isHidden = false
+        videoView.layer.addSublayer(playerLayer)
+        player?.play()
+        player?.actionAtItemEnd = .none
+
+        captionView.configure()
+        captionView.clearCaption()
+        captionView.isHidden = false
+
+        videoMediaUrl = url
+        mediaType = .video
+
+        cancelButtonOut.isHidden = false
+        nextButtonOut.isHidden = false
+        cameraFlipButton.isHidden = true
+
+        isPlayingVideoPreview = true
+
+        print("playing")
+        return
+    }
+    
+    @objc func playerDidFinishPlaying(note: NSNotification){
+        if mediaType == .video {
+            player?.seek(to: kCMTimeZero)
+            player?.play()
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -92,231 +167,12 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        initCameraView()
-    }
-    
-    func initCameraView() {
-        if loaded {
-            return
-        }
-        self.loaded = true
-
-        
-        captureSession = AVCaptureSession()
-        captureSession?.automaticallyConfiguresApplicationAudioSession = false
-        captureSession?.usesApplicationAudioSession = true
-        
-        guard let captureSession = self.captureSession else {
-            print("Error making capture session")
-            return;
-        }
-        
-        captureSession.sessionPreset = AVCaptureSessionPresetHigh
-        
-        self.camera = self.defaultBackCamera()
-        self.audioDeviceInput = try? AVCaptureDeviceInput(device: getAudioDevice())
-        
-        if let camera = self.camera {
-            self.initCamera(with: camera, captureSession: captureSession)
-        }
-        
-        self.previewLayer?.frame = self.cameraView.bounds
-        self.cancelButtonOut.isHidden = true
-        self.nextButtonOut.isHidden = true
-        self.takePhotoButton.isHidden = false
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
     
-    let minimumZoom: CGFloat = 1.0
-    let maximumZoom: CGFloat = 5.0
-    var lastZoomFactor: CGFloat = 1.0
-    
-    // Return zoom value between the minimum and maximum zoom values
-    func minMaxZoom(_ factor: CGFloat, device: AVCaptureDevice) -> CGFloat {
-        return min(min(max(factor, minimumZoom), maximumZoom), device.activeFormat.videoMaxZoomFactor)
-    }
-    
-    func update(device: AVCaptureDevice, scale factor: CGFloat) {
-        do {
-            try device.lockForConfiguration()
-            defer { device.unlockForConfiguration() }
-            device.videoZoomFactor = factor
-        } catch {
-            print("\(error.localizedDescription)")
-        }
-    }
-    
-    @IBAction func pinch(_ sender: UIPinchGestureRecognizer) {
-        
-        guard let device = camera else { return }
-        
-        let newScaleFactor = minMaxZoom(sender.scale * lastZoomFactor, device: device)
-        
-        switch sender.state {
-        case .began: fallthrough
-        case .changed: update(device: device, scale: newScaleFactor)
-        case .ended:
-            lastZoomFactor = minMaxZoom(newScaleFactor, device: device)
-            update(device: device, scale: lastZoomFactor)
-        default: break
-        }
-    }
-    
-    @IBAction func cameraViewPan(_ sender: UIPanGestureRecognizer) {
-        if isRecordingVideo {
-            let maxLength = UIScreen.main.bounds.height * 0.6
-            
-            let translation = sender.translation(in: self.view)
-            let deltaX = -translation.y
-            let zoomScale = min(deltaX / maxLength, 1.0)
-            
-            let deltaZoom = maximumZoom - minimumZoom
-            
-            guard let device = camera else { return }
-            
-            let newScaleFactor = minMaxZoom(lastZoomFactor + (zoomScale * deltaZoom), device: device)
-            
-            switch sender.state {
-            case .began: fallthrough
-            case .changed: update(device: device, scale: newScaleFactor)
-            case .ended:
-                lastZoomFactor = minMaxZoom(newScaleFactor, device: device)
-                update(device: device, scale: lastZoomFactor)
-            default: break
-            }
-        }
-    }
-    
-    func getAudioDevice() -> AVCaptureDevice? {
-        return AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeAudio)
-    }
-    
-    func defaultBackCamera() -> AVCaptureDevice? {
-        if let device = AVCaptureDevice.defaultDevice(withDeviceType: .builtInDuoCamera,
-                                                      mediaType: AVMediaTypeVideo,
-                                                      position: .back) {
-            return device
-        } else if let device = AVCaptureDevice.defaultDevice(withDeviceType: .builtInWideAngleCamera,
-                                                             mediaType: AVMediaTypeVideo,
-                                                             position: .back) {
-            return device
-        } else {
-            return nil
-        }
-    }
-    
-    func defaultFrontCamera() -> AVCaptureDevice? {
-        if let device = AVCaptureDevice.defaultDevice(withDeviceType: .builtInWideAngleCamera, mediaType: AVMediaTypeVideo, position: .front) {
-            return device
-        } else {
-            return nil
-        }
-    }
-    
-    @IBAction func cameraDoubleTapped(_ sender: Any) {
-        toggleCameraPosition()
-    }
-    
-    func toggleCameraPosition() {
-        captureSession?.beginConfiguration()
-        captureSession?.removeInput(cameraInput!)
-        if camera?.position == .front {
-            camera = defaultBackCamera()
-        } else {
-            camera = defaultFrontCamera()
-        }
-        if let camera = camera {
-            cameraInput = try! AVCaptureDeviceInput(device: camera)
-            if (captureSession?.canAddInput(cameraInput))! {
-                captureSession?.addInput(cameraInput)
-            }
-        }
-        captureSession?.commitConfiguration()
-    }
-    
-    func initCamera(with device: AVCaptureDevice?, captureSession: AVCaptureSession) {
-        do {
-            cameraInput = try AVCaptureDeviceInput(device: device)
-            captureSession.beginConfiguration()
-            if captureSession.inputs.count > 0 {
-                print("camera already initialized")
-                return
-            }
-            if captureSession.canAddInput(cameraInput) {
-                captureSession.addInput(cameraInput)
-                if captureSession.outputs.count == 0 {
-                    let captureMetadataOutput = AVCaptureMetadataOutput()
-                    if captureSession.canAddOutput(captureMetadataOutput) {
-                        print("add qr code detection")
-                        captureSession.addOutput(captureMetadataOutput)
-                        captureMetadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-                        print("types: \(captureMetadataOutput.availableMetadataObjectTypes)")
-                        captureMetadataOutput.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
-                    }
-                    photoOutput = AVCapturePhotoOutput()
-                    if captureSession.canAddOutput(photoOutput!) {
-                        print("photo output added")
-                        captureSession.addOutput(self.photoOutput!)
-                    }
-                }
-            }
-            captureSession.commitConfiguration()
-            if !captureSession.isRunning {
-                captureSession.startRunning()
-                self.previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-                self.previewLayer!.videoGravity = AVLayerVideoGravityResizeAspect
-                self.previewLayer!.connection.videoOrientation = .portrait
-                self.previewLayer!.frame = cameraView.layer.bounds
-                self.cameraView.layer.addSublayer(self.previewLayer!)
-                captureSession.beginConfiguration()
-                videoFileOut = AVCaptureMovieFileOutput()
-                if (captureSession.canAddOutput(videoFileOut)) {
-                    print("video output added")
-                    captureSession.addOutput(videoFileOut)
-                    if (videoFileOut?.connection(withMediaType: AVMediaTypeVideo).isVideoStabilizationSupported)! {
-                        print("enable video stabilization")
-                        videoFileOut?.connection(withMediaType: AVMediaTypeVideo).preferredVideoStabilizationMode = .cinematic
-                    }
-                }
-                captureSession.commitConfiguration()
-                print("started capture session")
-            }
-            print("capture session: \(captureSession.outputs)")
-        } catch {
-            print("Error accessing input device")
-            return;
-        }
-
-    }
-    
-    @IBAction func cameraTouched(_ sender: UITapGestureRecognizer) {
-        ignoreQR = false
-        if (camera?.isFocusModeSupported(.autoFocus))! {
-            let screenSize = cameraView.bounds.size
-            let touchPoint = sender.location(in: cameraView)
-            let x = touchPoint.x / screenSize.height
-            let y = touchPoint.y / screenSize.width
-            let focusPoint = CGPoint(x: x, y: y)
-        
-            if let device = camera {
-                do {
-                    try device.lockForConfiguration()
-            
-                    device.focusPointOfInterest = focusPoint
-                    device.focusMode = .autoFocus
-                    device.exposurePointOfInterest = focusPoint
-                    device.exposureMode = .continuousAutoExposure
-                    device.unlockForConfiguration()
-                } catch {
-                    
-                }
-            }
-        }
-    }
     
     var ignoreQR: Bool = false
     var responder: SCLAlertViewResponder?
@@ -328,7 +184,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             }
             let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
             
-            if metadataObj.type == AVMetadataObjectTypeQRCode {
+            if metadataObj.type == AVMetadataObject.ObjectType.qr {
                 let qrStr = metadataObj.stringValue
                 if let qrStr = qrStr {
                     if qrStr.contains("marble.group") {
@@ -407,69 +263,12 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
     
     // MARK: Video capture
     
-    var audioSessionCatOpts: AVAudioSessionCategoryOptions?
-    var audioSessionCat: String?
-    var audioSessionInit: Bool = false
-    var audioSessionOriginal: AVAudioSession?
-    
     func startCaptureVideo() {
         print("start recording")
-        
-        isRecordingVideo = true
-        
-        backButton.isHidden = true
-        flashButton.isHidden = true
-        cameraFlipButton.isHidden = true
-        
-//        try! AVAudioSession.sharedInstance().setActive(true)
-        print("configuring audio session")
-        let audioSession = AVAudioSession.sharedInstance()
-        audioSessionCatOpts = audioSession.categoryOptions
-        audioSessionCat = audioSession.category
-        print("audio: \(audioSession.category), \(audioSession.mode), \(audioSession.categoryOptions)")
-        try! audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord,
-                                                        with: [.mixWithOthers, .allowBluetoothA2DP, .allowAirPlay])
-        try! audioSession.setActive(true)
-        captureSession?.beginConfiguration()
-        if (captureSession?.canAddInput(audioDeviceInput!))! {
-            captureSession?.addInput(audioDeviceInput!)
-        }
-        captureSession?.commitConfiguration()
-//        captureSession?.beginConfiguration()
-//        if let audioDeviceInput = audioDeviceInput {
-//            if (captureSession?.canAddInput(audioDeviceInput))! {
-//                captureSession?.addInput(audioDeviceInput)
-//            }
-//        }
-//        captureSession?.commitConfiguration()
-        
-        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let filePath = documentsURL.appendingPathComponent(randomString(length: 10) + ".mp4")
-        
-        if !(captureSession?.isRunning)! {
-            print("start capture video start capture session running")
-            captureSession?.startRunning()
-        }
-        
-        if flashActive && (camera?.isTorchModeSupported(.on) ?? false) {
-            try! camera?.lockForConfiguration()
-            camera?.torchMode = .on
-            camera?.unlockForConfiguration()
-        }
-        
-        if camera?.position == .front && (videoFileOut?.connection(withMediaType: AVMediaTypeVideo).isVideoMirroringSupported) ?? false {
-            videoFileOut?.connection(withMediaType: AVMediaTypeVideo).isVideoMirrored = true
-        }
-        
-        videoFileOut?.startRecording(toOutputFileURL: filePath, recordingDelegate: self)
-        self.timer = Timer(timeInterval: 0.01, target: self, selector: #selector(timerTick), userInfo: nil, repeats: true)
-        RunLoop.main.add(timer!, forMode: .commonModes)
-        recordingProgress.progress = 0
-        timerCount = 0
-        recordingProgress.isHidden = false
+        super.startVideoRecording()
     }
     
-    func timerTick() {
+    @objc func timerTick() {
         timerCount += 1
         if timerCount > Constants.MaxVideoLength * 100 {
             stopCaptureVideo()
@@ -480,129 +279,20 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
     func stopCaptureVideo() {
         print("stop recording")
         
-        let audioSession = AVAudioSession.sharedInstance()
-        try! audioSession.setCategory(AVAudioSessionCategoryAmbient, with: AVAudioSessionCategoryOptions(rawValue: 1))
-
-        captureSession?.beginConfiguration()
-        print("removing audio device input")
-        captureSession?.removeInput(audioDeviceInput)
-        captureSession?.commitConfiguration()
-        
-        print("reverting audio session: \(audioSessionCat)")
-        videoFileOut?.stopRecording()
-        
-        if camera?.position == .back {
-            try! camera?.lockForConfiguration()
-            camera?.torchMode = .off
-            camera?.unlockForConfiguration()
-        }
-        
         timer?.invalidate()
         isRecordingVideo = false
         recordingProgress.isHidden = true
-        
+        super.stopVideoRecording()
     }
     
     @IBOutlet weak var videoView: UIView!
     
     @IBOutlet weak var captionView: MediaCaptionView!
     
-    var playerLooper: AVPlayerLooper?
-    var player: AVQueuePlayer?
-    
-    
-    // VIDEO CAPTURE DELEGATE CALLBACK
-    func capture(_ captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAt outputFileURL: URL!, fromConnections connections: [Any]!, error: Error!) {
-        
-        takePhotoButton.isHidden = true
-        
-        if error != nil {
-            print(error)
-        }
-        
-        player = AVQueuePlayer()
-        let playerLayer = AVPlayerLayer(player: player)
-        let playerItem = AVPlayerItem(url: outputFileURL)
-        playerLooper = AVPlayerLooper(player: player!, templateItem: playerItem)
-        
-        playerLayer.frame = self.cameraView.bounds
-        videoView.layer.addSublayer(playerLayer)
-        playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
-        videoView.isHidden = false
-        player?.play()
-        
-        captionView.configure()
-        captionView.clearCaption()
-        captionView.isHidden = false
-        
-        videoMediaUrl = outputFileURL
-        mediaType = .video
-
-        cancelButtonOut.isHidden = false
-        nextButtonOut.isHidden = false
-        cameraFlipButton.isHidden = true
-        
-        isPlayingVideoPreview = true
-
-        print("playing")
-        return
-    }
-    
     @IBOutlet weak var tempImageView: MediaImageView!
     
-    func capturePhoto() {
-        let settings = AVCapturePhotoSettings()
-        let previewPixelType = settings.__availablePreviewPhotoPixelFormatTypes.first!
-        let previewFormat = [kCVPixelBufferPixelFormatTypeKey as String: previewPixelType,
-                             kCVPixelBufferWidthKey as String: 160,
-                             kCVPixelBufferHeightKey as String: 160,
-                             ]
-        settings.previewPhotoFormat = previewFormat
-        if flashActive {
-            settings.flashMode = .on
-        } else {
-            settings.flashMode = .off
-        }
-        self.photoOutput?.capturePhoto(with: settings, delegate: self)
-    }
-    
-    // IMAGE CAPTURE DELEGATE CALLBACK
-    func capture(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhotoSampleBuffer photoSampleBuffer: CMSampleBuffer?, previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
-        
-        if let error = error {
-            print(error.localizedDescription)
-        }
-        
-        if let sampleBuffer = photoSampleBuffer, let previewBuffer = previewPhotoSampleBuffer, let dataImage = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: sampleBuffer, previewPhotoSampleBuffer: previewBuffer) {
-            
-            var image: UIImage? = UIImage(data: dataImage)
-            if camera?.position == .front {
-                image = UIImage(cgImage: (image?.cgImage!)!, scale: (image?.scale)!, orientation: .leftMirrored)
-            }
-            tempImageView.image = image
-            tempImageView.isHidden = false
-            cancelButtonOut.isHidden = false
-            nextButtonOut.isHidden = false
-            takePhotoButton.isHidden = true
-            tempImageView.isUserInteractionEnabled = true
-            UIApplication.shared.isStatusBarHidden = true
-            
-            captionView.configure()
-            captionView.clearCaption()
-            captionView.isHidden = false
-//            tempImageView.clearCaption()
-            
-            mediaType = .image
-        } else {
-            print("Error processing image.")
-        }
-    }
-    
     func didPressTakePhoto() {
-        if let videoConnection = photoOutput?.connection(withMediaType: AVMediaTypeVideo) {
-            videoConnection.videoOrientation = AVCaptureVideoOrientation.portrait
-            capturePhoto()
-        }
+        super.takePhoto()
     }
     
     var photoTaken = Bool()
@@ -632,17 +322,12 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
         cameraFlipButton.isHidden = false
         
         captionView.isHidden = true
-        
-        update(device: camera!, scale: minimumZoom)
-        lastZoomFactor = minimumZoom
-        
+                
         // VIDEO PREVIEW
         videoView.isHidden = true
-        playerLooper?.disableLooping()
         isPlayingVideoPreview = false
         player?.pause()
         player = nil
-        playerLooper = nil
         
         mediaType = nil
     }
@@ -708,13 +393,13 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             let composition = AVMutableComposition()
             print(videoUrl)
             
-            let vTrack = vidAsset.tracks(withMediaType: AVMediaTypeVideo)
+            let vTrack = vidAsset.tracks(withMediaType: AVMediaType.video)
             let vidTrack: AVAssetTrack = vTrack[0]
             let vidTimeRange = CMTimeRange(start: kCMTimeZero, duration: vidTrack.timeRange.duration)
             
-            let aTracks = vidAsset.tracks(withMediaType: AVMediaTypeAudio)
+            let aTracks = vidAsset.tracks(withMediaType: AVMediaType.audio)
 
-            let compositionVidTrack: AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: AVMediaTypeVideo, preferredTrackID: CMPersistentTrackID())
+            let compositionVidTrack: AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: AVMediaType.video, preferredTrackID: CMPersistentTrackID())!
             do {
                 try compositionVidTrack.insertTimeRange(vidTimeRange, of: vidTrack, at: kCMTimeZero)
             } catch {
@@ -722,7 +407,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             }
             
             if aTracks.count > 0 {
-                let compositionAudioTrack:AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: AVMediaTypeAudio, preferredTrackID: CMPersistentTrackID())
+                let compositionAudioTrack:AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: AVMediaType.audio, preferredTrackID: CMPersistentTrackID())!
                 for audioTrack in aTracks {
                     try! compositionAudioTrack.insertTimeRange(audioTrack.timeRange, of: audioTrack, at: kCMTimeZero)
                 }
@@ -746,9 +431,9 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             // instructions
             let instruction = AVMutableVideoCompositionInstruction()
             instruction.timeRange = CMTimeRange(start: kCMTimeZero, duration: composition.duration)
-            let videoTrack = composition.tracks(withMediaType: AVMediaTypeVideo)[0]
+            let videoTrack = composition.tracks(withMediaType: AVMediaType.video)[0]
             let layerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: videoTrack)
-            if camera?.position == .front {
+            if currentCamera == .front {
                 print(vidTrack.preferredTransform)
                 layerInstruction.setTransform(vidTrack.preferredTransform.translatedBy(x: -vidTrack.preferredTransform.ty, y: 0), at: kCMTimeZero)
             } else {
@@ -765,7 +450,7 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
             let assetExport = AVAssetExportSession(asset: composition, presetName: AVAssetExportPreset1280x720)
             
             assetExport?.videoComposition = layerComposition
-            assetExport?.outputFileType = AVFileTypeMPEG4
+            assetExport?.outputFileType = AVFileType.mp4
             assetExport?.shouldOptimizeForNetworkUse = true
             assetExport?.outputURL = vidPath
             assetExport?.fileLengthLimit = Constants.MaxVideoSize
@@ -822,18 +507,16 @@ class ViewRight: UIViewController, UIImagePickerControllerDelegate, UINavigation
     }
     
     @IBAction func toggleCameraBtnPress(_ sender: UIButton) {
-        toggleCameraPosition()
+        switchCamera()
     }
     
-    var flashActive = false
-    
     @IBAction func flashToggleBtnPress(_ sender: UIButton) {
-        if !flashActive {
+        if !flashEnabled {
             sender.setImage(UIImage(named: "flash-on"), for: .normal)
-            flashActive = true
+            flashEnabled = true
         } else {
             sender.setImage(UIImage(named: "flash-off"), for: .normal)
-            flashActive = false
+            flashEnabled = false
         }
     }
     

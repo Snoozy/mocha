@@ -73,7 +73,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognize
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         self.view.frame = CGRect(x: 0, y: 0, width: (self.view.frame.width), height: self.view.frame.height + 20)
-        vRight.initCameraView()
     }
 
 }

@@ -19,15 +19,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?)
         -> Bool {
-            
-            do {
-                print("configuring AVAudioSession")
-                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient,
-                                                                with: [.mixWithOthers, .allowBluetoothA2DP, .allowAirPlay])
-            } catch {
-                print("error configuring AVAudioSession")
-            }
         
+        do {
+            print("configuring AVAudioSession")
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient,
+                                                            with: [.mixWithOthers, .allowBluetoothA2DP, .allowAirPlay])
+        } catch {
+            print("error configuring AVAudioSession")
+        }
+            
         NetworkActivityIndicatorManager.shared.isEnabled = true
             
         if KeychainWrapper.hasAuthAndUser() {  // User is logged into app

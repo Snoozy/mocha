@@ -250,7 +250,7 @@ class StoryView: UIView, UIScrollViewDelegate {
                 fileUrl.appendPathComponent(mediaId! + ".png")
                 let data = UIImagePNGRepresentation(captionImg)
                 try? data?.write(to: fileUrl)
-                State.shared.getMyStories(completionHandler: { _ in
+                State.shared.getMyStories(completionHandler: {
                     State.shared.loadStories()
                 })
             case .failure:
@@ -350,7 +350,7 @@ class StoryView: UIView, UIScrollViewDelegate {
             player = AVPlayer(playerItem: playerItem)
             playerLayer = AVPlayerLayer(player: player)
             playerLayer?.frame = self.imageView.frame
-            playerLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
+            playerLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
             playerLayer?.masksToBounds = true
             self.imageView.layer.addSublayer(playerLayer!)
             player?.play()
@@ -395,7 +395,7 @@ class StoryView: UIView, UIScrollViewDelegate {
         captionScrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: CGFloat(count + 1) * UIScreen.main.bounds.height)
     }
     
-    func playerDidFinishPlaying(note: NSNotification){
+    @objc func playerDidFinishPlaying(note: NSNotification){
         if story?.mediaType == .video {
                 player?.seek(to: kCMTimeZero)
                 player?.play()
@@ -404,7 +404,7 @@ class StoryView: UIView, UIScrollViewDelegate {
         }
     }
     
-    func storyTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+    @objc func storyTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         if tapGestureRecognizer.state == .ended {
             let touchLocation = tapGestureRecognizer.location(in: self)
             let x = touchLocation.x
@@ -419,7 +419,7 @@ class StoryView: UIView, UIScrollViewDelegate {
         }
     }
     
-    func longPressed(_ sender: UILongPressGestureRecognizer) {
+    @objc func longPressed(_ sender: UILongPressGestureRecognizer) {
         
         if sender.state == UIGestureRecognizerState.began {
             
@@ -441,7 +441,7 @@ class StoryView: UIView, UIScrollViewDelegate {
                     UIApplication.topViewController()?.present(alert, animated: true, completion: nil)
                     return
                 }
-                State.shared.blockUser(userId: self.userId!, completionHandler: { response in
+                State.shared.blockUser(userId: self.userId!, completionHandler: {
                     UIApplication.shared.isStatusBarHidden = false
                     self.removeFromSuperview()
                     self.cell?.refreshPreview()

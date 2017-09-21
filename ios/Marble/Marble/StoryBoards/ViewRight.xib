@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -13,7 +12,6 @@
             <connections>
                 <outlet property="backButton" destination="hFx-m6-NCj" id="W8q-ZZ-yWU"/>
                 <outlet property="cameraFlipButton" destination="Ppf-bj-vyN" id="BX9-so-Hi2"/>
-                <outlet property="cameraView" destination="gC6-7d-etp" id="aRH-QF-LWv"/>
                 <outlet property="cancelButtonOut" destination="HhP-Mo-KqM" id="JqT-GO-4PS"/>
                 <outlet property="captionView" destination="UrR-4c-M7D" id="KfM-Fs-0Wu"/>
                 <outlet property="flashButton" destination="Fp8-Ji-qYQ" id="gzg-t3-oMo"/>
@@ -32,15 +30,6 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gC6-7d-etp">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                    <gestureRecognizers/>
-                    <connections>
-                        <outletCollection property="gestureRecognizers" destination="vCx-QN-AMo" appends="YES" id="j86-cx-60Y"/>
-                        <outletCollection property="gestureRecognizers" destination="7fP-Jh-BER" appends="YES" id="UIM-gU-giA"/>
-                        <outletCollection property="gestureRecognizers" destination="JNk-Ot-H2w" appends="YES" id="m0q-nZ-f6s"/>
-                    </connections>
-                </view>
                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xOy-Wp-Ije" userLabel="Posting to group">
                     <rect key="frame" x="71" y="665" width="76" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -146,14 +135,11 @@
                 <constraint firstAttribute="trailing" secondItem="UXt-6l-v0K" secondAttribute="trailing" id="3Dd-1y-5sj"/>
                 <constraint firstAttribute="bottom" secondItem="TOK-8N-NbL" secondAttribute="bottom" constant="8" id="5LJ-ac-wgq"/>
                 <constraint firstItem="Fp8-Ji-qYQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="29" id="6Vx-Gl-Rbk"/>
-                <constraint firstAttribute="trailing" secondItem="gC6-7d-etp" secondAttribute="trailing" id="75f-w8-sU3"/>
-                <constraint firstItem="gC6-7d-etp" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="76h-Y8-aki"/>
                 <constraint firstAttribute="bottom" secondItem="4si-Dq-6zy" secondAttribute="bottom" constant="20" id="BDX-aq-bAr"/>
                 <constraint firstAttribute="bottom" secondItem="HhP-Mo-KqM" secondAttribute="bottom" constant="8" id="Bgf-YT-Zn8"/>
                 <constraint firstItem="9vT-Lj-HGQ" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="C3y-9I-eNl"/>
                 <constraint firstItem="hFx-m6-NCj" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="29" id="Dzz-n0-9Cz"/>
                 <constraint firstItem="Ppf-bj-vyN" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="29" id="Fj6-LI-4la"/>
-                <constraint firstAttribute="bottom" secondItem="gC6-7d-etp" secondAttribute="bottom" id="OfE-VP-Ccq"/>
                 <constraint firstAttribute="bottom" secondItem="9vT-Lj-HGQ" secondAttribute="bottom" id="PNV-h4-Lxx"/>
                 <constraint firstAttribute="trailing" secondItem="9vT-Lj-HGQ" secondAttribute="trailing" id="QVG-HX-6Xi"/>
                 <constraint firstAttribute="bottom" secondItem="UrR-4c-M7D" secondAttribute="bottom" id="SDn-qd-zoA"/>
@@ -173,22 +159,11 @@
                 <constraint firstAttribute="trailing" secondItem="igO-4s-pVS" secondAttribute="trailing" id="rN8-q0-9Cj"/>
                 <constraint firstAttribute="bottom" secondItem="UXt-6l-v0K" secondAttribute="bottom" id="sHy-5h-Qcm"/>
                 <constraint firstItem="Ppf-bj-vyN" firstAttribute="leading" secondItem="Fp8-Ji-qYQ" secondAttribute="trailing" constant="18" id="sMV-d0-dkb"/>
-                <constraint firstItem="gC6-7d-etp" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="w0w-BQ-4a4"/>
                 <constraint firstItem="UXt-6l-v0K" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="wZP-ls-4Ws"/>
                 <constraint firstItem="9vT-Lj-HGQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="ycZ-Iq-cgs"/>
             </constraints>
             <point key="canvasLocation" x="3" y="39"/>
         </view>
-        <tapGestureRecognizer id="vCx-QN-AMo">
-            <connections>
-                <action selector="cameraTouched:" destination="-1" id="En4-Tb-JgK"/>
-            </connections>
-        </tapGestureRecognizer>
-        <tapGestureRecognizer numberOfTapsRequired="2" id="7fP-Jh-BER">
-            <connections>
-                <action selector="cameraDoubleTapped:" destination="-1" id="xvF-6u-hKF"/>
-            </connections>
-        </tapGestureRecognizer>
         <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="dxc-zd-t9n">
             <connections>
                 <action selector="takeVideoAction:" destination="-1" id="Yzg-cf-540"/>
@@ -199,11 +174,6 @@
                 <action selector="takePhoto:" destination="-1" id="TXX-Ps-AoU"/>
             </connections>
         </tapGestureRecognizer>
-        <pinchGestureRecognizer id="JNk-Ot-H2w">
-            <connections>
-                <action selector="pinch:" destination="-1" id="znc-uB-Z6S"/>
-            </connections>
-        </pinchGestureRecognizer>
     </objects>
     <resources>
         <image name="back-btn" width="253" height="186"/>

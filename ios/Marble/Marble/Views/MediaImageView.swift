@@ -37,7 +37,7 @@ class MediaImageView: UIImageView, UITextViewDelegate {
     
     private var prevCaptionHeight: CGFloat?
     
-    func keyboardWillShow(notification: Notification) {
+    @objc func keyboardWillShow(notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardHeight = keyboardSize.height
             prevCaptionHeight = captionCenterY
@@ -51,7 +51,7 @@ class MediaImageView: UIImageView, UITextViewDelegate {
     
     private var keyboardLastHeight: CGFloat?
     
-    func keyboardDidChangeFrame(notification: Notification) {
+    @objc func keyboardDidChangeFrame(notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardHeight = keyboardSize.height
             keyboardLastHeight = keyboardHeight
@@ -88,7 +88,7 @@ class MediaImageView: UIImageView, UITextViewDelegate {
     
     var lastFontSize: CGFloat = 30
     
-    func captionPinched(_ gesture: UIPinchGestureRecognizer) {
+    @objc func captionPinched(_ gesture: UIPinchGestureRecognizer) {
         if caption.isFirstResponder {
             return
         }

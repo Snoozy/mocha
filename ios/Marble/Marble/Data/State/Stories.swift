@@ -59,7 +59,7 @@ extension State {
     }
     
     func getAndLoadStories() {
-        self.getMyStories(completionHandler: { _ in
+        self.getMyStories(completionHandler: {
             self.loadStories()
         })
     }

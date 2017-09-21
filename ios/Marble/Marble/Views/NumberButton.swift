@@ -74,12 +74,12 @@ class NumberButton: UIButton {
         addTarget(self, action: #selector(NumberButton.handleTouchUp), for: [.touchUpInside, .touchDragOutside, .touchCancel])
     }
     
-    func handleTouchDown() {
+    @objc func handleTouchDown() {
         
         animateBackgroundColor(highlightBackgroundColor)
     }
     
-    func handleTouchUp() {
+    @objc func handleTouchUp() {
         
         animateBackgroundColor(defaultBackgroundColor)
     }

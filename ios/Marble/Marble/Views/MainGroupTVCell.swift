@@ -74,7 +74,7 @@ class MainGroupTVCell: UITableViewCell {
         let scaleX = 100 / (coloredQR?.extent.size.width)!
         let scaleY = 100 / (coloredQR?.extent.size.height)!
         
-        return coloredQR?.applying(CGAffineTransform(scaleX: scaleX, y: scaleY))
+        return coloredQR?.transformed(by: CGAffineTransform(scaleX: scaleX, y: scaleY))
     }
     
     func refreshPreview() {

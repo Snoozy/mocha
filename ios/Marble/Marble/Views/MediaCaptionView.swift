@@ -43,7 +43,7 @@ class MediaCaptionView: UIView, UITextViewDelegate {
     
     private var prevCaptionHeight: CGFloat?
     
-    internal func keyboardWillShow(notification: Notification) {
+    @objc internal func keyboardWillShow(notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardHeight = keyboardSize.height
             prevCaptionHeight = captionCenterY
@@ -57,7 +57,7 @@ class MediaCaptionView: UIView, UITextViewDelegate {
     
     private var keyboardLastHeight: CGFloat?
     
-    internal func keyboardDidChangeFrame(notification: Notification) {
+    @objc internal func keyboardDidChangeFrame(notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardHeight = keyboardSize.height
             keyboardLastHeight = keyboardHeight
@@ -94,7 +94,7 @@ class MediaCaptionView: UIView, UITextViewDelegate {
     
     private var lastFontSize: CGFloat = 30
     
-    internal func captionPinched(_ gesture: UIPinchGestureRecognizer) {
+    @objc internal func captionPinched(_ gesture: UIPinchGestureRecognizer) {
         if caption.isFirstResponder {
             return
         }
@@ -151,7 +151,7 @@ class MediaCaptionView: UIView, UITextViewDelegate {
     private lazy var tapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapped(_:)))
     private lazy var panRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panned(_:)))
     
-    internal func tapped(_ sender: UIPanGestureRecognizer) {
+    @objc internal func tapped(_ sender: UIPanGestureRecognizer) {
         if caption.isFirstResponder {
             caption.resignFirstResponder()
             caption.isHidden = caption.text?.isEmpty ?? true
@@ -162,7 +162,7 @@ class MediaCaptionView: UIView, UITextViewDelegate {
         }
     }
     
-    internal func panned(_ sender: UIPanGestureRecognizer) {
+    @objc internal func panned(_ sender: UIPanGestureRecognizer) {
         if caption.isFirstResponder {
             return
         }

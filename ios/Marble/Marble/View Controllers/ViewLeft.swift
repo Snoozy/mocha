@@ -101,7 +101,7 @@ class ViewLeft: UITableViewController {
         }
     }
     
-    func pullDownRefresh() {
+    @objc func pullDownRefresh() {
         refresh()
     }
     
@@ -247,7 +247,7 @@ class ViewLeft: UITableViewController {
         refresh()
     }
     
-    func mediaPosted(notification: Notification) {
+    @objc func mediaPosted(notification: Notification) {
         self.becomeFirstResponder()
         let userInfo = notification.userInfo as! [String:AnyObject]
         let groups = userInfo["group_ids"] as! [Int]
@@ -263,7 +263,7 @@ class ViewLeft: UITableViewController {
         State.shared.sortGroupsRecent()
     }
     
-    func mediaUploadFinished(notificaion: Notification) {
+    @objc func mediaUploadFinished(notificaion: Notification) {
         refresh()
     }
     
@@ -279,7 +279,7 @@ class ViewLeft: UITableViewController {
         parentVC?.scrollView.setContentOffset(CGPoint.init(x: screenWidth, y: 0.0), animated: true)
     }
     
-    func longPress(_ gest: UILongPressGestureRecognizer) {
+    @objc func longPress(_ gest: UILongPressGestureRecognizer) {
         if gest.state == .began {
             let touchPoint = gest.location(in: self.view)
             if let indexPath = tableView.indexPathForRow(at: touchPoint) {

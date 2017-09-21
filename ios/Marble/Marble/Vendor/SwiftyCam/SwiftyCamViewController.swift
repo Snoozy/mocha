@@ -142,6 +142,10 @@ open class SwiftyCamViewController: UIViewController {
 	/// Set default launch camera
 
 	public var defaultCamera                   = CameraSelection.rear
+    
+    /// Button used for capture
+    
+    public weak var captureButton: UIButton?
 
 	/// Sets wether the taken photo or video should be oriented according to the device orientation
 
@@ -205,7 +209,7 @@ open class SwiftyCamViewController: UIViewController {
 
 	/// Variable for storing initial zoom scale before Pinch to Zoom begins
 
-	fileprivate var beginZoomScale               = CGFloat(1.0)
+	public var beginZoomScale               = CGFloat(1.0)
 
 	/// Returns true if the torch (flash) is currently enabled
 
@@ -261,6 +265,8 @@ open class SwiftyCamViewController: UIViewController {
 		return allowAutoRotate
 	}
 
+    fileprivate var audioDevice: AVCaptureDevice?
+    
 	// MARK: ViewDidLoad
 
 	/// ViewDidLoad Implementation
@@ -276,6 +282,11 @@ open class SwiftyCamViewController: UIViewController {
         addGestureRecognizers()
 
 		previewLayer.session = session
+        
+        audioDevice = AVCaptureDevice.default(for: AVMediaType.audio)
+        
+        session.automaticallyConfiguresApplicationAudioSession = false
+        session.usesApplicationAudioSession = true
 
 		// Test authorization status for Camera and Micophone
 
@@ -374,10 +385,6 @@ open class SwiftyCamViewController: UIViewController {
 		if shouldUseDeviceOrientation {
 			orientation.start()
 		}
-
-		// Set background audio preference
-
-		setBackgroundAudioPreference()
 
 		sessionQueue.async {
 			switch self.setupResult {
@@ -496,11 +503,11 @@ open class SwiftyCamViewController: UIViewController {
 		guard let movieFileOutput = self.movieFileOutput else {
 			return
 		}
-
+        
 		if currentCamera == .rear && flashEnabled == true {
 			enableFlash()
 		}
-
+        
 		if currentCamera == .front && flashEnabled == true {
 			flashView = UIView(frame: view.frame)
 			flashView?.backgroundColor = UIColor.white
@@ -511,15 +518,18 @@ open class SwiftyCamViewController: UIViewController {
         //Must be fetched before on main thread
         let previewOrientation = previewLayer.videoPreviewLayer.connection!.videoOrientation
 
-		sessionQueue.async { [unowned self] in
+        sessionQueue.async { [unowned self] in
 			if !movieFileOutput.isRecording {
+                self.setBackgroundAudioPreference()
+                self.addAudioInput()
+                usleep(20000)
+                
 				if UIDevice.current.isMultitaskingSupported {
 					self.backgroundRecordingID = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
 				}
 
 				// Update the orientation on the movie file output video connection before starting recording.
 				let movieFileOutputConnection = self.movieFileOutput?.connection(with: AVMediaType.video)
-
 
 				//flip video output if front facing camera is selected
 				if self.currentCamera == .front {
@@ -530,8 +540,9 @@ open class SwiftyCamViewController: UIViewController {
 
 				// Start recording to a temporary file.
 				let outputFileName = UUID().uuidString
-				let outputFilePath = (NSTemporaryDirectory() as NSString).appendingPathComponent((outputFileName as NSString).appendingPathExtension("mov")!)
-				movieFileOutput.startRecording(to: URL(fileURLWithPath: outputFilePath), recordingDelegate: self)
+                let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                let outputFilePath = documentsURL.appendingPathComponent(outputFileName + ".mp4")
+				movieFileOutput.startRecording(to: outputFilePath, recordingDelegate: self)
 				self.isVideoRecording = true
 				DispatchQueue.main.async {
 					self.cameraDelegate?.swiftyCam(self, didBeginRecordingVideo: self.currentCamera)
@@ -620,6 +631,24 @@ open class SwiftyCamViewController: UIViewController {
 		// If flash is enabled, disable it as the torch is needed for front facing camera
 		disableFlash()
 	}
+    
+    fileprivate func setZoomScale(to zoom: CGFloat) {
+        if let videoDevice = videoDevice {
+            videoDevice.videoZoomFactor = zoom
+        }
+    }
+    
+    public func setZoomScaleWithLock(to zoom: CGFloat) {
+        if let videoDevice = videoDevice {
+            do {
+            try videoDevice.lockForConfiguration()
+            setZoomScale(to: zoom)
+            videoDevice.unlockForConfiguration()
+            } catch {
+                print("error getting AVDevice lock")
+            }
+        }
+    }
 
 	// MARK: Private Functions
 
@@ -639,7 +668,6 @@ open class SwiftyCamViewController: UIViewController {
 		session.beginConfiguration()
 		configureVideoPreset()
 		addVideoInput()
-		addAudioInput()
 		configureVideoOutput()
 		configurePhotoOutput()
 
@@ -652,7 +680,6 @@ open class SwiftyCamViewController: UIViewController {
 		session.beginConfiguration()
 		configureVideoPreset()
 		addVideoInput()
-		addAudioInput()
 		session.commitConfiguration()
 	}
 
@@ -738,15 +765,15 @@ open class SwiftyCamViewController: UIViewController {
             return
         }
 		do {
-			let audioDevice = AVCaptureDevice.default(for: AVMediaType.audio)
+            session.beginConfiguration()
 			let audioDeviceInput = try AVCaptureDeviceInput(device: audioDevice!)
-
 			if session.canAddInput(audioDeviceInput) {
+                print("adding audio device")
 				session.addInput(audioDeviceInput)
-			}
-			else {
+			} else {
 				print("[SwiftyCam]: Could not add audio device input to the session")
 			}
+            session.commitConfiguration()
 		}
 		catch {
 			print("[SwiftyCam]: Could not create audio device input: \(error)")
@@ -885,7 +912,7 @@ open class SwiftyCamViewController: UIViewController {
 	/// Get Devices
 
 	fileprivate class func deviceWithMediaType(_ mediaType: String, preferringPosition position: AVCaptureDevice.Position) -> AVCaptureDevice? {
-        return AVCaptureDevice.devices(for: AVMediaType(rawValue: mediaType)).first
+        return AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType(rawValue: mediaType), position: position)
 	}
 
 	/// Enable or disable flash for photo
@@ -958,21 +985,43 @@ open class SwiftyCamViewController: UIViewController {
             return
         }
 
-		do{
-            if #available(iOS 10.0, *) {
-                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord,
-                                                                with: [.mixWithOthers, .allowBluetooth, .allowAirPlay, .allowBluetoothA2DP])
-            } else {
-                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord,
-                                                                with: [.mixWithOthers, .allowBluetooth])
-            }
-			session.automaticallyConfiguresApplicationAudioSession = false
+		do {
+            let audioSession = AVAudioSession.sharedInstance()
+            print("setting avaudiosession category: \(audioSession.category), \(audioSession.categoryOptions)")
+            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, with: [.mixWithOthers, .allowBluetoothA2DP, .allowAirPlay])
+            try audioSession.setActive(true)
 		}
 		catch {
 			print("[SwiftyCam]: Failed to set background audio preference")
-
 		}
 	}
+    
+    /// Remove background audio preference
+    fileprivate func removeBackgroundAudioPreference() {
+        guard allowBackgroundAudio == true else {
+            return
+        }
+        
+        guard audioEnabled == true else {
+            return
+        }
+        
+        do {
+            session.stopRunning()
+            for input in session.inputs {
+                session.removeInput(input)
+            }
+            let audioSession = AVAudioSession.sharedInstance()
+            try audioSession.setActive(false)
+            try audioSession.setCategory(AVAudioSessionCategoryAmbient, mode: AVAudioSessionModeDefault, options: AVAudioSessionCategoryOptions(rawValue: 0))
+            session.automaticallyConfiguresApplicationAudioSession = false
+            self.addInputs()
+            session.startRunning()
+        }
+        catch let error as NSError {
+            print("[SwiftyCam]: Failed to remove background audio preference: \(error)")
+        }
+    }
     
     /// Called when Notification Center registers session starts running
     
@@ -1051,6 +1100,7 @@ extension SwiftyCamViewController : AVCaptureFileOutputRecordingDelegate {
             //Call delegate function with the URL of the outputfile
             DispatchQueue.main.async {
                 self.cameraDelegate?.swiftyCam(self, didFinishProcessVideoAt: outputFileURL)
+                self.removeBackgroundAudioPreference()
             }
         }
     }
@@ -1067,13 +1117,14 @@ extension SwiftyCamViewController {
 			//ignore pinch 
 			return
 		}
+        print("pinching")
 		do {
-			let captureDevice = AVCaptureDevice.devices().first
+			let captureDevice = videoDevice
 			try captureDevice?.lockForConfiguration()
 
 			zoomScale = min(maxZoomScale, max(1.0, min(beginZoomScale * pinch.scale,  captureDevice!.activeFormat.videoMaxZoomFactor)))
 
-			captureDevice?.videoZoomFactor = zoomScale
+            self.setZoomScale(to: zoomScale)
 
 			// Call Delegate function with current zoom scale
 			DispatchQueue.main.async {
@@ -1143,7 +1194,7 @@ extension SwiftyCamViewController {
         let translationDifference = currentTranslation - previousPanTranslation
         
         do {
-            let captureDevice = AVCaptureDevice.devices().first 
+            let captureDevice = videoDevice
             try captureDevice?.lockForConfiguration()
             
             let currentZoom = captureDevice?.videoZoomFactor ?? 0.0
@@ -1155,7 +1206,7 @@ extension SwiftyCamViewController {
 
             }
             
-            captureDevice?.videoZoomFactor = zoomScale
+            self.setZoomScale(to: zoomScale)
             
             // Call Delegate function with current zoom scale
             DispatchQueue.main.async {
@@ -1183,10 +1234,11 @@ extension SwiftyCamViewController {
 	*/
 
 	fileprivate func addGestureRecognizers() {
+        print("adding gestures")
 		pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(zoomGesture(pinch:)))
 		pinchGesture.delegate = self
 		previewLayer.addGestureRecognizer(pinchGesture)
-
+        
 		let singleTapGesture = UITapGestureRecognizer(target: self, action: #selector(singleTapGesture(tap:)))
 		singleTapGesture.numberOfTapsRequired = 1
 		singleTapGesture.delegate = self
@@ -1200,6 +1252,9 @@ extension SwiftyCamViewController {
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture(pan:)))
         panGesture.delegate = self
         previewLayer.addGestureRecognizer(panGesture)
+        if let captureButton = captureButton {
+            captureButton.addGestureRecognizer(panGesture)
+        }
 	}
 }
 
