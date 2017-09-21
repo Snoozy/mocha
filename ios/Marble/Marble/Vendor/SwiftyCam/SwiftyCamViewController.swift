@@ -21,7 +21,7 @@ import AVFoundation
 
 /// A UIViewController Camera View Subclass
 
-open class SwiftyCamViewController: UIViewController {
+open class SwiftyCamViewController: UIViewController, AVAudioRecorderDelegate {
 
 	// MARK: Enumeration Declaration
 
@@ -99,7 +99,7 @@ open class SwiftyCamViewController: UIViewController {
 
 	/// Video capture quality
 
-	public var videoQuality : VideoQuality       = .high
+	public var videoQuality : VideoQuality       = .resolution1280x720
 
 	/// Sets whether flash is enabled for photo and video capture
 
@@ -521,8 +521,8 @@ open class SwiftyCamViewController: UIViewController {
         sessionQueue.async { [unowned self] in
 			if !movieFileOutput.isRecording {
                 self.setBackgroundAudioPreference()
-                self.addAudioInput()
-                usleep(20000)
+                //self.addAudioInput()
+//                usleep(20000)
                 
 				if UIDevice.current.isMultitaskingSupported {
 					self.backgroundRecordingID = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
@@ -543,6 +543,7 @@ open class SwiftyCamViewController: UIViewController {
                 let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
                 let outputFilePath = documentsURL.appendingPathComponent(outputFileName + ".mp4")
 				movieFileOutput.startRecording(to: outputFilePath, recordingDelegate: self)
+                self.startAudioRecording(outputFileName: outputFileName, documentsURL: documentsURL)
 				self.isVideoRecording = true
 				DispatchQueue.main.async {
 					self.cameraDelegate?.swiftyCam(self, didBeginRecordingVideo: self.currentCamera)
@@ -553,6 +554,30 @@ open class SwiftyCamViewController: UIViewController {
 			}
 		}
 	}
+    
+    var audioRecorder: AVAudioRecorder!
+    
+    private func startAudioRecording(outputFileName: String, documentsURL: URL) {
+        let outputFilePath = documentsURL.appendingPathComponent(outputFileName + ".m4a")
+        let settings = [
+            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+            AVSampleRateKey: 12000,
+            AVNumberOfChannelsKey: 1,
+            AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
+        ]
+        
+        do {
+            audioRecorder = try AVAudioRecorder(url: outputFilePath, settings: settings)
+            audioRecorder.delegate = self
+            audioRecorder.record()
+        } catch {
+            // do nothing
+        }
+    }
+    
+    private func stopAudioRecording() {
+        audioRecorder.stop()
+    }
 
 	/**
 
@@ -568,6 +593,7 @@ open class SwiftyCamViewController: UIViewController {
 		if self.movieFileOutput?.isRecording == true {
 			self.isVideoRecording = false
 			movieFileOutput!.stopRecording()
+            stopAudioRecording()
 			disableFlash()
 
 			if currentCamera == .front && flashEnabled == true && flashView != nil {
@@ -1007,16 +1033,18 @@ open class SwiftyCamViewController: UIViewController {
         }
         
         do {
-            session.stopRunning()
+            session.beginConfiguration()
             for input in session.inputs {
-                session.removeInput(input)
+                for port in input.ports {
+                    if port.mediaType == .audio {
+                        session.removeInput(input)
+                    }
+                }
             }
+            session.commitConfiguration()
             let audioSession = AVAudioSession.sharedInstance()
-            try audioSession.setActive(false)
             try audioSession.setCategory(AVAudioSessionCategoryAmbient, mode: AVAudioSessionModeDefault, options: AVAudioSessionCategoryOptions(rawValue: 0))
             session.automaticallyConfiguresApplicationAudioSession = false
-            self.addInputs()
-            session.startRunning()
         }
         catch let error as NSError {
             print("[SwiftyCam]: Failed to remove background audio preference: \(error)")
@@ -1079,8 +1107,6 @@ extension SwiftyCamViewController : SwiftyCamButtonDelegate {
 // MARK: AVCaptureFileOutputRecordingDelegate
 
 extension SwiftyCamViewController : AVCaptureFileOutputRecordingDelegate {
-
-	/// Process newly captured video and write it to temporary directory
     
     public func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
         if let currentBackgroundRecordingID = backgroundRecordingID {
@@ -1099,11 +1125,84 @@ extension SwiftyCamViewController : AVCaptureFileOutputRecordingDelegate {
         } else {
             //Call delegate function with the URL of the outputfile
             DispatchQueue.main.async {
+//                let audioUrl = outputFileURL.deletingPathExtension().appendingPathExtension("m4a")
+//                print("audio: \(audioUrl), video: \(outputFileURL)")
+//                let outputFileName = UUID().uuidString
+//                let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+//                let outputFilePath = documentsURL.appendingPathComponent(outputFileName + ".mp4")
+//                self.mergeFilesWithUrl(videoUrl: outputFileURL, audioUrl: audioUrl, at: outputFilePath)
                 self.cameraDelegate?.swiftyCam(self, didFinishProcessVideoAt: outputFileURL)
                 self.removeBackgroundAudioPreference()
             }
         }
     }
+    
+    func mergeFilesWithUrl(videoUrl: URL, audioUrl: URL, at savePathUrl: URL) {
+        let mixComposition : AVMutableComposition = AVMutableComposition()
+        var mutableCompositionVideoTrack : [AVMutableCompositionTrack] = []
+        var mutableCompositionAudioTrack : [AVMutableCompositionTrack] = []
+        let totalVideoCompositionInstruction : AVMutableVideoCompositionInstruction = AVMutableVideoCompositionInstruction()
+        
+        let aVideoAsset : AVAsset = AVAsset(url: videoUrl)
+        let aAudioAsset : AVAsset = AVAsset(url: audioUrl)
+        
+        mutableCompositionVideoTrack.append(mixComposition.addMutableTrack(withMediaType: AVMediaType.video, preferredTrackID: kCMPersistentTrackID_Invalid)!)
+        mutableCompositionAudioTrack.append(mixComposition.addMutableTrack(withMediaType: AVMediaType.audio, preferredTrackID: kCMPersistentTrackID_Invalid)!)
+        
+        let aVideoAssetTrack : AVAssetTrack = aVideoAsset.tracks(withMediaType: AVMediaType.video)[0]
+        let aAudioAssetTrack : AVAssetTrack = aAudioAsset.tracks(withMediaType: AVMediaType.audio)[0]
+        
+        do{
+            try mutableCompositionVideoTrack[0].insertTimeRange(CMTimeRangeMake(kCMTimeZero, aVideoAssetTrack.timeRange.duration), of: aVideoAssetTrack, at: kCMTimeZero)
+            try mutableCompositionAudioTrack[0].insertTimeRange(CMTimeRangeMake(kCMTimeZero, aVideoAssetTrack.timeRange.duration), of: aAudioAssetTrack, at: kCMTimeZero)
+        } catch {
+        }
+        
+        totalVideoCompositionInstruction.timeRange = CMTimeRangeMake(kCMTimeZero,aVideoAssetTrack.timeRange.duration)
+        
+        let mutableVideoComposition : AVMutableVideoComposition = AVMutableVideoComposition()
+        mutableVideoComposition.frameDuration = CMTimeMake(1, 30)
+        
+        let size = aVideoAssetTrack.naturalSize
+        
+        let layerComposition = AVMutableVideoComposition()
+        layerComposition.frameDuration = CMTimeMake(1, 30)
+        
+        layerComposition.renderSize = CGSize(width: size.height, height: size.width)
+        
+        let videoTrack = mixComposition.tracks(withMediaType: AVMediaType.video)[0]
+        let layerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: videoTrack)
+        layerInstruction.setTransform(aVideoAssetTrack.preferredTransform, at: kCMTimeZero)
+        totalVideoCompositionInstruction.layerInstructions = [layerInstruction]
+        layerComposition.instructions = [totalVideoCompositionInstruction]
+        
+        let assetExport: AVAssetExportSession = AVAssetExportSession(asset: mixComposition, presetName: AVAssetExportPresetHighestQuality)!
+        assetExport.outputFileType = AVFileType.mp4
+        assetExport.outputURL = savePathUrl
+        assetExport.videoComposition = layerComposition
+        assetExport.shouldOptimizeForNetworkUse = true
+        
+        assetExport.exportAsynchronously { () -> Void in
+            switch assetExport.status {
+                
+            case AVAssetExportSessionStatus.completed:
+                
+                print("success")
+                
+                DispatchQueue.main.async {
+                    self.cameraDelegate?.swiftyCam(self, didFinishProcessVideoAt: savePathUrl)
+                    self.removeBackgroundAudioPreference()
+                }
+            case  AVAssetExportSessionStatus.failed:
+                print("failed \(assetExport.error)")
+            case AVAssetExportSessionStatus.cancelled:
+                print("cancelled \(assetExport.error)")
+            default:
+                print("complete")
+            }
+        }
+    }
+    
 }
 
 // Mark: UIGestureRecognizer Declarations

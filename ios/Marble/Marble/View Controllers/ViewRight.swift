@@ -121,6 +121,7 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate, AVCap
     
     var playerLooper: AVPlayerLooper?
     var player: AVPlayer?
+    var audioPlayer: AVAudioPlayer?
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
         takePhotoButton.isHidden = true
@@ -129,12 +130,16 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate, AVCap
         player = AVPlayer(playerItem: playerItem)
         let playerLayer = AVPlayerLayer(player: player)
         
+        let audioUrl = url.deletingPathExtension().appendingPathExtension("m4a")
+        audioPlayer = try! AVAudioPlayer(contentsOf: audioUrl)
+        
         playerLayer.frame = self.view.bounds
         playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         playerLayer.masksToBounds = true
         videoView.isHidden = false
         videoView.layer.addSublayer(playerLayer)
         player?.play()
+        audioPlayer?.play()
         player?.actionAtItemEnd = .none
 
         captionView.configure()
@@ -157,7 +162,9 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate, AVCap
     @objc func playerDidFinishPlaying(note: NSNotification){
         if mediaType == .video {
             player?.seek(to: kCMTimeZero)
+            audioPlayer?.currentTime = 0
             player?.play()
+            audioPlayer?.play()
         }
     }
     
@@ -389,6 +396,9 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate, AVCap
     
     func renderVideoAndUpload(groupIds: [Int], completionHandler: @escaping (DataResponse<Any>) -> ()) {
         if let videoUrl = videoMediaUrl {
+            let audioUrl = videoUrl.deletingPathExtension().appendingPathExtension("m4a")
+            
+            let audioAsset = AVAsset(url: audioUrl)
             let vidAsset = AVURLAsset(url: videoUrl)
             let composition = AVMutableComposition()
             print(videoUrl)
@@ -397,7 +407,7 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate, AVCap
             let vidTrack: AVAssetTrack = vTrack[0]
             let vidTimeRange = CMTimeRange(start: kCMTimeZero, duration: vidTrack.timeRange.duration)
             
-            let aTracks = vidAsset.tracks(withMediaType: AVMediaType.audio)
+            let aTracks = audioAsset.tracks(withMediaType: .audio)
 
             let compositionVidTrack: AVMutableCompositionTrack = composition.addMutableTrack(withMediaType: AVMediaType.video, preferredTrackID: CMPersistentTrackID())!
             do {
