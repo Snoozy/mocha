@@ -186,15 +186,32 @@ class ViewLeft: UITableViewController {
     }
     
     let storyViewNib = UINib(nibName: "StoryView", bundle: nil)
+    var tapCount = 0
+    
+    var lastClick: TimeInterval = 0.0
+    var lastIndexPath: IndexPath?
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        self.cellSingleTap(indexPath: indexPath)
+        let now: TimeInterval = Date().timeIntervalSince1970
+        if (now - lastClick < (Double(Constants.DoubleTapDelay)/1000.0)) && (lastIndexPath?.row == indexPath.row ) {
+            print("Double Tap!")
+            self.tableView.deselectRow(at: indexPath, animated: true)
+            postToGroup(group: (self.tableView.cellForRow(at: indexPath) as! MainGroupTVCell).group!)
+        } else {
+            print("single")
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(Int(Constants.DoubleTapDelay)), execute: {
+                let now: TimeInterval = Date().timeIntervalSince1970
+                if (now - self.lastClick >= (Double(Constants.DoubleTapDelay)/1000.0)) && (self.lastIndexPath?.row == indexPath.row) {
+                    self.cellSingleTap(cell: self.tableView.cellForRow(at: indexPath) as! MainGroupTVCell)
+                }
+                self.tableView.deselectRow(at: indexPath, animated: true)
+            })
+        }
+        lastClick = now
+        lastIndexPath = indexPath
     }
     
-    private func cellSingleTap(indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath) as! MainGroupTVCell
-        
+    private func cellSingleTap(cell: MainGroupTVCell) {
         if !State.shared.checkGroupStoriesReady(groupId: (cell.group?.groupId)!) {
             print("stories not ready")
             return
@@ -288,14 +305,18 @@ class ViewLeft: UITableViewController {
                 if cell == nil {
                     return
                 }
-                let group = cell?.group
-                let parentVC = UIApplication.topViewController() as? ViewController
-                let screenWidth = UIScreen.main.bounds.size.width
-                parentVC?.scrollView.setContentOffset(CGPoint.init(x: screenWidth, y: 0.0), animated: true)
+                cell?.showMarbleInfo()
             }
         }
     }
-        
+
+    func postToGroup(group: Group) {
+        let parentVC = UIApplication.topViewController() as? ViewController
+        parentVC?.vRight.postToGroup(group: group)
+        let screenWidth = UIScreen.main.bounds.size.width
+        parentVC?.scrollView.setContentOffset(CGPoint.init(x: screenWidth, y: 0.0), animated: true)
+    }
+    
     // code for overlaying icon on QR code. not in use.
     func overlayIcon(image: UIImage) -> UIImage {
         let logo = UIImage.init(named: "marble-logo-full")

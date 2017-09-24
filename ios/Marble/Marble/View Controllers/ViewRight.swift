@@ -12,7 +12,7 @@ import Alamofire
 import AVKit
 import AudioToolbox
 
-class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate, AVCaptureMetadataOutputObjectsDelegate {
+class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     
     var imageMedia : UIImage?
     var videoMediaUrl: URL?
@@ -36,7 +36,6 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate, AVCap
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var cameraFlipButton: UIButton!
     @IBOutlet weak var flashButton: UIButton!
-    @IBOutlet weak var postingToGroup: UILabel!
     
     override func viewDidLoad() {
         captureButton = takePhotoButton
@@ -180,11 +179,10 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate, AVCap
         return true
     }
     
-    
     var ignoreQR: Bool = false
     var responder: SCLAlertViewResponder?
     let qrLockQueue = DispatchQueue(label: "com.amarbleapp.QrLockQueue")
-    func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
+    func captureOutput(_ swiftyCam: SwiftyCamViewController, withOutput captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
         qrLockQueue.sync() {
             if ignoreQR || metadataObjects == nil || metadataObjects.count == 0 || isRecordingVideo || isPlayingVideoPreview {
                 return
@@ -340,7 +338,13 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate, AVCap
     }
     
     func deleteVideoFile() {
-        try! FileManager.default.removeItem(at: videoMediaUrl!)
+        do {
+            try FileManager.default.removeItem(at: videoMediaUrl!)
+            let audioUrl = videoMediaUrl?.deletingPathExtension().appendingPathExtension("m4a")
+            try FileManager.default.removeItem(at: audioUrl!)
+        } catch {
+            print("error deleting video files")
+        }
     }
     
     @IBAction func takeVideoAction(_ sender: UILongPressGestureRecognizer) {
@@ -379,14 +383,16 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate, AVCap
         let screenHeight = UIScreen.main.bounds.size.height
         let screenWidth = UIScreen.main.bounds.size.width
         vPickDest?.view.frame = CGRect(x: screenWidth, y: 0, width: screenWidth, height: screenHeight)
-
+        
         if let window = UIApplication.shared.keyWindow {
             window.insertSubview((vPickDest?.view)!, aboveSubview: self.view)
-            
             UIView.animate(withDuration: 0.3, animations: {
                 self.vPickDest?.view.frame = (self.vPickDest?.view.frame.offsetBy(dx: -screenWidth, dy: 0))!
             }, completion: { (value: Bool) in
                 self.vPickDest?.active = true
+                if let postingGroup = self.postingGroup {
+                    self.vPickDest?.enableGroups(groups: [postingGroup])
+                }
                 UIApplication.shared.isStatusBarHidden = false
                 UIApplication.shared.statusBarStyle = .default
                 self.setNeedsStatusBarAppearanceUpdate()
@@ -474,13 +480,6 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate, AVCap
                 let fileSize = attr[FileAttributeKey.size] as! UInt64
                 print("video file size: " + String(describing: fileSize))
                 
-//                let player = AVPlayer(url: vidPath!)
-//                let playerController = AVPlayerViewController()
-//                playerController.player = player
-//                self.present(playerController, animated: true) {
-//                    player.play()
-//                }
-                
                 Networker.shared.uploadVideo(videoUrl: vidPath!, caption: self.captionImage, groupIds: groupIds, completionHandler: { response in
                     switch response.result {
                     case .success(let val):
@@ -535,14 +534,17 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate, AVCap
         parentVC?.scrollView.setContentOffset(CGPoint.init(x: 0, y: 0), animated: true)
     }
     
-    func setPostingGroup(name: String) {
-        postingToGroup.text = "Posting to: " + name
-        postingToGroup.isHidden = false
+    func resetState() {
+        clearPostingGroup()
+    }
+    
+    var postingGroup: Group?
+    
+    func postToGroup(group: Group) {
+        postingGroup = group
     }
     
     func clearPostingGroup() {
-        postingToGroup.text = ""
-        postingToGroup.isHidden = true
+        postingGroup = nil
     }
-        
 }

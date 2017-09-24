@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-protocol TableViewCellDelegate {
-    func tableViewCell(singleTapActionDelegatedFrom cell: UITableViewCell)
-    func tableViewCell(doubleTapActionDelegatedFrom cell: UITableViewCell)
+protocol MainGroupCellDelegate {
+    func tableViewCell(singleTapActionDelegatedFrom cell: MainGroupTVCell)
+    func tableViewCell(doubleTapActionDelegatedFrom cell: MainGroupTVCell)
 }

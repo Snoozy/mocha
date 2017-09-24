@@ -24,7 +24,7 @@ class ViewPickDest: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var tableView: SendGroupTV!
     
     @IBOutlet var panGesture: UIPanGestureRecognizer!
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -71,6 +71,10 @@ class ViewPickDest: UIViewController, UIGestureRecognizerDelegate {
     func enableSendButton() {
         sendButton.backgroundColor = Constants.Colors.MarbleBlue
         sendButton.isEnabled = true
+    }
+    
+    func enableGroups(groups: [Group]) {
+        tableView.enableGroups(groups: groups)
     }
 
     override func didReceiveMemoryWarning() {

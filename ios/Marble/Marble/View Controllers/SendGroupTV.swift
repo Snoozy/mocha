@@ -57,6 +57,18 @@ class SendGroupTV: UITableView, UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    func enableGroups(groups: [Group]) {
+        for (idx, (_, groupId)) in SendGroupTV.checked.enumerated() {
+            if let id = groupId, groups.contains(where: {id == $0.groupId}) {
+                SendGroupTV.checked[idx].0 = true
+                if let cell = self.cellForRow(at: IndexPath(item: idx, section: 0)) {
+                    cell.accessoryType = .checkmark
+                }
+            }
+        }
+        parent?.enableSendButton()
+    }
+    
     func countSelected() -> Int {
         var count = 0
         for (selected, _) in SendGroupTV.checked {

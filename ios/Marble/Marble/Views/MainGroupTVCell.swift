@@ -42,6 +42,10 @@ class MainGroupTVCell: UITableViewCell {
     }
     
     @IBAction func cellInfoButtonPressed(_ sender: UIButton) {
+        showMarbleInfo()
+    }
+    
+    func showMarbleInfo() {
         let appearance = SCLAlertView.SCLAppearance(
             kCircleIconHeight: 100,
             hideWhenBackgroundViewIsTapped: true

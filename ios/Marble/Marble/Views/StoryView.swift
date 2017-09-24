@@ -445,7 +445,7 @@ class StoryView: UIView, UIScrollViewDelegate {
                         self.imageView.becomeFirstResponder()
                     }
                     alert.addAction(cancel)
-                    UIApplication.topViewController()?.present(alert, animated: true, completion: nil)
+                    UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
                     return
                 }
                 State.shared.blockUser(userId: self.userId!, completionHandler: {
@@ -471,7 +471,7 @@ class StoryView: UIView, UIScrollViewDelegate {
             })
             alertController.addAction(flagAction)
             
-            UIApplication.topViewController()?.present(alertController, animated: true, completion: nil)
+            self.parentVC?.present(alertController, animated: true, completion: nil)
         }
     }
 }

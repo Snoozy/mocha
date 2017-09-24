@@ -16,7 +16,6 @@
                 <outlet property="captionView" destination="UrR-4c-M7D" id="KfM-Fs-0Wu"/>
                 <outlet property="flashButton" destination="Fp8-Ji-qYQ" id="gzg-t3-oMo"/>
                 <outlet property="nextButtonOut" destination="TOK-8N-NbL" id="YL4-jB-FlK"/>
-                <outlet property="postingToGroup" destination="xOy-Wp-Ije" id="3bQ-rQ-UWw"/>
                 <outlet property="recordingProgress" destination="igO-4s-pVS" id="gTh-NG-9H3"/>
                 <outlet property="takePhotoButton" destination="4si-Dq-6zy" id="uMb-Ao-pWq"/>
                 <outlet property="takeVideoLongPress" destination="dxc-zd-t9n" id="yBK-ZX-BHR"/>
@@ -30,13 +29,6 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xOy-Wp-Ije" userLabel="Posting to group">
-                    <rect key="frame" x="71" y="665" width="76" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4si-Dq-6zy">
                     <rect key="frame" x="166" y="633" width="83" height="83"/>
                     <gestureRecognizers/>

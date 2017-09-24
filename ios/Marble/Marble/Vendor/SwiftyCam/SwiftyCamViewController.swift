@@ -889,7 +889,7 @@ open class SwiftyCamViewController: UIViewController, AVAudioRecorderDelegate {
 		// prompt User with UIAlertView
 
 		DispatchQueue.main.async(execute: { [unowned self] in
-			let message = NSLocalizedString("AVCam doesn't have permission to use the camera, please change privacy settings", comment: "Alert message when the user has denied access to the camera")
+			let message = NSLocalizedString("Marble doesn't have permission to use the camera, please change privacy settings", comment: "Alert message when the user has denied access to the camera")
 			let alertController = UIAlertController(title: "AVCam", message: message, preferredStyle: .alert)
 			alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert OK button"), style: .cancel, handler: nil))
 			alertController.addAction(UIAlertAction(title: NSLocalizedString("Settings", comment: "Alert button to open Settings"), style: .default, handler: { action in
@@ -1102,6 +1102,14 @@ extension SwiftyCamViewController : SwiftyCamButtonDelegate {
 	public func longPressDidReachMaximumDuration() {
 		stopVideoRecording()
 	}
+}
+
+// MARK: AVCaptureMetadataOutputObjectsDelegate
+
+extension SwiftyCamViewController: AVCaptureMetadataOutputObjectsDelegate {
+    public func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
+        self.cameraDelegate?.captureOutput(self, withOutput: captureOutput, didOutputMetadataObjects: metadataObjects, from: connection)
+    }
 }
 
 // MARK: AVCaptureFileOutputRecordingDelegate

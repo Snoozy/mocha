@@ -186,6 +186,10 @@ public extension SwiftyCamViewControllerDelegate {
     func swiftyCamNotAuthorized(_ swiftyCam: SwiftyCamViewController) {
         // Optional
     }
+    
+    func captureOutput(_ swiftyCam: SwiftyCamViewController, withOutput captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
+        // Optional
+    }
 }
 
 
