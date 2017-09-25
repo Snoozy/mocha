@@ -375,8 +375,12 @@ class StoryView: UIView, UIScrollViewDelegate {
     
     private func exitStory() {
         self.removeFromSuperview()
-        self.parentVC?.view.window?.windowLevel = UIWindowLevelNormal
+        showStatusBar()
         self.cell?.refreshPreview()
+    }
+    
+    private func showStatusBar() {
+        self.parentVC?.view.window?.windowLevel = UIWindowLevelNormal
     }
     
     func appendComment(posterName: String, timestamp: Int64, image: UIImage) {
@@ -426,52 +430,40 @@ class StoryView: UIView, UIScrollViewDelegate {
         }
     }
     
+    var responder: SCLAlertViewResponder?
+    
     @objc func longPressed(_ sender: UILongPressGestureRecognizer) {
-        
         if sender.state == UIGestureRecognizerState.began {
-            
-            let alertController = UIAlertController(title: nil, message: "User actions", preferredStyle: .actionSheet)
-            
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
+            let appearance = SCLAlertView.SCLAppearance(
+                showCloseButton: false,
+                hideWhenBackgroundViewIsTapped: true
+            )
+            let alert = SCLAlertView(appearance: appearance)
+            alert.addButton("Flag Post", action: {
                 self.imageView.becomeFirstResponder()
+                Networker.shared.flagStory(storyId: (self.story?.id)!, completionHandler: { resp in
+                    let appearance = SCLAlertView.SCLAppearance(
+                        hideWhenBackgroundViewIsTapped: true
+                    )
+                    let alert = SCLAlertView(appearance: appearance)
+                    alert.showInfo("Post Flagged", subTitle: "Thank you for making Marble a better place.")
+                })
             })
-            alertController.addAction(cancelAction)
-            
-            let blockAction = UIAlertAction(title: "Block User", style: .destructive, handler: { action in
+            alert.addButton("Block User", action: {
                 self.imageView.becomeFirstResponder()
                 if KeychainWrapper.userID() == self.userId {
-                    let alert = UIAlertController(title: "You cannot block yourself.", message: nil, preferredStyle: .alert)
-                    let cancel = UIAlertAction(title: "Cancel", style: .cancel) { action in
-                        self.imageView.becomeFirstResponder()
-                    }
-                    alert.addAction(cancel)
-                    UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
                     return
                 }
                 State.shared.blockUser(userId: self.userId!, completionHandler: {
-                    UIApplication.shared.isStatusBarHidden = false
+                    self.showStatusBar()
                     self.removeFromSuperview()
                     self.cell?.refreshPreview()
                 })
             })
-            alertController.addAction(blockAction)
-            
-            let flagAction = UIAlertAction(title: "Flag Post", style: .destructive, handler: { action in
-                self.imageView.becomeFirstResponder()
-                Networker.shared.flagStory(storyId: (self.story?.id)!, completionHandler: { resp in
-                    let alert = UIAlertController(title: "Thank You", message: "Thank you for making Marble a better place.", preferredStyle: .alert)
-                    let cancel = UIAlertAction(title: "Cancel", style: .cancel) { action in
-                        self.imageView.becomeFirstResponder()
-                    }
-                    alert.addAction(cancel)
-                    UIApplication.topViewController()?.present(alert, animated: true, completion: nil)
-                    return
-
-                })
+            alert.addButton("Cancel", backgroundColor: UIColor.white, textColor: Constants.Colors.MarbleBlue, action: {
+                self.responder?.close()
             })
-            alertController.addAction(flagAction)
-            
-            self.parentVC?.present(alertController, animated: true, completion: nil)
+            responder = alert.showInfo("Post Actions", subTitle: "")
         }
     }
 }

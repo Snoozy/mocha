@@ -186,8 +186,6 @@ class ViewLeft: UITableViewController {
     }
     
     let storyViewNib = UINib(nibName: "StoryView", bundle: nil)
-    var tapCount = 0
-    
     var lastClick: TimeInterval = 0.0
     var lastIndexPath: IndexPath?
     
@@ -230,7 +228,7 @@ class ViewLeft: UITableViewController {
         imageViewer.parentVC = self
         imageViewer.window?.windowLevel = UIWindowLevelStatusBar
         self.view.window?.windowLevel = UIWindowLevelStatusBar
-        UIApplication.shared.keyWindow?.addSubview(imageViewer)
+        self.view.window?.addSubview(imageViewer)
         
         imageViewer.mediaStart()
         
