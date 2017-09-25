@@ -118,7 +118,16 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         self.setZoomScaleWithLock(to: beginZoomScale)
     }
     
-    var playerLooper: AVPlayerLooper?
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFocusAtPoint point: CGPoint) {
+        let focusGif = UIImage(gifName: "focus")
+        let imgView = UIImageView(gifImage: focusGif, manager: SwiftyGifManager.defaultManager, loopCount: 1)
+        imgView.frame = CGRect(origin: CGPoint(x: point.x - 42, y: point.y - 42), size: CGSize(width: 84, height: 84))
+        swiftyCam.view.addSubview(imgView)
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(700)) {
+            imgView.removeFromSuperview()
+        }
+    }
+    
     var player: AVPlayer?
     var audioPlayer: AVAudioPlayer?
     

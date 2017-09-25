@@ -36,6 +36,10 @@
 		425F357B1EB687530014F90F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425F35791EB687530014F90F /* User.swift */; };
 		42623CBF1E3B0B5A0068D4FA /* AuthNetworker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42623CBE1E3B0B5A0068D4FA /* AuthNetworker.swift */; };
 		42623CC11E3B0BE10068D4FA /* Networker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42623CC01E3B0BE10068D4FA /* Networker.swift */; };
+		42665C651F78C3C4004BEA74 /* SwiftyGifManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42665C621F78C3C4004BEA74 /* SwiftyGifManager.swift */; };
+		42665C661F78C3C4004BEA74 /* UIImage+SwiftyGif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42665C631F78C3C4004BEA74 /* UIImage+SwiftyGif.swift */; };
+		42665C671F78C3C4004BEA74 /* UIImageView+SwiftyGif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42665C641F78C3C4004BEA74 /* UIImageView+SwiftyGif.swift */; };
+		42665C6B1F78C5F4004BEA74 /* focus.gif in Resources */ = {isa = PBXBuildFile; fileRef = 42665C6A1F78C5F4004BEA74 /* focus.gif */; };
 		426E24CA1E4ABD6400F24992 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426E24C91E4ABD6400F24992 /* Constants.swift */; };
 		426FB0471E55A618000AFAF9 /* GroupTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426FB0461E55A618000AFAF9 /* GroupTVCell.swift */; };
 		427FFC741E3B1F600007159C /* AlamofireNetworkActivityIndicator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 427FFC711E3B1F470007159C /* AlamofireNetworkActivityIndicator.framework */; };
@@ -370,6 +374,10 @@
 		42623CBE1E3B0B5A0068D4FA /* AuthNetworker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AuthNetworker.swift; path = Data/Networkers/AuthNetworker.swift; sourceTree = "<group>"; };
 		42623CC01E3B0BE10068D4FA /* Networker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Networker.swift; path = Data/Networkers/Networker.swift; sourceTree = "<group>"; };
 		42651EA31EB879E4006BEF33 /* Marble.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Marble.entitlements; sourceTree = "<group>"; };
+		42665C621F78C3C4004BEA74 /* SwiftyGifManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyGifManager.swift; path = ../../../../../Downloads/SwiftyGifManager.swift; sourceTree = "<group>"; };
+		42665C631F78C3C4004BEA74 /* UIImage+SwiftyGif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+SwiftyGif.swift"; path = "../../../../../Downloads/UIImage+SwiftyGif.swift"; sourceTree = "<group>"; };
+		42665C641F78C3C4004BEA74 /* UIImageView+SwiftyGif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImageView+SwiftyGif.swift"; path = "../../../../../Downloads/UIImageView+SwiftyGif.swift"; sourceTree = "<group>"; };
+		42665C6A1F78C5F4004BEA74 /* focus.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = focus.gif; sourceTree = "<group>"; };
 		426E24C91E4ABD6400F24992 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Data/Constants.swift; sourceTree = "<group>"; };
 		426FB0461E55A618000AFAF9 /* GroupTVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GroupTVCell.swift; path = Views/GroupTVCell.swift; sourceTree = "<group>"; };
 		427FFC6A1E3B1F470007159C /* AlamofireNetworkActivityIndicator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireNetworkActivityIndicator.xcodeproj; path = AlamofireNetworkActivityIndicator/AlamofireNetworkActivityIndicator.xcodeproj; sourceTree = "<group>"; };
@@ -513,6 +521,24 @@
 			name = Networkers;
 			sourceTree = "<group>";
 		};
+		42665C581F78BF51004BEA74 /* Gifs */ = {
+			isa = PBXGroup;
+			children = (
+				42665C6A1F78C5F4004BEA74 /* focus.gif */,
+			);
+			path = Gifs;
+			sourceTree = "<group>";
+		};
+		42665C5B1F78C153004BEA74 /* SwiftyGif */ = {
+			isa = PBXGroup;
+			children = (
+				42665C621F78C3C4004BEA74 /* SwiftyGifManager.swift */,
+				42665C631F78C3C4004BEA74 /* UIImage+SwiftyGif.swift */,
+				42665C641F78C3C4004BEA74 /* UIImageView+SwiftyGif.swift */,
+			);
+			path = SwiftyGif;
+			sourceTree = "<group>";
+		};
 		427FFC6B1E3B1F470007159C /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -588,6 +614,7 @@
 		42D575821E37161A0094037D /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				42665C5B1F78C153004BEA74 /* SwiftyGif */,
 				42F2CBCE1F71DB9E0042F691 /* SwiftyCam */,
 				4259F48E1EB1B8D600866D12 /* FontAwesome */,
 				4299913A1E4D4F900049608F /* SCLAlertView */,
@@ -699,6 +726,7 @@
 				42D575821E37161A0094037D /* Vendor */,
 				42D575811E3716110094037D /* Extensions */,
 				952AF8051DAB363D005E60C7 /* AppDelegate.swift */,
+				42665C581F78BF51004BEA74 /* Gifs */,
 				952AF80C1DAB363D005E60C7 /* Assets.xcassets */,
 				952AF8111DAB363D005E60C7 /* Info.plist */,
 				42E13DDC1E8E4B4B0016FA76 /* Info-Dev.plist */,
@@ -968,6 +996,7 @@
 				952AF80B1DAB363D005E60C7 /* Main.storyboard in Resources */,
 				4259F4A51EB1B8E200866D12 /* FontAwesome.otf in Resources */,
 				428CD7A81E8C788A00BEB5BA /* LaunchDEV.storyboard in Resources */,
+				42665C6B1F78C5F4004BEA74 /* focus.gif in Resources */,
 				4295B8A91E84C2E70091C08B /* AddMarble.storyboard in Resources */,
 				4241B81C1E4DC208003CA796 /* StoryView.xib in Resources */,
 			);
@@ -1074,6 +1103,7 @@
 				42F2CBEF1F71DC220042F691 /* SwiftyCamViewController.swift in Sources */,
 				4259F4A41EB1B8E200866D12 /* Enum.swift in Sources */,
 				42CC20811E43238800EC419A /* NumberButton.swift in Sources */,
+				42665C661F78C3C4004BEA74 /* UIImage+SwiftyGif.swift in Sources */,
 				42F7906C1E39C7B500D3B2AF /* Router.swift in Sources */,
 				429991501E4DA0C90049608F /* StoryNetworker.swift in Sources */,
 				42D575901E3717ED0094037D /* KeychainItemAccessibility.swift in Sources */,
@@ -1091,7 +1121,9 @@
 				42B52C0B1E9B773E006D831A /* Users.swift in Sources */,
 				425D40651E4331EC00CBD8CB /* NumPlaceholderButton.swift in Sources */,
 				429991521E4DA1860049608F /* Stories.swift in Sources */,
+				42665C671F78C3C4004BEA74 /* UIImageView+SwiftyGif.swift in Sources */,
 				42D575A41E371F220094037D /* ViewRight.swift in Sources */,
+				42665C651F78C3C4004BEA74 /* SwiftyGifManager.swift in Sources */,
 				42D575A31E371F220094037D /* ViewController.swift in Sources */,
 				42D575911E3717ED0094037D /* KeychainWrapper.swift in Sources */,
 				429991461E4D4F9D0049608F /* SCLAlertView.swift in Sources */,

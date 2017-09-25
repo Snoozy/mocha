@@ -828,7 +828,7 @@ open class SwiftyCamViewController: UIViewController, AVAudioRecorderDelegate {
 		let photoFileOutput = AVCaptureStillImageOutput()
 
 		if self.session.canAddOutput(photoFileOutput) {
-			photoFileOutput.outputSettings  = [AVVideoCodecKey: AVVideoCodecJPEG]
+            photoFileOutput.outputSettings  = [AVVideoCodecKey: AVVideoCodecType.jpeg]
 			self.session.addOutput(photoFileOutput)
 			self.photoFileOutput = photoFileOutput
 		}
