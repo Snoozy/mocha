@@ -41,7 +41,6 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         captureButton = takePhotoButton
         
         super.viewDidLoad()
-        cameraDelegate = self
         
         swipeToZoomInverted = true
         
@@ -80,6 +79,8 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         NotificationCenter.default.addObserver(self, selector:#selector(self.playerDidFinishPlaying(note:)),name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
         
         self.view.isUserInteractionEnabled = true
+        
+        cameraDelegate = self
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
@@ -146,6 +147,7 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         playerLayer.masksToBounds = true
         videoView.isHidden = false
         videoView.layer.addSublayer(playerLayer)
+        audioPlayer?.prepareToPlay()
         player?.play()
         audioPlayer?.play()
         player?.actionAtItemEnd = .none
@@ -191,9 +193,10 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     var ignoreQR: Bool = false
     var responder: SCLAlertViewResponder?
     let qrLockQueue = DispatchQueue(label: "com.amarbleapp.QrLockQueue")
-    func captureOutput(_ swiftyCam: SwiftyCamViewController, withOutput captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
+    
+    override func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         qrLockQueue.sync() {
-            if ignoreQR || metadataObjects == nil || metadataObjects.count == 0 || isRecordingVideo || isPlayingVideoPreview {
+            if ignoreQR || metadataObjects.count == 0 || isRecordingVideo || isPlayingVideoPreview {
                 return
             }
             let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
@@ -222,7 +225,7 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
                                     if status == 0 {  // successfuly found group
                                         
                                         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-
+                                        
                                         let name = response["group_name"] as! String
                                         let memberCount = response["member_count"] as! Int
                                         let groupId = response["group_id"] as! Int

@@ -187,7 +187,7 @@ public extension SwiftyCamViewControllerDelegate {
         // Optional
     }
     
-    func captureOutput(_ swiftyCam: SwiftyCamViewController, withOutput captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
+    func metadataOutput(_ swiftyCam: SwiftyCamViewController, output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         // Optional
     }
 }

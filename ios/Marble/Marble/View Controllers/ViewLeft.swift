@@ -192,11 +192,9 @@ class ViewLeft: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let now: TimeInterval = Date().timeIntervalSince1970
         if (now - lastClick < (Double(Constants.DoubleTapDelay)/1000.0)) && (lastIndexPath?.row == indexPath.row ) {
-            print("Double Tap!")
             self.tableView.deselectRow(at: indexPath, animated: true)
             postToGroup(group: (self.tableView.cellForRow(at: indexPath) as! MainGroupTVCell).group!)
         } else {
-            print("single")
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(Int(Constants.DoubleTapDelay)), execute: {
                 let now: TimeInterval = Date().timeIntervalSince1970
                 if (now - self.lastClick >= (Double(Constants.DoubleTapDelay)/1000.0)) && (self.lastIndexPath?.row == indexPath.row) {
