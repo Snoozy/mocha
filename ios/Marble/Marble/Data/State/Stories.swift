@@ -63,7 +63,7 @@ extension State {
             self.loadStories()
         })
     }
-        
+
     func checkGroupStoriesReady(groupId: Int) -> Bool {
         let stories = self.groupStories[groupId]
         if let stories = stories {
