@@ -239,7 +239,7 @@ class ViewLeft: UITableViewController {
         }
         
         if (group?.lastSeen ?? 1) < (State.shared.groupStories[(group?.groupId)!]?.last?.timestamp ??  0) {
-            //UIApplication.shared.applicationIconBadgeNumber = max(0, UIApplication.shared.applicationIconBadgeNumber - 1)
+//            UIApplication.shared.applicationIconBadgeNumber = max(0, UIApplication.shared.applicationIconBadgeNumber - 1)
         }
         
         Networker.shared.storySeen(groupId: (group?.groupId)! ,completionHandler: { _ in })  // empty completion handler

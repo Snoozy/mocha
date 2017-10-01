@@ -1,8 +1,10 @@
 import falcon
+import time
 from data.db.models.user import User
 from data.db.models.group import Group
 from data.db.models.story import Story
 
+STORY_EXPIRATION_LENGTH = 172800000  # in millis. currently 48 hours
 
 class GetStoriesResource:
     def on_get(self, req, resp, user_id):
@@ -11,10 +13,12 @@ class GetStoriesResource:
         json = []
         for group in user.groups:
             stories = None
-            if user.blocks:
-                stories = group.stories.filter(Story.user_id.notin_([u.id for u in user.blocks])).order_by(Story.timestamp).all()
+            time_cutoff = int(time.time() * 1000) - STORY_EXPIRATION_LENGTH
+            user_blocks = [u.id for u in user.blocks]
+            if len(user_blocks):
+                stories = group.stories.filter((Story.timestamp > time_cutoff) & (Story.user_id.notin_(user_blocks))).order_by(Story.timestamp).all()
             else:
-                stories = group.stories.order_by(Story.timestamp).all()
+                stories = group.stories.filter(Story.timestamp > time_cutoff).order_by(Story.timestamp).all()
             stories_dict = [story.to_dict() for story in stories]
             json.append({'group_id' : group.id, 'stories' : stories_dict})
         resp.json = {

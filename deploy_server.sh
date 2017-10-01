@@ -13,8 +13,9 @@ do
     rsync -avzq --no-R --no-implied-dirs ~/.marble/config.prod ubuntu@${server}:~/server/config
     ssh ubuntu@${server} bash -c "'
         cd server/
-        sudo pip3 install -r requirements.txt
-        kill \$(cat marble.pid)
+        sudo pip3 install -r requirements.txt > /dev/null
+        kill \$(cat ~/server-bak/marble.pid)
         ./prod_run_server.sh
     '"
 done
+echo "Done deploying"
