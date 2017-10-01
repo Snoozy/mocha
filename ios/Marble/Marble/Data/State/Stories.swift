@@ -90,6 +90,22 @@ extension State {
         }
     }
     
+    func getUnseenMarblesCount() -> Int {
+        var count = 0
+        for group in self.userGroups {
+            let stories = self.groupStories[group.groupId]
+            if let stories = stories, stories.count > 0 {
+                for story in stories {
+                    if story.timestamp > group.lastSeen && story.userId != self.me?.id {
+                        count += 1
+                        break
+                    }
+                }
+            }
+        }
+        return count
+    }
+    
     private func findStory(mediaUrl: String, groupId: Int, comments: [Comment]) -> Story? {
         for story in self.groupStories[groupId]! {
             if story.mediaUrl == mediaUrl {

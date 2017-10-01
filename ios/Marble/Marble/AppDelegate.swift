@@ -26,12 +26,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {  // User not auth'd
             self.window?.rootViewController = UIStoryboard.init(name: "Auth", bundle: nil).instantiateInitialViewController()
         }
-        UIApplication.shared.applicationIconBadgeNumber = 0
         return true
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
-        UIApplication.shared.applicationIconBadgeNumber = 0
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {

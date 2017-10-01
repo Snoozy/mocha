@@ -110,6 +110,7 @@ class ViewLeft: UITableViewController {
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
             self.refreshStories()
+            UIApplication.shared.applicationIconBadgeNumber = State.shared.getUnseenMarblesCount()
         })
     }
     
@@ -238,13 +239,10 @@ class ViewLeft: UITableViewController {
             return
         }
         
-        if (group?.lastSeen ?? 1) < (State.shared.groupStories[(group?.groupId)!]?.last?.timestamp ??  0) {
-//            UIApplication.shared.applicationIconBadgeNumber = max(0, UIApplication.shared.applicationIconBadgeNumber - 1)
-        }
-        
         Networker.shared.storySeen(groupId: (group?.groupId)! ,completionHandler: { _ in })  // empty completion handler
         group?.lastSeen = Int64(Date().timeIntervalSince1970 * 1000)
         cell.refreshPreview()
+        UIApplication.shared.applicationIconBadgeNumber = State.shared.getUnseenMarblesCount()
     }
     
     @IBAction func cancelToViewLeft(_ segue:UIStoryboardSegue) {
