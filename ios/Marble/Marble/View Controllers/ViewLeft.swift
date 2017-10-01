@@ -216,6 +216,14 @@ class ViewLeft: UITableViewController {
         
         let group = State.shared.findGroupBy(id: (cell.group?.groupId)!)
         
+        if State.shared.groupStories[(group?.groupId)!]?.count == 0 {
+            let alert = UIAlertController(title: "Doesn't seem to be anything there...", message: "Swipe left to add something", preferredStyle: .alert)
+            let cancel = UIAlertAction(title: "Ok", style: .cancel)
+            alert.addAction(cancel)
+            UIApplication.topViewController()?.present(alert, animated: true, completion: nil)
+            return
+        }
+        
         let imageViewer = storyViewNib.instantiate(withOwner: nil, options: nil)[0] as! StoryView
         imageViewer.isHidden = true
         
@@ -225,19 +233,12 @@ class ViewLeft: UITableViewController {
         imageViewer.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         imageViewer.parentVC = self
-        imageViewer.window?.windowLevel = UIWindowLevelStatusBar
-        self.view.window?.windowLevel = UIWindowLevelStatusBar
-        self.view.window?.addSubview(imageViewer)
         
         imageViewer.mediaStart()
         
-        if State.shared.groupStories[(group?.groupId)!]?.count == 0 {
-            let alert = UIAlertController(title: "Doesn't seem to be anything there..", message: "Swipe left to add something", preferredStyle: .alert)
-            let cancel = UIAlertAction(title: "Ok", style: .cancel)
-            alert.addAction(cancel)
-            UIApplication.topViewController()?.present(alert, animated: true, completion: nil)
-            return
-        }
+        imageViewer.window?.windowLevel = UIWindowLevelStatusBar
+        self.view.window?.windowLevel = UIWindowLevelStatusBar
+        self.view.window?.addSubview(imageViewer)
         
         Networker.shared.storySeen(groupId: (group?.groupId)! ,completionHandler: { _ in })  // empty completion handler
         group?.lastSeen = Int64(Date().timeIntervalSince1970 * 1000)

@@ -66,6 +66,7 @@ class Story {
                         if let img = self.media {
                             let data = UIImageJPEGRepresentation(img, 1.0)
                             try? data?.write(to: fileUrl)
+                            print("cached: \(fileUrl)")
                         }
                         if self.comments.count > 0 {
                             for comment in self.comments {
@@ -83,6 +84,7 @@ class Story {
                         }
                     }
                 } else {
+                    print("cached image hit: \(fileUrl)")
                     let image = try? UIImage(data: Data(contentsOf: fileUrl))
                     self.media = image!
                     self.mediaReady = true
@@ -126,6 +128,7 @@ class Story {
                         }
                     })
                 } else {
+                    print("cached video hit: \(fileUrl)")
                     self.videoFileUrl = fileUrl
                     self.mediaReady = true
                     if self.comments.count > 0 {

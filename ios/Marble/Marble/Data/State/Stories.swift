@@ -69,7 +69,7 @@ extension State {
         if let stories = stories {
             for story in stories {
                 if !story.mediaReady {
-                    print(story.mediaUrl)
+                    print(story.mediaUrl + " not ready")
                     return false
                 }
             }
