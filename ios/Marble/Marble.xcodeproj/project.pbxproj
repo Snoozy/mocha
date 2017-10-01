@@ -46,12 +46,6 @@
 		428AED4C1F802D8100F2C450 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2CBE91F71DC220042F691 /* PreviewView.swift */; };
 		428AED4D1F802D8100F2C450 /* SwiftyCamButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2CBEB1F71DC220042F691 /* SwiftyCamButton.swift */; };
 		428AED4E1F802D8100F2C450 /* SwiftyCamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2CBEA1F71DC220042F691 /* SwiftyCamViewController.swift */; };
-		428AED551F802DBA00F2C450 /* SwiftyGifManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428AED521F802DB900F2C450 /* SwiftyGifManager.swift */; };
-		428AED561F802DBA00F2C450 /* UIImage+SwiftyGif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428AED531F802DB900F2C450 /* UIImage+SwiftyGif.swift */; };
-		428AED571F802DBA00F2C450 /* UIImageView+SwiftyGif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428AED541F802DB900F2C450 /* UIImageView+SwiftyGif.swift */; };
-		428AED581F802DBE00F2C450 /* SwiftyGifManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428AED521F802DB900F2C450 /* SwiftyGifManager.swift */; };
-		428AED591F802DBE00F2C450 /* UIImage+SwiftyGif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428AED531F802DB900F2C450 /* UIImage+SwiftyGif.swift */; };
-		428AED5A1F802DBE00F2C450 /* UIImageView+SwiftyGif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428AED541F802DB900F2C450 /* UIImageView+SwiftyGif.swift */; };
 		428CD7A81E8C788A00BEB5BA /* LaunchDEV.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 428CD7A71E8C788A00BEB5BA /* LaunchDEV.storyboard */; };
 		4295B8A31E84C1880091C08B /* NoGroupsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4295B8A21E84C1880091C08B /* NoGroupsView.xib */; };
 		4295B8A71E84C21E0091C08B /* NoGroupsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4295B8A61E84C21E0091C08B /* NoGroupsView.swift */; };
@@ -160,6 +154,9 @@
 		42F2CBEE1F71DC220042F691 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2CBE91F71DC220042F691 /* PreviewView.swift */; };
 		42F2CBEF1F71DC220042F691 /* SwiftyCamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2CBEA1F71DC220042F691 /* SwiftyCamViewController.swift */; };
 		42F2CBF01F71DC220042F691 /* SwiftyCamButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2CBEB1F71DC220042F691 /* SwiftyCamButton.swift */; };
+		42F3EAC01F80CD4C004D799D /* SwiftyGifManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F3EABD1F80CD4B004D799D /* SwiftyGifManager.swift */; };
+		42F3EAC11F80CD4C004D799D /* UIImage+SwiftyGif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F3EABE1F80CD4B004D799D /* UIImage+SwiftyGif.swift */; };
+		42F3EAC21F80CD4C004D799D /* UIImageView+SwiftyGif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F3EABF1F80CD4C004D799D /* UIImageView+SwiftyGif.swift */; };
 		42F7906C1E39C7B500D3B2AF /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F7906B1E39C7B500D3B2AF /* Router.swift */; };
 		42F8C0C11EA6A4EF00AFD4D4 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F8C0C01EA6A4EF00AFD4D4 /* Common.swift */; };
 		42F8C0D21EA6A57F00AFD4D4 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F8C0C01EA6A4EF00AFD4D4 /* Common.swift */; };
@@ -386,9 +383,6 @@
 		426E24C91E4ABD6400F24992 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Data/Constants.swift; sourceTree = "<group>"; };
 		426FB0461E55A618000AFAF9 /* GroupTVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GroupTVCell.swift; path = Views/GroupTVCell.swift; sourceTree = "<group>"; };
 		427FFC6A1E3B1F470007159C /* AlamofireNetworkActivityIndicator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireNetworkActivityIndicator.xcodeproj; path = AlamofireNetworkActivityIndicator/AlamofireNetworkActivityIndicator.xcodeproj; sourceTree = "<group>"; };
-		428AED521F802DB900F2C450 /* SwiftyGifManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyGifManager.swift; path = Marble/Vendor/SwiftyGif/SwiftyGifManager.swift; sourceTree = SOURCE_ROOT; };
-		428AED531F802DB900F2C450 /* UIImage+SwiftyGif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+SwiftyGif.swift"; path = "Marble/Vendor/SwiftyGif/UIImage+SwiftyGif.swift"; sourceTree = SOURCE_ROOT; };
-		428AED541F802DB900F2C450 /* UIImageView+SwiftyGif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImageView+SwiftyGif.swift"; path = "Marble/Vendor/SwiftyGif/UIImageView+SwiftyGif.swift"; sourceTree = SOURCE_ROOT; };
 		428CD7A71E8C788A00BEB5BA /* LaunchDEV.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchDEV.storyboard; path = StoryBoards/LaunchDEV.storyboard; sourceTree = "<group>"; };
 		4295B8A21E84C1880091C08B /* NoGroupsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NoGroupsView.xib; path = StoryBoards/NoGroupsView.xib; sourceTree = "<group>"; };
 		4295B8A61E84C21E0091C08B /* NoGroupsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NoGroupsView.swift; path = Views/NoGroupsView.swift; sourceTree = "<group>"; };
@@ -435,6 +429,9 @@
 		42F2CBE91F71DC220042F691 /* PreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreviewView.swift; path = Vendor/SwiftyCam/PreviewView.swift; sourceTree = "<group>"; };
 		42F2CBEA1F71DC220042F691 /* SwiftyCamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyCamViewController.swift; path = Vendor/SwiftyCam/SwiftyCamViewController.swift; sourceTree = "<group>"; };
 		42F2CBEB1F71DC220042F691 /* SwiftyCamButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyCamButton.swift; path = Vendor/SwiftyCam/SwiftyCamButton.swift; sourceTree = "<group>"; };
+		42F3EABD1F80CD4B004D799D /* SwiftyGifManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyGifManager.swift; path = Vendor/SwiftyGif/SwiftyGifManager.swift; sourceTree = "<group>"; };
+		42F3EABE1F80CD4B004D799D /* UIImage+SwiftyGif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+SwiftyGif.swift"; path = "Vendor/SwiftyGif/UIImage+SwiftyGif.swift"; sourceTree = "<group>"; };
+		42F3EABF1F80CD4C004D799D /* UIImageView+SwiftyGif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImageView+SwiftyGif.swift"; path = "Vendor/SwiftyGif/UIImageView+SwiftyGif.swift"; sourceTree = "<group>"; };
 		42F7906B1E39C7B500D3B2AF /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Router.swift; path = Data/Router.swift; sourceTree = "<group>"; };
 		42F8C0C01EA6A4EF00AFD4D4 /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Common.swift; path = Data/Common.swift; sourceTree = "<group>"; };
 		42F8C0D31EA6A95600AFD4D4 /* Downloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Downloader.swift; path = Data/Networkers/Downloader.swift; sourceTree = "<group>"; };
@@ -537,16 +534,6 @@
 			path = Gifs;
 			sourceTree = "<group>";
 		};
-		42665C5B1F78C153004BEA74 /* SwiftyGif */ = {
-			isa = PBXGroup;
-			children = (
-				428AED521F802DB900F2C450 /* SwiftyGifManager.swift */,
-				428AED531F802DB900F2C450 /* UIImage+SwiftyGif.swift */,
-				428AED541F802DB900F2C450 /* UIImageView+SwiftyGif.swift */,
-			);
-			path = SwiftyGif;
-			sourceTree = "<group>";
-		};
 		427FFC6B1E3B1F470007159C /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -622,7 +609,7 @@
 		42D575821E37161A0094037D /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				42665C5B1F78C153004BEA74 /* SwiftyGif */,
+				42F3EABC1F80CD3F004D799D /* SwiftyGif */,
 				42F2CBCE1F71DB9E0042F691 /* SwiftyCam */,
 				4259F48E1EB1B8D600866D12 /* FontAwesome */,
 				4299913A1E4D4F900049608F /* SCLAlertView */,
@@ -687,6 +674,16 @@
 				42F2CBE71F71DC220042F691 /* SwiftyCamViewControllerDelegate.swift */,
 			);
 			name = SwiftyCam;
+			sourceTree = "<group>";
+		};
+		42F3EABC1F80CD3F004D799D /* SwiftyGif */ = {
+			isa = PBXGroup;
+			children = (
+				42F3EABD1F80CD4B004D799D /* SwiftyGifManager.swift */,
+				42F3EABE1F80CD4B004D799D /* UIImage+SwiftyGif.swift */,
+				42F3EABF1F80CD4C004D799D /* UIImageView+SwiftyGif.swift */,
+			);
+			name = SwiftyGif;
 			sourceTree = "<group>";
 		};
 		42F790631E39C78500D3B2AF /* Data */ = {
@@ -1051,7 +1048,6 @@
 				425F35621EB1BA440014F90F /* Enum.swift in Sources */,
 				42E13DAD1E8E46610016FA76 /* NumberButton.swift in Sources */,
 				428AED4B1F802D8100F2C450 /* Orientation.swift in Sources */,
-				428AED591F802DBE00F2C450 /* UIImage+SwiftyGif.swift in Sources */,
 				428AED4E1F802D8100F2C450 /* SwiftyCamViewController.swift in Sources */,
 				42E13DAE1E8E46610016FA76 /* Router.swift in Sources */,
 				42E13DAF1E8E46610016FA76 /* StoryNetworker.swift in Sources */,
@@ -1069,9 +1065,7 @@
 				425F357B1EB687530014F90F /* User.swift in Sources */,
 				425F35751EB1BA540014F90F /* FontAwesomeView.swift in Sources */,
 				42B52C0C1E9B773E006D831A /* Users.swift in Sources */,
-				428AED5A1F802DBE00F2C450 /* UIImageView+SwiftyGif.swift in Sources */,
 				42E13DB91E8E46610016FA76 /* NumPlaceholderButton.swift in Sources */,
-				428AED581F802DBE00F2C450 /* SwiftyGifManager.swift in Sources */,
 				42E13DBA1E8E46610016FA76 /* Stories.swift in Sources */,
 				42E13DBB1E8E46610016FA76 /* ViewRight.swift in Sources */,
 				42E13DBC1E8E46610016FA76 /* ViewController.swift in Sources */,
@@ -1119,7 +1113,7 @@
 				42F2CBEF1F71DC220042F691 /* SwiftyCamViewController.swift in Sources */,
 				4259F4A41EB1B8E200866D12 /* Enum.swift in Sources */,
 				42CC20811E43238800EC419A /* NumberButton.swift in Sources */,
-				428AED561F802DBA00F2C450 /* UIImage+SwiftyGif.swift in Sources */,
+				42F3EAC11F80CD4C004D799D /* UIImage+SwiftyGif.swift in Sources */,
 				42F7906C1E39C7B500D3B2AF /* Router.swift in Sources */,
 				429991501E4DA0C90049608F /* StoryNetworker.swift in Sources */,
 				42D575901E3717ED0094037D /* KeychainItemAccessibility.swift in Sources */,
@@ -1137,9 +1131,9 @@
 				42B52C0B1E9B773E006D831A /* Users.swift in Sources */,
 				425D40651E4331EC00CBD8CB /* NumPlaceholderButton.swift in Sources */,
 				429991521E4DA1860049608F /* Stories.swift in Sources */,
-				428AED571F802DBA00F2C450 /* UIImageView+SwiftyGif.swift in Sources */,
+				42F3EAC21F80CD4C004D799D /* UIImageView+SwiftyGif.swift in Sources */,
 				42D575A41E371F220094037D /* ViewRight.swift in Sources */,
-				428AED551F802DBA00F2C450 /* SwiftyGifManager.swift in Sources */,
+				42F3EAC01F80CD4C004D799D /* SwiftyGifManager.swift in Sources */,
 				42D575A31E371F220094037D /* ViewController.swift in Sources */,
 				42D575911E3717ED0094037D /* KeychainWrapper.swift in Sources */,
 				429991461E4D4F9D0049608F /* SCLAlertView.swift in Sources */,

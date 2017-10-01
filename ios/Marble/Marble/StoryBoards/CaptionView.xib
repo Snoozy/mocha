@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -36,9 +36,12 @@
                     <nil key="highlightedColor"/>
                     <size key="shadowOffset" width="0.0" height="0.0"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t9j-nE-Oia">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t9j-nE-Oia">
                     <rect key="frame" x="137" y="625" width="100" height="42"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="100" id="mHp-L0-uoN"/>
+                        <constraint firstAttribute="height" constant="42" id="ph0-cA-sgC"/>
+                    </constraints>
                     <attributedString key="attributedText">
                         <fragment content="^ Comments">
                             <attributes>
@@ -55,10 +58,12 @@
             <constraints>
                 <constraint firstItem="hci-it-jed" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="8Os-8U-JCl"/>
                 <constraint firstItem="hci-it-jed" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="DWb-HA-ULx"/>
+                <constraint firstItem="t9j-nE-Oia" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="MHy-MZ-usb"/>
                 <constraint firstAttribute="trailing" secondItem="hci-it-jed" secondAttribute="trailing" id="MnK-LZ-QhQ"/>
                 <constraint firstItem="9h6-u8-Njg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="O4G-QY-lmT"/>
                 <constraint firstItem="9h6-u8-Njg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="dMN-1p-9CN"/>
                 <constraint firstAttribute="bottom" secondItem="hci-it-jed" secondAttribute="bottom" id="jmR-wA-ejP"/>
+                <constraint firstAttribute="bottom" secondItem="t9j-nE-Oia" secondAttribute="bottom" id="l3A-uc-1cl"/>
             </constraints>
             <connections>
                 <outlet property="commentLabel" destination="t9j-nE-Oia" id="Im5-LM-6IU"/>
