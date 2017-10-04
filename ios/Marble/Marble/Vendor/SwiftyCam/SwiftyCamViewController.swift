@@ -273,6 +273,7 @@ open class SwiftyCamViewController: UIViewController, AVAudioRecorderDelegate, A
 
 	override open func viewDidLoad() {
 		super.viewDidLoad()
+        print("view did load")
         previewLayer = PreviewView(frame: view.frame, videoGravity: videoGravity)
         view.addSubview(previewLayer)
         view.sendSubview(toBack: previewLayer)
@@ -298,20 +299,30 @@ open class SwiftyCamViewController: UIViewController, AVAudioRecorderDelegate, A
 		case .notDetermined:
 
 			// not yet determined
-			sessionQueue.suspend()
 			AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { [unowned self] granted in
 				if !granted {
 					self.setupResult = .notAuthorized
 				}
-				self.sessionQueue.resume()
+                switch AVAudioSession.sharedInstance().recordPermission() {
+                case .granted:
+                    break
+                case .undetermined:
+                    AVAudioSession.sharedInstance().requestRecordPermission({ granted in
+                        self.sessionQueue.async { [unowned self] in
+                            self.configureSession()
+                            DispatchQueue.main.async {
+                                self.viewDidLayoutSubviews()
+                            }
+                        }
+                    })
+                default:
+                    break
+                }
 			})
 		default:
 
 			// already been asked. Denied access
 			setupResult = .notAuthorized
-		}
-		sessionQueue.async { [unowned self] in
-			self.configureSession()
 		}
 	}
     
@@ -328,7 +339,7 @@ open class SwiftyCamViewController: UIViewController, AVAudioRecorderDelegate, A
     
     override open func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+
         if let connection =  self.previewLayer?.videoPreviewLayer.connection  {
             
             let currentDevice: UIDevice = UIDevice.current
@@ -380,8 +391,6 @@ open class SwiftyCamViewController: UIViewController, AVAudioRecorderDelegate, A
 	override open func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
         
-		// Subscribe to device rotation notifications
-
 		if shouldUseDeviceOrientation {
 			orientation.start()
 		}
@@ -573,6 +582,10 @@ open class SwiftyCamViewController: UIViewController, AVAudioRecorderDelegate, A
     
     private func stopAudioRecording() {
         audioRecorder.stop()
+    }
+    
+    public func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
+        self.removeBackgroundAudioPreference()
     }
 
 	/**
@@ -1032,8 +1045,8 @@ open class SwiftyCamViewController: UIViewController, AVAudioRecorderDelegate, A
             try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord, with: [.mixWithOthers, .defaultToSpeaker, .allowBluetoothA2DP, .allowAirPlay])
             try audioSession.setActive(true)
 		}
-		catch {
-			print("[SwiftyCam]: Failed to set background audio preference")
+		catch let error as NSError {
+            print("[SwiftyCam]: Failed to set background audio preference: \(error)")
 		}
 	}
     
@@ -1058,7 +1071,8 @@ open class SwiftyCamViewController: UIViewController, AVAudioRecorderDelegate, A
             }
             session.commitConfiguration()
             let audioSession = AVAudioSession.sharedInstance()
-            try audioSession.setCategory(AVAudioSessionCategoryAmbient)
+            try audioSession.setCategory(AVAudioSessionCategoryAmbient, with: AVAudioSessionCategoryOptions(rawValue: 0))
+            try audioSession.setActive(false)
             session.automaticallyConfiguresApplicationAudioSession = false
         }
         catch let error as NSError {
@@ -1142,7 +1156,7 @@ extension SwiftyCamViewController : AVCaptureFileOutputRecordingDelegate {
             //Call delegate function with the URL of the outputfile
             DispatchQueue.main.async {
                 self.cameraDelegate?.swiftyCam(self, didFinishProcessVideoAt: outputFileURL)
-                self.removeBackgroundAudioPreference()
+//                self.removeBackgroundAudioPreference()
             }
         }
     }
