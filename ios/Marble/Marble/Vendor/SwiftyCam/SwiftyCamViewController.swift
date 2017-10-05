@@ -295,7 +295,28 @@ open class SwiftyCamViewController: UIViewController, AVAudioRecorderDelegate, A
 		case .authorized:
 
 			// already authorized
-			break
+            switch AVAudioSession.sharedInstance().recordPermission() {
+            case .granted:
+                self.sessionQueue.async { [unowned self] in
+                    self.configureSession()
+                    DispatchQueue.main.async {
+                        self.viewDidLayoutSubviews()
+                    }
+                }
+                break
+            case .undetermined:
+                AVAudioSession.sharedInstance().requestRecordPermission({ granted in
+                    self.sessionQueue.async { [unowned self] in
+                        self.configureSession()
+                        DispatchQueue.main.async {
+                            self.viewDidLayoutSubviews()
+                        }
+                    }
+                })
+                break
+            default:
+                break
+            }
 		case .notDetermined:
 
 			// not yet determined
@@ -305,6 +326,12 @@ open class SwiftyCamViewController: UIViewController, AVAudioRecorderDelegate, A
 				}
                 switch AVAudioSession.sharedInstance().recordPermission() {
                 case .granted:
+                    self.sessionQueue.async { [unowned self] in
+                        self.configureSession()
+                        DispatchQueue.main.async {
+                            self.viewDidLayoutSubviews()
+                        }
+                    }
                     break
                 case .undetermined:
                     AVAudioSession.sharedInstance().requestRecordPermission({ granted in
@@ -315,6 +342,7 @@ open class SwiftyCamViewController: UIViewController, AVAudioRecorderDelegate, A
                             }
                         }
                     })
+                    break
                 default:
                     break
                 }
@@ -323,6 +351,12 @@ open class SwiftyCamViewController: UIViewController, AVAudioRecorderDelegate, A
 
 			// already been asked. Denied access
 			setupResult = .notAuthorized
+            self.sessionQueue.async { [unowned self] in
+                self.configureSession()
+                DispatchQueue.main.async {
+                    self.viewDidLayoutSubviews()
+                }
+            }
 		}
 	}
     

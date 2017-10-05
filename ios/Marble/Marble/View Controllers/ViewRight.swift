@@ -475,16 +475,13 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
             let vidPath = documentsUrl.appendingPathComponent("rendered_" + videoUrl.lastPathComponent)
             
             
-            let assetExport = AVAssetExportSession(asset: composition, presetName: AVAssetExportPreset1280x720)
+            let assetExport = AVAssetExportSession(asset: composition, presetName: AVAssetExportPreset960x540)
             
             assetExport?.videoComposition = layerComposition
             assetExport?.outputFileType = AVFileType.mp4
             assetExport?.shouldOptimizeForNetworkUse = true
             assetExport?.outputURL = vidPath
             assetExport?.fileLengthLimit = Constants.MaxVideoSize
-            
-            // IDK WHY THIS DOESN'T WORK. CAUSES FRONT CAMERA RECORDING TO CRASH
-            //assetExport?.canPerformMultiplePassesOverSourceMediaData = true
             
             assetExport?.exportAsynchronously(completionHandler: {
                 print("export complete")
