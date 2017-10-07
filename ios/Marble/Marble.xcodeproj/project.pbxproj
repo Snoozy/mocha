@@ -157,6 +157,10 @@
 		42F3EAC01F80CD4C004D799D /* SwiftyGifManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F3EABD1F80CD4B004D799D /* SwiftyGifManager.swift */; };
 		42F3EAC11F80CD4C004D799D /* UIImage+SwiftyGif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F3EABE1F80CD4B004D799D /* UIImage+SwiftyGif.swift */; };
 		42F3EAC21F80CD4C004D799D /* UIImageView+SwiftyGif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F3EABF1F80CD4C004D799D /* UIImageView+SwiftyGif.swift */; };
+		42F3EACA1F8773C2004D799D /* GroupCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42F3EAC71F8773C2004D799D /* GroupCollectionCell.xib */; };
+		42F3EACB1F8773C2004D799D /* GroupCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42F3EAC71F8773C2004D799D /* GroupCollectionCell.xib */; };
+		42F3EACD1F877405004D799D /* GroupCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F3EACC1F877404004D799D /* GroupCollectionCell.swift */; };
+		42F3EACE1F877405004D799D /* GroupCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F3EACC1F877404004D799D /* GroupCollectionCell.swift */; };
 		42F7906C1E39C7B500D3B2AF /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F7906B1E39C7B500D3B2AF /* Router.swift */; };
 		42F8C0C11EA6A4EF00AFD4D4 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F8C0C01EA6A4EF00AFD4D4 /* Common.swift */; };
 		42F8C0D21EA6A57F00AFD4D4 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F8C0C01EA6A4EF00AFD4D4 /* Common.swift */; };
@@ -432,6 +436,8 @@
 		42F3EABD1F80CD4B004D799D /* SwiftyGifManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyGifManager.swift; path = Vendor/SwiftyGif/SwiftyGifManager.swift; sourceTree = "<group>"; };
 		42F3EABE1F80CD4B004D799D /* UIImage+SwiftyGif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+SwiftyGif.swift"; path = "Vendor/SwiftyGif/UIImage+SwiftyGif.swift"; sourceTree = "<group>"; };
 		42F3EABF1F80CD4C004D799D /* UIImageView+SwiftyGif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImageView+SwiftyGif.swift"; path = "Vendor/SwiftyGif/UIImageView+SwiftyGif.swift"; sourceTree = "<group>"; };
+		42F3EAC71F8773C2004D799D /* GroupCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = GroupCollectionCell.xib; path = StoryBoards/GroupCollectionCell.xib; sourceTree = "<group>"; };
+		42F3EACC1F877404004D799D /* GroupCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GroupCollectionCell.swift; path = Views/GroupCollectionCell.swift; sourceTree = "<group>"; };
 		42F7906B1E39C7B500D3B2AF /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Router.swift; path = Data/Router.swift; sourceTree = "<group>"; };
 		42F8C0C01EA6A4EF00AFD4D4 /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Common.swift; path = Data/Common.swift; sourceTree = "<group>"; };
 		42F8C0D31EA6A95600AFD4D4 /* Downloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Downloader.swift; path = Data/Networkers/Downloader.swift; sourceTree = "<group>"; };
@@ -580,6 +586,7 @@
 		42CC207F1E43235B00EC419A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				42F3EACC1F877404004D799D /* GroupCollectionCell.swift */,
 				426FB0461E55A618000AFAF9 /* GroupTVCell.swift */,
 				4217546D1E5530AD00620E69 /* MediaCaptionView.swift */,
 				42F92CEB1EA312BF0085DD0C /* MediaImageView.swift */,
@@ -643,6 +650,7 @@
 				4295B8A21E84C1880091C08B /* NoGroupsView.xib */,
 				4295B8A81E84C2E70091C08B /* AddMarble.storyboard */,
 				42A228BC1EAFE07300496392 /* CaptionView.xib */,
+				42F3EAC71F8773C2004D799D /* GroupCollectionCell.xib */,
 			);
 			name = Storyboards;
 			sourceTree = "<group>";
@@ -981,6 +989,7 @@
 				42E13DCF1E8E46610016FA76 /* AddMarble.storyboard in Resources */,
 				42E13DD01E8E46610016FA76 /* StoryView.xib in Resources */,
 				425F35731EB1BA4A0014F90F /* FontAwesome.otf in Resources */,
+				42F3EACB1F8773C2004D799D /* GroupCollectionCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -991,6 +1000,7 @@
 				42D575991E371F0E0094037D /* Auth.storyboard in Resources */,
 				42CC20711E42FCCC00EC419A /* Left.storyboard in Resources */,
 				42D5759B1E371F0E0094037D /* ViewRight.xib in Resources */,
+				42F3EACA1F8773C2004D799D /* GroupCollectionCell.xib in Resources */,
 				429AF4121E48872600475461 /* GroupTVCell.xib in Resources */,
 				42D5759A1E371F0E0094037D /* ViewPickDest.xib in Resources */,
 				952AF80D1DAB363D005E60C7 /* Assets.xcassets in Resources */,
@@ -1034,6 +1044,7 @@
 				42E13DA31E8E46610016FA76 /* AuthLoginVC.swift in Sources */,
 				42E13DA41E8E46610016FA76 /* AuthViewController.swift in Sources */,
 				42E13DA51E8E46610016FA76 /* State.swift in Sources */,
+				42F3EACE1F877405004D799D /* GroupCollectionCell.swift in Sources */,
 				42E13DA61E8E46610016FA76 /* CreateMarbleVC.swift in Sources */,
 				428AED4D1F802D8100F2C450 /* SwiftyCamButton.swift in Sources */,
 				42E13DA71E8E46610016FA76 /* Groups.swift in Sources */,
@@ -1082,6 +1093,7 @@
 				42E13D8B1E8DE4DA0016FA76 /* AuthSignUpVC.swift in Sources */,
 				42F2CBEC1F71DC220042F691 /* SwiftyCamViewControllerDelegate.swift in Sources */,
 				42A228D31EAFE25500496392 /* Comment.swift in Sources */,
+				42F3EACD1F877405004D799D /* GroupCollectionCell.swift in Sources */,
 				425D40631E4330A600CBD8CB /* AddMarbleCodeVC.swift in Sources */,
 				429991471E4D4F9D0049608F /* SCLExtensions.swift in Sources */,
 				4295B8A71E84C21E0091C08B /* NoGroupsView.swift in Sources */,

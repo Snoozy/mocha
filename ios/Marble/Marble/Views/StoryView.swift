@@ -20,7 +20,7 @@ class StoryView: UIView, UIScrollViewDelegate {
     var originalHeight: CGFloat = 0.0
     var originalMinX: CGFloat = 0.0
     var group: Group?
-    var cell: MainGroupTVCell?
+    var cell: GroupCollectionCell?
     var parentVC: UIViewController?
     var userId: Int?
     var story: Story?

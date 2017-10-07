@@ -9,15 +9,20 @@
 import UIKit
 import UserNotifications
 
-class ViewLeft: UITableViewController {
+class ViewLeft: UICollectionViewController {
+    
+    fileprivate let itemsPerRow: CGFloat = 3
+    fileprivate let sectionInsets = UIEdgeInsets(top: 10.0, left: 3.0, bottom: 10.0, right: 3.0)
+    
+    var refreshControl: UIRefreshControl?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(pullDownRefresh), for: UIControlEvents.valueChanged)
-        
-        tableView.tableFooterView = UIView()
+        collectionView?.addSubview(refreshControl!)
+        collectionView?.alwaysBounceVertical = true
         
         NotificationCenter.default.addObserver(self, selector: #selector(mediaPosted(notification:)), name: Constants.Notifications.StoryPosted, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(mediaUploadFinished(notificaion:)), name: Constants.Notifications.StoryUploadFinished, object: nil)
@@ -46,6 +51,9 @@ class ViewLeft: UITableViewController {
                 }
             }
         }
+        
+        collectionView?.register(UINib(nibName: "GroupCollectionCell", bundle: nil), forCellWithReuseIdentifier: "GroupCollectionCell")
+//        collectionView?.reloadData()
         
         pullDownRefresh()
         
@@ -107,7 +115,7 @@ class ViewLeft: UITableViewController {
     
     func refresh() {
         State.shared.refreshUserGroups(completionHandler: {
-            self.tableView.reloadData()
+            self.collectionView?.reloadData()
             self.refreshControl?.endRefreshing()
             self.refreshStories()
             UIApplication.shared.applicationIconBadgeNumber = State.shared.getUnseenMarblesCount()
@@ -120,13 +128,15 @@ class ViewLeft: UITableViewController {
         State.shared.getMyStories(completionHandler: {
             if State.shared.userGroups.count > 0 {
                 State.shared.sortGroupsRecent()
-                self.tableView.reloadData()
-                self.tableView.backgroundView = nil
+                self.collectionView?.reloadData()
+                self.collectionView?.backgroundView = nil
+                self.collectionView?.layoutIfNeeded()
                 for (groupId, stories) in State.shared.groupStories {
-                    var groupCell: MainGroupTVCell?
-                    for cell in self.tableView.visibleCells {
-                        if (cell as! MainGroupTVCell).group?.groupId == groupId {
-                            groupCell = cell as? MainGroupTVCell
+                    var groupCell: GroupCollectionCell?
+                    for cell in (self.collectionView?.visibleCells)! {
+                        if (cell as! GroupCollectionCell).group?.groupId == groupId {
+                            print("found")
+                            groupCell = cell as? GroupCollectionCell
                         }
                     }
                     if groupCell == nil {
@@ -164,51 +174,32 @@ class ViewLeft: UITableViewController {
             } else {
                 let noGroupsView = self.noGroupsView.instantiate(withOwner: nil, options: nil)[0] as? UIView
                 noGroupsView?.frame.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                self.tableView.backgroundView = noGroupsView
+                self.collectionView?.backgroundView = noGroupsView
             }
         })
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MainGroupCell", for: indexPath) as! MainGroupTVCell
-        let group = State.shared.userGroups[indexPath.row]
-        cell.title.text = group.name
-        cell.group = group
-        
-        cell.preservesSuperviewLayoutMargins = false
-        cell.separatorInset = UIEdgeInsets.zero
-        cell.layoutMargins = UIEdgeInsets.zero
-        return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        State.shared.sortGroupsRecent()
-        return State.shared.userGroups.count
     }
     
     let storyViewNib = UINib(nibName: "StoryView", bundle: nil)
     var lastClick: TimeInterval = 0.0
     var lastIndexPath: IndexPath?
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let now: TimeInterval = Date().timeIntervalSince1970
         if (now - lastClick < (Double(Constants.DoubleTapDelay)/1000.0)) && (lastIndexPath?.row == indexPath.row ) {
-            self.tableView.deselectRow(at: indexPath, animated: true)
-            postToGroup(group: (self.tableView.cellForRow(at: indexPath) as! MainGroupTVCell).group!)
+            postToGroup(group: (collectionView.cellForItem(at: indexPath) as! GroupCollectionCell).group!)
         } else {
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(Int(Constants.DoubleTapDelay)), execute: {
                 let now: TimeInterval = Date().timeIntervalSince1970
                 if (now - self.lastClick >= (Double(Constants.DoubleTapDelay)/1000.0)) && (self.lastIndexPath?.row == indexPath.row) {
-                    self.cellSingleTap(cell: self.tableView.cellForRow(at: indexPath) as! MainGroupTVCell)
+                    self.cellSingleTap(cell: collectionView.cellForItem(at: indexPath) as! GroupCollectionCell)
                 }
-                self.tableView.deselectRow(at: indexPath, animated: true)
             })
         }
         lastClick = now
         lastIndexPath = indexPath
     }
     
-    private func cellSingleTap(cell: MainGroupTVCell) {
+    private func cellSingleTap(cell: GroupCollectionCell) {
         if !State.shared.checkGroupStoriesReady(groupId: (cell.group?.groupId)!) {
             print("stories not ready")
             return
@@ -264,13 +255,13 @@ class ViewLeft: UITableViewController {
         self.becomeFirstResponder()
         let userInfo = notification.userInfo as! [String:AnyObject]
         let groups = userInfo["group_ids"] as! [Int]
-        for cell in self.tableView.visibleCells {
-            let groupCell = (cell as? MainGroupTVCell)
+        for cell in (self.collectionView?.visibleCells)! {
+            let groupCell = (cell as? GroupCollectionCell)
             if groups.contains((groupCell?.group?.groupId)!) {
                 groupCell?.group?.lastSeen = Int64(Date().timeIntervalSince1970 * 1000) + 100
                 groupCell?.startLoading()
-                let indexPath = tableView.indexPath(for: groupCell!)
-                tableView.moveRow(at: indexPath!, to: IndexPath.init(row: 0, section: 0))
+                let indexPath = collectionView?.indexPath(for: groupCell!)
+                collectionView?.moveItem(at: indexPath!, to: IndexPath(item: 0, section: 0))
             }
         }
         State.shared.sortGroupsRecent()
@@ -295,8 +286,8 @@ class ViewLeft: UITableViewController {
     @objc func longPress(_ gest: UILongPressGestureRecognizer) {
         if gest.state == .began {
             let touchPoint = gest.location(in: self.view)
-            if let indexPath = tableView.indexPathForRow(at: touchPoint) {
-                let cell = tableView.cellForRow(at: indexPath) as? MainGroupTVCell
+            if let indexPath = collectionView?.indexPathForItem(at: touchPoint) {
+                let cell = collectionView?.cellForItem(at: indexPath) as? GroupCollectionCell
                 if cell == nil {
                     return
                 }
@@ -312,33 +303,53 @@ class ViewLeft: UITableViewController {
         parentVC?.scrollView.setContentOffset(CGPoint.init(x: screenWidth, y: 0.0), animated: true)
     }
     
-    // code for overlaying icon on QR code. not in use.
-    func overlayIcon(image: UIImage) -> UIImage {
-        let logo = UIImage.init(named: "marble-logo-full")
-        let size = image.size
-        let logoSideLen = CGFloat(28)
-        let padding = CGFloat(3)
-        
-        UIGraphicsBeginImageContext(CGSize(width: logoSideLen, height: logoSideLen))
-        var whiteImg: UIImage?
-        if let context = UIGraphicsGetCurrentContext() {
-            context.setFillColor(UIColor.white.cgColor)
-            let rect = CGRect(origin: CGPoint.zero, size: size)
-            UIBezierPath(roundedRect: rect, cornerRadius: 3).addClip()
-            context.addRect(rect)
-            context.drawPath(using: .fill)
-            whiteImg = UIGraphicsGetImageFromCurrentImageContext()
-        }
-        UIGraphicsEndImageContext()
-        
-        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-        defer { UIGraphicsEndImageContext() }
+}
 
-        image.draw(in: CGRect(origin: .zero, size: size))
-        whiteImg?.draw(in: CGRect(x: (size.width/2) - (logoSideLen/2), y: (size.height/2) - (logoSideLen/2), width: logoSideLen, height: logoSideLen))
-        logo?.draw(in: CGRect(x: (size.width/2) - (logoSideLen/2), y: (size.height/2) - (logoSideLen/2), width: logoSideLen, height: logoSideLen))
-        
-        return UIGraphicsGetImageFromCurrentImageContext()!
+
+// MARK: - UICollectionViewDataSource
+extension ViewLeft {
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
     }
     
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        State.shared.sortGroupsRecent()
+        return State.shared.userGroups.count
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GroupCollectionCell", for: indexPath) as! GroupCollectionCell
+        let group = State.shared.userGroups[indexPath.row]
+        cell.title.text = group.name
+        cell.group = group
+
+        cell.preservesSuperviewLayoutMargins = false
+        cell.backgroundColor = UIColor.clear
+        
+        return cell
+    }
 }
+
+extension ViewLeft : UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let paddingSpace = (sectionInsets.left) * (itemsPerRow + 1)
+        let availableWidth = UIScreen.main.bounds.width - paddingSpace
+        let widthPerItem = availableWidth / itemsPerRow
+        return CGSize(width: widthPerItem, height: widthPerItem * 1.5)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
+        return sectionInsets
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return sectionInsets.left
+    }
+}
+
