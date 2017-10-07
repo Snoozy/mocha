@@ -12,7 +12,7 @@ import UserNotifications
 class ViewLeft: UICollectionViewController {
     
     fileprivate let itemsPerRow: CGFloat = 3
-    fileprivate let sectionInsets = UIEdgeInsets(top: 10.0, left: 3.0, bottom: 10.0, right: 3.0)
+    fileprivate let sectionInsets = UIEdgeInsets(top: 10.0, left: 6.0, bottom: 10.0, right: 6.0)
     
     var refreshControl: UIRefreshControl?
     
@@ -38,7 +38,6 @@ class ViewLeft: UICollectionViewController {
             }
             
             if granted {
-                //Register for RemoteNotifications. Your Remote Notifications can display alerts now :)
                 print("user granted notifications")
                 DispatchQueue.main.async {
                     UIApplication.shared.registerForRemoteNotifications()
@@ -53,7 +52,6 @@ class ViewLeft: UICollectionViewController {
         }
         
         collectionView?.register(UINib(nibName: "GroupCollectionCell", bundle: nil), forCellWithReuseIdentifier: "GroupCollectionCell")
-//        collectionView?.reloadData()
         
         pullDownRefresh()
         

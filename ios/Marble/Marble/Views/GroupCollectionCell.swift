@@ -113,15 +113,15 @@ class GroupCollectionCell: UICollectionViewCell {
 
             self.layer.cornerRadius = 0
             self.layer.shadowOffset = CGSize(width: 0, height: 0)
-            self.layer.shadowOpacity = 1
             if !seen {
+                self.layer.shadowOpacity = 0.8
                 self.layer.shadowColor = Constants.Colors.MarbleBlue.cgColor
                 self.layer.shadowRadius = 4
             } else {
+                self.layer.shadowOpacity = 0.4
                 self.layer.shadowColor = nil
                 self.layer.shadowRadius = 2
             }
-            self.layer.shadowRadius = 0
         } else {
             storyPreview.image = nil
             loadingIcon.isHidden = true
