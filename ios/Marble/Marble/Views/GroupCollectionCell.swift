@@ -95,13 +95,15 @@ class GroupCollectionCell: UICollectionViewCell {
             
             let image: UIImage = {
                 if previewStory.mediaType == .image {
-                    return seen ? seenOpaqueOverlay(image: previewStory.media!) : previewStory.media!
+                    return seen ? blurImage(image: previewStory.media!)! : previewStory.media!
                 } else {
-                    return seen ? seenOpaqueOverlay(image: videoPreviewImage(fileUrl: (previewStory.videoFileUrl)!)!) : videoPreviewImage(fileUrl: (previewStory.videoFileUrl)!)!
+                    let img = videoPreviewImage(fileUrl: (previewStory.videoFileUrl)!)!
+                    return seen ? blurImage(image: img)! : img
                 }
             }()
             let imgMasked = image.maskRectangle(width: storyPreview.frame.width, height: storyPreview.frame.height)
-            storyPreview.image = seen ? seenReplayOverlay(image: imgMasked!) : imgMasked!
+            
+            storyPreview.image = imgMasked!
             
             self.clipsToBounds = false
             self.layer.masksToBounds = false
@@ -111,7 +113,7 @@ class GroupCollectionCell: UICollectionViewCell {
             self.title.layer.shadowColor = UIColor.black.cgColor
             self.title.layer.shadowRadius = 2
 
-            self.layer.cornerRadius = 0
+            self.layer.cornerRadius = 3
             self.layer.shadowOffset = CGSize(width: 0, height: 0)
             if !seen {
                 self.layer.shadowOpacity = 1
@@ -135,6 +137,30 @@ class GroupCollectionCell: UICollectionViewCell {
             self.title.layer.shadowRadius = 0
             self.title.textColor = UIColor.gray
         }
+    }
+    
+    func blurImage(image:UIImage) -> UIImage? {
+        let context = CIContext(options: nil)
+        let inputImage = CIImage(image: image)
+        let originalOrientation = image.imageOrientation
+        let originalScale = image.scale
+        
+        let filter = CIFilter(name: "CIGaussianBlur")
+        filter?.setValue(inputImage, forKey: kCIInputImageKey)
+        filter?.setValue(30.0, forKey: kCIInputRadiusKey)
+        let outputImage = filter?.outputImage
+        
+        var cgImage:CGImage?
+        
+        if let asd = outputImage {
+            cgImage = context.createCGImage(asd, from: (inputImage?.extent)!)
+        }
+        
+        if let cgImageA = cgImage {
+            return UIImage(cgImage: cgImageA, scale: originalScale, orientation: originalOrientation)
+        }
+        
+        return nil
     }
     
     func seenOpaqueOverlay(image: UIImage) -> UIImage {
