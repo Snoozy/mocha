@@ -1,9 +1,9 @@
 from data.aws import boto_session
 import json
 from botocore.exceptions import ClientError
-from sqlalchemy import desc
 
 from data.db.models.story import Story
+
 
 def send_notification(device, message, badge_num=0):
     sns = boto_session.resource('sns', region_name='us-west-2')

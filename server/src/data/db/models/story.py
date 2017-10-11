@@ -7,6 +7,7 @@ from .comment import Comment
 
 CDN_URL = "https://static.amarbleapp.com/media/"
 
+
 class Story(Base):
     __tablename__ = 'stories'
 
@@ -26,14 +27,14 @@ class Story(Base):
         self.user_id = user_id
         self.timestamp = time.time() * 1000
         self.media_type = media_type
-    
+
     def to_dict(self):
         return {
-                'media_url' : CDN_URL + self.media_id,
-                'media_type' : 'video' if self.media_type else 'image',
-                'user_name' : self.user.name,
-                'user_id' : self.user_id,
-                'timestamp' : self.timestamp,
-                'id' : self.id,
-                'comments': [comment.to_dict() for comment in self.comments.order_by(Comment.timestamp).all()]
-                }
+            'media_url': CDN_URL + self.media_id,
+            'media_type': 'video' if self.media_type else 'image',
+            'user_name': self.user.name,
+            'user_id': self.user_id,
+            'timestamp': self.timestamp,
+            'id': self.id,
+            'comments': [comment.to_dict() for comment in self.comments.order_by(Comment.timestamp).all()]
+        }

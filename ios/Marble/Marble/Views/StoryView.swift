@@ -280,7 +280,10 @@ class StoryView: UIView, UIScrollViewDelegate {
         print(img.size)
         
         self.appendComment(posterName: (State.shared.me?.name)!, timestamp: Int64(NSDate().timeIntervalSince1970 * 1000), image: img)
-        let offset = CGFloat(self.captionScrollView.subviews.count - 1) * bounds.height
+        let count = captionScrollView.subviews.filter { (view) -> Bool in
+            return view is CaptionView
+        }.count
+        let offset = CGFloat(count - 1) * bounds.height
         self.captionScrollView.setContentOffset(CGPoint(x: 0, y: offset), animated: true)
 
     }
@@ -393,7 +396,9 @@ class StoryView: UIView, UIScrollViewDelegate {
         captionView.timeLabel.text = calcTime(time: timestamp)
         captionView.image = image
         
-        let count = captionScrollView.subviews.count
+        let count = captionScrollView.subviews.filter { (view) -> Bool in
+            return view is CaptionView
+        }.count
         
         captionView.frame = CGRect(x: 0, y: (CGFloat(count) * UIScreen.main.bounds.height), width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         

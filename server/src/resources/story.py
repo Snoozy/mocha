@@ -1,9 +1,9 @@
-import falcon
 import time
 from data.db.models.user import User
 from data.db.models.group import Group
 from data.db.models.flag import Flag
 from data.db.models.story import Story
+
 
 class StorySeenResource:
     def on_post(self, req, resp, user_id):
@@ -27,7 +27,6 @@ class StorySeenResource:
 
 class FlagStoryResource:
     def on_post(self, req, resp, user_id):
-        user = req.session.query(User).filter(User.id == user_id).first()
         story_id = req.get_param('story_id')
         story = req.session.query(Story).first(Story.id == int(story_id)).first()
         if not story:
