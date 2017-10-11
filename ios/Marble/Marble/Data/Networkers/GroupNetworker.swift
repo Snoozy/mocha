@@ -18,6 +18,13 @@ extension Networker {
         self.sessionManager.request(Router.JoinGroup, method: .post, parameters: params, encoding: URLEncoding.default).validate().responseJSON(completionHandler: completionHandler)
     }
     
+    func leaveGroup(id: Int, completionHandler: @escaping (DataResponse<Any>) -> ()) {
+        let params: Parameters = [
+            "group_id" : id
+        ]
+        self.sessionManager.request(Router.LeaveGroup, method: .post, parameters: params, encoding: URLEncoding.default).validate().responseJSON(completionHandler: completionHandler)
+    }
+    
     func createGroupWith(name: String, completionHandler: @escaping (DataResponse<Any>) -> ()) {
         let params: Parameters = [
             "name" : name

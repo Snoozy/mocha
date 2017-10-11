@@ -22,9 +22,8 @@ class GroupCollectionCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-        if MainGroupTVCell.reloadIcon == nil {
-            MainGroupTVCell.reloadIcon = UIImage(named: "reload")!.addShadow(blurSize: 35.0)
+        if GroupCollectionCell.reloadIcon == nil {
+            GroupCollectionCell.reloadIcon = UIImage(named: "check")!.addShadow(blurSize: 35.0)
         }
     }
     
@@ -77,8 +76,9 @@ class GroupCollectionCell: UICollectionViewCell {
     }
     
     func refreshPreview() {
+        self.title.text = group?.name
         if (State.shared.groupStories[(group?.groupId)!]?.count)! > 0 {
-            self.title.textColor = UIColor.white
+            self.title.textColor = UIColor.black
             self.layer.borderWidth = 0
             
             let stories = State.shared.groupStories[(group?.groupId)!]!
@@ -95,51 +95,51 @@ class GroupCollectionCell: UICollectionViewCell {
             
             let image: UIImage = {
                 if previewStory.mediaType == .image {
-                    return seen ? blurImage(image: previewStory.media!)! : previewStory.media!
+                    return seen ? seenOpaqueOverlay(image: blurImage(image: previewStory.media!)!) : previewStory.media!
                 } else {
                     let img = videoPreviewImage(fileUrl: (previewStory.videoFileUrl)!)!
-                    return seen ? blurImage(image: img)! : img
+                    return seen ? seenOpaqueOverlay(image: blurImage(image: img)!) : img
                 }
             }()
-            let imgMasked = image.maskRectangle(width: storyPreview.frame.width, height: storyPreview.frame.height)
+            let imgMasked = image.circleMasked
+            storyPreview.image = seen ? seenReplayOverlay(image: imgMasked!) : imgMasked!
+//            storyPreview.image = imgMasked!
             
-            storyPreview.image = imgMasked!
+            storyPreview.layer.cornerRadius = 0
+            storyPreview.layer.borderWidth = 0
             
             self.clipsToBounds = false
             self.layer.masksToBounds = false
             
-            self.title.layer.shadowOffset = CGSize(width: 0, height: 0)
-            self.title.layer.shadowOpacity = 1
-            self.title.layer.shadowColor = UIColor.black.cgColor
-            self.title.layer.shadowRadius = 2
-
-            self.layer.cornerRadius = 3
-            self.layer.shadowOffset = CGSize(width: 0, height: 0)
+            self.storyPreview.layer.masksToBounds = false
+            self.storyPreview.clipsToBounds = false
+            self.storyPreview.layer.shadowOffset = CGSize(width: 0, height: 0)
             if !seen {
-                self.layer.shadowOpacity = 1
-                self.layer.shadowColor = Constants.Colors.MarbleBlue.cgColor
-                self.layer.shadowRadius = 2
+                self.storyPreview.layer.shadowOpacity = 1
+                self.storyPreview.layer.shadowColor = Constants.Colors.UnseenHighlight.cgColor
+                self.storyPreview.layer.shadowRadius = 5
+                self.title.font = UIFont.systemFont(ofSize: 17, weight: .heavy)
             } else {
-                self.layer.shadowOpacity = 0.4
-                self.layer.shadowColor = nil
-                self.layer.shadowRadius = 2
+                self.storyPreview.layer.shadowOpacity = 0.7
+                self.storyPreview.layer.shadowColor = nil
+                self.storyPreview.layer.shadowRadius = 3
+                self.title.font = UIFont.systemFont(ofSize: 17, weight: .regular)
             }
         } else {
             storyPreview.image = nil
             loadingIcon.isHidden = true
             
-            self.layer.borderColor = UIColor.lightGray.cgColor
-            self.layer.borderWidth = 1
-            self.layer.cornerRadius = 3
-            
-            self.layer.shadowRadius = 0
+            storyPreview.layer.cornerRadius = storyPreview.frame.width / 2
+            storyPreview.layer.borderWidth = 1
+            storyPreview.layer.borderColor = UIColor.gray.cgColor
+            storyPreview.layer.shadowRadius = 0
+            self.title.font = UIFont.systemFont(ofSize: 17, weight: .regular)
             
             self.title.layer.shadowRadius = 0
-            self.title.textColor = UIColor.gray
         }
     }
     
-    func blurImage(image:UIImage) -> UIImage? {
+    func blurImage(image: UIImage) -> UIImage? {
         let context = CIContext(options: nil)
         let inputImage = CIImage(image: image)
         let originalOrientation = image.imageOrientation
@@ -147,7 +147,7 @@ class GroupCollectionCell: UICollectionViewCell {
         
         let filter = CIFilter(name: "CIGaussianBlur")
         filter?.setValue(inputImage, forKey: kCIInputImageKey)
-        filter?.setValue(30.0, forKey: kCIInputRadiusKey)
+        filter?.setValue(15.0, forKey: kCIInputRadiusKey)
         let outputImage = filter?.outputImage
         
         var cgImage:CGImage?
@@ -169,17 +169,17 @@ class GroupCollectionCell: UICollectionViewCell {
         UIGraphicsBeginImageContext(image.size)
         defer { UIGraphicsEndImageContext() }
         image.draw(at: .zero)
-        whiteImg?.draw(at: .zero, blendMode: .normal, alpha: 0.75)
+        whiteImg?.draw(at: .zero, blendMode: .normal, alpha: 0.5)
         return UIGraphicsGetImageFromCurrentImageContext()!
     }
     
     func seenReplayOverlay(image: UIImage) -> UIImage {
-        let reloadIconSize: CGFloat = 20
-        
+        let reloadIconSize: CGFloat = image.size.width / 6
+
         UIGraphicsBeginImageContextWithOptions(image.size, false, 0.0)
         defer { UIGraphicsEndImageContext() }
         image.draw(at: .zero)
-        MainGroupTVCell.reloadIcon?.draw(in: CGRect(x: (image.size.width/2) - (reloadIconSize/2), y: (image.size.height/2) - (reloadIconSize/2), width: reloadIconSize, height: reloadIconSize))
+        GroupCollectionCell.reloadIcon?.draw(in: CGRect(x: (image.size.width/2) - (reloadIconSize/2), y: (image.size.height/2) - (reloadIconSize/2), width: reloadIconSize, height: reloadIconSize), blendMode: .normal, alpha: 0.6)
         return UIGraphicsGetImageFromCurrentImageContext()!
     }
 

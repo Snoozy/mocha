@@ -1,7 +1,8 @@
 from sqlalchemy import Column, Integer, String
 from ..db import Base
-from sqlalchemy.orm import relationship, backref
+from sqlalchemy.orm import relationship
 from sqlalchemy.ext.associationproxy import association_proxy
+
 
 class Group(Base):
     __tablename__ = 'groups'
@@ -14,7 +15,7 @@ class Group(Base):
 
     def to_dict(self):
         return {
-                'name' : self.name,
-                'group_id' : self.id,
-                'members' : self.memberships.count()
+                'name': self.name,
+                'group_id': self.id,
+                'members': self.memberships.count()
                 }

@@ -1,7 +1,7 @@
-import falcon
 from data.db.models.user import User
 from data.db.models.group import Group
 import json
+
 
 class GroupCreateResource:
     def on_post(self, req, resp, user_id):
@@ -31,15 +31,15 @@ class FindGroupResource:
                 if m.group.id == group.id:
                     last_seen = m.last_seen
             resp.json = {
-                    'status' : 0,
-                    'group_name' : group.name,
-                    'member_count' : group.memberships.count(),
-                    'group_id' : group.id,
-                    'last_seen' : last_seen
+                    'status': 0,
+                    'group_name': group.name,
+                    'member_count': group.memberships.count(),
+                    'group_id': group.id,
+                    'last_seen': last_seen
                 }
         else:
             resp.json = {
-                    'status' : 1
+                    'status': 1
                 }
 
 
@@ -58,9 +58,10 @@ class ListGroupsResource:
             g_dict['last_seen'] = last_seen
             group_arr.append(g_dict)
         resp.json = {
-                'status' : 0,
-                'groups' : json.dumps(group_arr)
+                'status': 0,
+                'groups': json.dumps(group_arr)
             }
+
 
 class GroupJoinResource:
     def on_post(self, req, resp, user_id):
@@ -69,13 +70,32 @@ class GroupJoinResource:
         group = req.session.query(Group).filter(Group.id == int(group_id)).first()
         if not user or not group:
             resp.json = {
-                'status' : 1
+                'status': 1
                 }
             return
         if user not in group.users:
             group.users.append(user)
         req.session.commit()
         resp.json = {
-                'status' : 0,
-                'group' : group.to_dict()
+                'status': 0,
+                'group': group.to_dict()
             }
+
+
+class GroupLeaveResource:
+    def on_post(self, req, resp, user_id):
+        group_id = req.getParam('group_id')
+        user = req.session.query(User).filter(User.id == user_id).first()
+        group = req.session.query(Group).filter(Group.id == int(group_id)).first()
+        if not user or not group:
+            resp.json = {
+                'status': 1
+            }
+            return
+        if user in group.users:
+            group.users.remove(user)
+        req.session.commit()
+        resp.json = {
+            'status': 0,
+            'group': group.to_dict()
+        }

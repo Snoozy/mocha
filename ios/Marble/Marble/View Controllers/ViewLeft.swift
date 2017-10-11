@@ -12,7 +12,7 @@ import UserNotifications
 class ViewLeft: UICollectionViewController {
     
     fileprivate let itemsPerRow: CGFloat = 3
-    fileprivate let sectionInsets = UIEdgeInsets(top: 10.0, left: 6.0, bottom: 10.0, right: 6.0)
+    fileprivate let sectionInsets = UIEdgeInsets(top: 14.0, left: 10.0, bottom: 20.0, right: 10.0)
     
     var refreshControl: UIRefreshControl?
     
@@ -52,6 +52,8 @@ class ViewLeft: UICollectionViewController {
         }
         
         collectionView?.register(UINib(nibName: "GroupCollectionCell", bundle: nil), forCellWithReuseIdentifier: "GroupCollectionCell")
+        
+        collectionView?.reloadData()
         
         pullDownRefresh()
         
@@ -113,7 +115,6 @@ class ViewLeft: UICollectionViewController {
     
     func refresh() {
         State.shared.refreshUserGroups(completionHandler: {
-            self.collectionView?.reloadData()
             self.refreshControl?.endRefreshing()
             self.refreshStories()
             UIApplication.shared.applicationIconBadgeNumber = State.shared.getUnseenMarblesCount()
@@ -133,7 +134,6 @@ class ViewLeft: UICollectionViewController {
                     var groupCell: GroupCollectionCell?
                     for cell in (self.collectionView?.visibleCells)! {
                         if (cell as! GroupCollectionCell).group?.groupId == groupId {
-                            print("found")
                             groupCell = cell as? GroupCollectionCell
                         }
                     }
@@ -318,7 +318,6 @@ extension ViewLeft {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GroupCollectionCell", for: indexPath) as! GroupCollectionCell
         let group = State.shared.userGroups[indexPath.row]
-        cell.title.text = group.name
         cell.group = group
 
         cell.preservesSuperviewLayoutMargins = false
@@ -335,7 +334,7 @@ extension ViewLeft : UICollectionViewDelegateFlowLayout {
         let paddingSpace = (sectionInsets.left) * (itemsPerRow + 1)
         let availableWidth = UIScreen.main.bounds.width - paddingSpace
         let widthPerItem = availableWidth / itemsPerRow
-        return CGSize(width: widthPerItem, height: widthPerItem * 1.5)
+        return CGSize(width: widthPerItem, height: widthPerItem * 1.2)
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -347,7 +346,7 @@ extension ViewLeft : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return sectionInsets.left
+        return sectionInsets.bottom
     }
 }
 
