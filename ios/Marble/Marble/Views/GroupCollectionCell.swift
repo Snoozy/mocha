@@ -57,7 +57,7 @@ class GroupCollectionCell: UICollectionViewCell {
         
         qrFilter.setDefaults()
         qrFilter.setValue(content.data(using: .isoLatin1), forKey: "inputMessage")
-        qrFilter.setValue("Q", forKey: "inputCorrectionLevel")
+        qrFilter.setValue("M", forKey: "inputCorrectionLevel")
         
         // Color code and background
         guard let colorFilter = CIFilter(name: "CIFalseColor") else { return nil }

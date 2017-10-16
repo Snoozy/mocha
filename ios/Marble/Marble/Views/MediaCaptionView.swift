@@ -13,6 +13,10 @@ class MediaCaptionView: UIView, UITextViewDelegate {
     
     // MARK: - Lifecycle
     
+    lazy var drawView: UIImageView = {
+        return UIImageView()
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
@@ -30,6 +34,7 @@ class MediaCaptionView: UIView, UITextViewDelegate {
     func configure() {
         clearCaption()
         addSubview(caption)
+        addSubview(drawView)
         addGestureRecognizer(tapRecognizer)
         addGestureRecognizer(panRecognizer)
         isUserInteractionEnabled = true
@@ -40,6 +45,12 @@ class MediaCaptionView: UIView, UITextViewDelegate {
     func isEmpty() -> Bool {
         return caption.text == ""
     }
+    
+    private var lastPoint = CGPoint.zero
+    private var brushWidth: CGFloat = 10.0
+    private var opacity: CGFloat = 1.0
+    private var swiped = false
+    
     
     private var prevCaptionHeight: CGFloat?
     
