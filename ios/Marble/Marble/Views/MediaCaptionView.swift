@@ -15,7 +15,7 @@ class MediaCaptionView: UIView, UITextViewDelegate {
     
     lazy var drawView: UIImageView = {
         return UIImageView()
-    }
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,7 +34,7 @@ class MediaCaptionView: UIView, UITextViewDelegate {
     func configure() {
         clearCaption()
         addSubview(caption)
-        addSubview(drawView)
+        //addSubview(drawView)
         addGestureRecognizer(tapRecognizer)
         addGestureRecognizer(panRecognizer)
         isUserInteractionEnabled = true
@@ -50,6 +50,26 @@ class MediaCaptionView: UIView, UITextViewDelegate {
     private var brushWidth: CGFloat = 10.0
     private var opacity: CGFloat = 1.0
     private var swiped = false
+    
+    func drawLineFrom(fromPoint: CGPoint, toPoint: CGPoint) {
+        UIGraphicsBeginImageContext(self.frame.size)
+        let context = UIGraphicsGetCurrentContext()
+        drawView.image?.draw(in: CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height))
+        
+        context?.move(to: fromPoint)
+        context?.addLine(to: toPoint)
+        
+        context?.setLineCap(.round)
+        context!.setLineWidth(brushWidth)
+        context?.setStrokeColor(Constants.Colors.MarbleBlue.cgColor)
+        context?.setBlendMode(.normal)
+        
+        context?.strokePath()
+        
+        drawView.image = UIGraphicsGetImageFromCurrentImageContext()
+        drawView.alpha = opacity
+        UIGraphicsEndImageContext()
+    }
     
     
     private var prevCaptionHeight: CGFloat?

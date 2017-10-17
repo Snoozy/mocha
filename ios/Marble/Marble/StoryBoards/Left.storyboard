@@ -31,11 +31,14 @@
                     </collectionView>
                     <navigationItem key="navigationItem" title="Marble" id="G8w-1h-aJi">
                         <barButtonItem key="leftBarButtonItem" systemItem="add" id="MGD-jA-NKB">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="AddMarbleBtnPress:" destination="1lE-cE-yHL" id="BVg-vC-LqV"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="camera" id="jaV-T8-jpr">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="camera" id="jaV-T8-jpr">
+                            <inset key="imageInsets" minX="0.0" minY="1" maxX="0.0" maxY="0.0"/>
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="goToCameraBtnPress:" destination="1lE-cE-yHL" id="5uD-Ou-l8t"/>
                             </connections>
@@ -66,4 +69,7 @@
             <point key="canvasLocation" x="1693.5999999999999" y="139.880059970015"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="camera" width="26" height="26"/>
+    </resources>
 </document>
