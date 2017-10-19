@@ -16,8 +16,12 @@ class ViewLeft: UICollectionViewController {
     
     var refreshControl: UIRefreshControl?
     
+    static var shared: ViewLeft?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        ViewLeft.shared = self
         
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(pullDownRefresh), for: UIControlEvents.valueChanged)
@@ -61,13 +65,14 @@ class ViewLeft: UICollectionViewController {
         becomeFirstResponder()
         
         ViewLeft.startRefreshTimer()
-        
     }
     
     static var refreshTimer: Timer?
     
     static func startRefreshTimer() {
-        ViewLeft.refreshTimer = Timer.scheduledTimer(timeInterval: 20, target: self, selector: #selector(pullDownRefresh), userInfo: nil, repeats: true)
+        if let target = self.shared {
+            ViewLeft.refreshTimer = Timer.scheduledTimer(timeInterval: 20, target: target, selector: #selector(pullDownRefresh), userInfo: nil, repeats: true)
+        }
     }
     
     static func killRefreshTimer() {
@@ -171,10 +176,6 @@ class ViewLeft: UICollectionViewController {
                                 })
                                 if groupCell?.storyLoadCount ?? 0 <= 0 {
                                     groupCell?.stopLoading()
-                                    var storyIdx = State.shared.findGroupBy(id: (groupCell?.group?.groupId)!)?.storyViewIdx
-                                    if storyIdx! >= stories.count {
-                                        storyIdx = 0
-                                    }
                                     groupCell?.refreshPreview()
                                 }
                             })

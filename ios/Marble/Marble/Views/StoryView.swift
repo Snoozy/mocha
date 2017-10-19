@@ -272,8 +272,6 @@ class StoryView: UIView, UIScrollViewDelegate {
         
         enableComments()
         
-        //numComments += 1
-        
         captionImg.af_inflate()
         let bounds = UIScreen.main.bounds
         let img = captionImg.af_imageScaled(to: CGSize(width: bounds.width, height: bounds.height))
