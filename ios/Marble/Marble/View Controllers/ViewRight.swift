@@ -511,16 +511,27 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         NotificationCenter.default.post(name: Constants.Notifications.StoryPosted, object: self, userInfo: userInfo)
     }
     
+    var bgIdentifier: UIBackgroundTaskIdentifier?
+    
     func sendVideoMedia(groupIds: [Int]) {
         print("groups: " + String(describing: groupIds))
         removeMediaPreview()
         (self.parent as! ViewController).scrollView.contentOffset.x = 0
         let userInfo = ["group_ids" : groupIds]
         NotificationCenter.default.post(name: Constants.Notifications.StoryPosted, object: self, userInfo: userInfo)
+        
+        bgIdentifier = UIApplication.shared.beginBackgroundTask {
+            if let bgIdentifier = self.bgIdentifier {
+                UIApplication.shared.endBackgroundTask(bgIdentifier)
+            }
+        }
         renderVideoAndUpload(groupIds: groupIds, completionHandler: { response in
             print("VIDEO UPLOAD DONE")
             print(response.debugDescription)
             NotificationCenter.default.post(name: Constants.Notifications.StoryUploadFinished, object: self)
+            if let bgIdentifier = self.bgIdentifier {
+                UIApplication.shared.endBackgroundTask(bgIdentifier)
+            }
         })
     }
     
