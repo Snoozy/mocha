@@ -148,7 +148,7 @@ class StoryView: UIView, UIScrollViewDelegate {
                 self.innerView.frame = CGRect(x: originalMinX + (translation.y/(scale * 2)), y: innerView.frame.minY, width: originalWidth - (translation.y/scale), height: originalHeight - (translation.y/scale))
             } else {
                 self.innerView.center.y = originalCenterYCord
-                if captionScrollView.subviews.count > 1 {
+                if story?.comments.count ?? 0 > 1  {
                     captionScrollView.contentOffset = CGPoint(x: 0, y: -translation.y)
                 }
             }
