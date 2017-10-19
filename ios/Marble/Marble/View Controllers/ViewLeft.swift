@@ -129,7 +129,9 @@ class ViewLeft: UICollectionViewController {
     }
     
     @objc func pullDownRefresh() {
-        refresh()
+        if self.view.window?.windowLevel != UIWindowLevelStatusBar {
+            refresh()
+        }
     }
     
     func refresh() {

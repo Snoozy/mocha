@@ -465,9 +465,7 @@ class StoryView: UIView, UIScrollViewDelegate {
                     return
                 }
                 State.shared.blockUser(userId: self.userId!, completionHandler: {
-                    self.showStatusBar()
-                    self.removeFromSuperview()
-                    self.cell?.refreshPreview()
+                    self.exitStory()
                 })
             })
             alert.addButton("Cancel", backgroundColor: UIColor.white, textColor: Constants.Colors.MarbleBlue, action: {

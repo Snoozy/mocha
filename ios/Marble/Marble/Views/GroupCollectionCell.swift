@@ -15,6 +15,7 @@ class GroupCollectionCell: UICollectionViewCell {
     var storyLoadCount: Int?
     
     static var reloadIcon: UIImage?
+    static var fallbackPreview: UIImage?
     
     @IBOutlet weak var loadingIcon: UIActivityIndicatorView!
     @IBOutlet weak var title: UILabel!
@@ -24,6 +25,9 @@ class GroupCollectionCell: UICollectionViewCell {
         super.awakeFromNib()
         if GroupCollectionCell.reloadIcon == nil {
             GroupCollectionCell.reloadIcon = UIImage(named: "check")!.addShadow(blurSize: 35.0)
+        }
+        if GroupCollectionCell.fallbackPreview == nil {
+            GroupCollectionCell.fallbackPreview = UIImage(color: UIColor.black, size: UIScreen.main.bounds.size)
         }
     }
     
@@ -122,15 +126,22 @@ class GroupCollectionCell: UICollectionViewCell {
             
             let image: UIImage = {
                 if previewStory.mediaType == .image {
-                    return seen ? seenOpaqueOverlay(image: blurImage(image: previewStory.media!)!) : previewStory.media!
+                    if let imgMedia = previewStory.media {
+                        return seen ? seenOpaqueOverlay(image: blurImage(image: imgMedia)!) : imgMedia
+                    } else {
+                        return GroupCollectionCell.fallbackPreview!
+                    }
                 } else {
-                    let img = videoPreviewImage(fileUrl: (previewStory.videoFileUrl)!)!
-                    return seen ? seenOpaqueOverlay(image: blurImage(image: img)!) : img
+                    let img = videoPreviewImage(fileUrl: (previewStory.videoFileUrl)!)
+                    if let img = img {
+                        return seen ? seenOpaqueOverlay(image: blurImage(image: img)!) : img
+                    } else {
+                        return GroupCollectionCell.fallbackPreview!
+                    }
                 }
             }()
             let imgMasked = image.circleMasked
             storyPreview.image = seen ? seenReplayOverlay(image: imgMasked!) : imgMasked!
-//            storyPreview.image = imgMasked!
             
             storyPreview.layer.cornerRadius = 0
             storyPreview.layer.borderWidth = 0
