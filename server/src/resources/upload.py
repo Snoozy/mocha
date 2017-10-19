@@ -156,10 +156,12 @@ class CommentUploadResource:
 
 def send_commented_notifications(orig_poster: User, commenter: User, story: Story):
     group = story.group
-    msg = "{} commented on your post in {}".format(commenter.name, group.name)
-    badge_num = get_user_badge_num(orig_poster)
-    for device in orig_poster.devices:
-        send_notification(device, msg, badge_num=badge_num)
+    if orig_poster.id != commenter.id:
+        msg = "{} commented on your post in {}".format(commenter.name, group.name)
+        print("notif: " + msg)
+        badge_num = get_user_badge_num(orig_poster)
+        for device in orig_poster.devices:
+            send_notification(device, msg, badge_num=badge_num)
     users_seen = [orig_poster.id]
     for comment in story.comments:
         user = comment.user

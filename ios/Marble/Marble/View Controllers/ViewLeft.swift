@@ -26,6 +26,7 @@ class ViewLeft: UICollectionViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(mediaPosted(notification:)), name: Constants.Notifications.StoryPosted, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(mediaUploadFinished(notificaion:)), name: Constants.Notifications.StoryUploadFinished, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(pullDownRefresh), name: Constants.Notifications.RefreshMainGroupState, object: nil)
         
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPress(_:)))
         self.view.addGestureRecognizer(longPressRecognizer)
@@ -58,6 +59,8 @@ class ViewLeft: UICollectionViewController {
         pullDownRefresh()
         
         becomeFirstResponder()
+        
+        Timer.scheduledTimer(timeInterval: 20, target: self, selector: #selector(pullDownRefresh), userInfo: nil, repeats: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {

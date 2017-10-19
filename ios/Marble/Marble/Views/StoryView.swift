@@ -395,6 +395,7 @@ class StoryView: UIView, UIScrollViewDelegate {
         captionView.nameLabel.text = posterName
         captionView.timeLabel.text = calcTime(time: timestamp)
         captionView.image = image
+        captionView.storyViewDelegate = self
         
         let count = captionScrollView.subviews.filter { (view) -> Bool in
             return view is CaptionView
@@ -440,7 +441,13 @@ class StoryView: UIView, UIScrollViewDelegate {
     @objc func longPressed(_ sender: UILongPressGestureRecognizer) {
         if sender.state == UIGestureRecognizerState.began {
             let appearance = SCLAlertView.SCLAppearance(
+                kTitleTop: 45.0,
+                kWindowHeight: 10.0,
+                kWindowHeightDeviation: -24.0,
+                kTextFieldHeight: 0.0,
+                kTextViewdHeight: 0.0,
                 showCloseButton: false,
+                showCircularIcon: false,
                 hideWhenBackgroundViewIsTapped: true
             )
             let alert = SCLAlertView(appearance: appearance)

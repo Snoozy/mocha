@@ -15,6 +15,8 @@ class CaptionView: UIImageView {
     @IBOutlet weak var commentLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
     
+    var storyViewDelegate: StoryView?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -24,6 +26,15 @@ class CaptionView: UIImageView {
         
         commentLabel.font = UIFont.fontAwesome(ofSize: 11)
         commentLabel.text = String.fontAwesomeIcon(name: .chevronUp) + "\nCOMMENTS"
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(commentLabelTapped(sender:)))
+        commentLabel.isUserInteractionEnabled = true
+        commentLabel.addGestureRecognizer(tap)
+    }
+    
+    @objc func commentLabelTapped(sender: UITapGestureRecognizer) {
+        storyViewDelegate?.enableComments()
+        storyViewDelegate?.captionScrollView.setContentOffset(CGPoint(x: 0, y: self.frame.height), animated: true)
     }
     
 }

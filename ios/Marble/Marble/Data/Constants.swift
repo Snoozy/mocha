@@ -31,6 +31,7 @@ struct Constants {
     struct Notifications {
         static let StoryPosted = Notification.Name("com.amarbleapp.storyPosted")
         static let StoryUploadFinished = Notification.Name("com.amarbleapp.storyUploadFinished")
+        static let RefreshMainGroupState = Notification.Name("com.amarbleapp.refreshMainGroupState")
     }
     
     static let ApiUrl = API_URL

@@ -7,17 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4203A13B1F6E07170094ED3A /* TableViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4203A13A1F6E07170094ED3A /* TableViewCellDelegate.swift */; };
-		4203A13C1F6E07170094ED3A /* TableViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4203A13A1F6E07170094ED3A /* TableViewCellDelegate.swift */; };
 		420A007A1E31C7CF00525DB0 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 420A006D1E31C6D400525DB0 /* Alamofire.framework */; };
 		420A007B1E31C7CF00525DB0 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 420A006D1E31C6D400525DB0 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4217546E1E5530AD00620E69 /* MediaCaptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4217546D1E5530AD00620E69 /* MediaCaptionView.swift */; };
 		421D0D201F78495A003A0A76 /* UITableView_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421D0D1F1F78495A003A0A76 /* UITableView_ext.swift */; };
 		421D0D211F78495A003A0A76 /* UITableView_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421D0D1F1F78495A003A0A76 /* UITableView_ext.swift */; };
-		4241B8141E4DB5F5003CA796 /* MainGroupTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4241B8131E4DB5F5003CA796 /* MainGroupTVCell.swift */; };
 		4241B8181E4DB8F5003CA796 /* UIImage_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4241B8171E4DB8F5003CA796 /* UIImage_ext.swift */; };
 		4241B81A1E4DC197003CA796 /* StoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4241B8191E4DC197003CA796 /* StoryView.swift */; };
 		4241B81C1E4DC208003CA796 /* StoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4241B81B1E4DC208003CA796 /* StoryView.xib */; };
+		4247F5FC1F983A7700552518 /* SwiftyGifManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F3EABD1F80CD4B004D799D /* SwiftyGifManager.swift */; };
+		4247F5FD1F983A7A00552518 /* UIImage+SwiftyGif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F3EABE1F80CD4B004D799D /* UIImage+SwiftyGif.swift */; };
+		4247F5FE1F983A7C00552518 /* UIImageView+SwiftyGif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F3EABF1F80CD4C004D799D /* UIImageView+SwiftyGif.swift */; };
 		42502DEC1E9B4BD8009B7E2E /* UserNetworker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42502DEB1E9B4BD8009B7E2E /* UserNetworker.swift */; };
 		425398C61E497D5B00097934 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425398C51E497D5B00097934 /* Group.swift */; };
 		425398C81E4985AB00097934 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425398C71E4985AB00097934 /* SwiftyJSON.swift */; };
@@ -100,7 +100,6 @@
 		42E13D9F1E8E46610016FA76 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425398C51E497D5B00097934 /* Group.swift */; };
 		42E13DA01E8E46610016FA76 /* Networker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42623CC01E3B0BE10068D4FA /* Networker.swift */; };
 		42E13DA11E8E46610016FA76 /* MediaCaptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4217546D1E5530AD00620E69 /* MediaCaptionView.swift */; };
-		42E13DA21E8E46610016FA76 /* MainGroupTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4241B8131E4DB5F5003CA796 /* MainGroupTVCell.swift */; };
 		42E13DA31E8E46610016FA76 /* AuthLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E13D8C1E8DF2340016FA76 /* AuthLoginVC.swift */; };
 		42E13DA41E8E46610016FA76 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D575A61E3720440094037D /* AuthViewController.swift */; };
 		42E13DA51E8E46610016FA76 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4299914B1E4D55A20049608F /* State.swift */; };
@@ -360,11 +359,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4203A13A1F6E07170094ED3A /* TableViewCellDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableViewCellDelegate.swift; path = Delegates/TableViewCellDelegate.swift; sourceTree = "<group>"; };
 		420A00611E31C6D400525DB0 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
 		4217546D1E5530AD00620E69 /* MediaCaptionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaCaptionView.swift; path = Views/MediaCaptionView.swift; sourceTree = "<group>"; };
 		421D0D1F1F78495A003A0A76 /* UITableView_ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UITableView_ext.swift; path = Extensions/UITableView_ext.swift; sourceTree = "<group>"; };
-		4241B8131E4DB5F5003CA796 /* MainGroupTVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainGroupTVCell.swift; path = Views/MainGroupTVCell.swift; sourceTree = "<group>"; };
 		4241B8171E4DB8F5003CA796 /* UIImage_ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIImage_ext.swift; path = Extensions/UIImage_ext.swift; sourceTree = "<group>"; };
 		4241B8191E4DC197003CA796 /* StoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StoryView.swift; path = Views/StoryView.swift; sourceTree = "<group>"; };
 		4241B81B1E4DC208003CA796 /* StoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StoryView.xib; path = StoryBoards/StoryView.xib; sourceTree = "<group>"; };
@@ -476,7 +473,6 @@
 		4203A1291F6E06DB0094ED3A /* Delegates */ = {
 			isa = PBXGroup;
 			children = (
-				4203A13A1F6E07170094ED3A /* TableViewCellDelegate.swift */,
 			);
 			name = Delegates;
 			sourceTree = "<group>";
@@ -592,7 +588,6 @@
 				42F92CEB1EA312BF0085DD0C /* MediaImageView.swift */,
 				42CC20801E43238800EC419A /* NumberButton.swift */,
 				425D40641E4331EC00CBD8CB /* NumPlaceholderButton.swift */,
-				4241B8131E4DB5F5003CA796 /* MainGroupTVCell.swift */,
 				4241B8191E4DC197003CA796 /* StoryView.swift */,
 				4295B8A61E84C21E0091C08B /* NoGroupsView.swift */,
 				42A228CF1EAFE19D00496392 /* CaptionView.swift */,
@@ -1028,6 +1023,7 @@
 				42A228D41EAFE25500496392 /* Comment.swift in Sources */,
 				42E13D991E8E46610016FA76 /* AddMarbleCodeVC.swift in Sources */,
 				42E13D9A1E8E46610016FA76 /* SCLExtensions.swift in Sources */,
+				4247F5FD1F983A7A00552518 /* UIImage+SwiftyGif.swift in Sources */,
 				42E13D9B1E8E46610016FA76 /* NoGroupsView.swift in Sources */,
 				42F8C0D21EA6A57F00AFD4D4 /* Common.swift in Sources */,
 				42F8C0D51EA6A95600AFD4D4 /* Downloader.swift in Sources */,
@@ -1040,7 +1036,6 @@
 				42E13D9F1E8E46610016FA76 /* Group.swift in Sources */,
 				42E13DA01E8E46610016FA76 /* Networker.swift in Sources */,
 				42E13DA11E8E46610016FA76 /* MediaCaptionView.swift in Sources */,
-				42E13DA21E8E46610016FA76 /* MainGroupTVCell.swift in Sources */,
 				42E13DA31E8E46610016FA76 /* AuthLoginVC.swift in Sources */,
 				42E13DA41E8E46610016FA76 /* AuthViewController.swift in Sources */,
 				42E13DA51E8E46610016FA76 /* State.swift in Sources */,
@@ -1048,7 +1043,6 @@
 				42E13DA61E8E46610016FA76 /* CreateMarbleVC.swift in Sources */,
 				428AED4D1F802D8100F2C450 /* SwiftyCamButton.swift in Sources */,
 				42E13DA71E8E46610016FA76 /* Groups.swift in Sources */,
-				4203A13C1F6E07170094ED3A /* TableViewCellDelegate.swift in Sources */,
 				42A228D11EAFE19D00496392 /* CaptionView.swift in Sources */,
 				42E13DA81E8E46610016FA76 /* AppDelegate.swift in Sources */,
 				42E13DA91E8E46610016FA76 /* UIView_ext.swift in Sources */,
@@ -1060,6 +1054,7 @@
 				42E13DAD1E8E46610016FA76 /* NumberButton.swift in Sources */,
 				428AED4B1F802D8100F2C450 /* Orientation.swift in Sources */,
 				428AED4E1F802D8100F2C450 /* SwiftyCamViewController.swift in Sources */,
+				4247F5FC1F983A7700552518 /* SwiftyGifManager.swift in Sources */,
 				42E13DAE1E8E46610016FA76 /* Router.swift in Sources */,
 				42E13DAF1E8E46610016FA76 /* StoryNetworker.swift in Sources */,
 				42E13DB01E8E46610016FA76 /* KeychainItemAccessibility.swift in Sources */,
@@ -1075,6 +1070,7 @@
 				428AED4A1F802D7C00F2C450 /* SwiftyCamViewControllerDelegate.swift in Sources */,
 				425F357B1EB687530014F90F /* User.swift in Sources */,
 				425F35751EB1BA540014F90F /* FontAwesomeView.swift in Sources */,
+				4247F5FE1F983A7C00552518 /* UIImageView+SwiftyGif.swift in Sources */,
 				42B52C0C1E9B773E006D831A /* Users.swift in Sources */,
 				42E13DB91E8E46610016FA76 /* NumPlaceholderButton.swift in Sources */,
 				42E13DBA1E8E46610016FA76 /* Stories.swift in Sources */,
@@ -1106,14 +1102,12 @@
 				425398C61E497D5B00097934 /* Group.swift in Sources */,
 				42623CC11E3B0BE10068D4FA /* Networker.swift in Sources */,
 				4217546E1E5530AD00620E69 /* MediaCaptionView.swift in Sources */,
-				4241B8141E4DB5F5003CA796 /* MainGroupTVCell.swift in Sources */,
 				42E13D8D1E8DF2340016FA76 /* AuthLoginVC.swift in Sources */,
 				42D575A71E3720440094037D /* AuthViewController.swift in Sources */,
 				4299914C1E4D55A20049608F /* State.swift in Sources */,
 				429AF4061E486C0800475461 /* CreateMarbleVC.swift in Sources */,
 				4299914E1E4D56CD0049608F /* Groups.swift in Sources */,
 				42F2CBF01F71DC220042F691 /* SwiftyCamButton.swift in Sources */,
-				4203A13B1F6E07170094ED3A /* TableViewCellDelegate.swift in Sources */,
 				42A228D01EAFE19D00496392 /* CaptionView.swift in Sources */,
 				952AF8061DAB363D005E60C7 /* AppDelegate.swift in Sources */,
 				42D5758C1E37164C0094037D /* UIView_ext.swift in Sources */,

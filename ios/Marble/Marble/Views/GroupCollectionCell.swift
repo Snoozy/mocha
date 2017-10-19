@@ -39,9 +39,13 @@ class GroupCollectionCell: UICollectionViewCell {
         self.storyPreview.isHidden = false
     }
     
+    var alertResponder: SCLAlertViewResponder?
+    var settingsResponder: SCLAlertViewResponder?
+    
     func showMarbleInfo() {
         let appearance = SCLAlertView.SCLAppearance(
             kCircleIconHeight: 100,
+            showCloseButton: false,
             hideWhenBackgroundViewIsTapped: true
         )
         let alert = SCLAlertView(appearance: appearance)
@@ -49,7 +53,30 @@ class GroupCollectionCell: UICollectionViewCell {
         let qrCodeImg = createMarbleQRCode(content: String(format: "marble.group:%d", (group?.groupId)!), color: CIColor(color: Constants.Colors.MarbleBlue))
         let context = CIContext(options: nil)
         let img = UIImage(cgImage: context.createCGImage(qrCodeImg!, from: (qrCodeImg?.extent)!)!)
-        alert.showInfo((group?.name)!, subTitle: subTitle, circleIconImage: img, iconHeightDeviation: 25)
+        alert.addButton("Settings", backgroundColor: Constants.Colors.MarbleBlue, textColor: UIColor.white, action: {
+            let appearance = SCLAlertView.SCLAppearance(
+                kTitleTop: 45.0,
+                kWindowHeight: 10.0,
+                kWindowHeightDeviation: -24.0,
+                kTextFieldHeight: 0.0,
+                kTextViewdHeight: 0.0,
+                showCloseButton: false,
+                showCircularIcon: false,
+                hideWhenBackgroundViewIsTapped: true
+            )
+            let alert = SCLAlertView(appearance: appearance)
+            alert.addButton("Leave Marble", backgroundColor: UIColor.red, textColor: UIColor.white, action: {
+                self.settingsResponder?.close()
+            })
+            alert.addButton("Cancel", backgroundColor: UIColor.white, textColor: Constants.Colors.MarbleBlue, action: {
+                self.settingsResponder?.close()
+            })
+            self.settingsResponder = alert.showInfo("Settings", subTitle: "")
+        })
+        alert.addButton("Close", backgroundColor: UIColor.white, textColor: Constants.Colors.MarbleBlue, action: {
+            self.alertResponder?.close()
+        })
+        alertResponder = alert.showInfo((group?.name)!, subTitle: subTitle, circleIconImage: img, iconHeightDeviation: 25)
     }
     
     func createMarbleQRCode(content: String, color: CIColor, backgroundColor: CIColor = CIColor(red: 1, green: 1, blue: 1)) -> CIImage? {

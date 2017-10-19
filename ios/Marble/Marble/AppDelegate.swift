@@ -17,14 +17,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication,
-                     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?)
-        -> Bool {
+                     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         NetworkActivityIndicatorManager.shared.isEnabled = true
-            
+        
         if KeychainWrapper.hasAuthAndUser() {  // User is logged into app
             self.window?.rootViewController = UIStoryboard.init(name: "Main", bundle: nil).instantiateInitialViewController()
         } else {  // User not auth'd
             self.window?.rootViewController = UIStoryboard.init(name: "Auth", bundle: nil).instantiateInitialViewController()
+        }
+        if launchOptions?[UIApplicationLaunchOptionsKey.remoteNotification] != nil {
+            NotificationCenter.default.post(name: Constants.Notifications.RefreshMainGroupState, object: self)
         }
         return true
     }
