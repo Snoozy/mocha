@@ -27,7 +27,7 @@ extension Networker {
             groupStr += "," + String(id)
         }
         
-        self.sessionManager.upload(
+        self.backgroundSesionManager.upload(
             multipartFormData: { multipartFormData in
                 multipartFormData.append(groupStr.data(using: .utf8, allowLossyConversion: false)!, withName: "group_ids")
                 multipartFormData.append(data, withName: "image", fileName: "media.jpg", mimeType: "image/jpeg")
@@ -37,6 +37,7 @@ extension Networker {
                     multipartFormData.append(captionData, withName: "caption", fileName: "caption.png", mimeType: "image/png")
                 }
             },
+            usingThreshold: SessionManager.multipartFormDataEncodingMemoryThreshold,
             to: Router.ImageUpload,
             encodingCompletion: { encodingResult in
                 switch encodingResult {
@@ -62,7 +63,7 @@ extension Networker {
             groupStr += "," + String(id)
         }
         
-        self.sessionManager.upload(
+        self.backgroundSesionManager.upload(
             multipartFormData: { multipartFormData in
                 multipartFormData.append(groupStr.data(using: .utf8, allowLossyConversion: false)!, withName: "group_ids")
                 multipartFormData.append(videoUrl, withName: "video")
@@ -72,6 +73,7 @@ extension Networker {
                     multipartFormData.append(captionData, withName: "caption", fileName: "caption.png", mimeType: "image/png")
                 }
             },
+            usingThreshold: SessionManager.multipartFormDataEncodingMemoryThreshold,
             to: Router.VideoUpload,
             encodingCompletion: { encodingResult in
                 switch encodingResult {
@@ -89,11 +91,12 @@ extension Networker {
         
         let storyIdStr = String(describing: storyId)
         
-        self.sessionManager.upload(
+        self.backgroundSesionManager.upload(
             multipartFormData: { multipartFormData in
                 multipartFormData.append(storyIdStr.data(using: .utf8, allowLossyConversion: false)!, withName: "story_id")
                 multipartFormData.append(imageData, withName: "image", fileName: "image.png", mimeType: "image/png")
-        },
+            },
+            usingThreshold: SessionManager.multipartFormDataEncodingMemoryThreshold,
             to: Router.CommentUpload,
             encodingCompletion: { encodingResult in
                 switch encodingResult {

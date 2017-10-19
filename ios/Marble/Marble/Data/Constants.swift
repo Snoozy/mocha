@@ -34,6 +34,10 @@ struct Constants {
         static let RefreshMainGroupState = Notification.Name("com.amarbleapp.refreshMainGroupState")
     }
     
+    struct Identifiers {
+        static let BackgroundNetwork = "com.amarbleapp.backgroundNetwork"
+    }
+    
     static let ApiUrl = API_URL
     
     // max video length in seconds

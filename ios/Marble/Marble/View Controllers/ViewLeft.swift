@@ -60,7 +60,18 @@ class ViewLeft: UICollectionViewController {
         
         becomeFirstResponder()
         
-        Timer.scheduledTimer(timeInterval: 20, target: self, selector: #selector(pullDownRefresh), userInfo: nil, repeats: true)
+        ViewLeft.startRefreshTimer()
+        
+    }
+    
+    static var refreshTimer: Timer?
+    
+    static func startRefreshTimer() {
+        ViewLeft.refreshTimer = Timer.scheduledTimer(timeInterval: 20, target: self, selector: #selector(pullDownRefresh), userInfo: nil, repeats: true)
+    }
+    
+    static func killRefreshTimer() {
+        ViewLeft.refreshTimer?.invalidate()
     }
     
     override func viewDidAppear(_ animated: Bool) {

@@ -15,14 +15,21 @@ class Networker : NSObject {
     
     static let shared = Networker()
     
-    let sessionManager = SessionManager()
+    let sessionManager: SessionManager
+    let backgroundSesionManager: SessionManager
     
-    let imageDownloader = ImageDownloader()
+    let imageDownloader: ImageDownloader
     
     override init() {
+        let configuration = URLSessionConfiguration.background(withIdentifier: Constants.Identifiers.BackgroundNetwork)
+        backgroundSesionManager = SessionManager(configuration: configuration)
+        sessionManager = SessionManager(configuration: URLSessionConfiguration.default)
+        imageDownloader = ImageDownloader()
         let authHandler = AuthorizationHandler()
         sessionManager.adapter = authHandler
         sessionManager.retrier = authHandler
+        backgroundSesionManager.adapter = authHandler
+        backgroundSesionManager.retrier = authHandler
     }
     
 }
