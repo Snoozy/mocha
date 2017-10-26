@@ -55,6 +55,7 @@ class StoryView: UIView, UIScrollViewDelegate {
         
         captionScrollView.delegate = self
         captionScrollView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        captionScrollView.isPagingEnabled = true
         
         styleLayer(layer: addCommentBtn.layer)
         

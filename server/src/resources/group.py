@@ -84,7 +84,7 @@ class GroupJoinResource:
 
 class GroupLeaveResource:
     def on_post(self, req, resp, user_id):
-        group_id = req.getParam('group_id')
+        group_id = req.get_param('group_id')
         user = req.session.query(User).filter(User.id == user_id).first()
         group = req.session.query(Group).filter(Group.id == int(group_id)).first()
         if not user or not group:
@@ -92,8 +92,10 @@ class GroupLeaveResource:
                 'status': 1
             }
             return
-        if user in group.users:
-            group.users.remove(user)
+        for m in user.memberships:
+            if m.group.id == int(group_id):
+                req.session.delete(m)
+                break
         req.session.commit()
         resp.json = {
             'status': 0,

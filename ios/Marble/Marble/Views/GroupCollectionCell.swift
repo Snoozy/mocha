@@ -70,7 +70,11 @@ class GroupCollectionCell: UICollectionViewCell {
             )
             let alert = SCLAlertView(appearance: appearance)
             alert.addButton("Leave Marble", backgroundColor: UIColor.red, textColor: UIColor.white, action: {
-                self.settingsResponder?.close()
+                Networker.shared.leaveGroup(id: self.group!.groupId, completionHandler: { resp in
+                    print(resp)
+                    NotificationCenter.default.post(name: Constants.Notifications.RefreshMainGroupState, object: self)
+                    self.settingsResponder?.close()
+                })
             })
             alert.addButton("Cancel", backgroundColor: UIColor.white, textColor: Constants.Colors.MarbleBlue, action: {
                 self.settingsResponder?.close()

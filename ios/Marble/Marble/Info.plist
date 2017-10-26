@@ -30,10 +30,6 @@
 	<string>To take pictures and videos</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>To get audio for video recordings</string>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>external-accessory</string>
-	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>Launch</string>
 	<key>UIMainStoryboardFile</key>

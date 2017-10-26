@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class MediaCaptionView: UIView, UITextViewDelegate {
+class MediaCaptionView: UIView, UITextViewDelegate, UIScrollViewDelegate {
     
     // MARK: - Lifecycle
     
@@ -31,8 +31,20 @@ class MediaCaptionView: UIView, UITextViewDelegate {
         configure()
     }
     
+    var mediaCaptionScrollView: UIScrollView!
+    
     func configure() {
         clearCaption()
+        caption.spellCheckingType = .no
+//        mediaCaptionScrollView = UIScrollView()
+//        mediaCaptionScrollView.frame = caption.frame
+//        mediaCaptionScrollView.addSubview(caption)
+//        mediaCaptionScrollView.minimumZoomScale = 0.3
+//        mediaCaptionScrollView.maximumZoomScale = 5.0
+//        mediaCaptionScrollView.contentSize = caption.bounds.size
+//        print("size: \(mediaCaptionScrollView.contentSize)")
+//        mediaCaptionScrollView.delegate = self
+        
         addSubview(caption)
         //addSubview(drawView)
         addGestureRecognizer(tapRecognizer)
@@ -40,6 +52,68 @@ class MediaCaptionView: UIView, UITextViewDelegate {
         isUserInteractionEnabled = true
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidChangeFrame(notification:)), name: NSNotification.Name.UIKeyboardDidChangeFrame, object: nil)
+    }
+    
+    func transformUsingRecognizer(_ recognizer: UIGestureRecognizer, transform: CGAffineTransform) -> CGAffineTransform {
+        
+        if let rotateRecognizer = recognizer as? UIRotationGestureRecognizer {
+            return transform.rotated(by: rotateRecognizer.rotation)
+        }
+        
+        if let pinchRecognizer = recognizer as? UIPinchGestureRecognizer {
+            let scale = pinchRecognizer.scale
+            return transform.scaledBy(x: scale, y: scale)
+        }
+        
+        if let panRecognizer = recognizer as? UIPanGestureRecognizer {
+            let deltaX = panRecognizer.translation(in: caption).x
+            let deltaY = panRecognizer.translation(in: caption).y
+            return transform.translatedBy(x: deltaX, y: deltaY)
+        }
+        
+        return transform
+    }
+    
+    var initialTransform: CGAffineTransform?
+    
+    var gestures = Set<UIGestureRecognizer>(minimumCapacity: 3)
+    
+    func processTransform(_ sender: Any) {
+        
+        let gesture = sender as! UIGestureRecognizer
+        
+        switch gesture.state {
+            
+        case .began:
+            if gestures.count == 0 {
+                initialTransform = caption.transform
+            }
+            gestures.insert(gesture)
+            
+        case .changed:
+            if var initial = initialTransform {
+                gestures.forEach({ (gesture) in
+                    initial = transformUsingRecognizer(gesture, transform: initial)
+                })
+                caption.transform = initial
+            }
+            
+        case .ended:
+            gestures.remove(gesture)
+            
+        default:
+            break
+        }
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        print("zoooooooom")
+        return self.caption
     }
     
     func isEmpty() -> Bool {
@@ -127,15 +201,17 @@ class MediaCaptionView: UIView, UITextViewDelegate {
     
     @objc internal func captionPinched(_ gesture: UIPinchGestureRecognizer) {
         if caption.isFirstResponder {
-            return
+            let scale = gesture.scale
+            let size = min(max(lastFontSize * scale, 10), 250)
+            caption.font = caption.font?.withSize(size)
+            if gesture.state == .ended {
+                lastFontSize = size
+            }
+            textViewDidChange(caption)
+        } else {
+//            let transform = CGAffineTransform(scaleX: gesture.scale, y: gesture.scale)
+//            self.caption.transform = transform;
         }
-        let scale = gesture.scale
-        let size = min(max(lastFontSize * scale, 10), 80)
-        caption.font = caption.font?.withSize(size)
-        if gesture.state == .ended {
-            lastFontSize = size
-        }
-        textViewDidChange(caption)
     }
     
     private var captionCenterY: CGFloat = 0 {
@@ -156,6 +232,14 @@ class MediaCaptionView: UIView, UITextViewDelegate {
         let captionSize = CGSize(width: bounds.size.width, height: captionInternalHeight ?? 50)
         caption.bounds = CGRect(origin: CGPoint.zero, size: captionSize)
         caption.center = CGPoint(x: center.x, y: captionCenterY)
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        self.backgroundColor = UIColor(white: 0, alpha: 0.5)
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        self.backgroundColor = UIColor.clear
     }
     
     internal func textViewDidChange(_ textView: UITextView) {

@@ -6,6 +6,7 @@ import time
 
 from ..db import Base
 
+
 class Membership(Base):
     __tablename__ = 'memberships'
 
