@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class MediaCaptionView: UIView, UITextViewDelegate, UIScrollViewDelegate {
+class MediaCaptionView: UIView, UITextViewDelegate, UIGestureRecognizerDelegate {
     
     // MARK: - Lifecycle
     
@@ -36,84 +36,25 @@ class MediaCaptionView: UIView, UITextViewDelegate, UIScrollViewDelegate {
     func configure() {
         clearCaption()
         caption.spellCheckingType = .no
-//        mediaCaptionScrollView = UIScrollView()
-//        mediaCaptionScrollView.frame = caption.frame
-//        mediaCaptionScrollView.addSubview(caption)
-//        mediaCaptionScrollView.minimumZoomScale = 0.3
-//        mediaCaptionScrollView.maximumZoomScale = 5.0
-//        mediaCaptionScrollView.contentSize = caption.bounds.size
-//        print("size: \(mediaCaptionScrollView.contentSize)")
-//        mediaCaptionScrollView.delegate = self
         
         addSubview(caption)
-        //addSubview(drawView)
+        tapRecognizer.delegate = self
+        panRecognizer.delegate = self
+        pinchRecognizer.delegate = self
+        rotatedRecognizer.delegate = self
         addGestureRecognizer(tapRecognizer)
         addGestureRecognizer(panRecognizer)
+        addGestureRecognizer(rotatedRecognizer)
+        addGestureRecognizer(pinchRecognizer)
         isUserInteractionEnabled = true
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidChangeFrame(notification:)), name: NSNotification.Name.UIKeyboardDidChangeFrame, object: nil)
-    }
-    
-    func transformUsingRecognizer(_ recognizer: UIGestureRecognizer, transform: CGAffineTransform) -> CGAffineTransform {
         
-        if let rotateRecognizer = recognizer as? UIRotationGestureRecognizer {
-            return transform.rotated(by: rotateRecognizer.rotation)
-        }
-        
-        if let pinchRecognizer = recognizer as? UIPinchGestureRecognizer {
-            let scale = pinchRecognizer.scale
-            return transform.scaledBy(x: scale, y: scale)
-        }
-        
-        if let panRecognizer = recognizer as? UIPanGestureRecognizer {
-            let deltaX = panRecognizer.translation(in: caption).x
-            let deltaY = panRecognizer.translation(in: caption).y
-            return transform.translatedBy(x: deltaX, y: deltaY)
-        }
-        
-        return transform
-    }
-    
-    var initialTransform: CGAffineTransform?
-    
-    var gestures = Set<UIGestureRecognizer>(minimumCapacity: 3)
-    
-    func processTransform(_ sender: Any) {
-        
-        let gesture = sender as! UIGestureRecognizer
-        
-        switch gesture.state {
-            
-        case .began:
-            if gestures.count == 0 {
-                initialTransform = caption.transform
-            }
-            gestures.insert(gesture)
-            
-        case .changed:
-            if var initial = initialTransform {
-                gestures.forEach({ (gesture) in
-                    initial = transformUsingRecognizer(gesture, transform: initial)
-                })
-                caption.transform = initial
-            }
-            
-        case .ended:
-            gestures.remove(gesture)
-            
-        default:
-            break
-        }
-    }
-    
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
+        prevCaptionPoint.x = center.x
     }
 
-    
-    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        print("zoooooooom")
-        return self.caption
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
     
     func isEmpty() -> Bool {
@@ -146,16 +87,16 @@ class MediaCaptionView: UIView, UITextViewDelegate, UIScrollViewDelegate {
     }
     
     
-    private var prevCaptionHeight: CGFloat?
+    private var prevCaptionPoint: CGPoint = CGPoint.zero
     
     @objc internal func keyboardWillShow(notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardHeight = keyboardSize.height
-            prevCaptionHeight = captionCenterY
+            prevCaptionPoint = caption.center
             keyboardLastHeight = keyboardHeight
-            captionCenterY = (bounds.height - keyboardHeight) - (caption.frame.height/2)
-            if prevCaptionHeight == CGFloat(0) {
-                self.prevCaptionHeight = captionCenterY
+            changeCaptionPoint(point: CGPoint(x: center.x, y: (bounds.height - keyboardHeight) - (caption.frame.height/2)))
+            if prevCaptionPoint == .zero {
+                self.prevCaptionPoint = captionCenter
             }
         }
     }
@@ -167,7 +108,7 @@ class MediaCaptionView: UIView, UITextViewDelegate, UIScrollViewDelegate {
             let keyboardHeight = keyboardSize.height
             keyboardLastHeight = keyboardHeight
             if caption.isFirstResponder {
-                captionCenterY = (bounds.height - keyboardHeight) - (caption.frame.height/2)
+                changeCaptionPoint(point: CGPoint(x: center.x, y: (bounds.height - keyboardHeight) - (caption.frame.height/2)))
             }
         }
     }
@@ -189,35 +130,17 @@ class MediaCaptionView: UIView, UITextViewDelegate, UIScrollViewDelegate {
         textField.isScrollEnabled = false
         textField.delegate = self
         textField.textContainer.lineBreakMode = .byWordWrapping
-        
-        let pinchGest = UIPinchGestureRecognizer(target: self, action: #selector(captionPinched(_:)))
-        textField.addGestureRecognizer(pinchGest)
-        textField.isUserInteractionEnabled = true
+        textField.clipsToBounds = false
+        textField.layer.masksToBounds = false
         
         return textField
     }()
     
-    private var lastFontSize: CGFloat = 30
+    private var captionCenter: CGPoint = CGPoint.zero
     
-    @objc internal func captionPinched(_ gesture: UIPinchGestureRecognizer) {
-        if caption.isFirstResponder {
-            let scale = gesture.scale
-            let size = min(max(lastFontSize * scale, 10), 250)
-            caption.font = caption.font?.withSize(size)
-            if gesture.state == .ended {
-                lastFontSize = size
-            }
-            textViewDidChange(caption)
-        } else {
-//            let transform = CGAffineTransform(scaleX: gesture.scale, y: gesture.scale)
-//            self.caption.transform = transform;
-        }
-    }
-    
-    private var captionCenterY: CGFloat = 0 {
-        didSet {
-            setNeedsLayout()
-        }
+    private func changeCaptionPoint(point: CGPoint) {
+        captionCenter = point
+        setNeedsLayout()
     }
     
     func clearCaption() {
@@ -231,22 +154,29 @@ class MediaCaptionView: UIView, UITextViewDelegate, UIScrollViewDelegate {
         super.layoutSubviews()
         let captionSize = CGSize(width: bounds.size.width, height: captionInternalHeight ?? 50)
         caption.bounds = CGRect(origin: CGPoint.zero, size: captionSize)
-        caption.center = CGPoint(x: center.x, y: captionCenterY)
+        caption.center = CGPoint(x: captionCenter.x, y: captionCenter.y)
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         self.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        layoutCaption()
     }
+    
     
     func textViewDidEndEditing(_ textView: UITextView) {
         self.backgroundColor = UIColor.clear
     }
     
     internal func textViewDidChange(_ textView: UITextView) {
-        let size = textView.sizeThatFits(CGSize(width: bounds.size.width, height: .infinity))
-        textView.bounds.size = size
+        layoutCaption()
+    }
+    
+    private func layoutCaption() {
+        let tightSize = caption.sizeThatFits(CGSize(width: bounds.size.width, height: .infinity))
+        let size = CGSize(width: tightSize.width, height: tightSize.height + 15)
+        caption.bounds.size = size
         if size.height != captionInternalHeight {
-            captionCenterY = (bounds.height - (keyboardLastHeight ?? 0)) - (caption.frame.height/2)
+            changeCaptionPoint(point: CGPoint(x: captionCenter.x, y: (bounds.height - (keyboardLastHeight ?? 0)) - (caption.frame.height/2)))
         }
         captionInternalHeight = size.height
         layoutSubviews()
@@ -254,26 +184,69 @@ class MediaCaptionView: UIView, UITextViewDelegate, UIScrollViewDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if text == "\n" {
-            textView.resignFirstResponder()
-            captionCenterY = prevCaptionHeight!
+            resignEditingCaption()
             return false
         }
         return true
+    }
+    
+    func resignEditingCaption() {
+        caption.resignFirstResponder()
+        caption.isHidden = caption.text?.isEmpty ?? true
+        changeCaptionPoint(point: prevCaptionPoint)
+        caption.transform = CGAffineTransform(scaleX: lastScale, y: lastScale)
     }
     
     // MARK: - Gestures
     
     private lazy var tapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapped(_:)))
     private lazy var panRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panned(_:)))
+    private lazy var rotatedRecognizer: UIRotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: #selector(rotated(_:)))
+    private lazy var pinchRecognizer: UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(captionPinched(_:)))
     
     @objc internal func tapped(_ sender: UIPanGestureRecognizer) {
         if caption.isFirstResponder {
-            caption.resignFirstResponder()
-            caption.isHidden = caption.text?.isEmpty ?? true
-            captionCenterY = prevCaptionHeight!
+            resignEditingCaption()
         } else {
+            caption.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
             caption.becomeFirstResponder()
             caption.isHidden = false
+        }
+    }
+    
+    private var lastFontSize: CGFloat = 30
+    private var lastScale: CGFloat = 1.0
+    
+    @objc internal func captionPinched(_ gesture: UIPinchGestureRecognizer) {
+        if caption.isFirstResponder {
+            let scale = gesture.scale
+            let size = min(max(lastFontSize * scale, 10), 250)
+            caption.font = caption.font?.withSize(size)
+            if gesture.state == .ended {
+                lastFontSize = size
+            }
+            textViewDidChange(caption)
+        } else {
+            if !caption.frame.contains(gesture.location(in: self)) {
+                return
+            }
+            self.caption.transform = caption.transform.scaledBy(x: gesture.scale, y: gesture.scale)
+            gesture.scale = 1.0
+        }
+    }
+    
+    @objc internal func rotated(_ sender: UIRotationGestureRecognizer) {
+        if caption.isFirstResponder {
+            return
+        }
+        if !caption.frame.contains(sender.location(in: self)) {
+            return
+        }
+        
+        if sender.state == .began || sender.state == .changed {
+        let transform = caption.transform.rotated(by: sender.rotation)
+            caption.transform = transform
+            sender.rotation = 0.0
         }
     }
     
@@ -281,11 +254,13 @@ class MediaCaptionView: UIView, UITextViewDelegate, UIScrollViewDelegate {
         if caption.isFirstResponder {
             return
         }
+        let translation = sender.translation(in: self)
         let location = sender.location(in: self)
         if !caption.frame.contains(location) {
             return
         }
-        captionCenterY = location.y
+        changeCaptionPoint(point: CGPoint(x: captionCenter.x + translation.x, y: captionCenter.y + translation.y))
+        sender.setTranslation(.zero, in: self)
     }
     
 }

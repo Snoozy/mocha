@@ -67,6 +67,7 @@
 		42A228D11EAFE19D00496392 /* CaptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A228CF1EAFE19D00496392 /* CaptionView.swift */; };
 		42A228D31EAFE25500496392 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A228D21EAFE25500496392 /* Comment.swift */; };
 		42A228D41EAFE25500496392 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42A228D21EAFE25500496392 /* Comment.swift */; };
+		42AECD441FA29B5100AA1B3F /* focus.gif in Resources */ = {isa = PBXBuildFile; fileRef = 42665C6A1F78C5F4004BEA74 /* focus.gif */; };
 		42B52BF91E9B6A40006D831A /* UserNetworker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42502DEB1E9B4BD8009B7E2E /* UserNetworker.swift */; };
 		42B52C0B1E9B773E006D831A /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B52C0A1E9B773E006D831A /* Users.swift */; };
 		42B52C0C1E9B773E006D831A /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B52C0A1E9B773E006D831A /* Users.swift */; };
@@ -974,6 +975,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42AECD441FA29B5100AA1B3F /* focus.gif in Resources */,
 				42E13DC51E8E46610016FA76 /* Auth.storyboard in Resources */,
 				42E13DC61E8E46610016FA76 /* Left.storyboard in Resources */,
 				42E13DC71E8E46610016FA76 /* ViewRight.xib in Resources */,

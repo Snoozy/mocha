@@ -1,8 +1,7 @@
-import time
-
 from sqlalchemy import Column, Integer, String, ForeignKey, BigInteger, SmallInteger
 from sqlalchemy.orm import relationship, backref
 from ..db import Base
+
 
 class Device(Base):
     __tablename__ = 'devices'

@@ -376,6 +376,11 @@ class StoryView: UIView, UIScrollViewDelegate {
     }
     
     private func exitStory() {
+        if story?.mediaType == .video {
+            player?.pause()
+            player = nil
+            playerLayer?.removeFromSuperlayer()
+        }
         self.removeFromSuperview()
         showStatusBar()
         self.cell?.refreshPreview()

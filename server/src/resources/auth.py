@@ -141,8 +141,8 @@ SNS_REGION = 'us-west-2'
 
 def process_device_token(token, user, session):
     device = session.query(Device).filter(Device.token == token).first()
+    sns = boto_session.resource('sns', region_name=SNS_REGION)
     if not device:
-        sns = boto_session.resource('sns', region_name=SNS_REGION)
         plat_app = sns.PlatformApplication(APNS_PLATFORM_APP_ARN)
         plat_endpoint = plat_app.create_platform_endpoint(
             Token=token,
@@ -150,6 +150,8 @@ def process_device_token(token, user, session):
         )
         new_device = Device(user_id=user.id, type=0, arn=plat_endpoint.arn, token=token)
         session.add(new_device)
+    else:
+
 
 
 def log_in(user, attempt):
