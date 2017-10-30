@@ -33,24 +33,32 @@ class MediaCaptionView: UIView, UITextViewDelegate, UIGestureRecognizerDelegate 
     
     var mediaCaptionScrollView: UIScrollView!
     
+    lazy var captionWrapperView: UIView = {
+        return UIView()
+    }()
+    
     func configure() {
         clearCaption()
         caption.spellCheckingType = .no
         
-        addSubview(caption)
-        tapRecognizer.delegate = self
+        captionWrapperView.frame = caption.frame
+        captionWrapperView.bounds = caption.bounds
+        captionWrapperView.addSubview(caption)
+        
         panRecognizer.delegate = self
         pinchRecognizer.delegate = self
         rotatedRecognizer.delegate = self
-        addGestureRecognizer(tapRecognizer)
         addGestureRecognizer(panRecognizer)
         addGestureRecognizer(rotatedRecognizer)
         addGestureRecognizer(pinchRecognizer)
+        captionWrapperView.isUserInteractionEnabled = true
+        
+        addSubview(captionWrapperView)
+        tapRecognizer.delegate = self
+        addGestureRecognizer(tapRecognizer)
         isUserInteractionEnabled = true
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidChangeFrame(notification:)), name: NSNotification.Name.UIKeyboardDidChangeFrame, object: nil)
-        
-        prevCaptionPoint.x = center.x
     }
 
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -87,17 +95,17 @@ class MediaCaptionView: UIView, UITextViewDelegate, UIGestureRecognizerDelegate 
     }
     
     
-    private var prevCaptionPoint: CGPoint = CGPoint.zero
+    private var prevCaptionPoint: CGPoint?
     
     @objc internal func keyboardWillShow(notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardHeight = keyboardSize.height
-            prevCaptionPoint = caption.center
-            keyboardLastHeight = keyboardHeight
-            changeCaptionPoint(point: CGPoint(x: center.x, y: (bounds.height - keyboardHeight) - (caption.frame.height/2)))
-            if prevCaptionPoint == .zero {
-                self.prevCaptionPoint = captionCenter
+            let point = CGPoint(x: center.x, y: (bounds.height - keyboardHeight) - (caption.frame.height/2))
+            if prevCaptionPoint != nil {
+                prevCaptionPoint = captionWrapperView.center
             }
+            keyboardLastHeight = keyboardHeight
+            changeCaptionPoint(point: point)
         }
     }
     
@@ -123,8 +131,11 @@ class MediaCaptionView: UIView, UITextViewDelegate, UIGestureRecognizerDelegate 
         textField.font = .boldSystemFont(ofSize: 30)
         textField.tintColor = .white
         textField.keyboardAppearance = .light
+        textField.isScrollEnabled = false
         
         styleLayer(layer: textField.layer)
+        
+        textField.textContainer.size = UIScreen.main.bounds.size
         
         textField.returnKeyType = .done
         textField.isScrollEnabled = false
@@ -153,15 +164,16 @@ class MediaCaptionView: UIView, UITextViewDelegate, UIGestureRecognizerDelegate 
     override func layoutSubviews() {
         super.layoutSubviews()
         let captionSize = CGSize(width: bounds.size.width, height: captionInternalHeight ?? 50)
+        captionWrapperView.bounds = CGRect(origin: CGPoint.zero, size: captionSize)
         caption.bounds = CGRect(origin: CGPoint.zero, size: captionSize)
-        caption.center = CGPoint(x: captionCenter.x, y: captionCenter.y)
+        caption.center = CGPoint(x: bounds.size.width/2, y: captionSize.height/2)
+        captionWrapperView.center = CGPoint(x: captionCenter.x, y: captionCenter.y)
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         self.backgroundColor = UIColor(white: 0, alpha: 0.5)
         layoutCaption()
     }
-    
     
     func textViewDidEndEditing(_ textView: UITextView) {
         self.backgroundColor = UIColor.clear
@@ -173,7 +185,8 @@ class MediaCaptionView: UIView, UITextViewDelegate, UIGestureRecognizerDelegate 
     
     private func layoutCaption() {
         let tightSize = caption.sizeThatFits(CGSize(width: bounds.size.width, height: .infinity))
-        let size = CGSize(width: tightSize.width, height: tightSize.height + 15)
+        let size = CGSize(width: tightSize.width, height: tightSize.height + 10)
+        captionWrapperView.bounds.size = size
         caption.bounds.size = size
         if size.height != captionInternalHeight {
             changeCaptionPoint(point: CGPoint(x: captionCenter.x, y: (bounds.height - (keyboardLastHeight ?? 0)) - (caption.frame.height/2)))
@@ -193,8 +206,11 @@ class MediaCaptionView: UIView, UITextViewDelegate, UIGestureRecognizerDelegate 
     func resignEditingCaption() {
         caption.resignFirstResponder()
         caption.isHidden = caption.text?.isEmpty ?? true
-        changeCaptionPoint(point: prevCaptionPoint)
-        caption.transform = CGAffineTransform(scaleX: lastScale, y: lastScale)
+        if prevCaptionPoint == nil {
+            prevCaptionPoint = CGPoint(x: center.x, y: bounds.height - ( keyboardLastHeight ?? center.y))
+        }
+        changeCaptionPoint(point: prevCaptionPoint!)
+        captionWrapperView.transform = lastTransform
     }
     
     // MARK: - Gestures
@@ -204,18 +220,19 @@ class MediaCaptionView: UIView, UITextViewDelegate, UIGestureRecognizerDelegate 
     private lazy var rotatedRecognizer: UIRotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: #selector(rotated(_:)))
     private lazy var pinchRecognizer: UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(captionPinched(_:)))
     
-    @objc internal func tapped(_ sender: UIPanGestureRecognizer) {
+    @objc internal func tapped(_ gesture: UIPanGestureRecognizer) {
         if caption.isFirstResponder {
             resignEditingCaption()
         } else {
-            caption.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            lastTransform = captionWrapperView.transform
+            captionWrapperView.transform = CGAffineTransform.identity
             caption.becomeFirstResponder()
             caption.isHidden = false
         }
     }
     
     private var lastFontSize: CGFloat = 30
-    private var lastScale: CGFloat = 1.0
+    private var lastTransform: CGAffineTransform = CGAffineTransform.identity
     
     @objc internal func captionPinched(_ gesture: UIPinchGestureRecognizer) {
         if caption.isFirstResponder {
@@ -227,40 +244,39 @@ class MediaCaptionView: UIView, UITextViewDelegate, UIGestureRecognizerDelegate 
             }
             textViewDidChange(caption)
         } else {
-            if !caption.frame.contains(gesture.location(in: self)) {
+            if !captionWrapperView.frame.contains(gesture.location(in: self)) {
                 return
             }
-            self.caption.transform = caption.transform.scaledBy(x: gesture.scale, y: gesture.scale)
-            gesture.scale = 1.0
+            if gesture.state == .began || gesture.state == .changed {
+                captionWrapperView.transform = captionWrapperView.transform.scaledBy(x: gesture.scale, y: gesture.scale)
+                gesture.scale = 1.0
+            }
         }
     }
     
-    @objc internal func rotated(_ sender: UIRotationGestureRecognizer) {
+    @objc internal func rotated(_ gesture: UIRotationGestureRecognizer) {
         if caption.isFirstResponder {
             return
         }
-        if !caption.frame.contains(sender.location(in: self)) {
+        if !captionWrapperView.frame.contains(gesture.location(in: self)) {
             return
         }
-        
-        if sender.state == .began || sender.state == .changed {
-        let transform = caption.transform.rotated(by: sender.rotation)
-            caption.transform = transform
-            sender.rotation = 0.0
+        if gesture.state == .began || gesture.state == .changed {
+            captionWrapperView.transform = captionWrapperView.transform.rotated(by: gesture.rotation)
+            gesture.rotation = 0.0
         }
     }
     
-    @objc internal func panned(_ sender: UIPanGestureRecognizer) {
+    @objc internal func panned(_ gesture: UIPanGestureRecognizer) {
         if caption.isFirstResponder {
             return
         }
-        let translation = sender.translation(in: self)
-        let location = sender.location(in: self)
-        if !caption.frame.contains(location) {
+        if !captionWrapperView.frame.contains(gesture.location(in: self)) {
             return
         }
+        let translation = gesture.translation(in: self)
         changeCaptionPoint(point: CGPoint(x: captionCenter.x + translation.x, y: captionCenter.y + translation.y))
-        sender.setTranslation(.zero, in: self)
+        gesture.setTranslation(.zero, in: self)
     }
     
 }
