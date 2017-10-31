@@ -230,8 +230,8 @@ class StoryView: UIView, UIScrollViewDelegate {
         
         toTopBtn.isHidden = true
         
-        addCaptionView.caption.isHidden = false
-        addCaptionView.caption.becomeFirstResponder()
+        addCaptionView.isHidden = false
+        addCaptionView.textBecomeFirstResponder()
     }
     
     @IBAction func sendCaptionPress(_ sender: Any) {
@@ -265,7 +265,7 @@ class StoryView: UIView, UIScrollViewDelegate {
             }
         })
         
-        self.addCaptionView.caption.resignFirstResponder()
+        self.addCaptionView.textResignFirstResponder()
         self.addCaptionView.removeFromSuperview()
 
         let first = captionScrollView.subviews.first as! CaptionView

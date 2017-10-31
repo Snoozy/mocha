@@ -1328,20 +1328,24 @@ extension SwiftyCamViewController {
         print("adding gestures")
 		pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(zoomGesture(pinch:)))
 		pinchGesture.delegate = self
+        pinchGesture.cancelsTouchesInView = false
 		previewLayer.addGestureRecognizer(pinchGesture)
         
 		let singleTapGesture = UITapGestureRecognizer(target: self, action: #selector(singleTapGesture(tap:)))
 		singleTapGesture.numberOfTapsRequired = 1
 		singleTapGesture.delegate = self
+        singleTapGesture.cancelsTouchesInView = false
 		previewLayer.addGestureRecognizer(singleTapGesture)
 
 		let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(doubleTapGesture(tap:)))
 		doubleTapGesture.numberOfTapsRequired = 2
 		doubleTapGesture.delegate = self
+        doubleTapGesture.cancelsTouchesInView = false
 		previewLayer.addGestureRecognizer(doubleTapGesture)
         
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture(pan:)))
         panGesture.delegate = self
+        panGesture.cancelsTouchesInView = false
         previewLayer.addGestureRecognizer(panGesture)
         if let captureButton = captureButton {
             captureButton.addGestureRecognizer(panGesture)

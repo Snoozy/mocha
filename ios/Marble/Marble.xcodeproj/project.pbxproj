@@ -12,6 +12,12 @@
 		4217546E1E5530AD00620E69 /* MediaCaptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4217546D1E5530AD00620E69 /* MediaCaptionView.swift */; };
 		421D0D201F78495A003A0A76 /* UITableView_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421D0D1F1F78495A003A0A76 /* UITableView_ext.swift */; };
 		421D0D211F78495A003A0A76 /* UITableView_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 421D0D1F1F78495A003A0A76 /* UITableView_ext.swift */; };
+		422BEB781FA8541B0073BDF5 /* SwiftyDraw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422BEB671FA8541B0073BDF5 /* SwiftyDraw.swift */; };
+		422BEB791FA8541F0073BDF5 /* SwiftyDraw.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422BEB671FA8541B0073BDF5 /* SwiftyDraw.swift */; };
+		422BEB7B1FA855430073BDF5 /* TextCaptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422BEB7A1FA855430073BDF5 /* TextCaptionView.swift */; };
+		422BEB7C1FA855430073BDF5 /* TextCaptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422BEB7A1FA855430073BDF5 /* TextCaptionView.swift */; };
+		422BEB7E1FA8561F0073BDF5 /* DrawCaptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422BEB7D1FA8561F0073BDF5 /* DrawCaptionView.swift */; };
+		422BEB7F1FA8561F0073BDF5 /* DrawCaptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422BEB7D1FA8561F0073BDF5 /* DrawCaptionView.swift */; };
 		4241B8181E4DB8F5003CA796 /* UIImage_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4241B8171E4DB8F5003CA796 /* UIImage_ext.swift */; };
 		4241B81A1E4DC197003CA796 /* StoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4241B8191E4DC197003CA796 /* StoryView.swift */; };
 		4241B81C1E4DC208003CA796 /* StoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4241B81B1E4DC208003CA796 /* StoryView.xib */; };
@@ -363,6 +369,9 @@
 		420A00611E31C6D400525DB0 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
 		4217546D1E5530AD00620E69 /* MediaCaptionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaCaptionView.swift; path = Views/MediaCaptionView.swift; sourceTree = "<group>"; };
 		421D0D1F1F78495A003A0A76 /* UITableView_ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UITableView_ext.swift; path = Extensions/UITableView_ext.swift; sourceTree = "<group>"; };
+		422BEB671FA8541B0073BDF5 /* SwiftyDraw.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftyDraw.swift; path = Vendor/SwiftyDraw.swift; sourceTree = "<group>"; };
+		422BEB7A1FA855430073BDF5 /* TextCaptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TextCaptionView.swift; path = Views/TextCaptionView.swift; sourceTree = "<group>"; };
+		422BEB7D1FA8561F0073BDF5 /* DrawCaptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DrawCaptionView.swift; path = Views/DrawCaptionView.swift; sourceTree = "<group>"; };
 		4241B8171E4DB8F5003CA796 /* UIImage_ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIImage_ext.swift; path = Extensions/UIImage_ext.swift; sourceTree = "<group>"; };
 		4241B8191E4DC197003CA796 /* StoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StoryView.swift; path = Views/StoryView.swift; sourceTree = "<group>"; };
 		4241B81B1E4DC208003CA796 /* StoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StoryView.xib; path = StoryBoards/StoryView.xib; sourceTree = "<group>"; };
@@ -592,6 +601,8 @@
 				4241B8191E4DC197003CA796 /* StoryView.swift */,
 				4295B8A61E84C21E0091C08B /* NoGroupsView.swift */,
 				42A228CF1EAFE19D00496392 /* CaptionView.swift */,
+				422BEB7A1FA855430073BDF5 /* TextCaptionView.swift */,
+				422BEB7D1FA8561F0073BDF5 /* DrawCaptionView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -612,6 +623,7 @@
 		42D575821E37161A0094037D /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				422BEB671FA8541B0073BDF5 /* SwiftyDraw.swift */,
 				42F3EABC1F80CD3F004D799D /* SwiftyGif */,
 				42F2CBCE1F71DB9E0042F691 /* SwiftyCam */,
 				4259F48E1EB1B8D600866D12 /* FontAwesome */,
@@ -1040,6 +1052,7 @@
 				42F92CED1EA313540085DD0C /* MediaImageView.swift in Sources */,
 				42E13D9F1E8E46610016FA76 /* Group.swift in Sources */,
 				42E13DA01E8E46610016FA76 /* Networker.swift in Sources */,
+				422BEB791FA8541F0073BDF5 /* SwiftyDraw.swift in Sources */,
 				42E13DA11E8E46610016FA76 /* MediaCaptionView.swift in Sources */,
 				42E13DA31E8E46610016FA76 /* AuthLoginVC.swift in Sources */,
 				42E13DA41E8E46610016FA76 /* AuthViewController.swift in Sources */,
@@ -1065,10 +1078,12 @@
 				42E13DB01E8E46610016FA76 /* KeychainItemAccessibility.swift in Sources */,
 				42E13DB11E8E46610016FA76 /* Data_ext.swift in Sources */,
 				42E13DB21E8E46610016FA76 /* ViewLeft.swift in Sources */,
+				422BEB7C1FA855430073BDF5 /* TextCaptionView.swift in Sources */,
 				42E13DB31E8E46610016FA76 /* UIApplication_ext.swift in Sources */,
 				42E13DB41E8E46610016FA76 /* GroupNetworker.swift in Sources */,
 				42B52BF91E9B6A40006D831A /* UserNetworker.swift in Sources */,
 				42E13DB51E8E46610016FA76 /* UploadNetworker.swift in Sources */,
+				422BEB7F1FA8561F0073BDF5 /* DrawCaptionView.swift in Sources */,
 				42E13DB61E8E46610016FA76 /* KeychainWrapper_ext.swift in Sources */,
 				42E13DB71E8E46610016FA76 /* StoryView.swift in Sources */,
 				42E13DB81E8E46610016FA76 /* SendGroupTV.swift in Sources */,
@@ -1107,6 +1122,7 @@
 				425398C61E497D5B00097934 /* Group.swift in Sources */,
 				42623CC11E3B0BE10068D4FA /* Networker.swift in Sources */,
 				4217546E1E5530AD00620E69 /* MediaCaptionView.swift in Sources */,
+				422BEB781FA8541B0073BDF5 /* SwiftyDraw.swift in Sources */,
 				42E13D8D1E8DF2340016FA76 /* AuthLoginVC.swift in Sources */,
 				42D575A71E3720440094037D /* AuthViewController.swift in Sources */,
 				4299914C1E4D55A20049608F /* State.swift in Sources */,
@@ -1132,10 +1148,12 @@
 				42D575A51E371F220094037D /* ViewLeft.swift in Sources */,
 				42D1F5C51E4460E100BBCE82 /* UIApplication_ext.swift in Sources */,
 				42D1F5BA1E4453E200BBCE82 /* GroupNetworker.swift in Sources */,
+				422BEB7B1FA855430073BDF5 /* TextCaptionView.swift in Sources */,
 				42502DEC1E9B4BD8009B7E2E /* UserNetworker.swift in Sources */,
 				42F11AC91E405602005BFE0E /* UploadNetworker.swift in Sources */,
 				42D5758A1E37164C0094037D /* KeychainWrapper_ext.swift in Sources */,
 				4241B81A1E4DC197003CA796 /* StoryView.swift in Sources */,
+				422BEB7E1FA8561F0073BDF5 /* DrawCaptionView.swift in Sources */,
 				425398CA1E49923B00097934 /* SendGroupTV.swift in Sources */,
 				425F357A1EB687530014F90F /* User.swift in Sources */,
 				4259F4A71EB1B8E200866D12 /* FontAwesomeView.swift in Sources */,

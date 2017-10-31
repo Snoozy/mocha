@@ -39,7 +39,7 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     
     override func viewDidLoad() {
         captureButton = takePhotoButton
-        
+
         super.viewDidLoad()
         
         swipeToZoomInverted = true
@@ -94,9 +94,7 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         tempImageView.isUserInteractionEnabled = true
         UIApplication.shared.isStatusBarHidden = true
 
-        captionView.configure()
-        captionView.clearCaption()
-        captionView.isHidden = false
+        startCaptionEditing()
 
         mediaType = .image
     }
@@ -152,9 +150,7 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         audioPlayer?.play()
         player?.actionAtItemEnd = .none
 
-        captionView.configure()
-        captionView.clearCaption()
-        captionView.isHidden = false
+        startCaptionEditing()
 
         videoMediaUrl = url
         mediaType = .video
@@ -338,7 +334,7 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         flashButton.isHidden = false
         cameraFlipButton.isHidden = false
         
-        captionView.isHidden = true
+        stopCaptionEditing()
                 
         // VIDEO PREVIEW
         videoView.isHidden = true
@@ -566,5 +562,15 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     
     func clearPostingGroup() {
         postingGroup = nil
+    }
+    
+    func startCaptionEditing() {
+        
+        captionView.configure()
+        captionView.isHidden = false
+    }
+    
+    func stopCaptionEditing() {
+        captionView.isHidden = true
     }
 }
