@@ -151,7 +151,8 @@ def process_device_token(token, user, session):
         new_device = Device(user_id=user.id, type=0, arn=plat_endpoint.arn, token=token)
         session.add(new_device)
     else:
-
+        # enable the endpoint on aws sns again
+        pass
 
 
 def log_in(user, attempt):
