@@ -1,6 +1,8 @@
 from data.db.models.user import User
 from data.db.models.group import Group
 import json
+from resources.constants import RESP_ERR_JSON
+from falcon import Request, Response
 
 
 class GroupCreateResource:
@@ -100,4 +102,21 @@ class GroupLeaveResource:
         resp.json = {
             'status': 0,
             'group': group.to_dict()
+        }
+
+
+class GroupInfoResource:
+    def on_get(self, req: Request, resp: Response, user_id):
+        group_id = req.get_param('group_id')
+        if not group_id:
+            resp.json = RESP_ERR_JSON
+            return
+        user = req.session.query(User).filter(User.id == user_id).first()
+        group = req.session.query(Group).filter(Group.id == int(group_id)).first()
+        if not user or not group or user not in group.users:
+            resp.json = RESP_ERR_JSON
+            return
+        members_info = [u.to_dict() for u in group.users]
+        resp.json = {
+            'members': members_info
         }

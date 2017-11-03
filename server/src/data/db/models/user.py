@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String
 from ..db import Base
-from sqlalchemy.orm import relationship
 from sqlalchemy.ext.associationproxy import association_proxy
+
 
 class User(Base):
     __tablename__ = 'users'
@@ -15,3 +15,10 @@ class User(Base):
 
     blocks = association_proxy('blockings', 'blockee')
     blockers = association_proxy('blockee_obj', 'blocker')
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'username': self.username
+        }

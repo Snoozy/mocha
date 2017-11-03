@@ -13,7 +13,7 @@ class Membership(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
     group_id = Column(Integer, ForeignKey('groups.id'))
-    timestamp = Column(BigInteger, default=(time.time() * 1000))
+    timestamp = Column(BigInteger)
     last_seen = Column(BigInteger, default=None)
 
     group = relationship(Group, backref=backref('memberships', lazy='dynamic'))
@@ -27,3 +27,4 @@ class Membership(Base):
             self.user = second
             self.group = first
         self.last_seen = last_seen
+        self.timestamp = time.time() * 1000

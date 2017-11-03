@@ -8,7 +8,7 @@ from falcon_multipart.middleware import MultipartMiddleware
 from resources.upload import ImageUploadResource, VideoUploadResource, CommentUploadResource
 from resources.auth import PingResource, SignUpResource, LogInResource
 from resources.group import GroupJoinResource, GroupCreateResource, ListGroupsResource,\
-    FindGroupResource, GroupLeaveResource
+    FindGroupResource, GroupLeaveResource, GroupInfoResource
 from resources.user import GetStoriesResource, BlockUserResource
 from resources.health import HealthCheckResource
 from resources.story import StorySeenResource, FlagStoryResource
@@ -51,6 +51,7 @@ app.add_route('/' + version + '/stories', GetStoriesResource())
 app.add_route('/' + version + '/stories/seen', StorySeenResource())
 app.add_route('/' + version + '/users/block', BlockUserResource())
 app.add_route('/' + version + '/stories/flag', FlagStoryResource())
+app.add_route('/' + version + '/groups/info', GroupInfoResource())
 
 # ELB Health Check ping
 app.add_route('/health', HealthCheckResource())

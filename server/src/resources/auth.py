@@ -5,7 +5,8 @@ from data.redis import redis_client as redis
 from data.db.models.user import User
 from data.db.models.device import Device
 from passlib.hash import pbkdf2_sha256
-import os, base64
+import os
+import base64
 from data.aws import boto_session
 from config import config
 
