@@ -57,6 +57,9 @@ class GroupCollectionCell: UICollectionViewCell {
         let qrCodeImg = createMarbleQRCode(content: String(format: "marble.group:%d", (group?.groupId)!), color: CIColor(color: Constants.Colors.MarbleBlue))
         let context = CIContext(options: nil)
         let img = UIImage(cgImage: context.createCGImage(qrCodeImg!, from: (qrCodeImg?.extent)!)!)
+        alert.addButton("Members", backgroundColor: Constants.Colors.MarbleBlue, textColor: UIColor.white, action: {
+            
+        })
         alert.addButton("Settings", backgroundColor: Constants.Colors.MarbleBlue, textColor: UIColor.white, action: {
             let appearance = SCLAlertView.SCLAppearance(
                 kTitleTop: 45.0,

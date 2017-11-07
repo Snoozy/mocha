@@ -24,6 +24,7 @@ enum Router : URLConvertible {
     case JoinGroup
     case LeaveGroup
     case CreateGroup
+    case GroupInfo
     case ListGroups
     case FindGroup
     case GetStories
@@ -66,6 +67,8 @@ enum Router : URLConvertible {
                 return "/users/block"
             case .FlagStory:
                 return "/stories/flag"
+            case .GroupInfo:
+                return "/group/info"
             }
         }()
         

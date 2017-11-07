@@ -53,6 +53,15 @@
 		428AED4D1F802D8100F2C450 /* SwiftyCamButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2CBEB1F71DC220042F691 /* SwiftyCamButton.swift */; };
 		428AED4E1F802D8100F2C450 /* SwiftyCamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F2CBEA1F71DC220042F691 /* SwiftyCamViewController.swift */; };
 		428CD7A81E8C788A00BEB5BA /* LaunchDEV.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 428CD7A71E8C788A00BEB5BA /* LaunchDEV.storyboard */; };
+		429386701FB27A6E001E4639 /* DeckDismissingAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429386671FB27A6D001E4639 /* DeckDismissingAnimationController.swift */; };
+		429386711FB27A6E001E4639 /* DeckPresentingAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429386681FB27A6D001E4639 /* DeckPresentingAnimationController.swift */; };
+		429386721FB27A6E001E4639 /* DeckSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429386691FB27A6D001E4639 /* DeckSegue.swift */; };
+		429386731FB27A6E001E4639 /* DeckTransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4293866A1FB27A6E001E4639 /* DeckTransitioningDelegate.swift */; };
+		429386741FB27A6E001E4639 /* ManualLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4293866B1FB27A6E001E4639 /* ManualLayout.swift */; };
+		429386751FB27A6E001E4639 /* RoundedView in Resources */ = {isa = PBXBuildFile; fileRef = 4293866C1FB27A6E001E4639 /* RoundedView */; };
+		429386761FB27A6E001E4639 /* Supporting Files in Resources */ = {isa = PBXBuildFile; fileRef = 4293866D1FB27A6E001E4639 /* Supporting Files */; };
+		429386771FB27A6E001E4639 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4293866E1FB27A6E001E4639 /* Constants.swift */; };
+		429386781FB27A6E001E4639 /* DeckPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4293866F1FB27A6E001E4639 /* DeckPresentationController.swift */; };
 		4295B8A31E84C1880091C08B /* NoGroupsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4295B8A21E84C1880091C08B /* NoGroupsView.xib */; };
 		4295B8A71E84C21E0091C08B /* NoGroupsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4295B8A61E84C21E0091C08B /* NoGroupsView.swift */; };
 		4295B8A91E84C2E70091C08B /* AddMarble.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4295B8A81E84C2E70091C08B /* AddMarble.storyboard */; };
@@ -395,6 +404,15 @@
 		426FB0461E55A618000AFAF9 /* GroupTVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GroupTVCell.swift; path = Views/GroupTVCell.swift; sourceTree = "<group>"; };
 		427FFC6A1E3B1F470007159C /* AlamofireNetworkActivityIndicator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireNetworkActivityIndicator.xcodeproj; path = AlamofireNetworkActivityIndicator/AlamofireNetworkActivityIndicator.xcodeproj; sourceTree = "<group>"; };
 		428CD7A71E8C788A00BEB5BA /* LaunchDEV.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchDEV.storyboard; path = StoryBoards/LaunchDEV.storyboard; sourceTree = "<group>"; };
+		429386671FB27A6D001E4639 /* DeckDismissingAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeckDismissingAnimationController.swift; path = Vendor/DeckTransition/DeckDismissingAnimationController.swift; sourceTree = "<group>"; };
+		429386681FB27A6D001E4639 /* DeckPresentingAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeckPresentingAnimationController.swift; path = Vendor/DeckTransition/DeckPresentingAnimationController.swift; sourceTree = "<group>"; };
+		429386691FB27A6D001E4639 /* DeckSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeckSegue.swift; path = Vendor/DeckTransition/DeckSegue.swift; sourceTree = "<group>"; };
+		4293866A1FB27A6E001E4639 /* DeckTransitioningDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeckTransitioningDelegate.swift; path = Vendor/DeckTransition/DeckTransitioningDelegate.swift; sourceTree = "<group>"; };
+		4293866B1FB27A6E001E4639 /* ManualLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ManualLayout.swift; path = Vendor/DeckTransition/ManualLayout.swift; sourceTree = "<group>"; };
+		4293866C1FB27A6E001E4639 /* RoundedView */ = {isa = PBXFileReference; lastKnownFileType = folder; name = RoundedView; path = Vendor/DeckTransition/RoundedView; sourceTree = "<group>"; };
+		4293866D1FB27A6E001E4639 /* Supporting Files */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Supporting Files"; path = "Vendor/DeckTransition/Supporting Files"; sourceTree = "<group>"; };
+		4293866E1FB27A6E001E4639 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = Vendor/DeckTransition/Constants.swift; sourceTree = "<group>"; };
+		4293866F1FB27A6E001E4639 /* DeckPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeckPresentationController.swift; path = Vendor/DeckTransition/DeckPresentationController.swift; sourceTree = "<group>"; };
 		4295B8A21E84C1880091C08B /* NoGroupsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NoGroupsView.xib; path = StoryBoards/NoGroupsView.xib; sourceTree = "<group>"; };
 		4295B8A61E84C21E0091C08B /* NoGroupsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NoGroupsView.swift; path = Views/NoGroupsView.swift; sourceTree = "<group>"; };
 		4295B8A81E84C2E70091C08B /* AddMarble.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = AddMarble.storyboard; path = StoryBoards/AddMarble.storyboard; sourceTree = "<group>"; };
@@ -555,6 +573,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		429386561FB27A4F001E4639 /* DeckTransition */ = {
+			isa = PBXGroup;
+			children = (
+				4293866E1FB27A6E001E4639 /* Constants.swift */,
+				429386671FB27A6D001E4639 /* DeckDismissingAnimationController.swift */,
+				4293866F1FB27A6E001E4639 /* DeckPresentationController.swift */,
+				429386681FB27A6D001E4639 /* DeckPresentingAnimationController.swift */,
+				429386691FB27A6D001E4639 /* DeckSegue.swift */,
+				4293866A1FB27A6E001E4639 /* DeckTransitioningDelegate.swift */,
+				4293866B1FB27A6E001E4639 /* ManualLayout.swift */,
+				4293866C1FB27A6E001E4639 /* RoundedView */,
+				4293866D1FB27A6E001E4639 /* Supporting Files */,
+			);
+			name = DeckTransition;
+			sourceTree = "<group>";
+		};
 		4299913A1E4D4F900049608F /* SCLAlertView */ = {
 			isa = PBXGroup;
 			children = (
@@ -623,6 +657,7 @@
 		42D575821E37161A0094037D /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				429386561FB27A4F001E4639 /* DeckTransition */,
 				422BEB671FA8541B0073BDF5 /* SwiftyDraw.swift */,
 				42F3EABC1F80CD3F004D799D /* SwiftyGif */,
 				42F2CBCE1F71DB9E0042F691 /* SwiftyCam */,
@@ -1010,6 +1045,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				42D575991E371F0E0094037D /* Auth.storyboard in Resources */,
+				429386761FB27A6E001E4639 /* Supporting Files in Resources */,
+				429386751FB27A6E001E4639 /* RoundedView in Resources */,
 				42CC20711E42FCCC00EC419A /* Left.storyboard in Resources */,
 				42D5759B1E371F0E0094037D /* ViewRight.xib in Resources */,
 				42F3EACA1F8773C2004D799D /* GroupCollectionCell.xib in Resources */,
@@ -1107,9 +1144,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				42E13D8B1E8DE4DA0016FA76 /* AuthSignUpVC.swift in Sources */,
+				429386741FB27A6E001E4639 /* ManualLayout.swift in Sources */,
 				42F2CBEC1F71DC220042F691 /* SwiftyCamViewControllerDelegate.swift in Sources */,
 				42A228D31EAFE25500496392 /* Comment.swift in Sources */,
 				42F3EACD1F877405004D799D /* GroupCollectionCell.swift in Sources */,
+				429386711FB27A6E001E4639 /* DeckPresentingAnimationController.swift in Sources */,
 				425D40631E4330A600CBD8CB /* AddMarbleCodeVC.swift in Sources */,
 				429991471E4D4F9D0049608F /* SCLExtensions.swift in Sources */,
 				4295B8A71E84C21E0091C08B /* NoGroupsView.swift in Sources */,
@@ -1122,6 +1161,7 @@
 				425398C61E497D5B00097934 /* Group.swift in Sources */,
 				42623CC11E3B0BE10068D4FA /* Networker.swift in Sources */,
 				4217546E1E5530AD00620E69 /* MediaCaptionView.swift in Sources */,
+				429386781FB27A6E001E4639 /* DeckPresentationController.swift in Sources */,
 				422BEB781FA8541B0073BDF5 /* SwiftyDraw.swift in Sources */,
 				42E13D8D1E8DF2340016FA76 /* AuthLoginVC.swift in Sources */,
 				42D575A71E3720440094037D /* AuthViewController.swift in Sources */,
@@ -1129,8 +1169,11 @@
 				429AF4061E486C0800475461 /* CreateMarbleVC.swift in Sources */,
 				4299914E1E4D56CD0049608F /* Groups.swift in Sources */,
 				42F2CBF01F71DC220042F691 /* SwiftyCamButton.swift in Sources */,
+				429386701FB27A6E001E4639 /* DeckDismissingAnimationController.swift in Sources */,
 				42A228D01EAFE19D00496392 /* CaptionView.swift in Sources */,
+				429386721FB27A6E001E4639 /* DeckSegue.swift in Sources */,
 				952AF8061DAB363D005E60C7 /* AppDelegate.swift in Sources */,
+				429386771FB27A6E001E4639 /* Constants.swift in Sources */,
 				42D5758C1E37164C0094037D /* UIView_ext.swift in Sources */,
 				42F2CBEE1F71DC220042F691 /* PreviewView.swift in Sources */,
 				42D575A21E371F220094037D /* ViewPickDest.swift in Sources */,
@@ -1139,6 +1182,7 @@
 				4259F4A61EB1B8E200866D12 /* FontAwesome.swift in Sources */,
 				42F2CBEF1F71DC220042F691 /* SwiftyCamViewController.swift in Sources */,
 				4259F4A41EB1B8E200866D12 /* Enum.swift in Sources */,
+				429386731FB27A6E001E4639 /* DeckTransitioningDelegate.swift in Sources */,
 				42CC20811E43238800EC419A /* NumberButton.swift in Sources */,
 				42F3EAC11F80CD4C004D799D /* UIImage+SwiftyGif.swift in Sources */,
 				42F7906C1E39C7B500D3B2AF /* Router.swift in Sources */,

@@ -85,7 +85,7 @@ class GroupJoinResource:
 
 
 class GroupLeaveResource:
-    def on_post(self, req, resp, user_id):
+    def on_post(self, req: Request, resp: Response, user_id: int):
         group_id = req.get_param('group_id')
         user = req.session.query(User).filter(User.id == user_id).first()
         group = req.session.query(Group).filter(Group.id == int(group_id)).first()
@@ -106,7 +106,7 @@ class GroupLeaveResource:
 
 
 class GroupInfoResource:
-    def on_get(self, req: Request, resp: Response, user_id):
+    def on_get(self, req: Request, resp: Response, user_id: int):
         group_id = req.get_param('group_id')
         if not group_id:
             resp.json = RESP_ERR_JSON

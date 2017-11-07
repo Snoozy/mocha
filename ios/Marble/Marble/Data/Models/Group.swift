@@ -16,11 +16,14 @@ class Group {
     var members: Int
     var lastSeen: Int64
     
+    private var membersInfo: [User]
+    
     init(name: String, id: Int, lastSeen: Int64, members: Int) {
         self.groupId = id
         self.name = name
         self.lastSeen = lastSeen
         self.members = members
+        self.membersInfo = []
         if State.shared.groupStories[groupId] != nil {
             for (idx, story) in State.shared.groupStories[groupId]!.enumerated() {
                 if lastSeen < story.timestamp {
@@ -40,4 +43,29 @@ class Group {
         self.lastSeen = lastSeen
         self.members = members
     }
+    
+    func getMembers(completionHandler: @escaping ([User]) -> Void) {
+        if membersInfo.isEmpty {
+            Networker.shared.groupInfo(id: self.groupId, completionHandler: { response in
+                switch response.result {
+                case .success(let val):
+                    let contentJson = JSON(val)
+                    var users: [User] = []
+                    for tuple in (contentJson["members"]) {
+                        let userId = tuple.1["id"].int!
+                        let name = tuple.1["name"].stringValue
+                        let username = tuple.1["username"].stringValue
+                        users.append(User(id: userId, username: username, name: name))
+                    }
+                    self.membersInfo = users
+                    completionHandler(self.membersInfo)
+                case .failure:
+                    print(response.debugDescription)
+                }
+            })
+        } else {
+            completionHandler(membersInfo)
+        }
+    }
+    
 }

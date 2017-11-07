@@ -10,7 +10,6 @@ class GetStoriesResource:
         user = req.session.query(User).filter(User.id == user_id).first()
         json = []
         for group in user.groups:
-            stories = None
             time_cutoff = int(time.time() * 1000) - STORY_EXPIRATION_LENGTH
             user_blocks = [u.id for u in user.blocks]
             if len(user_blocks):
