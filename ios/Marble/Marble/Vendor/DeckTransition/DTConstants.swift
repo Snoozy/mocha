@@ -5,8 +5,9 @@
 //  Created by Harshil Shah on 04/08/17.
 //  Copyright © 2017 Harshil Shah. All rights reserved.
 //
+import UIKit
 
-struct Constants {
+struct DTConstants {
     
     /// Default duration for present and dismiss animations when the user hasn't
     /// specified one
