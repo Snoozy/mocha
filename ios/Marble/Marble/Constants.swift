@@ -14,7 +14,7 @@ import UIKit
     let API_URL = "https://api.amarbleapp.com"
 #else
     let API_URL = "https://api.amarbleapp.com"
-//    let API_URL = "http://192.168.10.106:8000"  // FOR TESTING NOTIFICATIONS ONLY (until Marble Dev entitlements setup)
+//    let API_URL = "http://192.168.10.109:8000"  // FOR TESTING NOTIFICATIONS ONLY (until Marble Dev entitlements setup)
 #endif
 
 struct Constants {

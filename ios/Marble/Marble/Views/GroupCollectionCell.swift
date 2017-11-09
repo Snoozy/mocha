@@ -47,6 +47,10 @@ class GroupCollectionCell: UICollectionViewCell {
     var settingsResponder: SCLAlertViewResponder?
     
     func showMarbleInfo() {
+        
+    }
+    
+    func showMarbleInfoOLD() {
         let appearance = SCLAlertView.SCLAppearance(
             kCircleIconHeight: 100,
             showCloseButton: false,

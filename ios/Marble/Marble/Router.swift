@@ -68,7 +68,7 @@ enum Router : URLConvertible {
             case .FlagStory:
                 return "/stories/flag"
             case .GroupInfo:
-                return "/group/info"
+                return "/groups/info"
             }
         }()
         

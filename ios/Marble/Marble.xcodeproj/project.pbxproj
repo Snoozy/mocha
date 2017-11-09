@@ -21,8 +21,16 @@
 		42240CB01FB2970C007BB8FF /* Corner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42240C9F1FB296AC007BB8FF /* Corner.swift */; };
 		42240CB11FB2970E007BB8FF /* CornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42240CA01FB296AC007BB8FF /* CornerView.swift */; };
 		42240CB21FB2971A007BB8FF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42240CAB1FB296C7007BB8FF /* Info.plist */; };
-		42240CB71FB29B30007BB8FF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42240CB61FB29B30007BB8FF /* Main.storyboard */; };
-		42240CB81FB29B30007BB8FF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42240CB61FB29B30007BB8FF /* Main.storyboard */; };
+		42240CF21FB29CE4007BB8FF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42240CF11FB29CE3007BB8FF /* Main.storyboard */; };
+		42240CF31FB29D0D007BB8FF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42240CF11FB29CE3007BB8FF /* Main.storyboard */; };
+		42240CF81FB2A09D007BB8FF /* GroupInfo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42240CF71FB2A09D007BB8FF /* GroupInfo.xib */; };
+		42240CF91FB2A09D007BB8FF /* GroupInfo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42240CF71FB2A09D007BB8FF /* GroupInfo.xib */; };
+		42240CFE1FB41872007BB8FF /* MemberTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42240CFD1FB41872007BB8FF /* MemberTVCell.xib */; };
+		42240CFF1FB41872007BB8FF /* MemberTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42240CFD1FB41872007BB8FF /* MemberTVCell.xib */; };
+		42240D011FB418DE007BB8FF /* MemberTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42240D001FB418DE007BB8FF /* MemberTVCell.swift */; };
+		42240D021FB418DE007BB8FF /* MemberTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42240D001FB418DE007BB8FF /* MemberTVCell.swift */; };
+		42240D041FB41A1B007BB8FF /* MembersInfoTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42240D031FB41A1B007BB8FF /* MembersInfoTV.swift */; };
+		42240D051FB41A1B007BB8FF /* MembersInfoTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42240D031FB41A1B007BB8FF /* MembersInfoTV.swift */; };
 		42665C6B1F78C5F4004BEA74 /* focus.gif in Resources */ = {isa = PBXBuildFile; fileRef = 42665C6A1F78C5F4004BEA74 /* focus.gif */; };
 		427FFC741E3B1F600007159C /* AlamofireNetworkActivityIndicator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 427FFC711E3B1F470007159C /* AlamofireNetworkActivityIndicator.framework */; };
 		427FFC751E3B1F600007159C /* AlamofireNetworkActivityIndicator.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 427FFC711E3B1F470007159C /* AlamofireNetworkActivityIndicator.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -119,8 +127,6 @@
 		42C979B41FB293E1000247F4 /* StoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42C979A31FB293DE000247F4 /* StoryView.xib */; };
 		42C979B51FB293E1000247F4 /* Auth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42C979A41FB293DE000247F4 /* Auth.storyboard */; };
 		42C979B61FB293E1000247F4 /* Auth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42C979A41FB293DE000247F4 /* Auth.storyboard */; };
-		42C979B71FB293E1000247F4 /* GroupInfo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42C979A51FB293DE000247F4 /* GroupInfo.xib */; };
-		42C979B81FB293E1000247F4 /* GroupInfo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42C979A51FB293DE000247F4 /* GroupInfo.xib */; };
 		42C979B91FB293E1000247F4 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42C979A61FB293DF000247F4 /* Launch.storyboard */; };
 		42C979BA1FB293E1000247F4 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42C979A61FB293DF000247F4 /* Launch.storyboard */; };
 		42C979BB1FB293E1000247F4 /* LaunchDEV.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42C979A71FB293DF000247F4 /* LaunchDEV.storyboard */; };
@@ -131,8 +137,6 @@
 		42C979C01FB293E1000247F4 /* CaptionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42C979A91FB293DF000247F4 /* CaptionView.xib */; };
 		42C979C11FB293E1000247F4 /* ViewPickDest.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42C979AA1FB293E0000247F4 /* ViewPickDest.xib */; };
 		42C979C21FB293E1000247F4 /* ViewPickDest.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42C979AA1FB293E0000247F4 /* ViewPickDest.xib */; };
-		42C979C31FB293E1000247F4 /* ViewLeft.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42C979AB1FB293E0000247F4 /* ViewLeft.xib */; };
-		42C979C41FB293E1000247F4 /* ViewLeft.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42C979AB1FB293E0000247F4 /* ViewLeft.xib */; };
 		42C979C51FB293E1000247F4 /* ViewRight.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42C979AC1FB293E0000247F4 /* ViewRight.xib */; };
 		42C979C61FB293E1000247F4 /* ViewRight.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42C979AC1FB293E0000247F4 /* ViewRight.xib */; };
 		42C979C71FB293E1000247F4 /* NoGroupsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42C979AD1FB293E0000247F4 /* NoGroupsView.xib */; };
@@ -409,7 +413,11 @@
 		42240CA31FB296AD007BB8FF /* CGRect+Corners.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGRect+Corners.swift"; sourceTree = "<group>"; };
 		42240CAA1FB296C7007BB8FF /* DeckTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeckTransition.h; sourceTree = "<group>"; };
 		42240CAB1FB296C7007BB8FF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		42240CB61FB29B30007BB8FF /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		42240CF11FB29CE3007BB8FF /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		42240CF71FB2A09D007BB8FF /* GroupInfo.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupInfo.xib; sourceTree = "<group>"; };
+		42240CFD1FB41872007BB8FF /* MemberTVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MemberTVCell.xib; sourceTree = "<group>"; };
+		42240D001FB418DE007BB8FF /* MemberTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberTVCell.swift; sourceTree = "<group>"; };
+		42240D031FB41A1B007BB8FF /* MembersInfoTV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersInfoTV.swift; sourceTree = "<group>"; };
 		42651EA31EB879E4006BEF33 /* Marble.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Marble.entitlements; sourceTree = "<group>"; };
 		42665C6A1F78C5F4004BEA74 /* focus.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = focus.gif; sourceTree = "<group>"; };
 		427FFC6A1E3B1F470007159C /* AlamofireNetworkActivityIndicator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireNetworkActivityIndicator.xcodeproj; path = AlamofireNetworkActivityIndicator/AlamofireNetworkActivityIndicator.xcodeproj; sourceTree = "<group>"; };
@@ -459,13 +467,11 @@
 		42C979A21FB293DE000247F4 /* Left.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Left.storyboard; sourceTree = "<group>"; };
 		42C979A31FB293DE000247F4 /* StoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoryView.xib; sourceTree = "<group>"; };
 		42C979A41FB293DE000247F4 /* Auth.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Auth.storyboard; sourceTree = "<group>"; };
-		42C979A51FB293DE000247F4 /* GroupInfo.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GroupInfo.xib; sourceTree = "<group>"; };
 		42C979A61FB293DF000247F4 /* Launch.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
 		42C979A71FB293DF000247F4 /* LaunchDEV.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchDEV.storyboard; sourceTree = "<group>"; };
 		42C979A81FB293DF000247F4 /* GroupTVCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GroupTVCell.xib; sourceTree = "<group>"; };
 		42C979A91FB293DF000247F4 /* CaptionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CaptionView.xib; sourceTree = "<group>"; };
 		42C979AA1FB293E0000247F4 /* ViewPickDest.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewPickDest.xib; sourceTree = "<group>"; };
-		42C979AB1FB293E0000247F4 /* ViewLeft.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewLeft.xib; sourceTree = "<group>"; };
 		42C979AC1FB293E0000247F4 /* ViewRight.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewRight.xib; sourceTree = "<group>"; };
 		42C979AD1FB293E0000247F4 /* NoGroupsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoGroupsView.xib; sourceTree = "<group>"; };
 		42C979AE1FB293E1000247F4 /* AddMarble.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AddMarble.storyboard; sourceTree = "<group>"; };
@@ -694,6 +700,7 @@
 				42C979671FB293A6000247F4 /* NumPlaceholderButton.swift */,
 				42C979621FB293A6000247F4 /* StoryView.swift */,
 				42C979641FB293A6000247F4 /* TextCaptionView.swift */,
+				42240D001FB418DE007BB8FF /* MemberTVCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -738,21 +745,21 @@
 		42D575921E3719A90094037D /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				42240CF11FB29CE3007BB8FF /* Main.storyboard */,
 				42C979AE1FB293E1000247F4 /* AddMarble.storyboard */,
 				42C979A41FB293DE000247F4 /* Auth.storyboard */,
 				42C979A91FB293DF000247F4 /* CaptionView.xib */,
 				42C979A11FB293DE000247F4 /* GroupCollectionCell.xib */,
-				42C979A51FB293DE000247F4 /* GroupInfo.xib */,
 				42C979A81FB293DF000247F4 /* GroupTVCell.xib */,
 				42C979A61FB293DF000247F4 /* Launch.storyboard */,
 				42C979A71FB293DF000247F4 /* LaunchDEV.storyboard */,
 				42C979A21FB293DE000247F4 /* Left.storyboard */,
 				42C979AD1FB293E0000247F4 /* NoGroupsView.xib */,
 				42C979A31FB293DE000247F4 /* StoryView.xib */,
-				42C979AB1FB293E0000247F4 /* ViewLeft.xib */,
 				42C979AA1FB293E0000247F4 /* ViewPickDest.xib */,
 				42C979AC1FB293E0000247F4 /* ViewRight.xib */,
-				42240CB61FB29B30007BB8FF /* Main.storyboard */,
+				42240CF71FB2A09D007BB8FF /* GroupInfo.xib */,
+				42240CFD1FB41872007BB8FF /* MemberTVCell.xib */,
 			);
 			name = Storyboards;
 			path = StoryBoards;
@@ -772,6 +779,7 @@
 				42C979891FB293BD000247F4 /* ViewLeft.swift */,
 				42C979871FB293BD000247F4 /* ViewPickDest.swift */,
 				42C9798A1FB293BE000247F4 /* ViewRight.swift */,
+				42240D031FB41A1B007BB8FF /* MembersInfoTV.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -1098,10 +1106,10 @@
 				42C979BE1FB293E1000247F4 /* GroupTVCell.xib in Resources */,
 				42C97A0C1FB2949F000247F4 /* FontAwesome.otf in Resources */,
 				42C979B01FB293E1000247F4 /* GroupCollectionCell.xib in Resources */,
-				42C979C41FB293E1000247F4 /* ViewLeft.xib in Resources */,
-				42C979B81FB293E1000247F4 /* GroupInfo.xib in Resources */,
-				42240CB81FB29B30007BB8FF /* Main.storyboard in Resources */,
+				42240CF31FB29D0D007BB8FF /* Main.storyboard in Resources */,
+				42240CFF1FB41872007BB8FF /* MemberTVCell.xib in Resources */,
 				42C979BC1FB293E1000247F4 /* LaunchDEV.storyboard in Resources */,
+				42240CF91FB2A09D007BB8FF /* GroupInfo.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1113,14 +1121,12 @@
 				42C979C91FB293E1000247F4 /* AddMarble.storyboard in Resources */,
 				42C979B31FB293E1000247F4 /* StoryView.xib in Resources */,
 				42C979AF1FB293E1000247F4 /* GroupCollectionCell.xib in Resources */,
-				42C979C31FB293E1000247F4 /* ViewLeft.xib in Resources */,
 				42C979C11FB293E1000247F4 /* ViewPickDest.xib in Resources */,
 				42C97A0B1FB2949F000247F4 /* FontAwesome.otf in Resources */,
 				952AF80D1DAB363D005E60C7 /* Assets.xcassets in Resources */,
 				42E13DDD1E8E4B4B0016FA76 /* Info-Dev.plist in Resources */,
 				42240CAC1FB296C7007BB8FF /* Info.plist in Resources */,
-				42C979B71FB293E1000247F4 /* GroupInfo.xib in Resources */,
-				42240CB71FB29B30007BB8FF /* Main.storyboard in Resources */,
+				42240CF21FB29CE4007BB8FF /* Main.storyboard in Resources */,
 				42C979B91FB293E1000247F4 /* Launch.storyboard in Resources */,
 				42C979BF1FB293E1000247F4 /* CaptionView.xib in Resources */,
 				42C979BB1FB293E1000247F4 /* LaunchDEV.storyboard in Resources */,
@@ -1129,6 +1135,8 @@
 				42C979C71FB293E1000247F4 /* NoGroupsView.xib in Resources */,
 				42C979BD1FB293E1000247F4 /* GroupTVCell.xib in Resources */,
 				42665C6B1F78C5F4004BEA74 /* focus.gif in Resources */,
+				42240CF81FB2A09D007BB8FF /* GroupInfo.xib in Resources */,
+				42240CFE1FB41872007BB8FF /* MemberTVCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1158,6 +1166,7 @@
 				42C979421FB29382000247F4 /* State.swift in Sources */,
 				42C97A141FB294A9000247F4 /* SCLAlertView.swift in Sources */,
 				42C9796B1FB293A6000247F4 /* MainGroupTVCell.swift in Sources */,
+				42240D021FB418DE007BB8FF /* MemberTVCell.swift in Sources */,
 				42C97A011FB2949B000247F4 /* SwiftyCamViewController.swift in Sources */,
 				42C979731FB293A6000247F4 /* GroupTVCell.swift in Sources */,
 				42C979921FB293BE000247F4 /* CreateMarbleVC.swift in Sources */,
@@ -1179,6 +1188,7 @@
 				42240CB11FB2970E007BB8FF /* CornerView.swift in Sources */,
 				42C9798E1FB293BE000247F4 /* AuthLoginVC.swift in Sources */,
 				42C97A101FB2949F000247F4 /* Enum.swift in Sources */,
+				42240D051FB41A1B007BB8FF /* MembersInfoTV.swift in Sources */,
 				42C979441FB29382000247F4 /* Stories.swift in Sources */,
 				42C9799A1FB293BE000247F4 /* ViewPickDest.swift in Sources */,
 				42C979901FB293BE000247F4 /* GroupInfoVC.swift in Sources */,
@@ -1242,6 +1252,7 @@
 				42C9792B1FB2934B000247F4 /* Router.swift in Sources */,
 				42C979E81FB29458000247F4 /* DTConstants.swift in Sources */,
 				42C97A131FB294A9000247F4 /* SCLAlertView.swift in Sources */,
+				42240D011FB418DE007BB8FF /* MemberTVCell.swift in Sources */,
 				42C9795A1FB2938D000247F4 /* Networker.swift in Sources */,
 				42C97A001FB2949B000247F4 /* SwiftyCamViewController.swift in Sources */,
 				42C9796E1FB293A6000247F4 /* NumberButton.swift in Sources */,
@@ -1263,6 +1274,7 @@
 				42C9798F1FB293BE000247F4 /* GroupInfoVC.swift in Sources */,
 				42C9797C1FB293A6000247F4 /* MediaImageView.swift in Sources */,
 				42C97A0F1FB2949F000247F4 /* Enum.swift in Sources */,
+				42240D041FB41A1B007BB8FF /* MembersInfoTV.swift in Sources */,
 				42C979391FB2937B000247F4 /* Comment.swift in Sources */,
 				42C9798D1FB293BE000247F4 /* AuthLoginVC.swift in Sources */,
 				42C97A021FB2949B000247F4 /* SwiftyCamButton.swift in Sources */,
