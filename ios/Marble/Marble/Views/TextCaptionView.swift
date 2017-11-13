@@ -29,6 +29,8 @@ class TextCaptionView: UIView, UITextViewDelegate, UIGestureRecognizerDelegate {
 
     var mediaCaptionScrollView: UIScrollView!
     
+    var delegate: TextCaptionViewDelegate?
+    
     lazy var captionWrapperView: UIView = {
         return UIView()
     }()
@@ -181,6 +183,15 @@ class TextCaptionView: UIView, UITextViewDelegate, UIGestureRecognizerDelegate {
         }
         changeCaptionPoint(point: prevCaptionPoint!)
         captionWrapperView.transform = lastTransform
+        delegate?.editingStopped(self)
+    }
+    
+    func startEditingCaption() {
+        lastTransform = captionWrapperView.transform
+        captionWrapperView.transform = CGAffineTransform.identity
+        caption.becomeFirstResponder()
+        caption.isHidden = false
+        delegate?.editingStarted(self)
     }
     
     // MARK: - Gestures
@@ -194,10 +205,7 @@ class TextCaptionView: UIView, UITextViewDelegate, UIGestureRecognizerDelegate {
         if caption.isFirstResponder {
             resignEditingCaption()
         } else {
-            lastTransform = captionWrapperView.transform
-            captionWrapperView.transform = CGAffineTransform.identity
-            caption.becomeFirstResponder()
-            caption.isHidden = false
+            startEditingCaption()
         }
     }
     

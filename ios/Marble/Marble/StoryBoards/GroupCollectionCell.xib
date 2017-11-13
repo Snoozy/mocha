@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,43 +20,44 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Q4C-Iq-fUT">
-                        <rect key="frame" x="59.5" y="60.5" width="20" height="20"/>
+                        <rect key="frame" x="60" y="61" width="20" height="20"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="20" id="hgx-bo-0QB"/>
                             <constraint firstAttribute="height" constant="20" id="vAM-hN-ZE8"/>
                         </constraints>
                     </activityIndicatorView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XB7-Bo-kvf">
-                        <rect key="frame" x="0.0" y="146" width="139" height="21"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="21" id="AGC-kh-h0R"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="56I-Z1-gCg">
-                        <rect key="frame" x="-1" y="0.0" width="140" height="140"/>
+                        <rect key="frame" x="0.0" y="0.0" width="140" height="140"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="56I-Z1-gCg" secondAttribute="height" multiplier="1:1" id="0zn-wY-hfg"/>
                         </constraints>
                     </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SlR-ZR-TnF">
+                        <rect key="frame" x="0.0" y="140" width="139" height="30"/>
+                        <state key="normal" title="Marble">
+                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="titleBtnPressed:" destination="gTV-IL-0wX" eventType="touchUpInside" id="Uwg-2d-Z1x"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <constraints>
+                <constraint firstItem="56I-Z1-gCg" firstAttribute="centerX" secondItem="SlR-ZR-TnF" secondAttribute="centerX" id="0uo-fT-Ldm"/>
                 <constraint firstItem="56I-Z1-gCg" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="2tj-oc-Qm0"/>
-                <constraint firstAttribute="bottom" secondItem="XB7-Bo-kvf" secondAttribute="bottom" id="Cnn-C5-o0z"/>
                 <constraint firstItem="56I-Z1-gCg" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="GBz-GS-To1"/>
                 <constraint firstItem="Q4C-Iq-fUT" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="JPt-1c-rAe"/>
-                <constraint firstAttribute="trailing" secondItem="XB7-Bo-kvf" secondAttribute="trailing" id="hnA-C7-4oj"/>
-                <constraint firstItem="XB7-Bo-kvf" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="iv7-S8-Dc0"/>
-                <constraint firstItem="XB7-Bo-kvf" firstAttribute="top" secondItem="56I-Z1-gCg" secondAttribute="bottom" constant="5.5" id="vYV-mS-05t"/>
-                <constraint firstItem="Q4C-Iq-fUT" firstAttribute="centerY" secondItem="56I-Z1-gCg" secondAttribute="centerY" id="zvT-wd-iML"/>
+                <constraint firstItem="56I-Z1-gCg" firstAttribute="leading" secondItem="SlR-ZR-TnF" secondAttribute="leading" id="daY-ed-PjE"/>
+                <constraint firstItem="56I-Z1-gCg" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="qX0-na-wVt"/>
+                <constraint firstItem="SlR-ZR-TnF" firstAttribute="top" secondItem="56I-Z1-gCg" secondAttribute="bottom" id="zqC-Ql-iGd"/>
+                <constraint firstItem="Q4C-Iq-fUT" firstAttribute="centerY" secondItem="56I-Z1-gCg" secondAttribute="centerY" constant="0.5" id="zvT-wd-iML"/>
             </constraints>
             <size key="customSize" width="139" height="133.5"/>
             <connections>
                 <outlet property="loadingIcon" destination="Q4C-Iq-fUT" id="2Ct-zQ-kAD"/>
+                <outlet property="nameBtn" destination="SlR-ZR-TnF" id="dia-xr-GbL"/>
                 <outlet property="storyPreview" destination="56I-Z1-gCg" id="BfG-kM-7Wx"/>
-                <outlet property="title" destination="XB7-Bo-kvf" id="gNm-fx-qSz"/>
             </connections>
             <point key="canvasLocation" x="73.5" y="74.5"/>
         </collectionViewCell>

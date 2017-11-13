@@ -221,6 +221,10 @@ open class SwiftyDrawView: UIView {
         setNeedsDisplay()
     }
     
+    public func isEmpty() -> Bool {
+        return pathArray.count < 1
+    }
+    
     /// Clear all stroked lines on canvas
     
     public func clearCanvas() {

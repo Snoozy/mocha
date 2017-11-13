@@ -18,8 +18,8 @@ class GroupCollectionCell: UICollectionViewCell {
     static var fallbackPreview: UIImage?
     
     @IBOutlet weak var loadingIcon: UIActivityIndicatorView!
-    @IBOutlet weak var title: UILabel!
     @IBOutlet weak var storyPreview: UIImageView!
+    @IBOutlet weak var nameBtn: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -43,84 +43,23 @@ class GroupCollectionCell: UICollectionViewCell {
         self.storyPreview.isHidden = false
     }
     
-    var alertResponder: SCLAlertViewResponder?
-    var settingsResponder: SCLAlertViewResponder?
+    @IBAction func titleBtnPressed(_ sender: Any) {
+        showMarbleInfo()
+    }
     
     func showMarbleInfo() {
-        
-    }
-    
-    func showMarbleInfoOLD() {
-        let appearance = SCLAlertView.SCLAppearance(
-            kCircleIconHeight: 100,
-            showCloseButton: false,
-            hideWhenBackgroundViewIsTapped: true
-        )
-        let alert = SCLAlertView(appearance: appearance)
-        let subTitle = String(format: "Marble Code: %d", (group?.groupId)!) + "\nMembers: " + String(describing:(group?.members)!)
-        let qrCodeImg = createMarbleQRCode(content: String(format: "marble.group:%d", (group?.groupId)!), color: CIColor(color: Constants.Colors.MarbleBlue))
-        let context = CIContext(options: nil)
-        let img = UIImage(cgImage: context.createCGImage(qrCodeImg!, from: (qrCodeImg?.extent)!)!)
-        alert.addButton("Members", backgroundColor: Constants.Colors.MarbleBlue, textColor: UIColor.white, action: {
-            
-        })
-        alert.addButton("Settings", backgroundColor: Constants.Colors.MarbleBlue, textColor: UIColor.white, action: {
-            let appearance = SCLAlertView.SCLAppearance(
-                kTitleTop: 45.0,
-                kWindowHeight: 10.0,
-                kWindowHeightDeviation: -24.0,
-                kTextFieldHeight: 0.0,
-                kTextViewdHeight: 0.0,
-                showCloseButton: false,
-                showCircularIcon: false,
-                hideWhenBackgroundViewIsTapped: true
-            )
-            let alert = SCLAlertView(appearance: appearance)
-            alert.addButton("Leave Marble", backgroundColor: UIColor.red, textColor: UIColor.white, action: {
-                Networker.shared.leaveGroup(id: self.group!.groupId, completionHandler: { resp in
-                    print(resp)
-                    NotificationCenter.default.post(name: Constants.Notifications.RefreshMainGroupState, object: self)
-                    self.settingsResponder?.close()
-                })
-            })
-            alert.addButton("Cancel", backgroundColor: UIColor.white, textColor: Constants.Colors.MarbleBlue, action: {
-                self.settingsResponder?.close()
-            })
-            self.settingsResponder = alert.showInfo("Settings", subTitle: "")
-        })
-        alert.addButton("Close", backgroundColor: UIColor.white, textColor: Constants.Colors.MarbleBlue, action: {
-            self.alertResponder?.close()
-        })
-        alertResponder = alert.showInfo((group?.name)!, subTitle: subTitle, circleIconImage: img, iconHeightDeviation: 25)
-    }
-    
-    func createMarbleQRCode(content: String, color: CIColor, backgroundColor: CIColor = CIColor(red: 1, green: 1, blue: 1)) -> CIImage? {
-        guard let qrFilter = CIFilter(name: "CIQRCodeGenerator") else { return nil }
-        
-        qrFilter.setDefaults()
-        qrFilter.setValue(content.data(using: .isoLatin1), forKey: "inputMessage")
-        qrFilter.setValue("M", forKey: "inputCorrectionLevel")
-        
-        // Color code and background
-        guard let colorFilter = CIFilter(name: "CIFalseColor") else { return nil }
-        
-        colorFilter.setDefaults()
-        colorFilter.setValue(qrFilter.outputImage, forKey: "inputImage")
-        colorFilter.setValue(color, forKey: "inputColor0")
-        colorFilter.setValue(backgroundColor, forKey: "inputColor1")
-        
-        let coloredQR = colorFilter.outputImage
-        
-        let scaleX = 100 / (coloredQR?.extent.size.width)!
-        let scaleY = 100 / (coloredQR?.extent.size.height)!
-        
-        return coloredQR?.transformed(by: CGAffineTransform(scaleX: scaleX, y: scaleY))
+        let modal = GroupInfoVC(nibName: "GroupInfo", bundle: nil)
+        modal.setGroup(group: group!)
+        let transitionDelegate = DeckTransitioningDelegate()
+        modal.transitioningDelegate = transitionDelegate
+        modal.modalPresentationStyle = .custom
+        UIApplication.topViewController()?.present(modal, animated: true, completion: nil)
     }
     
     func refreshPreview() {
-        self.title.text = group?.name
+        self.nameBtn.setTitle(group!.name, for: .normal)
         if (State.shared.groupStories[(group?.groupId)!]?.count)! > 0 {
-            self.title.textColor = UIColor.black
+            self.nameBtn.titleLabel?.textColor = UIColor.black
             self.layer.borderWidth = 0
             
             let stories = State.shared.groupStories[(group?.groupId)!]!
@@ -167,24 +106,29 @@ class GroupCollectionCell: UICollectionViewCell {
                 self.storyPreview.layer.shadowOpacity = 1
                 self.storyPreview.layer.shadowColor = Constants.Colors.UnseenHighlight.cgColor
                 self.storyPreview.layer.shadowRadius = 5
-                self.title.font = UIFont.systemFont(ofSize: 17, weight: .heavy)
+                self.nameBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .heavy)
             } else {
                 self.storyPreview.layer.shadowOpacity = 0.7
                 self.storyPreview.layer.shadowColor = nil
                 self.storyPreview.layer.shadowRadius = 3
-                self.title.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+                self.nameBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
             }
         } else {
             storyPreview.image = nil
             loadingIcon.isHidden = true
             
+            self.storyPreview.layer.masksToBounds = false
+            self.storyPreview.clipsToBounds = false
+            self.clipsToBounds = false
+            self.layer.masksToBounds = false
+
             storyPreview.layer.cornerRadius = storyPreview.frame.width / 2
             storyPreview.layer.borderWidth = 1
             storyPreview.layer.borderColor = UIColor.gray.cgColor
             storyPreview.layer.shadowRadius = 0
-            self.title.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+            self.nameBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
             
-            self.title.layer.shadowRadius = 0
+            self.nameBtn.layer.shadowRadius = 0
         }
     }
     

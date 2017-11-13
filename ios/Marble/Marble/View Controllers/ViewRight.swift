@@ -382,7 +382,7 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         }
         isPlayingVideoPreview = false
         if !captionView.isEmpty() {
-            captionImage = UIImage(view: captionView)
+            captionImage = captionView.getCaptionImage()
         } else {
             captionImage = nil
         }
@@ -565,12 +565,13 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     }
     
     func startCaptionEditing() {
-        
         captionView.configure()
         captionView.isHidden = false
+        captionView.isUserInteractionEnabled = true
     }
     
     func stopCaptionEditing() {
+        captionView.isUserInteractionEnabled = false
         captionView.isHidden = true
     }
 }

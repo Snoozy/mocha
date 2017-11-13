@@ -303,13 +303,7 @@ class ViewLeft: UICollectionViewController {
             let touchPoint = gest.location(in: self.view)
             if let indexPath = collectionView?.indexPathForItem(at: touchPoint) {
                 if let cell = collectionView?.cellForItem(at: indexPath) as? GroupCollectionCell {
-                    let group = cell.group!
-                    let modal = GroupInfoVC(nibName: "GroupInfo", bundle: nil)
-                    modal.setGroup(group: group)
-                    let transitionDelegate = DeckTransitioningDelegate()
-                    modal.transitioningDelegate = transitionDelegate
-                    modal.modalPresentationStyle = .custom
-                    UIApplication.topViewController()?.present(modal, animated: true, completion: nil)
+                    cell.showMarbleInfo()
                 }
             }
         }

@@ -50,7 +50,7 @@ class StoryView: UIView, UIScrollViewDelegate {
         
         let tapGest = UITapGestureRecognizer(target: self, action: #selector(storyTapped(tapGestureRecognizer:)))
         self.addGestureRecognizer(tapGest)
-        
+
         NotificationCenter.default.addObserver(self, selector:#selector(self.playerDidFinishPlaying(note:)),name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
         
         captionScrollView.delegate = self
@@ -191,6 +191,8 @@ class StoryView: UIView, UIScrollViewDelegate {
     
     var addCaptionView: MediaCaptionView!
     
+    var captioning: Bool = false
+    
     @IBAction func cancelCommentPress(_ sender: Any) {
         print("cancel comment")
         addCaptionView.removeFromSuperview()
@@ -201,6 +203,8 @@ class StoryView: UIView, UIScrollViewDelegate {
         addCommentBtn.isHidden = false
         
         addCommentLabel.isHidden = true
+        
+        captioning = false
         
         if captionScrollView.contentOffset.y <= 0 {
             toTopBtn.isHidden = true
@@ -231,7 +235,9 @@ class StoryView: UIView, UIScrollViewDelegate {
         toTopBtn.isHidden = true
         
         addCaptionView.isHidden = false
-        addCaptionView.textBecomeFirstResponder()
+        addCaptionView.startEditingTextCaption()
+        
+        captioning = true
     }
     
     @IBAction func sendCaptionPress(_ sender: Any) {
@@ -244,7 +250,7 @@ class StoryView: UIView, UIScrollViewDelegate {
             return
         }
         addCommentLabel.isHidden = true
-        let captionImg = UIImage(view: addCaptionView)
+        let captionImg = addCaptionView.getCaptionImage()
         Networker.shared.uploadComment(image: captionImg, storyId: (story?.id)!, completionHandler: { response in
             switch response.result {
             case .success(let val):
@@ -267,6 +273,7 @@ class StoryView: UIView, UIScrollViewDelegate {
         
         self.addCaptionView.textResignFirstResponder()
         self.addCaptionView.removeFromSuperview()
+        captioning = false
 
         let first = captionScrollView.subviews.first as! CaptionView
         first.commentLabel.isHidden = false
@@ -276,7 +283,6 @@ class StoryView: UIView, UIScrollViewDelegate {
         captionImg.af_inflate()
         let bounds = UIScreen.main.bounds
         let img = captionImg.af_imageScaled(to: CGSize(width: bounds.width, height: bounds.height))
-        print(img.size)
         
         self.appendComment(posterName: (State.shared.me?.name)!, timestamp: Int64(NSDate().timeIntervalSince1970 * 1000), image: img)
         let count = captionScrollView.subviews.filter { (view) -> Bool in
@@ -294,6 +300,7 @@ class StoryView: UIView, UIScrollViewDelegate {
     }
     
     func mediaStart() {
+        captioning = false
         self.group?.storyViewIdx = 0
         let stories = State.shared.groupStories[(group?.groupId)!]!
         if stories.count == 0 {
@@ -314,6 +321,9 @@ class StoryView: UIView, UIScrollViewDelegate {
     }
     
     func mediaNext() {
+        if captioning {
+            return
+        }
         let stories = State.shared.groupStories[(group?.groupId)!]
         if (self.group?.storyIdxValid())! {  // next story
             let story: Story = (stories?[(group?.storyViewIdx)!])!

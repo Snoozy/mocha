@@ -37,6 +37,22 @@
 		4299916F1E4DAF000049608F /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 429991621E4DAEB90049608F /* AlamofireImage.framework */; };
 		429991701E4DAF000049608F /* AlamofireImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 429991621E4DAEB90049608F /* AlamofireImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		42AECD441FA29B5100AA1B3F /* focus.gif in Resources */ = {isa = PBXBuildFile; fileRef = 42665C6A1F78C5F4004BEA74 /* focus.gif */; };
+		42C4E5701FB92899003E3CDA /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C4E56B1FB92899003E3CDA /* GradientView.swift */; };
+		42C4E5711FB92899003E3CDA /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C4E56B1FB92899003E3CDA /* GradientView.swift */; };
+		42C4E5721FB92899003E3CDA /* ColorSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C4E56C1FB92899003E3CDA /* ColorSlider.swift */; };
+		42C4E5731FB92899003E3CDA /* ColorSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C4E56C1FB92899003E3CDA /* ColorSlider.swift */; };
+		42C4E5741FB92899003E3CDA /* DefaultPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C4E56D1FB92899003E3CDA /* DefaultPreviewView.swift */; };
+		42C4E5751FB92899003E3CDA /* DefaultPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C4E56D1FB92899003E3CDA /* DefaultPreviewView.swift */; };
+		42C4E5781FB92899003E3CDA /* CSPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C4E56F1FB92899003E3CDA /* CSPreviewView.swift */; };
+		42C4E5791FB92899003E3CDA /* CSPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C4E56F1FB92899003E3CDA /* CSPreviewView.swift */; };
+		42C4E57E1FB92A49003E3CDA /* ColorSliderExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C4E57B1FB92A48003E3CDA /* ColorSliderExtensions.swift */; };
+		42C4E57F1FB92A49003E3CDA /* ColorSliderExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C4E57B1FB92A48003E3CDA /* ColorSliderExtensions.swift */; };
+		42C4E5801FB92A49003E3CDA /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C4E57C1FB92A48003E3CDA /* Gradient.swift */; };
+		42C4E5811FB92A49003E3CDA /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C4E57C1FB92A48003E3CDA /* Gradient.swift */; };
+		42C4E5821FB92A49003E3CDA /* HSBColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C4E57D1FB92A48003E3CDA /* HSBColor.swift */; };
+		42C4E5831FB92A49003E3CDA /* HSBColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C4E57D1FB92A48003E3CDA /* HSBColor.swift */; };
+		42C4E5851FB93519003E3CDA /* TextCaptionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C4E5841FB93519003E3CDA /* TextCaptionViewDelegate.swift */; };
+		42C4E5861FB93519003E3CDA /* TextCaptionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C4E5841FB93519003E3CDA /* TextCaptionViewDelegate.swift */; };
 		42C979291FB2934B000247F4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C979261FB2934A000247F4 /* Constants.swift */; };
 		42C9792A1FB2934B000247F4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C979261FB2934A000247F4 /* Constants.swift */; };
 		42C9792B1FB2934B000247F4 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C979271FB2934A000247F4 /* Router.swift */; };
@@ -422,6 +438,14 @@
 		42665C6A1F78C5F4004BEA74 /* focus.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = focus.gif; sourceTree = "<group>"; };
 		427FFC6A1E3B1F470007159C /* AlamofireNetworkActivityIndicator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireNetworkActivityIndicator.xcodeproj; path = AlamofireNetworkActivityIndicator/AlamofireNetworkActivityIndicator.xcodeproj; sourceTree = "<group>"; };
 		429991551E4DAEB90049608F /* AlamofireImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireImage.xcodeproj; path = AlamofireImage/AlamofireImage.xcodeproj; sourceTree = "<group>"; };
+		42C4E56B1FB92899003E3CDA /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		42C4E56C1FB92899003E3CDA /* ColorSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorSlider.swift; sourceTree = "<group>"; };
+		42C4E56D1FB92899003E3CDA /* DefaultPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultPreviewView.swift; sourceTree = "<group>"; };
+		42C4E56F1FB92899003E3CDA /* CSPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSPreviewView.swift; sourceTree = "<group>"; };
+		42C4E57B1FB92A48003E3CDA /* ColorSliderExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorSliderExtensions.swift; sourceTree = "<group>"; };
+		42C4E57C1FB92A48003E3CDA /* Gradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
+		42C4E57D1FB92A48003E3CDA /* HSBColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HSBColor.swift; sourceTree = "<group>"; };
+		42C4E5841FB93519003E3CDA /* TextCaptionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextCaptionViewDelegate.swift; sourceTree = "<group>"; };
 		42C979261FB2934A000247F4 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		42C979271FB2934A000247F4 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		42C979281FB2934A000247F4 /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
@@ -542,6 +566,7 @@
 		4203A1291F6E06DB0094ED3A /* Delegates */ = {
 			isa = PBXGroup;
 			children = (
+				42C4E5841FB93519003E3CDA /* TextCaptionViewDelegate.swift */,
 			);
 			path = Delegates;
 			sourceTree = "<group>";
@@ -685,20 +710,42 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		42C4E56A1FB92870003E3CDA /* ColorSlider */ = {
+			isa = PBXGroup;
+			children = (
+				42C4E57A1FB92A35003E3CDA /* Internal */,
+				42C4E56C1FB92899003E3CDA /* ColorSlider.swift */,
+				42C4E56D1FB92899003E3CDA /* DefaultPreviewView.swift */,
+				42C4E56B1FB92899003E3CDA /* GradientView.swift */,
+				42C4E56F1FB92899003E3CDA /* CSPreviewView.swift */,
+			);
+			path = ColorSlider;
+			sourceTree = "<group>";
+		};
+		42C4E57A1FB92A35003E3CDA /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				42C4E57B1FB92A48003E3CDA /* ColorSliderExtensions.swift */,
+				42C4E57C1FB92A48003E3CDA /* Gradient.swift */,
+				42C4E57D1FB92A48003E3CDA /* HSBColor.swift */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
 		42CC207F1E43235B00EC419A /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				42C979651FB293A6000247F4 /* CaptionView.swift */,
-				42C979631FB293A6000247F4 /* DrawCaptionView.swift */,
 				42C9795C1FB293A5000247F4 /* GroupCollectionCell.swift */,
 				42C979611FB293A5000247F4 /* GroupTVCell.swift */,
 				42C9795D1FB293A5000247F4 /* MainGroupTVCell.swift */,
-				42C9795E1FB293A5000247F4 /* MediaCaptionView.swift */,
 				42C979661FB293A6000247F4 /* MediaImageView.swift */,
 				42C979601FB293A5000247F4 /* NoGroupsView.swift */,
 				42C9795F1FB293A5000247F4 /* NumberButton.swift */,
 				42C979671FB293A6000247F4 /* NumPlaceholderButton.swift */,
 				42C979621FB293A6000247F4 /* StoryView.swift */,
+				42C9795E1FB293A5000247F4 /* MediaCaptionView.swift */,
+				42C979631FB293A6000247F4 /* DrawCaptionView.swift */,
 				42C979641FB293A6000247F4 /* TextCaptionView.swift */,
 				42240D001FB418DE007BB8FF /* MemberTVCell.swift */,
 			);
@@ -721,6 +768,7 @@
 		42D575821E37161A0094037D /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				42C4E56A1FB92870003E3CDA /* ColorSlider */,
 				42C979CB1FB29443000247F4 /* SwiftyDraw.swift */,
 				42C979CC1FB29443000247F4 /* SwiftyJSON.swift */,
 				429386561FB27A4F001E4639 /* DeckTransition */,
@@ -1154,9 +1202,11 @@
 				42C97A1C1FB294AE000247F4 /* KeychainItemAccessibility.swift in Sources */,
 				42240CAD1FB296FE007BB8FF /* RoundedView.swift in Sources */,
 				42C97A281FB294BC000247F4 /* UITableView_ext.swift in Sources */,
+				42C4E5831FB92A49003E3CDA /* HSBColor.swift in Sources */,
 				42C9798C1FB293BE000247F4 /* AddMarbleCodeVC.swift in Sources */,
 				42C979341FB2937B000247F4 /* User.swift in Sources */,
 				42C97A2C1FB294BC000247F4 /* UIImage_ext.swift in Sources */,
+				42C4E5731FB92899003E3CDA /* ColorSlider.swift in Sources */,
 				42C979941FB293BE000247F4 /* SendGroupTV.swift in Sources */,
 				42C979F21FB29495000247F4 /* UIImage+SwiftyGif.swift in Sources */,
 				42C9792E1FB2934B000247F4 /* Common.swift in Sources */,
@@ -1169,6 +1219,7 @@
 				42240D021FB418DE007BB8FF /* MemberTVCell.swift in Sources */,
 				42C97A011FB2949B000247F4 /* SwiftyCamViewController.swift in Sources */,
 				42C979731FB293A6000247F4 /* GroupTVCell.swift in Sources */,
+				42C4E5711FB92899003E3CDA /* GradientView.swift in Sources */,
 				42C979921FB293BE000247F4 /* CreateMarbleVC.swift in Sources */,
 				42C9799E1FB293BE000247F4 /* ViewLeft.swift in Sources */,
 				42C979981FB293BE000247F4 /* AuthSignUpVC.swift in Sources */,
@@ -1179,6 +1230,7 @@
 				42C97A161FB294A9000247F4 /* SCLExtensions.swift in Sources */,
 				42C979531FB2938D000247F4 /* GroupNetworker.swift in Sources */,
 				42C979511FB2938D000247F4 /* Downloader.swift in Sources */,
+				42C4E5861FB93519003E3CDA /* TextCaptionViewDelegate.swift in Sources */,
 				42E13DA81E8E46610016FA76 /* AppDelegate.swift in Sources */,
 				42C979401FB29382000247F4 /* Groups.swift in Sources */,
 				42C979691FB293A6000247F4 /* GroupCollectionCell.swift in Sources */,
@@ -1188,6 +1240,7 @@
 				42240CB11FB2970E007BB8FF /* CornerView.swift in Sources */,
 				42C9798E1FB293BE000247F4 /* AuthLoginVC.swift in Sources */,
 				42C97A101FB2949F000247F4 /* Enum.swift in Sources */,
+				42C4E5791FB92899003E3CDA /* CSPreviewView.swift in Sources */,
 				42240D051FB41A1B007BB8FF /* MembersInfoTV.swift in Sources */,
 				42C979441FB29382000247F4 /* Stories.swift in Sources */,
 				42C9799A1FB293BE000247F4 /* ViewPickDest.swift in Sources */,
@@ -1196,8 +1249,10 @@
 				42C9792C1FB2934B000247F4 /* Router.swift in Sources */,
 				42C9799C1FB293BE000247F4 /* ViewController.swift in Sources */,
 				42C9797B1FB293A6000247F4 /* CaptionView.swift in Sources */,
+				42C4E57F1FB92A49003E3CDA /* ColorSliderExtensions.swift in Sources */,
 				42C9797D1FB293A6000247F4 /* MediaImageView.swift in Sources */,
 				42C979361FB2937B000247F4 /* Group.swift in Sources */,
+				42C4E5811FB92A49003E3CDA /* Gradient.swift in Sources */,
 				42240CB01FB2970C007BB8FF /* Corner.swift in Sources */,
 				42C979751FB293A6000247F4 /* StoryView.swift in Sources */,
 				42C979711FB293A6000247F4 /* NoGroupsView.swift in Sources */,
@@ -1220,6 +1275,7 @@
 				42C9796F1FB293A6000247F4 /* NumberButton.swift in Sources */,
 				42C9794F1FB2938D000247F4 /* StoryNetworker.swift in Sources */,
 				42C97A2E1FB294BC000247F4 /* KeychainWrapper_ext.swift in Sources */,
+				42C4E5751FB92899003E3CDA /* DefaultPreviewView.swift in Sources */,
 				42C979FD1FB2949B000247F4 /* Orientation.swift in Sources */,
 				42C979551FB2938D000247F4 /* UserNetworker.swift in Sources */,
 				42C979771FB293A6000247F4 /* DrawCaptionView.swift in Sources */,
@@ -1240,9 +1296,11 @@
 				42C97A191FB294AE000247F4 /* KeychainWrapper.swift in Sources */,
 				42C97A271FB294BC000247F4 /* UITableView_ext.swift in Sources */,
 				42C97A1B1FB294AE000247F4 /* KeychainItemAccessibility.swift in Sources */,
+				42C4E5821FB92A49003E3CDA /* HSBColor.swift in Sources */,
 				42C979781FB293A6000247F4 /* TextCaptionView.swift in Sources */,
 				42240CA61FB296AD007BB8FF /* RoundedView.swift in Sources */,
 				42C97A2B1FB294BC000247F4 /* UIImage_ext.swift in Sources */,
+				42C4E5721FB92899003E3CDA /* ColorSlider.swift in Sources */,
 				42C979DC1FB29458000247F4 /* DeckPresentingAnimationController.swift in Sources */,
 				42C979521FB2938D000247F4 /* GroupNetworker.swift in Sources */,
 				42C979701FB293A6000247F4 /* NoGroupsView.swift in Sources */,
@@ -1255,6 +1313,7 @@
 				42240D011FB418DE007BB8FF /* MemberTVCell.swift in Sources */,
 				42C9795A1FB2938D000247F4 /* Networker.swift in Sources */,
 				42C97A001FB2949B000247F4 /* SwiftyCamViewController.swift in Sources */,
+				42C4E5701FB92899003E3CDA /* GradientView.swift in Sources */,
 				42C9796E1FB293A6000247F4 /* NumberButton.swift in Sources */,
 				42C9794E1FB2938D000247F4 /* StoryNetworker.swift in Sources */,
 				42C979951FB293BE000247F4 /* AuthViewController.swift in Sources */,
@@ -1265,6 +1324,7 @@
 				42C9793F1FB29382000247F4 /* Groups.swift in Sources */,
 				42C9796A1FB293A6000247F4 /* MainGroupTVCell.swift in Sources */,
 				42C9796C1FB293A6000247F4 /* MediaCaptionView.swift in Sources */,
+				42C4E5851FB93519003E3CDA /* TextCaptionViewDelegate.swift in Sources */,
 				42C979291FB2934B000247F4 /* Constants.swift in Sources */,
 				42C979911FB293BE000247F4 /* CreateMarbleVC.swift in Sources */,
 				42C979351FB2937B000247F4 /* Group.swift in Sources */,
@@ -1274,6 +1334,7 @@
 				42C9798F1FB293BE000247F4 /* GroupInfoVC.swift in Sources */,
 				42C9797C1FB293A6000247F4 /* MediaImageView.swift in Sources */,
 				42C97A0F1FB2949F000247F4 /* Enum.swift in Sources */,
+				42C4E5781FB92899003E3CDA /* CSPreviewView.swift in Sources */,
 				42240D041FB41A1B007BB8FF /* MembersInfoTV.swift in Sources */,
 				42C979391FB2937B000247F4 /* Comment.swift in Sources */,
 				42C9798D1FB293BE000247F4 /* AuthLoginVC.swift in Sources */,
@@ -1282,8 +1343,10 @@
 				42C979331FB2937B000247F4 /* User.swift in Sources */,
 				42240CA51FB296AD007BB8FF /* CornerView.swift in Sources */,
 				42C979411FB29382000247F4 /* State.swift in Sources */,
+				42C4E57E1FB92A49003E3CDA /* ColorSliderExtensions.swift in Sources */,
 				42C979CD1FB29443000247F4 /* SwiftyDraw.swift in Sources */,
 				42C9792D1FB2934B000247F4 /* Common.swift in Sources */,
+				42C4E5801FB92A49003E3CDA /* Gradient.swift in Sources */,
 				42C979561FB2938D000247F4 /* AuthNetworker.swift in Sources */,
 				42C9799F1FB293BE000247F4 /* ViewRight.swift in Sources */,
 				42240CA71FB296AD007BB8FF /* CGRect+InitWithCorner.swift in Sources */,
@@ -1306,6 +1369,7 @@
 				42C9799B1FB293BE000247F4 /* ViewController.swift in Sources */,
 				42C979581FB2938D000247F4 /* UploadNetworker.swift in Sources */,
 				42C97A2D1FB294BC000247F4 /* KeychainWrapper_ext.swift in Sources */,
+				42C4E5741FB92899003E3CDA /* DefaultPreviewView.swift in Sources */,
 				42C979501FB2938D000247F4 /* Downloader.swift in Sources */,
 				42C979FC1FB2949B000247F4 /* Orientation.swift in Sources */,
 				42C979971FB293BE000247F4 /* AuthSignUpVC.swift in Sources */,

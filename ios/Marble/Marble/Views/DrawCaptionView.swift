@@ -30,6 +30,7 @@ class DrawCaptionView: UIView, UIGestureRecognizerDelegate {
     
     func configure() {
         drawView = SwiftyDrawView(frame: self.frame)
+        drawView?.lineColor = .white
         addSubview(drawView!)
         
         panRecognizer.delegate = self
@@ -52,6 +53,18 @@ class DrawCaptionView: UIView, UIGestureRecognizerDelegate {
     
     @objc internal func tapped(_ gesture: UIPanGestureRecognizer) {
         drawView?.beginTouches(point: gesture.location(in: self))
+    }
+    
+    func undoLine() {
+        drawView?.removeLastLine()
+    }
+    
+    func changeLineColor(_ color: UIColor) {
+        drawView?.lineColor = color
+    }
+    
+    func isEmpty() -> Bool {
+        return drawView!.isEmpty()
     }
     
 }
