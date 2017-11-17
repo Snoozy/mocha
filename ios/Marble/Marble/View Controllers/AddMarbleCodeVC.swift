@@ -104,7 +104,7 @@ class AddMarbleCodeVC: UIViewController {
                         if status == 0 {  // successfuly found group
                             let name = response["group_name"] as! String
                             let memberCount = response["member_count"] as! Int
-                            let groupId = response["group_id"] as! Int
+                            let groupCode = response["code"] as! Int
                             
                             let appearance = SCLAlertView.SCLAppearance(
                                 showCloseButton: false,
@@ -113,7 +113,7 @@ class AddMarbleCodeVC: UIViewController {
                             
                             let alert = SCLAlertView(appearance: appearance)
                             alert.addButton("Join Marble", action: {
-                                Networker.shared.joinGroup(id: groupId, completionHandler: { response in
+                                Networker.shared.joinGroup(code: String(groupCode), completionHandler: { response in
                                     switch response.result {
                                     case .success(let value):
                                         print("segue")
@@ -121,7 +121,7 @@ class AddMarbleCodeVC: UIViewController {
                                         print(json)
                                         let group = json["group"]
                                         let groupId = group["group_id"].int!
-                                        State.shared.addGroup(name: group["name"].stringValue, id: groupId, lastSeen: group["last_seen"].int64 ?? 0, members: group["members"].int ?? 1)
+                                        State.shared.addGroup(name: group["name"].stringValue, id: groupId, lastSeen: group["last_seen"].int64 ?? 0, members: group["members"].int ?? 1, code: group["code"].string ?? String(groupId))
                                         self.performSegue(withIdentifier: "JoinGroupToMainUnwind", sender: nil)
                                     case .failure:
                                         print(response.debugDescription)

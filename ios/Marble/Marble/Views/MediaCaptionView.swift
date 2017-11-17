@@ -61,13 +61,12 @@ class MediaCaptionView: UIView, TextCaptionViewDelegate {
         drawButton.translatesAutoresizingMaskIntoConstraints = false
         return drawButton
     }()
+    
     var colorSlider: ColorSlider = {
         let colorSlider = ColorSlider(orientation: .vertical, previewSide: .left)
         colorSlider.color = .white
         colorSlider.isHidden = true
         colorSlider.translatesAutoresizingMaskIntoConstraints = false
-        
-        colorSlider.addTarget(self, action: #selector(changedColor(_:)), for: .valueChanged)
         return colorSlider
     }()
     
@@ -105,11 +104,13 @@ class MediaCaptionView: UIView, TextCaptionViewDelegate {
         self.addSubview(undoButton)
         self.addSubview(colorSlider)
         
+        colorSlider.addTarget(self, action: #selector(changedColor(_:)), for: .valueChanged)
+        
         NSLayoutConstraint.activate([
             undoButton.centerXAnchor.constraint(equalTo: drawButton.centerXAnchor),
-            undoButton.topAnchor.constraint(equalTo: drawButton.bottomAnchor, constant: 15),
-            undoButton.widthAnchor.constraint(equalToConstant: 25),
-            undoButton.heightAnchor.constraint(equalToConstant: 25)
+            undoButton.topAnchor.constraint(equalTo: drawButton.bottomAnchor, constant: 10),
+            undoButton.widthAnchor.constraint(equalToConstant: 35),
+            undoButton.heightAnchor.constraint(equalToConstant: 35)
         ])
         
         NSLayoutConstraint.activate([
@@ -121,7 +122,7 @@ class MediaCaptionView: UIView, TextCaptionViewDelegate {
         
         NSLayoutConstraint.activate([
             colorSlider.centerXAnchor.constraint(equalTo: drawButton.centerXAnchor),
-            colorSlider.topAnchor.constraint(equalTo: undoButton.bottomAnchor, constant: 25),
+            colorSlider.topAnchor.constraint(equalTo: undoButton.bottomAnchor, constant: 15),
             colorSlider.widthAnchor.constraint(equalToConstant: 12),
             colorSlider.heightAnchor.constraint(equalToConstant: 150),
         ])

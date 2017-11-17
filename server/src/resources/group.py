@@ -1,7 +1,7 @@
 from data.db.models.user import User
 from data.db.models.group import Group
 import json
-from resources.constants import RESP_ERR_JSON
+from resources.constants import RESP_ERR_JSON, GROUP_ID_XOR
 from falcon import Request, Response
 
 
@@ -13,8 +13,8 @@ class GroupCreateResource:
         group.users.append(user)
         req.session.add(group)
         resp.json = {
-                    'status' : 0
-                }
+            'status': 0
+        }
 
 
 class FindGroupResource:
@@ -22,27 +22,29 @@ class FindGroupResource:
         code = req.get_param('code').lstrip("0")
         if not code or code == "":
             resp.json = {
-                    'status': 1
-                }
+                'status': 1
+            }
             return
+        code = int(code) ^ GROUP_ID_XOR
         user = req.session.query(User).filter(User.id == user_id).first()
-        group = req.session.query(Group).filter(Group.id == int(code)).first()
+        group = req.session.query(Group).filter(Group.id == code).first()
         if group:
             last_seen = None
             for m in user.memberships:
                 if m.group.id == group.id:
                     last_seen = m.last_seen
             resp.json = {
-                    'status': 0,
-                    'group_name': group.name,
-                    'member_count': group.memberships.count(),
-                    'group_id': group.id,
-                    'last_seen': last_seen
-                }
+                'status': 0,
+                'group_name': group.name,
+                'member_count': group.memberships.count(),
+                'group_id': group.id,
+                'code': group.id ^ GROUP_ID_XOR,
+                'last_seen': last_seen
+            }
         else:
             resp.json = {
-                    'status': 1
-                }
+                'status': 1
+            }
 
 
 class ListGroupsResource:
@@ -60,28 +62,34 @@ class ListGroupsResource:
             g_dict['last_seen'] = last_seen
             group_arr.append(g_dict)
         resp.json = {
-                'status': 0,
-                'groups': json.dumps(group_arr)
-            }
+            'status': 0,
+            'groups': json.dumps(group_arr)
+        }
 
 
 class GroupJoinResource:
     def on_post(self, req, resp, user_id):
         group_id = req.get_param('group_id')
-        user = req.session.query(User).filter(User.id == user_id).first()
+        if not group_id or group_id == '':
+            code = req.get_param('code')
+            if not code:
+                resp.json = RESP_ERR_JSON
+                return
+            group_id = int(code) ^ GROUP_ID_XOR
         group = req.session.query(Group).filter(Group.id == int(group_id)).first()
+        user = req.session.query(User).filter(User.id == user_id).first()
         if not user or not group:
             resp.json = {
                 'status': 1
-                }
+            }
             return
         if user not in group.users:
             group.users.append(user)
         req.session.commit()
         resp.json = {
-                'status': 0,
-                'group': group.to_dict()
-            }
+            'status': 0,
+            'group': group.to_dict()
+        }
 
 
 class GroupLeaveResource:

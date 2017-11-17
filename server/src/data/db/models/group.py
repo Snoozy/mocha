@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String
 from ..db import Base
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.associationproxy import association_proxy
+from resources.constants import GROUP_ID_XOR
 
 
 class Group(Base):
@@ -15,7 +16,8 @@ class Group(Base):
 
     def to_dict(self):
         return {
-                'name': self.name,
-                'group_id': self.id,
-                'members': self.memberships.count()
-                }
+            'name': self.name,
+            'group_id': self.id,
+            'code': int(self.id) ^ GROUP_ID_XOR,
+            'members': self.memberships.count()
+        }

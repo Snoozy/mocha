@@ -19,6 +19,7 @@ class GroupInfoVC: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var membersTable: MembersInfoTV!
+    @IBOutlet weak var marbleCodeLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,8 +29,10 @@ class GroupInfoVC: UIViewController, UIScrollViewDelegate {
         
         scrollView.delegate = self
         
-        let qrCodeImg = createMarbleQRCode(content: String(format: "marble.group:%d", (group?.groupId)!), color: CIColor(color: Constants.Colors.MarbleBlue))
+        let qrCodeImg = createMarbleQRCode(content: "marble.group:" + group!.code, color: CIColor(color: Constants.Colors.MarbleBlue))
         qrImage.image = UIImage(ciImage: qrCodeImg!)
+        
+        marbleCodeLabel.text = "Marble Code: " + group!.code
         
         membersTable.register(UINib(nibName: "MemberTVCell", bundle: nil), forCellReuseIdentifier: "MemberCell")
         membersTable.dataSource = membersTable

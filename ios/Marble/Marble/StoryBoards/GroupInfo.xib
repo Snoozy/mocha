@@ -13,6 +13,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GroupInfoVC" customModule="Marble" customModuleProvider="target">
             <connections>
                 <outlet property="groupName" destination="MHt-la-UTf" id="oAU-HP-6fU"/>
+                <outlet property="marbleCodeLabel" destination="6o9-yn-wb2" id="7pf-UA-nPq"/>
                 <outlet property="membersTable" destination="kmM-Vw-yX0" id="WrZ-fW-BWE"/>
                 <outlet property="qrImage" destination="4Jf-Dk-Sbu" id="iig-dq-YcW"/>
                 <outlet property="scrollView" destination="BUU-LB-lr5" id="i8m-c2-aGd"/>
@@ -89,18 +90,29 @@
                             </constraints>
                         </imageView>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="kmM-Vw-yX0" customClass="MembersInfoTV" customModule="Marble" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="186" width="375" height="418"/>
+                            <rect key="frame" x="0.0" y="210" width="375" height="394"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstAttribute="height" priority="750" constant="418" id="Qt8-R3-Fix"/>
+                                <constraint firstAttribute="height" priority="750" constant="394" id="Qt8-R3-Fix"/>
                             </constraints>
                         </tableView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Marble Code: 1000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6o9-yn-wb2">
+                            <rect key="frame" x="83" y="176" width="208" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="21" id="33n-mD-LBR"/>
+                                <constraint firstAttribute="width" constant="208" id="kgu-Nv-uFK"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="kmM-Vw-yX0" secondAttribute="trailing" id="7Xn-9k-Epi"/>
+                        <constraint firstItem="6o9-yn-wb2" firstAttribute="centerX" secondItem="BUU-LB-lr5" secondAttribute="centerX" id="J2B-oc-Yni"/>
                         <constraint firstItem="MHt-la-UTf" firstAttribute="top" secondItem="4Jf-Dk-Sbu" secondAttribute="bottom" constant="8" id="SOH-dy-cnx"/>
                         <constraint firstItem="4Jf-Dk-Sbu" firstAttribute="top" secondItem="BUU-LB-lr5" secondAttribute="top" constant="20" id="Zwt-dV-0P2"/>
-                        <constraint firstItem="kmM-Vw-yX0" firstAttribute="top" secondItem="MHt-la-UTf" secondAttribute="bottom" constant="18" id="anA-nx-c8V"/>
+                        <constraint firstItem="kmM-Vw-yX0" firstAttribute="top" secondItem="MHt-la-UTf" secondAttribute="bottom" constant="42" id="anA-nx-c8V"/>
                         <constraint firstItem="MHt-la-UTf" firstAttribute="leading" secondItem="BUU-LB-lr5" secondAttribute="leading" constant="8" id="bAb-qW-ocd"/>
                         <constraint firstAttribute="bottom" secondItem="kmM-Vw-yX0" secondAttribute="bottom" id="ciP-2J-d4V"/>
                         <constraint firstItem="4Jf-Dk-Sbu" firstAttribute="centerX" secondItem="BUU-LB-lr5" secondAttribute="centerX" id="cpt-93-zi1"/>
@@ -108,7 +120,8 @@
                         <constraint firstItem="kmM-Vw-yX0" firstAttribute="leading" secondItem="BUU-LB-lr5" secondAttribute="leading" id="e03-7R-kgQ"/>
                         <constraint firstItem="kmM-Vw-yX0" firstAttribute="centerX" secondItem="BUU-LB-lr5" secondAttribute="centerX" id="hDV-gV-37d"/>
                         <constraint firstItem="MHt-la-UTf" firstAttribute="centerX" secondItem="BUU-LB-lr5" secondAttribute="centerX" id="oCp-Ff-ZJS"/>
-                        <constraint firstItem="kmM-Vw-yX0" firstAttribute="top" secondItem="MHt-la-UTf" secondAttribute="bottom" constant="18" id="yx0-E2-DtC"/>
+                        <constraint firstItem="6o9-yn-wb2" firstAttribute="top" secondItem="MHt-la-UTf" secondAttribute="bottom" constant="8" id="x7c-LH-f2N"/>
+                        <constraint firstItem="kmM-Vw-yX0" firstAttribute="top" secondItem="MHt-la-UTf" secondAttribute="bottom" constant="42" id="yx0-E2-DtC"/>
                         <constraint firstAttribute="trailing" secondItem="MHt-la-UTf" secondAttribute="trailing" constant="8" id="zgE-Ho-GCn"/>
                     </constraints>
                 </scrollView>

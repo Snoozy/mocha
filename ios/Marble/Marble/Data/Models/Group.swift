@@ -15,15 +15,17 @@ class Group {
     var storyViewIdx: Int = 0
     var members: Int
     var lastSeen: Int64
+    var code: String
     
     private var membersInfo: [User]
     
-    init(name: String, id: Int, lastSeen: Int64, members: Int) {
+    init(name: String, id: Int, lastSeen: Int64, members: Int, code: String) {
         self.groupId = id
         self.name = name
         self.lastSeen = lastSeen
         self.members = members
         self.membersInfo = []
+        self.code = code
         if State.shared.groupStories[groupId] != nil {
             for (idx, story) in State.shared.groupStories[groupId]!.enumerated() {
                 if lastSeen < story.timestamp {

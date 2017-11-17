@@ -10,10 +10,10 @@ import Foundation
 import Alamofire
 
 extension Networker {
-    
-    func joinGroup(id: Int, completionHandler: @escaping (DataResponse<Any>) -> ()) {
+        
+    func joinGroup(code: String, completionHandler: @escaping (DataResponse<Any>) -> ()) {
         let params: Parameters = [
-            "group_id": id
+            "code": code
         ]
         self.sessionManager.request(Router.JoinGroup, method: .post, parameters: params, encoding: URLEncoding.default).validate().responseJSON(completionHandler: completionHandler)
     }
