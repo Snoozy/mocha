@@ -11,8 +11,8 @@ class Membership(Base):
     __tablename__ = 'memberships'
 
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.id'))
-    group_id = Column(Integer, ForeignKey('groups.id'))
+    user_id = Column(Integer, ForeignKey('users.id'), index=True)
+    group_id = Column(Integer, ForeignKey('groups.id'), index=True)
     timestamp = Column(BigInteger)
     last_seen = Column(BigInteger, default=None)
 

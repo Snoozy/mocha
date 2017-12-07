@@ -221,6 +221,8 @@
 		42C97A2C1FB294BC000247F4 /* UIImage_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C97A211FB294BC000247F4 /* UIImage_ext.swift */; };
 		42C97A2D1FB294BC000247F4 /* KeychainWrapper_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C97A221FB294BC000247F4 /* KeychainWrapper_ext.swift */; };
 		42C97A2E1FB294BC000247F4 /* KeychainWrapper_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C97A221FB294BC000247F4 /* KeychainWrapper_ext.swift */; };
+		42CAB19A1FD8D0F000D5B022 /* MemoriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CAB1991FD8D0F000D5B022 /* MemoriesVC.swift */; };
+		42CAB19B1FD8D0F000D5B022 /* MemoriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CAB1991FD8D0F000D5B022 /* MemoriesVC.swift */; };
 		42E13DA81E8E46610016FA76 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952AF8051DAB363D005E60C7 /* AppDelegate.swift */; };
 		42E13DC11E8E46610016FA76 /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 429991621E4DAEB90049608F /* AlamofireImage.framework */; };
 		42E13DC21E8E46610016FA76 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 420A006D1E31C6D400525DB0 /* Alamofire.framework */; };
@@ -531,6 +533,7 @@
 		42C97A201FB294BC000247F4 /* UIView_ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView_ext.swift; sourceTree = "<group>"; };
 		42C97A211FB294BC000247F4 /* UIImage_ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage_ext.swift; sourceTree = "<group>"; };
 		42C97A221FB294BC000247F4 /* KeychainWrapper_ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapper_ext.swift; sourceTree = "<group>"; };
+		42CAB1991FD8D0F000D5B022 /* MemoriesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoriesVC.swift; sourceTree = "<group>"; };
 		42E13DD81E8E46610016FA76 /* Marble Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Marble Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		42E13DDC1E8E4B4B0016FA76 /* Info-Dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-Dev.plist"; sourceTree = "<group>"; };
 		952AF8021DAB363D005E60C7 /* Marble.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Marble.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -828,6 +831,7 @@
 				42C979871FB293BD000247F4 /* ViewPickDest.swift */,
 				42C9798A1FB293BE000247F4 /* ViewRight.swift */,
 				42240D031FB41A1B007BB8FF /* MembersInfoTV.swift */,
+				42CAB1991FD8D0F000D5B022 /* MemoriesVC.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -1200,6 +1204,7 @@
 				42C979DD1FB29458000247F4 /* DeckPresentingAnimationController.swift in Sources */,
 				42C97A1A1FB294AE000247F4 /* KeychainWrapper.swift in Sources */,
 				42C97A1C1FB294AE000247F4 /* KeychainItemAccessibility.swift in Sources */,
+				42CAB19B1FD8D0F000D5B022 /* MemoriesVC.swift in Sources */,
 				42240CAD1FB296FE007BB8FF /* RoundedView.swift in Sources */,
 				42C97A281FB294BC000247F4 /* UITableView_ext.swift in Sources */,
 				42C4E5831FB92A49003E3CDA /* HSBColor.swift in Sources */,
@@ -1294,6 +1299,7 @@
 				42C979FE1FB2949B000247F4 /* PreviewView.swift in Sources */,
 				42C979431FB29382000247F4 /* Stories.swift in Sources */,
 				42C97A191FB294AE000247F4 /* KeychainWrapper.swift in Sources */,
+				42CAB19A1FD8D0F000D5B022 /* MemoriesVC.swift in Sources */,
 				42C97A271FB294BC000247F4 /* UITableView_ext.swift in Sources */,
 				42C97A1B1FB294AE000247F4 /* KeychainItemAccessibility.swift in Sources */,
 				42C4E5821FB92A49003E3CDA /* HSBColor.swift in Sources */,

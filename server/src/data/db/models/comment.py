@@ -7,12 +7,13 @@ from .user import User
 
 CDN_URL = "https://static.amarbleapp.com/media/"
 
+
 class Comment(Base):
     __tablename__ = 'comments'
 
     id = Column(Integer, primary_key=True)
-    story_id = Column(Integer, ForeignKey('stories.id'))
-    user_id = Column(Integer, ForeignKey('users.id'))
+    story_id = Column(Integer, ForeignKey('stories.id'), index=True)
+    user_id = Column(Integer, ForeignKey('users.id'), index=True)
     media_id = Column(String)
     timestamp = Column(BigInteger)
 

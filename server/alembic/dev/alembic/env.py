@@ -18,8 +18,8 @@ fileConfig(config.config_file_name)
 import sys
 sys.path.append('../..')
 
-from db.models import *
-from db.db import Base
+from src.data.db.models import *
+from src.data.db.db import Base
 
 target_metadata = Base.metadata
 

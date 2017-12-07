@@ -14,9 +14,10 @@ class Story(Base):
     id = Column(Integer, primary_key=True)
     media_id = Column(String)
     media_type = Column(SmallInteger, default=0)  # 0 == image, 1 == video
-    group_id = Column(Integer, ForeignKey("groups.id"))
-    user_id = Column(Integer, ForeignKey('users.id'))
-    timestamp = Column(BigInteger)
+    is_memory = Column(SmallInteger, default=0)  # 0 == not memory, 1 == is memory
+    group_id = Column(Integer, ForeignKey("groups.id"), index=True)
+    user_id = Column(Integer, ForeignKey('users.id'), index=True)
+    timestamp = Column(BigInteger, index=True)
 
     user = relationship("User", foreign_keys=[user_id])
     group = relationship("Group", foreign_keys=[group_id])

@@ -8,7 +8,7 @@ class User(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(20))
-    username = Column(String(15), unique=True)
+    username = Column(String(15), index=True, unique=True)
     password = Column(String(100))
     
     groups = association_proxy('memberships', 'group')

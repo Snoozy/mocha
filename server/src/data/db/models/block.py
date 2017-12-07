@@ -5,11 +5,12 @@ from sqlalchemy.orm import relationship, backref
 from ..db import Base
 from .user import User
 
+
 class Block(Base):
     __tablename__ = 'blocks'
 
     id = Column(Integer, primary_key=True)
-    blocker_id = Column(Integer, ForeignKey('users.id'))
+    blocker_id = Column(Integer, ForeignKey('users.id'), index=True)
     blockee_id = Column(Integer, ForeignKey('users.id'))
     timestamp = Column(BigInteger)
 

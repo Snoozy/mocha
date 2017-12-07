@@ -10,7 +10,7 @@ class Device(Base):
     type = Column(SmallInteger, default=0)  # 0 == iOS, 1 == Andriod
     arn = Column(String)
     token = Column(String)
-    user_id = Column(Integer, ForeignKey('users.id'))
+    user_id = Column(Integer, ForeignKey('users.id'), index=True)
 
     user = relationship('User', backref=backref('devices', lazy='dynamic'))
 

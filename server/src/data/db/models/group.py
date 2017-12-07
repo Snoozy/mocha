@@ -1,8 +1,9 @@
 from sqlalchemy import Column, Integer, String
-from ..db import Base
-from sqlalchemy.orm import relationship
 from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.orm import relationship
+
 from resources.constants import GROUP_ID_XOR
+from ..db import Base
 
 
 class Group(Base):
