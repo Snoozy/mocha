@@ -31,18 +31,22 @@ class ViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognize
         scrollView.addSubview((leftStory?.view)!)
         leftStory?.didMove(toParentViewController: self)
         
-        addChildViewController(vRight)
-        scrollView.addSubview(vRight.view)
-        vRight.didMove(toParentViewController: self)
-        
-        var vRightFrame = vRight.view.frame
-        vRightFrame.origin.x = view.frame.width
-        vRightFrame.size = CGSize.init(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        vRight.view.frame = vRightFrame
+        if !UIDevice.current.isSimulator {
+            addChildViewController(vRight)
+            scrollView.addSubview(vRight.view)
+            vRight.didMove(toParentViewController: self)
+            
+            var vRightFrame = vRight.view.frame
+            vRightFrame.origin.x = view.frame.width
+            vRightFrame.size = CGSize.init(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            vRight.view.frame = vRightFrame
+            
+            scrollView.contentSize = CGSize(width: view.frame.width * 2, height: view.frame.height)
+        } else {
+            scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
+        }
         
         initialHeight = view.frame.height
-        
-        scrollView.contentSize = CGSize(width: view.frame.width * 2, height: view.frame.height)
         
         State.shared.refreshUserGroups()
         

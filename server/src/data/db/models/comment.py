@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship, backref
 from ..db import Base
 from .user import User
 
-CDN_URL = "https://static.amarbleapp.com/media/"
+CDN_URL = 'https://static.amarbleapp.com/media/'
 
 
 class Comment(Base):

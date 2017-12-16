@@ -31,6 +31,8 @@ enum Router : URLConvertible {
     case StorySeen
     case Block
     case FlagStory
+    case GetMemories
+    case SaveStory
     
     func asURL() throws -> URL {
         let versionNum = "v1"
@@ -69,6 +71,11 @@ enum Router : URLConvertible {
                 return "/stories/flag"
             case .GroupInfo:
                 return "/groups/info"
+            case .GetMemories:
+                return "/memories"
+            case .SaveStory:
+                return "/stories/save"
+                
             }
         }()
         

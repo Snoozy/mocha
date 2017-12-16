@@ -10,8 +10,8 @@ import Foundation
 import UIKit
 
 #if DEV
-    let API_URL = "http://192.168.10.109:8000"
-//    let API_URL = "https://api.amarbleapp.com"
+//    let API_URL = "http://192.168.10.109:8000"
+    let API_URL = "https://api.amarbleapp.com"
 #else
     let API_URL = "https://api.amarbleapp.com"
 //    let API_URL = "http://192.168.10.105:8000"  // FOR TESTING NOTIFICATIONS ONLY (until Marble Dev entitlements setup)

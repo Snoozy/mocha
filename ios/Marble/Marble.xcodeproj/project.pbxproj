@@ -32,6 +32,8 @@
 		42240D041FB41A1B007BB8FF /* MembersInfoTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42240D031FB41A1B007BB8FF /* MembersInfoTV.swift */; };
 		42240D051FB41A1B007BB8FF /* MembersInfoTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42240D031FB41A1B007BB8FF /* MembersInfoTV.swift */; };
 		42665C6B1F78C5F4004BEA74 /* focus.gif in Resources */ = {isa = PBXBuildFile; fileRef = 42665C6A1F78C5F4004BEA74 /* focus.gif */; };
+		4268482D1FE5D0CC006A7982 /* UIDevice_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4268482C1FE5D0CC006A7982 /* UIDevice_ext.swift */; };
+		4268482E1FE5D0CC006A7982 /* UIDevice_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4268482C1FE5D0CC006A7982 /* UIDevice_ext.swift */; };
 		427FFC741E3B1F600007159C /* AlamofireNetworkActivityIndicator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 427FFC711E3B1F470007159C /* AlamofireNetworkActivityIndicator.framework */; };
 		427FFC751E3B1F600007159C /* AlamofireNetworkActivityIndicator.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 427FFC711E3B1F470007159C /* AlamofireNetworkActivityIndicator.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4299916F1E4DAF000049608F /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 429991621E4DAEB90049608F /* AlamofireImage.framework */; };
@@ -223,6 +225,10 @@
 		42C97A2E1FB294BC000247F4 /* KeychainWrapper_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C97A221FB294BC000247F4 /* KeychainWrapper_ext.swift */; };
 		42CAB19A1FD8D0F000D5B022 /* MemoriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CAB1991FD8D0F000D5B022 /* MemoriesVC.swift */; };
 		42CAB19B1FD8D0F000D5B022 /* MemoriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CAB1991FD8D0F000D5B022 /* MemoriesVC.swift */; };
+		42CAB1AD1FDB7E7200D5B022 /* MemoriesNetworker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CAB1AC1FDB7E7200D5B022 /* MemoriesNetworker.swift */; };
+		42CAB1AE1FDB7E7200D5B022 /* MemoriesNetworker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CAB1AC1FDB7E7200D5B022 /* MemoriesNetworker.swift */; };
+		42CAB1B01FDB841700D5B022 /* MemoriesTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CAB1AF1FDB841700D5B022 /* MemoriesTVCell.swift */; };
+		42CAB1B11FDB841700D5B022 /* MemoriesTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CAB1AF1FDB841700D5B022 /* MemoriesTVCell.swift */; };
 		42E13DA81E8E46610016FA76 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952AF8051DAB363D005E60C7 /* AppDelegate.swift */; };
 		42E13DC11E8E46610016FA76 /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 429991621E4DAEB90049608F /* AlamofireImage.framework */; };
 		42E13DC21E8E46610016FA76 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 420A006D1E31C6D400525DB0 /* Alamofire.framework */; };
@@ -438,6 +444,7 @@
 		42240D031FB41A1B007BB8FF /* MembersInfoTV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersInfoTV.swift; sourceTree = "<group>"; };
 		42651EA31EB879E4006BEF33 /* Marble.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Marble.entitlements; sourceTree = "<group>"; };
 		42665C6A1F78C5F4004BEA74 /* focus.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = focus.gif; sourceTree = "<group>"; };
+		4268482C1FE5D0CC006A7982 /* UIDevice_ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDevice_ext.swift; sourceTree = "<group>"; };
 		427FFC6A1E3B1F470007159C /* AlamofireNetworkActivityIndicator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireNetworkActivityIndicator.xcodeproj; path = AlamofireNetworkActivityIndicator/AlamofireNetworkActivityIndicator.xcodeproj; sourceTree = "<group>"; };
 		429991551E4DAEB90049608F /* AlamofireImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireImage.xcodeproj; path = AlamofireImage/AlamofireImage.xcodeproj; sourceTree = "<group>"; };
 		42C4E56B1FB92899003E3CDA /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
@@ -534,6 +541,8 @@
 		42C97A211FB294BC000247F4 /* UIImage_ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage_ext.swift; sourceTree = "<group>"; };
 		42C97A221FB294BC000247F4 /* KeychainWrapper_ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapper_ext.swift; sourceTree = "<group>"; };
 		42CAB1991FD8D0F000D5B022 /* MemoriesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoriesVC.swift; sourceTree = "<group>"; };
+		42CAB1AC1FDB7E7200D5B022 /* MemoriesNetworker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoriesNetworker.swift; sourceTree = "<group>"; };
+		42CAB1AF1FDB841700D5B022 /* MemoriesTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoriesTVCell.swift; sourceTree = "<group>"; };
 		42E13DD81E8E46610016FA76 /* Marble Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Marble Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		42E13DDC1E8E4B4B0016FA76 /* Info-Dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-Dev.plist"; sourceTree = "<group>"; };
 		952AF8021DAB363D005E60C7 /* Marble.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Marble.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -642,6 +651,7 @@
 				42C979471FB2938C000247F4 /* StoryNetworker.swift */,
 				42C9794C1FB2938D000247F4 /* UploadNetworker.swift */,
 				42C9794A1FB2938C000247F4 /* UserNetworker.swift */,
+				42CAB1AC1FDB7E7200D5B022 /* MemoriesNetworker.swift */,
 			);
 			path = Networkers;
 			sourceTree = "<group>";
@@ -751,6 +761,7 @@
 				42C979631FB293A6000247F4 /* DrawCaptionView.swift */,
 				42C979641FB293A6000247F4 /* TextCaptionView.swift */,
 				42240D001FB418DE007BB8FF /* MemberTVCell.swift */,
+				42CAB1AF1FDB841700D5B022 /* MemoriesTVCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -764,6 +775,7 @@
 				42C97A211FB294BC000247F4 /* UIImage_ext.swift */,
 				42C97A1F1FB294BC000247F4 /* UITableView_ext.swift */,
 				42C97A201FB294BC000247F4 /* UIView_ext.swift */,
+				4268482C1FE5D0CC006A7982 /* UIDevice_ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1217,6 +1229,7 @@
 				42C9792E1FB2934B000247F4 /* Common.swift in Sources */,
 				42C979FB1FB2949B000247F4 /* SwiftyCamViewControllerDelegate.swift in Sources */,
 				42C97A2A1FB294BC000247F4 /* UIView_ext.swift in Sources */,
+				42CAB1B11FDB841700D5B022 /* MemoriesTVCell.swift in Sources */,
 				42C979E91FB29458000247F4 /* DTConstants.swift in Sources */,
 				42C979421FB29382000247F4 /* State.swift in Sources */,
 				42C97A141FB294A9000247F4 /* SCLAlertView.swift in Sources */,
@@ -1233,6 +1246,7 @@
 				42240CAE1FB29706007BB8FF /* CGRect+Corners.swift in Sources */,
 				42C979EB1FB29458000247F4 /* DeckPresentationController.swift in Sources */,
 				42C97A161FB294A9000247F4 /* SCLExtensions.swift in Sources */,
+				4268482E1FE5D0CC006A7982 /* UIDevice_ext.swift in Sources */,
 				42C979531FB2938D000247F4 /* GroupNetworker.swift in Sources */,
 				42C979511FB2938D000247F4 /* Downloader.swift in Sources */,
 				42C4E5861FB93519003E3CDA /* TextCaptionViewDelegate.swift in Sources */,
@@ -1268,6 +1282,7 @@
 				42C97A0A1FB2949F000247F4 /* FontAwesomeView.swift in Sources */,
 				42C979F01FB29495000247F4 /* SwiftyGifManager.swift in Sources */,
 				42C979A01FB293BE000247F4 /* ViewRight.swift in Sources */,
+				42CAB1AE1FDB7E7200D5B022 /* MemoriesNetworker.swift in Sources */,
 				42C9795B1FB2938D000247F4 /* Networker.swift in Sources */,
 				42C979791FB293A6000247F4 /* TextCaptionView.swift in Sources */,
 				42C9793A1FB2937B000247F4 /* Comment.swift in Sources */,
@@ -1312,6 +1327,7 @@
 				42C979701FB293A6000247F4 /* NoGroupsView.swift in Sources */,
 				42C979F11FB29495000247F4 /* UIImage+SwiftyGif.swift in Sources */,
 				42C97A291FB294BC000247F4 /* UIView_ext.swift in Sources */,
+				42CAB1B01FDB841700D5B022 /* MemoriesTVCell.swift in Sources */,
 				42C979FA1FB2949B000247F4 /* SwiftyCamViewControllerDelegate.swift in Sources */,
 				42C9792B1FB2934B000247F4 /* Router.swift in Sources */,
 				42C979E81FB29458000247F4 /* DTConstants.swift in Sources */,
@@ -1328,6 +1344,7 @@
 				42C979EA1FB29458000247F4 /* DeckPresentationController.swift in Sources */,
 				42C97A151FB294A9000247F4 /* SCLExtensions.swift in Sources */,
 				42C9793F1FB29382000247F4 /* Groups.swift in Sources */,
+				4268482D1FE5D0CC006A7982 /* UIDevice_ext.swift in Sources */,
 				42C9796A1FB293A6000247F4 /* MainGroupTVCell.swift in Sources */,
 				42C9796C1FB293A6000247F4 /* MediaCaptionView.swift in Sources */,
 				42C4E5851FB93519003E3CDA /* TextCaptionViewDelegate.swift in Sources */,
@@ -1363,6 +1380,7 @@
 				42C979DA1FB29458000247F4 /* DeckDismissingAnimationController.swift in Sources */,
 				42C979E21FB29458000247F4 /* ManualLayout.swift in Sources */,
 				42C97A091FB2949F000247F4 /* FontAwesomeView.swift in Sources */,
+				42CAB1AD1FDB7E7200D5B022 /* MemoriesNetworker.swift in Sources */,
 				42C979EF1FB29495000247F4 /* SwiftyGifManager.swift in Sources */,
 				42C979761FB293A6000247F4 /* DrawCaptionView.swift in Sources */,
 				42C9798B1FB293BE000247F4 /* AddMarbleCodeVC.swift in Sources */,
@@ -1431,6 +1449,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "-DDEV";
+				"OTHER_SWIFT_FLAGS[sdk=iphonesimulator*]" = "-D IOS_SIMULATOR";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.amarbleapp.marble-dev";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -1573,6 +1592,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "";
+				"OTHER_SWIFT_FLAGS[sdk=iphonesimulator*]" = "-D IOS_SIMULATOR";
 				PRODUCT_BUNDLE_IDENTIFIER = com.amarbleapp.marble;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;

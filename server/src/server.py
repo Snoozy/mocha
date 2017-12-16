@@ -11,7 +11,8 @@ from resources.group import GroupJoinResource, GroupCreateResource, ListGroupsRe
     FindGroupResource, GroupLeaveResource, GroupInfoResource
 from resources.user import GetStoriesResource, BlockUserResource
 from resources.health import HealthCheckResource
-from resources.story import StorySeenResource, FlagStoryResource
+from resources.story import StorySeenResource, FlagStoryResource, SaveStoryResource
+from resources.memories import GetMemoriesResource
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session
@@ -39,19 +40,27 @@ version = 'v1'
 app.add_route('/' + version + '/image/upload', ImageUploadResource())
 app.add_route('/' + version + '/video/upload', VideoUploadResource())
 app.add_route('/' + version + '/comment/upload', CommentUploadResource())
+
 app.add_route('/' + version + '/ping', PingResource())
+
 app.add_route('/' + version + '/signup', SignUpResource())
 app.add_route('/' + version + '/login', LogInResource())
+
 app.add_route('/' + version + '/groups/join', GroupJoinResource())
 app.add_route('/' + version + '/groups/leave', GroupLeaveResource())
 app.add_route('/' + version + '/groups/create', GroupCreateResource())
 app.add_route('/' + version + '/groups/list', ListGroupsResource())
 app.add_route('/' + version + '/groups/find', FindGroupResource())
+
 app.add_route('/' + version + '/stories', GetStoriesResource())
+app.add_route('/' + version + '/stories/save', SaveStoryResource())
 app.add_route('/' + version + '/stories/seen', StorySeenResource())
+
+app.add_route('/' + version + '/memories', GetMemoriesResource())
+app.add_route('/' + version + '/groups/info', GroupInfoResource())
+
 app.add_route('/' + version + '/users/block', BlockUserResource())
 app.add_route('/' + version + '/stories/flag', FlagStoryResource())
-app.add_route('/' + version + '/groups/info', GroupInfoResource())
 
 # ELB Health Check ping
 app.add_route('/health', HealthCheckResource())

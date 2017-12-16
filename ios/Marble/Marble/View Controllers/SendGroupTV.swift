@@ -28,7 +28,7 @@ class SendGroupTV: UITableView, UITableViewDataSource, UITableViewDelegate {
         let group = State.shared.userGroups[indexPath.row]
         cell.title.text = group.name
         SendGroupTV.checked[indexPath.row].1 = group.groupId
-        
+
         cell.preservesSuperviewLayoutMargins = false
         cell.separatorInset = UIEdgeInsets.zero
         cell.layoutMargins = UIEdgeInsets.zero
