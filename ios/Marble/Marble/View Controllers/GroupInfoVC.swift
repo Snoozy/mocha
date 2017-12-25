@@ -15,6 +15,8 @@ class GroupInfoVC: UIViewController, UIScrollViewDelegate {
     
     private var group: Group?
     
+    @IBOutlet weak var memoriesBtn: UIButton!
+    @IBOutlet weak var shareGroupBtn: UIButton!
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
     
     @IBOutlet weak var scrollView: UIScrollView!
@@ -24,13 +26,18 @@ class GroupInfoVC: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        memoriesBtn.backgroundColor = Constants.Colors.MarbleBlue
+        memoriesBtn.layer.cornerRadius = 4
+        
+        shareGroupBtn.layer.borderWidth = 1
+        shareGroupBtn.layer.cornerRadius = 4
+        shareGroupBtn.layer.borderColor = UIColor.darkGray.cgColor
+        shareGroupBtn.setTitleColor(UIColor.darkGray, for: .normal)
+        
         UIApplication.shared.statusBarStyle = .lightContent
         groupName.text = group?.name
         
         scrollView.delegate = self
-        
-        let qrCodeImg = createMarbleQRCode(content: "marble.group:" + group!.code, color: CIColor(color: Constants.Colors.MarbleBlue))
-        qrImage.image = UIImage(ciImage: qrCodeImg!)
         
         marbleCodeLabel.text = "Marble Code: " + group!.code
         
@@ -73,6 +80,27 @@ class GroupInfoVC: UIViewController, UIScrollViewDelegate {
     
     @IBAction func donePress(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func shareGroupBtnPress(_ sender: Any) {
+        let appearance = SCLAlertView.SCLAppearance(
+            kCircleIconHeight: 100,
+            hideWhenBackgroundViewIsTapped: true
+        )
+        let alert = SCLAlertView(appearance: appearance)
+        let subTitle = String(format: "Members: " + String(describing:(group?.members)!))
+        let qrCodeImg = createMarbleQRCode(content: String(format: "marble.group:%d", (group?.groupId)!), color: CIColor(color: Constants.Colors.MarbleBlue))
+        let context = CIContext(options: nil)
+        let img = UIImage(cgImage: context.createCGImage(qrCodeImg!, from: (qrCodeImg?.extent)!)!)
+        alert.showInfo((group?.name)!, subTitle: subTitle, circleIconImage: img, iconHeightDeviation: 25)
+    }
+    
+    @IBAction func memoriesBtnPress(_ sender: Any) {
+        OperationQueue.main.addOperation {
+            let vc = UIStoryboard(name:"Memories", bundle: nil).instantiateInitialViewController() as! MemoriesVC
+            vc.group = self.group
+            UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
+        }
     }
     
     override func viewDidLayoutSubviews() {

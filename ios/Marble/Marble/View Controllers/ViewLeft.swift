@@ -12,7 +12,7 @@ import UserNotifications
 class ViewLeft: UICollectionViewController {
     
     fileprivate let itemsPerRow: CGFloat = 3
-    fileprivate let sectionInsets = UIEdgeInsets(top: 14.0, left: 10.0, bottom: 20.0, right: 10.0)
+    fileprivate let sectionInsets = UIEdgeInsets(top: 14.0, left: 10.0, bottom: 10.0, right: 10.0)
     
     var refreshControl: UIRefreshControl?
     
@@ -349,7 +349,7 @@ extension ViewLeft : UICollectionViewDelegateFlowLayout {
         let paddingSpace = (sectionInsets.left) * (itemsPerRow + 1)
         let availableWidth = UIScreen.main.bounds.width - paddingSpace
         let widthPerItem = availableWidth / itemsPerRow
-        return CGSize(width: widthPerItem, height: widthPerItem * 1.2)
+        return CGSize(width: widthPerItem, height: widthPerItem * 1.4)
     }
     
     func collectionView(_ collectionView: UICollectionView,

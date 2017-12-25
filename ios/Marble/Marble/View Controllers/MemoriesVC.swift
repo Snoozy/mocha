@@ -2,75 +2,84 @@
 //  MemoriesVC.swift
 //  Marble
 //
-//  Created by Daniel Li on 12/6/17.
+//  Created by Daniel Li on 12/23/17.
 //  Copyright © 2017 Marble, LLC. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
+private let reuseIdentifier = "MemoriesCell"
 
-class MemoriesVC: UITableViewController {
+class MemoriesVC: UICollectionViewController {
     
+    var group: Group?
+    var memories: [Story] = []
+    
+    fileprivate let itemsPerRow: CGFloat = 4
+    fileprivate let sectionInsets = UIEdgeInsets(top: 14.0, left: 8.0, bottom: 8.0, right: 10.0)
+
     override func viewDidLoad() {
-        tableView.tableFooterView = UIView()
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MemoriesCell", for: indexPath) as! MemoriesTVCell
+        super.viewDidLoad()
+
+        self.collectionView!.register(UINib(nibName: "MemoriesCell", bundle: nil), forCellWithReuseIdentifier: reuseIdentifier)
         
-        cell.groupName?.text = "asdf"
-        
-        return cell
+        memories = State.shared.getMemoriesForGroup(groupId: group!.groupId)
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+    @IBAction func donePressed(_ sender: Any) {
+        UIApplication.shared.statusBarStyle = .lightContent
+        self.dismiss(animated: true, completion: nil)
     }
     
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-        guard let tableViewCell = cell as? MemoriesTVCell else { return }
-        
-        tableViewCell.setCollectionViewDataSourceDelegate(self, forRow: indexPath.row)
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath) {
-            tableView.deselectRow(at: indexPath, animated: true)
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100.0
-    }
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    // MARK: UICollectionViewDataSource
+
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
-    }
-    
-    
-    @IBAction func goToCameraBtnPress(_ sender: Any) {
-        let parentVC = UIApplication.topViewController() as? ViewController
-        let screenWidth = UIScreen.main.bounds.size.width
-        parentVC?.scrollView.setContentOffset(CGPoint.init(x: screenWidth, y: 0.0), animated: true)
-    }
-    
-}
 
-extension MemoriesVC: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return memories.count
     }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath)
+
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MemoriesCell
         
-        cell.backgroundColor = UIColor.blue
+        cell.loadingIndicator.startAnimating()
+        
+        memories[indexPath.row].loadMedia { (story) in
+            cell.loadingIndicator.stopAnimating()
+            cell.refreshPreview()
+        }
         
         return cell
     }
+
 }
 
+extension MemoriesVC : UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return sectionInsets
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return sectionInsets.bottom
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let paddingSpace = (sectionInsets.left) * (itemsPerRow + 1)
+        let availableWidth = UIScreen.main.bounds.width - paddingSpace
+        let widthPerItem = availableWidth / itemsPerRow
+        return CGSize(width: widthPerItem, height: widthPerItem)
+    }
 
-
+}

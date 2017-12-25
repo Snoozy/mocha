@@ -47,6 +47,10 @@ class GroupCollectionCell: UICollectionViewCell {
         showMarbleInfo()
     }
     
+    @IBAction func moreInfoPressed(_ sender: Any) {
+        showMarbleInfo()
+    }
+    
     func showMarbleInfo() {
         let modal = GroupInfoVC(nibName: "GroupInfo", bundle: nil)
         modal.setGroup(group: group!)

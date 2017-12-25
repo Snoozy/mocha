@@ -16,6 +16,8 @@ class State {
     
     var groupStories: [Int : [Story]] = [:]
     
+    var groupMemories: [Int: [Story]] = [:]
+    
     var authorizing: Bool = false
     
     var me: User?
