@@ -25,7 +25,8 @@ class MemoriesCell: UICollectionViewCell {
             }
         }()
         
-        previewImage.image = image
+        previewImage.image = image.maskRectangle(width: self.bounds.width, height: self.bounds.height)
+        previewImage.isHidden = false
     }
     
 }

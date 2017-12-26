@@ -1,4 +1,5 @@
 from data.db.models.user import User
+from data.db.models.story import Story
 from resources.constants import RESP_ERR_JSON
 
 

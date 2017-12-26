@@ -1460,8 +1460,8 @@
 				INFOPLIST_FILE = "Marble/Info-Dev.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_SWIFT_FLAGS = "-DDEV";
-				"OTHER_SWIFT_FLAGS[sdk=iphonesimulator*]" = "-D IOS_SIMULATOR";
+				OTHER_SWIFT_FLAGS = "-D DEV";
+				"OTHER_SWIFT_FLAGS[sdk=iphonesimulator*]" = "-D IOS_SIMULATOR -DDEV";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.amarbleapp.marble-dev";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -1478,7 +1478,8 @@
 				INFOPLIST_FILE = "Marble/Info-Dev.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_SWIFT_FLAGS = "-DDEV";
+				OTHER_SWIFT_FLAGS = "-D DEV";
+				"OTHER_SWIFT_FLAGS[arch=*]" = "-D DEV";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.amarbleapp.marble-dev";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

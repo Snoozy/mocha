@@ -139,6 +139,7 @@ class ViewLeft: UICollectionViewController {
             self.refreshControl?.endRefreshing()
             self.refreshStories()
             UIApplication.shared.applicationIconBadgeNumber = State.shared.getUnseenMarblesCount()
+            State.shared.getMyMemories()
         })
     }
     

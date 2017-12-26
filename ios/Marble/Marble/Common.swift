@@ -42,8 +42,15 @@ func calcTime(time: Int64) -> String {
             return "Just now"
         }
         return String(temp) + "m ago"
+    } else if delta < 3600000 * 48 {  // less than 2 days ago
+        return String(delta/3600000) + "h ago"
+    } else if delta < 3600000 * 24 * 30 {  // less than 1 month
+        return String(delta/(3600000 * 24)) + "d ago"
+    } else if delta < 3600000 * 24 * 30 * 12 {  // less than 2 year
+        return String(delta/(3600000 * 24 * 30)) + "mo ago"
+    } else {
+        return String(delta/(3600000 * 24 * 30 * 12)) + "y ago"
     }
-    return String(delta/3600000) + "h ago"
 }
 
 func videoPreviewImage(fileUrl: URL) -> UIImage? {

@@ -74,13 +74,15 @@ extension UIImage {
         return UIGraphicsGetImageFromCurrentImageContext()
     }
     
-    func maskRectangle(width: CGFloat, height: CGFloat) -> UIImage? {
+    func maskRectangle(width: CGFloat, height: CGFloat, cornerRadius: Int = 0) -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(CGSize(width: width, height: height), false, 0)
         defer { UIGraphicsEndImageContext() }
         let imgRect = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: size.width, height: size.height - (floor((size.height - size.width) / 2))))
         guard let cgImage = cgImage?.cropping(to: imgRect) else { return nil }
         let rect = CGRect(x: 0, y: 0, width: width, height: height)
-        UIBezierPath(roundedRect: rect, cornerRadius: 3).addClip()
+        if cornerRadius > 0 {
+            UIBezierPath(roundedRect: rect, cornerRadius: CGFloat(cornerRadius)).addClip()
+        }
         UIImage(cgImage: cgImage).draw(in: rect)
         return UIGraphicsGetImageFromCurrentImageContext()
     }

@@ -25,6 +25,8 @@ class StoryView: UIView, UIScrollViewDelegate {
     var userId: Int?
     var story: Story?
     
+    var commentingEnabled: Bool = true
+    
     @IBOutlet weak var addCommentLabel: UILabel!
     
     @IBOutlet weak var captionScrollView: UIScrollView!
@@ -35,8 +37,6 @@ class StoryView: UIView, UIScrollViewDelegate {
     @IBOutlet weak var toTopBtn: UIButton!
     
     var panning: Bool = false
-    
-    //var numComments: Int = 0
     
     var playerLayer: AVPlayerLayer?
     var player: AVPlayer?
@@ -320,8 +320,20 @@ class StoryView: UIView, UIScrollViewDelegate {
         self.isHidden = false
     }
     
+    func mediaStartStory(story: Story) {
+        captioning = false
+        
+        self.frame.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        self.innerView.frame.size = self.frame.size
+        showStory(story: story)
+        self.isHidden = false
+    }
+    
     func mediaNext() {
         if captioning {
+            return
+        } else if group == nil {
+            exitStory()
             return
         }
         let stories = State.shared.groupStories[(group?.groupId)!]
@@ -335,6 +347,10 @@ class StoryView: UIView, UIScrollViewDelegate {
     }
     
     func mediaBack() {
+        if group == nil {
+            exitStory()
+            return
+        }
         let stories = State.shared.groupStories[(group?.groupId)!]
         if (group?.storyViewIdx)! < 2 {
             exitStory()
@@ -351,7 +367,6 @@ class StoryView: UIView, UIScrollViewDelegate {
         let bounds = UIScreen.main.bounds
         if story.mediaType == .image {
             let image = story.media
-            
             self.imageView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height)
             self.imageView.image = image
             self.imageView.layer.sublayers = nil
@@ -368,6 +383,10 @@ class StoryView: UIView, UIScrollViewDelegate {
             self.imageView.layer.addSublayer(playerLayer!)
             player?.play()
             player?.actionAtItemEnd = .none
+        }
+        
+        if !commentingEnabled {
+            addCommentBtn.isHidden = true
         }
         
         disableComments()

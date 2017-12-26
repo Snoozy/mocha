@@ -16,7 +16,7 @@ class MemoriesVC: UICollectionViewController {
     var memories: [Story] = []
     
     fileprivate let itemsPerRow: CGFloat = 4
-    fileprivate let sectionInsets = UIEdgeInsets(top: 14.0, left: 8.0, bottom: 8.0, right: 10.0)
+    fileprivate let sectionInsets = UIEdgeInsets(top: 5.0, left: 5.0, bottom: 5.0, right: 5.0)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,12 +51,34 @@ class MemoriesVC: UICollectionViewController {
         
         cell.loadingIndicator.startAnimating()
         
-        memories[indexPath.row].loadMedia { (story) in
-            cell.loadingIndicator.stopAnimating()
-            cell.refreshPreview()
+        cell.story = memories[indexPath.row]
+        
+        DispatchQueue.main.async {
+            cell.story!.loadMedia { (story) in
+                cell.loadingIndicator.stopAnimating()
+                cell.refreshPreview()
+            }
         }
         
         return cell
+    }
+    
+    let storyViewNib = UINib(nibName: "StoryView", bundle: nil)
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! MemoriesCell
+        
+        let imageViewer = storyViewNib.instantiate(withOwner: nil, options: nil)[0] as! StoryView
+        imageViewer.isHidden = true
+        imageViewer.commentingEnabled = false
+        imageViewer.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        
+        imageViewer.parentVC = self
+        imageViewer.mediaStartStory(story: cell.story!)
+        
+        imageViewer.window?.windowLevel = UIWindowLevelStatusBar
+        self.view.window?.windowLevel = UIWindowLevelStatusBar
+        self.view.window?.addSubview(imageViewer)
     }
 
 }
