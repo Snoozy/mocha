@@ -13,9 +13,3 @@ class Device(Base):
     user_id = Column(Integer, ForeignKey('users.id'), index=True)
 
     user = relationship('User', backref=backref('devices', lazy='dynamic'))
-
-    def __init__(self, user_id, type, arn, token):
-        self.type = type
-        self.user_id = user_id
-        self.arn = arn
-        self.token = token

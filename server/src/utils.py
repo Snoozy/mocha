@@ -10,3 +10,8 @@ def max_body_length(limit):
             raise falcon.HTTPRequestEntityTooLarge('Request body is too large', msg)
 
     return hook
+
+
+def time_millis():
+    return time.time() * 1000
+

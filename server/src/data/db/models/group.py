@@ -1,8 +1,9 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, BigInteger
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import relationship
 
 from resources.constants import GROUP_ID_XOR
+from utils import time_millis
 from ..db import Base
 
 
@@ -12,6 +13,7 @@ class Group(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(20))
     stories = relationship('Story', lazy='dynamic')
+    timestamp = Column(BigInteger, default=time_millis)
 
     users = association_proxy('memberships', 'user')
 

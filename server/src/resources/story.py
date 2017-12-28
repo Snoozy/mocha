@@ -29,7 +29,7 @@ class FlagStoryResource:
         if not story:
             resp.json = resp_error()
             return
-        new_flag = Flag(story=story)
+        new_flag = Flag(story_id=story.id)
         req.session.add(new_flag)
         resp.json = resp_success()
         return

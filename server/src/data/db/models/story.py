@@ -4,6 +4,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey, BigInteger, SmallInt
 from sqlalchemy.orm import relationship
 from ..db import Base
 from .comment import Comment
+from utils import time_millis
 
 CDN_URL = "https://static.amarbleapp.com/media/"
 
@@ -17,17 +18,10 @@ class Story(Base):
     is_memory = Column(SmallInteger, default=0)  # 0 == not memory, 1 == is memory
     group_id = Column(Integer, ForeignKey("groups.id"), index=True)
     user_id = Column(Integer, ForeignKey('users.id'), index=True)
-    timestamp = Column(BigInteger, index=True)
+    timestamp = Column(BigInteger, default=time_millis, index=True)
 
     user = relationship("User", foreign_keys=[user_id])
     group = relationship("Group", foreign_keys=[group_id])
-
-    def __init__(self, media_id, group_id, user_id, media_type):
-        self.media_id = media_id
-        self.group_id = group_id
-        self.user_id = user_id
-        self.timestamp = time.time() * 1000
-        self.media_type = media_type
 
     def to_dict(self):
         return {
@@ -39,3 +33,4 @@ class Story(Base):
             'id': self.id,
             'comments': [comment.to_dict() for comment in self.comments.order_by(Comment.timestamp).all()]
         }
+
