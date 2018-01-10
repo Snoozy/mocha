@@ -16,5 +16,5 @@ def resp_error(err: str = None):
 def resp_success(stuff: Dict = None):
     ret = {'status': 1}
     if stuff:
-        ret = ret.update(stuff)
+        ret.update(stuff)
     return ret

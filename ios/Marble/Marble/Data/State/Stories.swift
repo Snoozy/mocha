@@ -27,6 +27,7 @@ extension State {
                         let name = story["user_name"].stringValue
                         let userId = story["user_id"].int!
                         let time = story["timestamp"].int64 ?? 0
+                        let isMemory = story["is_memory"].bool ?? false
                         let id = story["id"].int!
                         let mediaType = story["media_type"].stringValue
                         
@@ -39,7 +40,7 @@ extension State {
                         
                         self.addStory(stories: &newStories, cache: self.groupStories[groupId]!,
                                       groupId: groupId, url: mediaUrl, name: name, userId: userId,
-                                      time: time, id: id, mediaType: mediaType, comments: comments)
+                                      time: time, id: id, mediaType: mediaType, isMemory: isMemory, comments: comments)
                     }
                     self.groupStories[groupId] = newStories
                 }
@@ -80,13 +81,14 @@ extension State {
     }
     
     func addStory(stories: inout [Story], cache: [Story], groupId: Int, url: String,
-                  name: String, userId: Int, time: Int64, id: Int, mediaType: String, comments: [Comment]) {
-        let storyCheck = findStory(mediaUrl: url, groupId: groupId, comments: comments)
+                  name: String, userId: Int, time: Int64, id: Int, mediaType: String, isMemory: Bool, comments: [Comment]) {
+        let storyCheck = findStory(cache: cache, mediaUrl: url, comments: comments)
         if let story = storyCheck {
             story.comments = comments
+            story.isMemory = isMemory
             stories.append(story)
         } else {
-            stories.append(Story(url: url, name: name, userId: userId, time: time, id: id, mediaType: mediaType, comments: comments))
+            stories.append(Story(url: url, name: name, userId: userId, time: time, id: id, mediaType: mediaType, isMemory: isMemory, comments: comments))
         }
     }
     
@@ -106,8 +108,8 @@ extension State {
         return count
     }
     
-    private func findStory(mediaUrl: String, groupId: Int, comments: [Comment]) -> Story? {
-        for story in self.groupStories[groupId]! {
+    private func findStory(cache: [Story], mediaUrl: String, comments: [Comment]) -> Story? {
+        for story in cache {
             if story.mediaUrl == mediaUrl {
                 return story
             }

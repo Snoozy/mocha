@@ -33,15 +33,3 @@ class FlagStoryResource:
         req.session.add(new_flag)
         resp.json = resp_success()
         return
-
-
-class SaveStoryResource:
-    def on_post(self, req, resp, user_id):
-        story_id = req.get_param('story_id')
-        story = req.session.query(Story).filter(Story.id == int(story_id)).first()
-        if not story:
-            resp.json = resp_error('Story does not exist.')
-            return
-        story.is_memory = 1
-        resp.json = resp_success()
-        return

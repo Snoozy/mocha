@@ -30,7 +30,7 @@ class SaveMemoryResource:
             return
         story_id = req.get_param('story_id')
         story = req.session.query(Story).filter(Story.id == int(story_id)).first()
-        if user_id not in story.group.users:
+        if user not in story.group.users:
             resp.json = resp_error('User not apart of marble')
             return
         story.is_memory = 1
@@ -46,7 +46,7 @@ class RemoveMemoryResource:
             return
         story_id = req.get_param('story_id')
         story = req.session.query(Story).filter(Story.id == int(story_id)).first()
-        if user_id not in story.group.users:
+        if user not in story.group.users:
             resp.json = resp_error('User not apart of this marble')
             return
         story.is_memory = 0

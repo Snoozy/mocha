@@ -35,6 +35,7 @@ class StoryView: UIView, UIScrollViewDelegate {
     @IBOutlet weak var sendCaptionBtn: UIButton!
     @IBOutlet weak var cancelCaptionBtn: UIButton!
     @IBOutlet weak var toTopBtn: UIButton!
+    @IBOutlet weak var saveStoryBtn: UIButton!
     
     var panning: Bool = false
     
@@ -70,6 +71,7 @@ class StoryView: UIView, UIScrollViewDelegate {
         styleLayer(layer: addCommentLabel.layer)
         
         styleLayer(layer: toTopBtn.layer)
+        styleLayer(layer: saveStoryBtn.layer)
     }
     
     @IBAction func storyViewPan(_ sender: UIPanGestureRecognizer) {
@@ -385,6 +387,12 @@ class StoryView: UIView, UIScrollViewDelegate {
             player?.actionAtItemEnd = .none
         }
         
+        if story.isMemory {
+            self.saveStoryBtn.setImage(UIImage(named: "star_yellow"), for: .normal)
+        } else {
+            self.saveStoryBtn.setImage(UIImage(named: "star"), for: .normal)
+        }
+        
         if !commentingEnabled {
             addCommentBtn.isHidden = true
         }
@@ -509,4 +517,26 @@ class StoryView: UIView, UIScrollViewDelegate {
             responder = alert.showInfo("Post Actions", subTitle: "")
         }
     }
+    
+    @IBAction func saveStoryPressed(_ sender: UIButton) {
+        story?.isMemory = !story!.isMemory
+        if story!.isMemory {
+            var prefs = EasyTipView.Preferences()
+            prefs.drawing.font = UIFont(name: "Futura-Medium", size: 13)!
+            prefs.drawing.backgroundColor = UIColor.black
+            prefs.drawing.foregroundColor = UIColor.white
+            
+            sender.setImage(UIImage(named: "star_yellow"), for: .normal)
+            let tipView = EasyTipView(text: "Story saved to Our Memories", preferences: prefs, delegate: nil)
+            tipView.show(animated: true, forView: sender, withinSuperview: self)
+            Networker.shared.saveMemory(storyId: story!.id, completionHandler: { _ in })
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+                tipView.dismiss()
+            })
+        } else {
+            Networker.shared.removeMemory(storyId: story!.id, completionHandler: { _ in })
+            sender.setImage(UIImage(named: "star"), for: .normal)
+        }
+    }
+    
 }

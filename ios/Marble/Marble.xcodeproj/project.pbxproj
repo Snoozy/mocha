@@ -31,6 +31,11 @@
 		42240D021FB418DE007BB8FF /* MemberTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42240D001FB418DE007BB8FF /* MemberTVCell.swift */; };
 		42240D041FB41A1B007BB8FF /* MembersInfoTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42240D031FB41A1B007BB8FF /* MembersInfoTV.swift */; };
 		42240D051FB41A1B007BB8FF /* MembersInfoTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42240D031FB41A1B007BB8FF /* MembersInfoTV.swift */; };
+		423D5C47200545830054E493 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 423D5C43200545820054E493 /* Info.plist */; };
+		423D5C48200545830054E493 /* EasyTipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423D5C45200545820054E493 /* EasyTipView.swift */; };
+		423D5C49200545830054E493 /* UIKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423D5C46200545820054E493 /* UIKitExtensions.swift */; };
+		423D5C4A200574230054E493 /* EasyTipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423D5C45200545820054E493 /* EasyTipView.swift */; };
+		423D5C4B2005742E0054E493 /* UIKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423D5C46200545820054E493 /* UIKitExtensions.swift */; };
 		42665C6B1F78C5F4004BEA74 /* focus.gif in Resources */ = {isa = PBXBuildFile; fileRef = 42665C6A1F78C5F4004BEA74 /* focus.gif */; };
 		4268482D1FE5D0CC006A7982 /* UIDevice_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4268482C1FE5D0CC006A7982 /* UIDevice_ext.swift */; };
 		4268482E1FE5D0CC006A7982 /* UIDevice_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4268482C1FE5D0CC006A7982 /* UIDevice_ext.swift */; };
@@ -446,6 +451,10 @@
 		42240CFD1FB41872007BB8FF /* MemberTVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MemberTVCell.xib; sourceTree = "<group>"; };
 		42240D001FB418DE007BB8FF /* MemberTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberTVCell.swift; sourceTree = "<group>"; };
 		42240D031FB41A1B007BB8FF /* MembersInfoTV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersInfoTV.swift; sourceTree = "<group>"; };
+		423D5C43200545820054E493 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		423D5C44200545820054E493 /* EasyTipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyTipView.h; sourceTree = "<group>"; };
+		423D5C45200545820054E493 /* EasyTipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EasyTipView.swift; sourceTree = "<group>"; };
+		423D5C46200545820054E493 /* UIKitExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIKitExtensions.swift; sourceTree = "<group>"; };
 		42651EA31EB879E4006BEF33 /* Marble.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Marble.entitlements; sourceTree = "<group>"; };
 		42665C6A1F78C5F4004BEA74 /* focus.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = focus.gif; sourceTree = "<group>"; };
 		4268482C1FE5D0CC006A7982 /* UIDevice_ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDevice_ext.swift; sourceTree = "<group>"; };
@@ -624,6 +633,17 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		423D5C32200545650054E493 /* EasyTipView */ = {
+			isa = PBXGroup;
+			children = (
+				423D5C44200545820054E493 /* EasyTipView.h */,
+				423D5C45200545820054E493 /* EasyTipView.swift */,
+				423D5C43200545820054E493 /* Info.plist */,
+				423D5C46200545820054E493 /* UIKitExtensions.swift */,
+			);
+			path = EasyTipView;
+			sourceTree = "<group>";
+		};
 		425398BB1E497D3E00097934 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -789,6 +809,7 @@
 		42D575821E37161A0094037D /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				423D5C32200545650054E493 /* EasyTipView */,
 				42C4E56A1FB92870003E3CDA /* ColorSlider */,
 				42C979CB1FB29443000247F4 /* SwiftyDraw.swift */,
 				42C979CC1FB29443000247F4 /* SwiftyJSON.swift */,
@@ -1201,6 +1222,7 @@
 				42E13DDD1E8E4B4B0016FA76 /* Info-Dev.plist in Resources */,
 				42240CAC1FB296C7007BB8FF /* Info.plist in Resources */,
 				42240CF21FB29CE4007BB8FF /* Main.storyboard in Resources */,
+				423D5C47200545830054E493 /* Info.plist in Resources */,
 				42C979B91FB293E1000247F4 /* Launch.storyboard in Resources */,
 				42C979BF1FB293E1000247F4 /* CaptionView.xib in Resources */,
 				42C979BB1FB293E1000247F4 /* LaunchDEV.storyboard in Resources */,
@@ -1257,6 +1279,7 @@
 				42C979EB1FB29458000247F4 /* DeckPresentationController.swift in Sources */,
 				42C97A161FB294A9000247F4 /* SCLExtensions.swift in Sources */,
 				4268482E1FE5D0CC006A7982 /* UIDevice_ext.swift in Sources */,
+				423D5C4A200574230054E493 /* EasyTipView.swift in Sources */,
 				42C979531FB2938D000247F4 /* GroupNetworker.swift in Sources */,
 				426848371FEF60D4006A7982 /* Memories.swift in Sources */,
 				42C979511FB2938D000247F4 /* Downloader.swift in Sources */,
@@ -1275,6 +1298,7 @@
 				42C979441FB29382000247F4 /* Stories.swift in Sources */,
 				42C9799A1FB293BE000247F4 /* ViewPickDest.swift in Sources */,
 				42C979901FB293BE000247F4 /* GroupInfoVC.swift in Sources */,
+				423D5C4B2005742E0054E493 /* UIKitExtensions.swift in Sources */,
 				42C97A031FB2949B000247F4 /* SwiftyCamButton.swift in Sources */,
 				42C9792C1FB2934B000247F4 /* Router.swift in Sources */,
 				42C9799C1FB293BE000247F4 /* ViewController.swift in Sources */,
@@ -1355,6 +1379,7 @@
 				42C979EA1FB29458000247F4 /* DeckPresentationController.swift in Sources */,
 				42C97A151FB294A9000247F4 /* SCLExtensions.swift in Sources */,
 				42C9793F1FB29382000247F4 /* Groups.swift in Sources */,
+				423D5C48200545830054E493 /* EasyTipView.swift in Sources */,
 				4268482D1FE5D0CC006A7982 /* UIDevice_ext.swift in Sources */,
 				426848361FEF60D4006A7982 /* Memories.swift in Sources */,
 				42C9796C1FB293A6000247F4 /* MediaCaptionView.swift in Sources */,
@@ -1373,6 +1398,7 @@
 				42C979391FB2937B000247F4 /* Comment.swift in Sources */,
 				42C9798D1FB293BE000247F4 /* AuthLoginVC.swift in Sources */,
 				42C97A021FB2949B000247F4 /* SwiftyCamButton.swift in Sources */,
+				423D5C49200545830054E493 /* UIKitExtensions.swift in Sources */,
 				42C9797E1FB293A6000247F4 /* NumPlaceholderButton.swift in Sources */,
 				42C979331FB2937B000247F4 /* User.swift in Sources */,
 				42240CA51FB296AD007BB8FF /* CornerView.swift in Sources */,

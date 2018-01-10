@@ -24,6 +24,7 @@ extension State {
             switch response.result {
             case .success(let val):
                 let contentJson = JSON(val)
+//                print(contentJson)
                 for tuple in (contentJson["content"]) {
                     let groupId = tuple.1["group_id"].int!
                     let storiesJson = tuple.1["stories"].array
@@ -48,7 +49,7 @@ extension State {
                         
                         self.addStory(stories: &newStories, cache: self.groupMemories[groupId]!,
                                       groupId: groupId, url: mediaUrl, name: name, userId: userId,
-                                      time: time, id: id, mediaType: mediaType, comments: comments)
+                                      time: time, id: id, mediaType: mediaType, isMemory: true, comments: comments)
                     }
                     self.groupMemories[groupId] = newStories
                 }

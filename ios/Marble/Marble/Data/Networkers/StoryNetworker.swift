@@ -29,11 +29,4 @@ extension Networker {
         self.sessionManager.request(Router.FlagStory, method: .post, parameters: params, encoding: URLEncoding.default).validate().responseJSON(completionHandler: completionHandler)
     }
     
-    func saveStory(storyId: Int, completionHandler: @escaping (DataResponse<Any>) -> ()) {
-        let params: Parameters = [
-            "story_id" : storyId
-        ]
-        self.sessionManager.request(Router.SaveStory, method: .post, parameters: params, encoding: URLEncoding.default).validate().responseJSON(completionHandler: completionHandler)
-    }
-    
 }

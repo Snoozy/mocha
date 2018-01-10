@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -29,7 +29,7 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </scrollView>
                         <button opaque="NO" alpha="0.84999999999999998" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tyc-WC-Ujc">
-                            <rect key="frame" x="374" y="696" width="38" height="38"/>
+                            <rect key="frame" x="361" y="689" width="38" height="38"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="38" id="cx4-KA-fta"/>
                                 <constraint firstAttribute="height" constant="38" id="pc5-Zq-jq9"/>
@@ -93,6 +93,18 @@
                                 <action selector="sendCaptionPress:" destination="iN0-l3-epB" eventType="touchUpInside" id="BYl-1U-LDq"/>
                             </connections>
                         </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dT0-tR-jvF">
+                            <rect key="frame" x="15" y="689" width="32" height="32"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="32" id="iky-1S-FkW"/>
+                                <constraint firstAttribute="width" constant="32" id="xdA-1A-gNv"/>
+                            </constraints>
+                            <inset key="contentEdgeInsets" minX="0.0" minY="1" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" image="star"/>
+                            <connections>
+                                <action selector="saveStoryPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="ZU0-48-5ri"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -101,14 +113,16 @@
                         <constraint firstAttribute="bottom" secondItem="p7N-xc-4NT" secondAttribute="bottom" constant="8" id="8WW-VI-Gom"/>
                         <constraint firstItem="vKr-o3-FcJ" firstAttribute="leading" secondItem="qch-BV-Hes" secondAttribute="leading" constant="8" id="AOt-MI-Arx"/>
                         <constraint firstAttribute="bottom" secondItem="vKr-o3-FcJ" secondAttribute="bottom" constant="8" id="Eop-qv-E8t"/>
+                        <constraint firstAttribute="bottom" secondItem="dT0-tR-jvF" secondAttribute="bottom" constant="15" id="LQc-xk-Zbr"/>
                         <constraint firstAttribute="bottom" secondItem="LTW-hk-7ND" secondAttribute="bottom" id="PjE-sb-uAy"/>
+                        <constraint firstItem="dT0-tR-jvF" firstAttribute="leading" secondItem="qch-BV-Hes" secondAttribute="leading" constant="15" id="Q7W-r8-Z1k"/>
                         <constraint firstItem="YKj-24-MEu" firstAttribute="centerX" secondItem="qch-BV-Hes" secondAttribute="centerX" id="Sfk-eP-77J"/>
                         <constraint firstAttribute="bottom" secondItem="e6X-rO-aD7" secondAttribute="bottom" constant="2" id="WjL-D4-BA1"/>
                         <constraint firstItem="LTW-hk-7ND" firstAttribute="top" secondItem="qch-BV-Hes" secondAttribute="top" id="YiA-Rj-YHO"/>
                         <constraint firstItem="YKj-24-MEu" firstAttribute="top" secondItem="qch-BV-Hes" secondAttribute="top" constant="8" id="dgJ-a8-zEa"/>
                         <constraint firstItem="e6X-rO-aD7" firstAttribute="leading" secondItem="qch-BV-Hes" secondAttribute="leading" constant="3" id="sT4-VV-c8M"/>
-                        <constraint firstAttribute="bottom" secondItem="Tyc-WC-Ujc" secondAttribute="bottom" constant="2" id="uUe-6Z-kWd"/>
-                        <constraint firstAttribute="trailing" secondItem="Tyc-WC-Ujc" secondAttribute="trailing" constant="2" id="uYo-WQ-JHF"/>
+                        <constraint firstAttribute="bottom" secondItem="Tyc-WC-Ujc" secondAttribute="bottom" constant="9" id="uUe-6Z-kWd"/>
+                        <constraint firstAttribute="trailing" secondItem="Tyc-WC-Ujc" secondAttribute="trailing" constant="15" id="uYo-WQ-JHF"/>
                         <constraint firstItem="LTW-hk-7ND" firstAttribute="leading" secondItem="qch-BV-Hes" secondAttribute="leading" id="yz6-mf-Wyj"/>
                     </constraints>
                 </view>
@@ -130,6 +144,7 @@
                 <outlet property="captionScrollView" destination="LTW-hk-7ND" id="qGS-bz-lQ3"/>
                 <outlet property="imageView" destination="jEl-uX-aUt" id="lLk-RE-9MJ"/>
                 <outlet property="innerView" destination="qch-BV-Hes" id="2pk-se-ogy"/>
+                <outlet property="saveStoryBtn" destination="dT0-tR-jvF" id="zlr-YY-DCH"/>
                 <outlet property="sendCaptionBtn" destination="p7N-xc-4NT" id="CBc-WG-qIC"/>
                 <outlet property="toTopBtn" destination="e6X-rO-aD7" id="VRS-aa-vnF"/>
                 <outletCollection property="gestureRecognizers" destination="OX5-tO-JW3" appends="YES" id="tYW-7T-3tj"/>
@@ -145,5 +160,6 @@
     <resources>
         <image name="add-comment" width="128" height="128"/>
         <image name="double-up-arrow" width="128" height="128"/>
+        <image name="star" width="32" height="32"/>
     </resources>
 </document>

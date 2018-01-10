@@ -31,6 +31,7 @@ class Story(Base):
             'user_id': self.user_id,
             'timestamp': self.timestamp,
             'id': self.id,
+            'is_memory': self.is_memory == 1,
             'comments': [comment.to_dict() for comment in self.comments.order_by(Comment.timestamp).all()]
         }
 

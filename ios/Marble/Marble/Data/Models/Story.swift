@@ -19,6 +19,7 @@ class Story {
     let timestamp: Int64
     let userId: Int
     let mediaType: MediaType
+    var isMemory: Bool
     
     var comments: [Comment]
     
@@ -28,7 +29,7 @@ class Story {
     
     var commentLoadCount: Int?
     
-    init(url: String, name: String, userId: Int, time: Int64, id: Int, mediaType: String, comments: [Comment] = [Comment]()) {
+    init(url: String, name: String, userId: Int, time: Int64, id: Int, mediaType: String, isMemory: Bool, comments: [Comment] = [Comment]()) {
         self.id = id
         self.mediaUrl = url
         self.posterName = name
@@ -39,6 +40,7 @@ class Story {
         } else {
             self.mediaType = .image
         }
+        self.isMemory = isMemory
         self.comments = comments
     }
     
@@ -77,6 +79,7 @@ class Story {
                                     if self.commentLoadCount ?? 0 <= 0 {
                                         completionHandler?(self)
                                     }
+                                    print(comment.image)
                                 })
                             }
                         } else {
@@ -97,6 +100,7 @@ class Story {
                                 if self.commentLoadCount ?? 0 <= 0 {
                                     completionHandler?(self)
                                 }
+                                print(comment.image)
                             })
                         }
                     } else {
