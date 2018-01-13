@@ -237,6 +237,8 @@ class ViewLeft: UICollectionViewController {
         imageViewer.group = group
         imageViewer.cell = cell
         
+        imageViewer.delegate = self
+        
         imageViewer.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         imageViewer.parentVC = self
@@ -364,5 +366,30 @@ extension ViewLeft : UICollectionViewDelegateFlowLayout {
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return sectionInsets.bottom
     }
+}
+
+extension ViewLeft : StoryViewDelegate {
+    
+    func nextStory(_ storyView: StoryView) -> Story? {
+        let stories = State.shared.groupStories[(storyView.group?.groupId)!]
+        if (storyView.group?.storyIdxValid())! {  // next story
+            let story: Story = (stories?[(storyView.group?.storyViewIdx)!])!
+            return story
+        } else {
+            return nil
+        }
+    }
+    
+    func prevStory(_ storyView: StoryView) -> Story? {
+        let stories = State.shared.groupStories[(storyView.group?.groupId)!]
+        if (storyView.group?.storyViewIdx)! < 2 {
+            return nil
+        } else {
+            storyView.group?.storyViewIdx -= 2
+            let story: Story = (stories?[(storyView.group?.storyViewIdx)!])!
+            return story
+        }
+    }
+    
 }
 

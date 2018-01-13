@@ -12,6 +12,8 @@ import AVKit
 
 class StoryView: UIView, UIScrollViewDelegate {
 
+    var delegate: StoryViewDelegate?
+    
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var innerView: UIView!
     
@@ -162,13 +164,16 @@ class StoryView: UIView, UIScrollViewDelegate {
         self.viewingComments = true
         
         self.toTopBtn.isHidden = false
+        self.saveStoryBtn.isHidden = true
         
         self.captionScrollView.isHidden = false
         
         self.sendCaptionBtn.isHidden = true
         self.cancelCaptionBtn.isHidden = true
         
-        self.addCommentBtn.isHidden = false
+        if commentingEnabled {
+            self.addCommentBtn.isHidden = false
+        }
 
         captionScrollView.isScrollEnabled = true
 
@@ -178,6 +183,7 @@ class StoryView: UIView, UIScrollViewDelegate {
         captionScrollView.isScrollEnabled = false
         viewingComments = false
         toTopBtn.isHidden = true
+        saveStoryBtn.isHidden = false
         
         self.sendCaptionBtn.isHidden = true
         self.cancelCaptionBtn.isHidden = true
@@ -210,10 +216,12 @@ class StoryView: UIView, UIScrollViewDelegate {
         
         if captionScrollView.contentOffset.y <= 0 {
             toTopBtn.isHidden = true
+            saveStoryBtn.isHidden = false
             captionScrollView.isScrollEnabled = true
             viewingComments = false
         } else {
             toTopBtn.isHidden = false
+            saveStoryBtn.isHidden = true
             viewingComments = true
         }
     }
@@ -235,6 +243,7 @@ class StoryView: UIView, UIScrollViewDelegate {
         addCommentLabel.isHidden = false
         
         toTopBtn.isHidden = true
+        saveStoryBtn.isHidden = false
         
         addCaptionView.isHidden = false
         addCaptionView.startEditingTextCaption()
@@ -327,6 +336,7 @@ class StoryView: UIView, UIScrollViewDelegate {
         
         self.frame.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         self.innerView.frame.size = self.frame.size
+        self.story = story
         showStory(story: story)
         self.isHidden = false
     }
@@ -334,13 +344,9 @@ class StoryView: UIView, UIScrollViewDelegate {
     func mediaNext() {
         if captioning {
             return
-        } else if group == nil {
-            exitStory()
-            return
         }
-        let stories = State.shared.groupStories[(group?.groupId)!]
-        if (self.group?.storyIdxValid())! {  // next story
-            let story: Story = (stories?[(group?.storyViewIdx)!])!
+        let story = delegate?.nextStory(self)
+        if let story = story {
             self.story = story
             showStory(story: story)
         } else {
@@ -349,18 +355,12 @@ class StoryView: UIView, UIScrollViewDelegate {
     }
     
     func mediaBack() {
-        if group == nil {
-            exitStory()
-            return
-        }
-        let stories = State.shared.groupStories[(group?.groupId)!]
-        if (group?.storyViewIdx)! < 2 {
-            exitStory()
-        } else {
-            group?.storyViewIdx -= 2
-            let story: Story = (stories?[(group?.storyViewIdx)!])!
+        let story = delegate?.prevStory(self)
+        if let story = story {
             self.story = story
             showStory(story: story)
+        } else {
+            exitStory()
         }
     }
     

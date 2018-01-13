@@ -15,20 +15,32 @@ class MemoriesVC: UICollectionViewController {
     var group: Group?
     var memories: [Story] = []
     
+    var memoryIdx: Int = 0
+    
     fileprivate let itemsPerRow: CGFloat = 4
     fileprivate let sectionInsets = UIEdgeInsets(top: 5.0, left: 5.0, bottom: 5.0, right: 5.0)
 
+    var refreshControl: UIRefreshControl?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.collectionView!.register(UINib(nibName: "MemoriesCell", bundle: nil), forCellWithReuseIdentifier: reuseIdentifier)
         
         memories = State.shared.getMemoriesForGroup(groupId: group!.groupId)
+        
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(pullDownRefresh), for: .valueChanged)
+        collectionView?.addSubview(refreshControl!)
+        collectionView?.alwaysBounceVertical = true
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    @objc func pullDownRefresh() {
+        State.shared.getMyMemories {
+            self.refreshControl?.endRefreshing()
+            self.memories = State.shared.getMemoriesForGroup(groupId: self.group!.groupId)
+            self.collectionView?.reloadData()
+        }
     }
 
     @IBAction func donePressed(_ sender: Any) {
@@ -71,10 +83,12 @@ class MemoriesVC: UICollectionViewController {
         let imageViewer = storyViewNib.instantiate(withOwner: nil, options: nil)[0] as! StoryView
         imageViewer.isHidden = true
         imageViewer.commentingEnabled = false
+        imageViewer.delegate = self
         imageViewer.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         imageViewer.parentVC = self
         imageViewer.mediaStartStory(story: cell.story!)
+        memoryIdx = indexPath.row
         
         imageViewer.window?.windowLevel = UIWindowLevelStatusBar
         self.view.window?.windowLevel = UIWindowLevelStatusBar
@@ -82,6 +96,29 @@ class MemoriesVC: UICollectionViewController {
     }
 
 }
+
+extension MemoriesVC : StoryViewDelegate {
+    
+    func nextStory(_ storyView: StoryView) -> Story? {
+        if memoryIdx < memories.count - 1 {
+            memoryIdx += 1
+            return memories[memoryIdx]
+        } else {
+            return nil
+        }
+    }
+    
+    func prevStory(_ storyView: StoryView) -> Story? {
+        if memoryIdx < 1 {
+            return nil
+        } else {
+            memoryIdx -= 1
+            return memories[memoryIdx]
+        }
+    }
+    
+}
+
 
 extension MemoriesVC : UICollectionViewDelegateFlowLayout {
     

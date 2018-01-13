@@ -79,7 +79,6 @@ class Story {
                                     if self.commentLoadCount ?? 0 <= 0 {
                                         completionHandler?(self)
                                     }
-                                    print(comment.image)
                                 })
                             }
                         } else {
@@ -100,7 +99,6 @@ class Story {
                                 if self.commentLoadCount ?? 0 <= 0 {
                                     completionHandler?(self)
                                 }
-                                print(comment.image)
                             })
                         }
                     } else {

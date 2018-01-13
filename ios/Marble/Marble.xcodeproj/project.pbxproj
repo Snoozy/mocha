@@ -36,6 +36,8 @@
 		423D5C49200545830054E493 /* UIKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423D5C46200545820054E493 /* UIKitExtensions.swift */; };
 		423D5C4A200574230054E493 /* EasyTipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423D5C45200545820054E493 /* EasyTipView.swift */; };
 		423D5C4B2005742E0054E493 /* UIKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423D5C46200545820054E493 /* UIKitExtensions.swift */; };
+		423D5C4D20098F860054E493 /* StoryViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423D5C4C20098F860054E493 /* StoryViewDelegate.swift */; };
+		423D5C4E20098F860054E493 /* StoryViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423D5C4C20098F860054E493 /* StoryViewDelegate.swift */; };
 		42665C6B1F78C5F4004BEA74 /* focus.gif in Resources */ = {isa = PBXBuildFile; fileRef = 42665C6A1F78C5F4004BEA74 /* focus.gif */; };
 		4268482D1FE5D0CC006A7982 /* UIDevice_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4268482C1FE5D0CC006A7982 /* UIDevice_ext.swift */; };
 		4268482E1FE5D0CC006A7982 /* UIDevice_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4268482C1FE5D0CC006A7982 /* UIDevice_ext.swift */; };
@@ -455,6 +457,7 @@
 		423D5C44200545820054E493 /* EasyTipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyTipView.h; sourceTree = "<group>"; };
 		423D5C45200545820054E493 /* EasyTipView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EasyTipView.swift; sourceTree = "<group>"; };
 		423D5C46200545820054E493 /* UIKitExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIKitExtensions.swift; sourceTree = "<group>"; };
+		423D5C4C20098F860054E493 /* StoryViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewDelegate.swift; sourceTree = "<group>"; };
 		42651EA31EB879E4006BEF33 /* Marble.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Marble.entitlements; sourceTree = "<group>"; };
 		42665C6A1F78C5F4004BEA74 /* focus.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = focus.gif; sourceTree = "<group>"; };
 		4268482C1FE5D0CC006A7982 /* UIDevice_ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDevice_ext.swift; sourceTree = "<group>"; };
@@ -594,6 +597,7 @@
 			isa = PBXGroup;
 			children = (
 				42C4E5841FB93519003E3CDA /* TextCaptionViewDelegate.swift */,
+				423D5C4C20098F860054E493 /* StoryViewDelegate.swift */,
 			);
 			path = Delegates;
 			sourceTree = "<group>";
@@ -1276,6 +1280,7 @@
 				42C97A261FB294BC000247F4 /* UIApplication_ext.swift in Sources */,
 				42C9796D1FB293A6000247F4 /* MediaCaptionView.swift in Sources */,
 				42240CAE1FB29706007BB8FF /* CGRect+Corners.swift in Sources */,
+				423D5C4E20098F860054E493 /* StoryViewDelegate.swift in Sources */,
 				42C979EB1FB29458000247F4 /* DeckPresentationController.swift in Sources */,
 				42C97A161FB294A9000247F4 /* SCLExtensions.swift in Sources */,
 				4268482E1FE5D0CC006A7982 /* UIDevice_ext.swift in Sources */,
@@ -1376,6 +1381,7 @@
 				42C979951FB293BE000247F4 /* AuthViewController.swift in Sources */,
 				42C97A251FB294BC000247F4 /* UIApplication_ext.swift in Sources */,
 				952AF8061DAB363D005E60C7 /* AppDelegate.swift in Sources */,
+				423D5C4D20098F860054E493 /* StoryViewDelegate.swift in Sources */,
 				42C979EA1FB29458000247F4 /* DeckPresentationController.swift in Sources */,
 				42C97A151FB294A9000247F4 /* SCLExtensions.swift in Sources */,
 				42C9793F1FB29382000247F4 /* Groups.swift in Sources */,
