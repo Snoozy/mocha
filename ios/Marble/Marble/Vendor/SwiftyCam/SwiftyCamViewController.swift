@@ -273,7 +273,7 @@ open class SwiftyCamViewController: UIViewController, AVAudioRecorderDelegate, A
 
 	override open func viewDidLoad() {
 		super.viewDidLoad()
-        print("view did load")
+        
         previewLayer = PreviewView(frame: view.frame, videoGravity: videoGravity)
         view.addSubview(previewLayer)
         view.sendSubview(toBack: previewLayer)
