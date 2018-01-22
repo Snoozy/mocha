@@ -126,7 +126,7 @@ class StoryView: UIView, UIScrollViewDelegate {
             if imageView.layer.sublayers != nil && (imageView.layer.sublayers?.count)! > 1 {
                 imageView.layer.sublayers = [imageView.layer.sublayers!.last!]
             }
-            let bounds = UIScreen.main.bounds
+            let bounds = self.bounds
             originalCenterYCord = self.innerView.center.y
             originalWidth = bounds.width
             originalHeight = bounds.height
@@ -292,7 +292,7 @@ class StoryView: UIView, UIScrollViewDelegate {
         enableComments()
         
         captionImg.af_inflate()
-        let bounds = UIScreen.main.bounds
+        let bounds = self.bounds
         let img = captionImg.af_imageScaled(to: CGSize(width: bounds.width, height: bounds.height))
         
         self.appendComment(posterName: (State.shared.me?.name)!, timestamp: Int64(NSDate().timeIntervalSince1970 * 1000), image: img)
@@ -325,8 +325,15 @@ class StoryView: UIView, UIScrollViewDelegate {
                 break
             }
         }
-        self.frame.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        self.innerView.frame.size = self.frame.size
+//        self.frame.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        if isIPhoneX() {
+            let iphoneXMargin = 50
+            let bounds = self.bounds
+            self.innerView.translatesAutoresizingMaskIntoConstraints = true
+            self.innerView.frame = CGRect(x: CGFloat(0), y: CGFloat(iphoneXMargin), width: bounds.width, height: bounds.height - CGFloat(2*iphoneXMargin))
+        } else {
+            self.innerView.frame.size = self.frame.size
+        }
         mediaNext()
         self.isHidden = false
     }
@@ -334,7 +341,7 @@ class StoryView: UIView, UIScrollViewDelegate {
     func mediaStartStory(story: Story) {
         captioning = false
         
-        self.frame.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+//        self.frame.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         self.innerView.frame.size = self.frame.size
         self.story = story
         showStory(story: story)
@@ -366,7 +373,7 @@ class StoryView: UIView, UIScrollViewDelegate {
     
     func showStory(story: Story) {
         player?.pause()
-        let bounds = UIScreen.main.bounds
+        let bounds = self.bounds
         if story.mediaType == .image {
             let image = story.media
             self.imageView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height)

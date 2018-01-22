@@ -72,6 +72,11 @@ func videoPreviewImage(fileUrl: URL) -> UIImage? {
     }
 }
 
+func isIPhoneX() -> Bool {
+    return UIScreen.main.nativeBounds.height == 2436
+}
+
+
 func styleLayer(layer: CALayer) {
     layer.shadowOffset = CGSize(width: 0, height: 0)
     layer.shadowOpacity = 1
