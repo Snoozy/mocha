@@ -13,6 +13,7 @@ from resources.user import GetStoriesResource, BlockUserResource
 from resources.health import HealthCheckResource
 from resources.story import StorySeenResource, FlagStoryResource
 from resources.memories import GetMemoriesResource, SaveMemoryResource, RemoveMemoryResource
+from resources.search import SearchResource
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session
@@ -62,6 +63,8 @@ app.add_route('/' + version + '/groups/info', GroupInfoResource())
 
 app.add_route('/' + version + '/users/block', BlockUserResource())
 app.add_route('/' + version + '/stories/flag', FlagStoryResource())
+
+app.add_route('/' + version + '/search', SearchResource())
 
 # ELB Health Check ping
 app.add_route('/health', HealthCheckResource())

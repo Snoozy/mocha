@@ -96,11 +96,11 @@ class GroupInfoVC: UIViewController, UIScrollViewDelegate {
     }
     
     @IBAction func memoriesBtnPress(_ sender: Any) {
-        OperationQueue.main.addOperation {
-            let vc = UIStoryboard(name:"Memories", bundle: nil).instantiateInitialViewController() as! UINavigationController
-            (vc.topViewController as! MemoriesVC).group = self.group
-            UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
-        }
+//        OperationQueue.main.addOperation {
+//            let vc = UIStoryboard(name:"Memories", bundle: nil).instantiateInitialViewController() as! UINavigationController
+//            (vc.topViewController as! MemoriesVC).group = self.group
+//            UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
+//        }
     }
     
     override func viewDidLayoutSubviews() {

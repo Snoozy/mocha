@@ -72,7 +72,13 @@ class TextCaptionView: UIView, UITextViewDelegate, UIGestureRecognizerDelegate {
     @objc internal func keyboardWillShow(notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardHeight = keyboardSize.height
-            let point = CGPoint(x: center.x, y: (bounds.height - keyboardHeight) - (caption.frame.height/2))
+            let margin: CGFloat = {
+                if isIPhoneX() {
+                    return CGFloat(Constants.IphoneXMargin)
+                }
+                return CGFloat(0)
+            }()
+            let point = CGPoint(x: center.x, y: (bounds.height - keyboardHeight) - (caption.frame.height/2) - margin)
             if prevCaptionPoint != nil {
                 prevCaptionPoint = captionWrapperView.center
             }
@@ -88,7 +94,13 @@ class TextCaptionView: UIView, UITextViewDelegate, UIGestureRecognizerDelegate {
             let keyboardHeight = keyboardSize.height
             keyboardLastHeight = keyboardHeight
             if caption.isFirstResponder {
-                changeCaptionPoint(point: CGPoint(x: center.x, y: (bounds.height - keyboardHeight) - (caption.frame.height/2)))
+                let margin: CGFloat = {
+                    if isIPhoneX() {
+                        return CGFloat(Constants.IphoneXMargin)
+                    }
+                    return CGFloat(0)
+                }()
+                changeCaptionPoint(point: CGPoint(x: center.x, y: (bounds.height - keyboardHeight) - (caption.frame.height/2) - margin))
             }
         }
     }

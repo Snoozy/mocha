@@ -243,11 +243,11 @@ class ViewLeft: UICollectionViewController {
         
         imageViewer.parentVC = self
         
-        imageViewer.mediaStart()
-        
         imageViewer.window?.windowLevel = UIWindowLevelStatusBar
         self.view.window?.windowLevel = UIWindowLevelStatusBar
         self.view.window?.addSubview(imageViewer)
+        
+        imageViewer.mediaStart()
         
         Networker.shared.storySeen(groupId: (group?.groupId)! ,completionHandler: { _ in })  // empty completion handler
         group?.lastSeen = Int64(Date().timeIntervalSince1970 * 1000)

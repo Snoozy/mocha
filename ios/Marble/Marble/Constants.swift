@@ -49,4 +49,6 @@ struct Constants {
     static let ImageJpegCompression: CGFloat = 0.8
     
     static let DoubleTapDelay: Int = 200  // in milliseconds
+    
+    static let IphoneXMargin: Int = 50
 }

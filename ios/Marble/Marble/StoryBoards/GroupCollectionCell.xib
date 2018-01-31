@@ -44,17 +44,6 @@
                             <action selector="titleBtnPressed:" destination="gTV-IL-0wX" eventType="touchUpInside" id="Uwg-2d-Z1x"/>
                         </connections>
                     </button>
-                    <button opaque="NO" multipleTouchEnabled="YES" alpha="0.25" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="weR-e0-mEs">
-                        <rect key="frame" x="63" y="167" width="13" height="13"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="13" id="blO-vr-aQE"/>
-                            <constraint firstAttribute="width" constant="13" id="nkz-lc-VDG"/>
-                        </constraints>
-                        <state key="normal" image="down-caret"/>
-                        <connections>
-                            <action selector="moreInfoPressed:" destination="gTV-IL-0wX" eventType="touchUpInside" id="wrR-Lw-CC2"/>
-                        </connections>
-                    </button>
                 </subviews>
             </view>
             <constraints>
@@ -62,9 +51,7 @@
                 <constraint firstItem="56I-Z1-gCg" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="2tj-oc-Qm0"/>
                 <constraint firstItem="56I-Z1-gCg" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="GBz-GS-To1"/>
                 <constraint firstItem="Q4C-Iq-fUT" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="JPt-1c-rAe"/>
-                <constraint firstItem="weR-e0-mEs" firstAttribute="top" secondItem="56I-Z1-gCg" secondAttribute="bottom" constant="27" id="Wqb-Uw-uHx"/>
                 <constraint firstItem="56I-Z1-gCg" firstAttribute="leading" secondItem="SlR-ZR-TnF" secondAttribute="leading" id="daY-ed-PjE"/>
-                <constraint firstItem="weR-e0-mEs" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="hCL-JV-gjc"/>
                 <constraint firstItem="56I-Z1-gCg" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="qX0-na-wVt"/>
                 <constraint firstItem="SlR-ZR-TnF" firstAttribute="top" secondItem="56I-Z1-gCg" secondAttribute="bottom" id="zqC-Ql-iGd"/>
                 <constraint firstItem="Q4C-Iq-fUT" firstAttribute="centerY" secondItem="56I-Z1-gCg" secondAttribute="centerY" constant="0.5" id="zvT-wd-iML"/>
@@ -78,7 +65,4 @@
             <point key="canvasLocation" x="73.5" y="79.5"/>
         </collectionViewCell>
     </objects>
-    <resources>
-        <image name="down-caret" width="30" height="30"/>
-    </resources>
 </document>

@@ -18,9 +18,7 @@ class StoryView: UIView, UIScrollViewDelegate {
     @IBOutlet weak var innerView: UIView!
     
     var originalCenterYCord: CGFloat = 0.0
-    var originalWidth: CGFloat = 0.0
-    var originalHeight: CGFloat = 0.0
-    var originalMinX: CGFloat = 0.0
+    var originalRect: CGRect = CGRect.zero
     var group: Group?
     var cell: GroupCollectionCell?
     var parentVC: UIViewController?
@@ -57,7 +55,13 @@ class StoryView: UIView, UIScrollViewDelegate {
         NotificationCenter.default.addObserver(self, selector:#selector(self.playerDidFinishPlaying(note:)),name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
         
         captionScrollView.delegate = self
-        captionScrollView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        let margin: Int = {
+            if isIPhoneX() {
+                return Constants.IphoneXMargin
+            }
+            return 0
+        }()
+        captionScrollView.frame = CGRect(x: 0, y: CGFloat(margin), width: self.frame.width, height: self.frame.height)
         captionScrollView.isPagingEnabled = true
         
         styleLayer(layer: addCommentBtn.layer)
@@ -98,9 +102,9 @@ class StoryView: UIView, UIScrollViewDelegate {
                 UIView.animate(withDuration: 0.3, animations: {
                     self.innerView.center.y = self.originalCenterYCord
                     
-                    let rect = CGRect(x: 0, y: 0, width: self.originalWidth, height: self.originalHeight)
+                    let rect = CGRect(x: 0, y: 0, width: self.originalRect.width, height: self.originalRect.height)
                     
-                    self.innerView.frame = CGRect(x: 0, y: 0, width: self.originalWidth, height: self.originalHeight)
+                    self.innerView.frame = self.originalRect
                     self.imageView.frame = rect
                     if let playerLayer = self.playerLayer {
                         CATransaction.begin()
@@ -113,7 +117,7 @@ class StoryView: UIView, UIScrollViewDelegate {
             } else if translation.y > -pointOfNoReturn {
                 captionScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
             } else if story?.comments.count ?? 0 > 1 {
-                captionScrollView.setContentOffset(CGPoint(x: 0, y: UIScreen.main.bounds.height), animated: true)
+                captionScrollView.setContentOffset(CGPoint(x: 0, y: self.innerView.frame.height), animated: true)
                 enableComments()
             }
         } else if (sender.state == .began) {
@@ -126,18 +130,16 @@ class StoryView: UIView, UIScrollViewDelegate {
             if imageView.layer.sublayers != nil && (imageView.layer.sublayers?.count)! > 1 {
                 imageView.layer.sublayers = [imageView.layer.sublayers!.last!]
             }
-            let bounds = self.bounds
+            let frame = self.innerView.frame
+            originalRect = CGRect(x: frame.x, y: frame.y, width: frame.width, height: frame.height)
             originalCenterYCord = self.innerView.center.y
-            originalWidth = bounds.width
-            originalHeight = bounds.height
-            originalMinX = 0
         } else {
             if translation.y > 0 {
                 if translation.y > pointOfNoReturn {
-                    self.backgroundColor = self.backgroundColor?.withAlphaComponent(1.0 - ((translation.y - pointOfNoReturn)/UIScreen.main.bounds.height))
+                    self.backgroundColor = self.backgroundColor?.withAlphaComponent(1.0 - ((translation.y - pointOfNoReturn)/self.frame.height))
                 }
                 let scale: CGFloat = 15  // lower means more photo shrinkage
-                let rect = CGRect(x: 0, y: 0, width: originalWidth - (translation.y/scale), height: originalHeight - (translation.y/scale))
+                let rect = CGRect(x: 0, y: 0, width: originalRect.width - (translation.y/scale), height: originalRect.height - (translation.y/scale))
                 
                 self.innerView.center = CGPoint(x: innerView.center.x, y: originalCenterYCord + (translation.y/2))
                 self.imageView.frame = rect
@@ -149,8 +151,7 @@ class StoryView: UIView, UIScrollViewDelegate {
                     playerLayer.frame = rect
                     CATransaction.commit()
                 }
-                
-                self.innerView.frame = CGRect(x: originalMinX + (translation.y/(scale * 2)), y: innerView.frame.minY, width: originalWidth - (translation.y/scale), height: originalHeight - (translation.y/scale))
+                self.innerView.frame = CGRect(x: originalRect.x + (translation.y/(scale * 2)), y: innerView.frame.minY, width: originalRect.width - (translation.y/scale), height: originalRect.height - (translation.y/scale))
             } else {
                 self.innerView.center.y = originalCenterYCord
                 if story?.comments.count ?? 0 > 1  {
@@ -209,6 +210,7 @@ class StoryView: UIView, UIScrollViewDelegate {
         sendCaptionBtn.isHidden = true
         cancelCaptionBtn.isHidden = true
         addCommentBtn.isHidden = false
+        saveStoryBtn.isHidden = false
         
         addCommentLabel.isHidden = true
         
@@ -229,7 +231,7 @@ class StoryView: UIView, UIScrollViewDelegate {
     @IBAction func addCommentPress(_ sender: Any) {
         print("add comment")
         captionScrollView.isHidden = true
-        addCaptionView = MediaCaptionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+        addCaptionView = MediaCaptionView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
         addCaptionView.configure()
         
         viewingComments = true
@@ -243,7 +245,7 @@ class StoryView: UIView, UIScrollViewDelegate {
         addCommentLabel.isHidden = false
         
         toTopBtn.isHidden = true
-        saveStoryBtn.isHidden = false
+        saveStoryBtn.isHidden = true
         
         addCaptionView.isHidden = false
         addCaptionView.startEditingTextCaption()
@@ -292,7 +294,7 @@ class StoryView: UIView, UIScrollViewDelegate {
         enableComments()
         
         captionImg.af_inflate()
-        let bounds = self.bounds
+        let bounds = self.innerView.bounds
         let img = captionImg.af_imageScaled(to: CGSize(width: bounds.width, height: bounds.height))
         
         self.appendComment(posterName: (State.shared.me?.name)!, timestamp: Int64(NSDate().timeIntervalSince1970 * 1000), image: img)
@@ -301,7 +303,6 @@ class StoryView: UIView, UIScrollViewDelegate {
         }.count
         let offset = CGFloat(count - 1) * bounds.height
         self.captionScrollView.setContentOffset(CGPoint(x: 0, y: offset), animated: true)
-
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -325,24 +326,12 @@ class StoryView: UIView, UIScrollViewDelegate {
                 break
             }
         }
-//        self.frame.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        if isIPhoneX() {
-            let iphoneXMargin = 50
-            let bounds = self.bounds
-            self.innerView.translatesAutoresizingMaskIntoConstraints = true
-            self.innerView.frame = CGRect(x: CGFloat(0), y: CGFloat(iphoneXMargin), width: bounds.width, height: bounds.height - CGFloat(2*iphoneXMargin))
-        } else {
-            self.innerView.frame.size = self.frame.size
-        }
-        mediaNext()
         self.isHidden = false
+        mediaNext()
     }
     
     func mediaStartStory(story: Story) {
         captioning = false
-        
-//        self.frame.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        self.innerView.frame.size = self.frame.size
         self.story = story
         showStory(story: story)
         self.isHidden = false
@@ -373,7 +362,15 @@ class StoryView: UIView, UIScrollViewDelegate {
     
     func showStory(story: Story) {
         player?.pause()
-        let bounds = self.bounds
+        if isIPhoneX() {
+            let iphoneXMargin = Constants.IphoneXMargin
+            let bounds = self.bounds
+            self.innerView.translatesAutoresizingMaskIntoConstraints = true
+            self.innerView.frame = CGRect(x: CGFloat(0), y: CGFloat(iphoneXMargin), width: bounds.width, height: bounds.height - CGFloat(2*iphoneXMargin))
+        } else {
+            self.innerView.frame.size = self.frame.size
+        }
+        let bounds = self.innerView.bounds
         if story.mediaType == .image {
             let image = story.media
             self.imageView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height)
@@ -410,6 +407,8 @@ class StoryView: UIView, UIScrollViewDelegate {
         
         captionScrollView.subviews.forEach({ $0.removeFromSuperview() })
         
+        layoutIfNeeded()
+        
         for comment in comments {
             appendComment(posterName: comment.posterName, timestamp: comment.timestamp, image: comment.image!)
         }
@@ -436,7 +435,7 @@ class StoryView: UIView, UIScrollViewDelegate {
     
     func appendComment(posterName: String, timestamp: Int64, image: UIImage) {
         let captionView = UINib(nibName: "CaptionView", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! CaptionView
-        
+        captionView.translatesAutoresizingMaskIntoConstraints = true
         styleLayer(layer: captionView.nameLabel.layer)
         styleLayer(layer: captionView.timeLabel.layer)
         
@@ -449,7 +448,8 @@ class StoryView: UIView, UIScrollViewDelegate {
             return view is CaptionView
         }.count
         
-        captionView.frame = CGRect(x: 0, y: (CGFloat(count) * UIScreen.main.bounds.height), width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        captionView.frame = CGRect(x: 0, y: (CGFloat(count) * self.innerView.frame.height), width: self.innerView.frame.width, height: self.innerView.frame.height)
+        captionView.imageView.frame = self.innerView.frame
         
         if count > 0 || (story?.comments.count ?? 0) < 2 {
             captionView.commentLabel.isHidden = true
@@ -457,7 +457,7 @@ class StoryView: UIView, UIScrollViewDelegate {
         
         captionScrollView.addSubview(captionView)
         
-        captionScrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: CGFloat(count + 1) * UIScreen.main.bounds.height)
+        captionScrollView.contentSize = CGSize(width: self.frame.width, height: CGFloat(count + 1) * self.innerView.frame.height)
     }
     
     @objc func playerDidFinishPlaying(note: NSNotification){
@@ -473,7 +473,7 @@ class StoryView: UIView, UIScrollViewDelegate {
         if tapGestureRecognizer.state == .ended {
             let touchLocation = tapGestureRecognizer.location(in: self)
             let x = touchLocation.x
-            let screenWidth = UIScreen.main.bounds.width
+            let screenWidth = self.frame.width
             let percentage = Double(x) / Double(screenWidth)
 
             if percentage > 0.33 {

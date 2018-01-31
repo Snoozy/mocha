@@ -44,8 +44,7 @@ class MemoriesVC: UICollectionViewController {
     }
 
     @IBAction func donePressed(_ sender: Any) {
-        UIApplication.shared.statusBarStyle = .lightContent
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
     // MARK: UICollectionViewDataSource

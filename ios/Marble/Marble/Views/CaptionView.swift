@@ -34,7 +34,7 @@ class CaptionView: UIImageView {
     
     @objc func commentLabelTapped(sender: UITapGestureRecognizer) {
         storyViewDelegate?.enableComments()
-        storyViewDelegate?.captionScrollView.setContentOffset(CGPoint(x: 0, y: self.frame.height), animated: true)
+        storyViewDelegate?.captionScrollView.setContentOffset(CGPoint(x: 0, y: self.storyViewDelegate!.innerView.frame.height), animated: true)
     }
     
 }
