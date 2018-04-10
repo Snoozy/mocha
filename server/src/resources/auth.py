@@ -136,7 +136,7 @@ class PingResource:
         resp.status = falcon.HTTP_UNAUTHORIZED
 
 
-APNS_PLATFORM_APP_ARN = 'arn:aws:sns:us-west-2:005648703137:app/APNS/marble' if config['env']['mode'] == 'prod' else 'arn:aws:sns:us-west-2:005648703137:app/APNS_SANDBOX/marble-dev'
+APNS_PLATFORM_APP_ARN = 'arn:aws:sns:us-west-2:099498578811:app/APNS/marble-apns' if config['env']['mode'] == 'prod' else 'arn:aws:sns:us-west-2:005648703137:app/APNS_SANDBOX/marble-dev'
 SNS_REGION = 'us-west-2'
 
 

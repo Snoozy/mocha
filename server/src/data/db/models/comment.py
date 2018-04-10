@@ -6,7 +6,7 @@ from ..db import Base
 from .user import User
 from utils import time_millis
 
-CDN_URL = 'https://static.amarbleapp.com/media/'
+CDN_URL = 'https://i.marblestatic.com/media/'
 
 
 class Comment(Base):

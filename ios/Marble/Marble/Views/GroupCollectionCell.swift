@@ -95,7 +95,7 @@ class GroupCollectionCell: UICollectionViewCell {
                 }
             }()
             let imgMasked = image.circleMasked
-            storyPreview.image = seen ? seenReplayOverlay(image: imgMasked!) : imgMasked!
+            storyPreview.image = imgMasked!.imageWithInsets(insets: UIEdgeInsetsMake(70, 70, 70, 70))
             
             storyPreview.layer.cornerRadius = 0
             storyPreview.layer.borderWidth = 0
@@ -105,16 +105,14 @@ class GroupCollectionCell: UICollectionViewCell {
             
             self.storyPreview.layer.masksToBounds = false
             self.storyPreview.clipsToBounds = false
-            self.storyPreview.layer.shadowOffset = CGSize(width: 0, height: 0)
+            self.storyPreview.layer.cornerRadius = storyPreview.bounds.width / 2
             if !seen {
-                self.storyPreview.layer.shadowOpacity = 1
-                self.storyPreview.layer.shadowColor = Constants.Colors.UnseenHighlight.cgColor
-                self.storyPreview.layer.shadowRadius = 5
+                self.storyPreview.layer.borderWidth = 2.2
+                self.storyPreview.layer.borderColor = Constants.Colors.MarbleBlue.cgColor
                 self.nameBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .heavy)
             } else {
-                self.storyPreview.layer.shadowOpacity = 0.7
-                self.storyPreview.layer.shadowColor = nil
-                self.storyPreview.layer.shadowRadius = 3
+                self.storyPreview.layer.borderWidth = 2.2
+                self.storyPreview.layer.borderColor = UIColor.lightGray.cgColor
                 self.nameBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
             }
         } else {
@@ -127,8 +125,8 @@ class GroupCollectionCell: UICollectionViewCell {
             self.layer.masksToBounds = false
 
             storyPreview.layer.cornerRadius = storyPreview.frame.width / 2
-            storyPreview.layer.borderWidth = 1
-            storyPreview.layer.borderColor = UIColor.gray.cgColor
+            storyPreview.layer.borderWidth = 2.2
+            storyPreview.layer.borderColor = UIColor.lightGray.cgColor
             storyPreview.layer.shadowRadius = 0
             self.nameBtn.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
             
@@ -144,7 +142,7 @@ class GroupCollectionCell: UICollectionViewCell {
         
         let filter = CIFilter(name: "CIGaussianBlur")
         filter?.setValue(inputImage, forKey: kCIInputImageKey)
-        filter?.setValue(15.0, forKey: kCIInputRadiusKey)
+        filter?.setValue(10.0, forKey: kCIInputRadiusKey)
         let outputImage = filter?.outputImage
         
         var cgImage:CGImage?

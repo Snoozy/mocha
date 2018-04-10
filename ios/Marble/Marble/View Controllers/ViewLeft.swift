@@ -62,6 +62,8 @@ class ViewLeft: UICollectionViewController {
         
         pullDownRefresh()
         
+        State.shared.refreshTrendingGroups()
+        
         becomeFirstResponder()
         
         ViewLeft.startRefreshTimer()

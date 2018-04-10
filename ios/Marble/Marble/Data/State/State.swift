@@ -18,6 +18,8 @@ class State {
     
     var groupMemories: [Int: [Story]] = [:]
     
+    var trendingGroups: [Group] = [Group]()
+    
     var authorizing: Bool = false
     
     var me: User?

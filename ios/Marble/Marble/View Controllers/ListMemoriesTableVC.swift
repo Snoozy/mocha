@@ -14,12 +14,25 @@ class ListMemoriesTableVC: UITableViewController {
         super.viewDidLoad()
         
         self.tableView.rowHeight = 70
+        self.tableView.tableFooterView = UIView()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
+    
+    @IBAction func addMarbleBtnPress(_ sender: Any) {
+        OperationQueue.main.addOperation {
+            UIApplication.topViewController()?.present(UIStoryboard(name:"AddMarble", bundle: nil).instantiateInitialViewController()!, animated: true, completion: nil)
+        }
+    }
+    
+    @IBAction func gotoCameraBtnPress(_ sender: Any) {
+        let parentVC = UIApplication.topViewController() as? ViewController
+        let screenWidth = UIScreen.main.bounds.size.width
+        parentVC?.scrollView.setContentOffset(CGPoint.init(x: screenWidth, y: 0.0), animated: true)
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {

@@ -30,6 +30,24 @@ extension State {
         })
     }
     
+    func refreshTrendingGroups(completionHandler: (() -> Void)? = nil) {
+        Networker.shared.getTrendingGroups { (response) in
+            switch response.result {
+            case .success(let val):
+                let json = JSON(val)
+                var groups = [Group]()
+                if let gJson = json["results"].array {
+                    for g in gJson {
+                        groups.append(Group(name: g["name"].stringValue, id: g["group_id"].intValue, lastSeen: g["last_seen"].int64Value, members: g["members"].int ?? 1, code: String(g["code"].intValue)))
+                    }
+                    self.trendingGroups = groups
+                }
+            case .failure:
+                print(response.debugDescription)
+            }
+        }
+    }
+    
     func sortGroupsRecent() {
         self.userGroups.sort(by: groupsRecentSort)
     }

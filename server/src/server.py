@@ -13,7 +13,7 @@ from resources.user import GetStoriesResource, BlockUserResource
 from resources.health import HealthCheckResource
 from resources.story import StorySeenResource, FlagStoryResource
 from resources.memories import GetMemoriesResource, SaveMemoryResource, RemoveMemoryResource
-from resources.search import SearchResource
+from resources.search import SearchResource, TrendingResource
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session
@@ -52,6 +52,7 @@ app.add_route('/' + version + '/groups/leave', GroupLeaveResource())
 app.add_route('/' + version + '/groups/create', GroupCreateResource())
 app.add_route('/' + version + '/groups/list', ListGroupsResource())
 app.add_route('/' + version + '/groups/find', FindGroupResource())
+app.add_route('/' + version + '/groups/trending', TrendingResource())
 
 app.add_route('/' + version + '/stories', GetStoriesResource())
 app.add_route('/' + version + '/stories/seen', StorySeenResource())

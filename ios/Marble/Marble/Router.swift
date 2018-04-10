@@ -34,6 +34,8 @@ enum Router : URLConvertible {
     case GetMemories
     case SaveMemory
     case RemoveMemory
+    case Search
+    case TrendingGroups
     
     func asURL() throws -> URL {
         let versionNum = "v1"
@@ -78,6 +80,10 @@ enum Router : URLConvertible {
                 return "/memories/save"
             case .RemoveMemory:
                 return "/memories/remove"
+            case .Search:
+                return "/search"
+            case .TrendingGroups:
+                return "/groups/trending"
             }
         }()
         

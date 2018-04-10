@@ -23,7 +23,12 @@ class ListMemoriesTVCell: UITableViewCell {
     }
     
     @IBAction func groupInfoPressed(_ sender: Any) {
-        
+        let modal = GroupInfoVC(nibName: "GroupInfo", bundle: nil)
+        modal.setGroup(group: group!)
+        let transitionDelegate = DeckTransitioningDelegate()
+        modal.transitioningDelegate = transitionDelegate
+        modal.modalPresentationStyle = .custom
+        UIApplication.topViewController()?.present(modal, animated: true, completion: nil)
     }
     
 }

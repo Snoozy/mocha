@@ -11,6 +11,7 @@ from data.notifications import send_notification, get_user_badge_num
 
 
 BLANK_CAPTION_RAND_STR = 'a67722d1-c43b-492a-b899-3131057bee3a'
+S3_BUCKET_NAME = 'marble-s3'
 
 
 class ImageUploadResource:
@@ -33,7 +34,7 @@ class ImageUploadResource:
         print(group_ids)
         group_ids = [int(id) for id in group_ids.split(',')]
 
-        s3.Bucket('amarbleapp').put_object(Body=media.file, Key="media/" + rand_str, ContentType="image/jpeg")
+        s3.Bucket(S3_BUCKET_NAME).put_object(Body=media.file, Key="media/" + rand_str, ContentType="image/jpeg")
 
         print("UPLOAD: " + rand_str)
 
@@ -41,8 +42,8 @@ class ImageUploadResource:
 
         if caption is not None:
             caption_rand_str = str(uuid.uuid4())
-            s3.Bucket('amarbleapp').put_object(Body=caption.file, Key="media/" + caption_rand_str,
-                                               ContentType="image/png")
+            s3.Bucket(S3_BUCKET_NAME).put_object(Body=caption.file, Key="media/" + caption_rand_str,
+                                                 ContentType="image/png")
             print('CAPTION UPLOAD: ' + caption_rand_str)
 
         for group_id in group_ids:
@@ -89,14 +90,14 @@ class VideoUploadResource:
 
         group_ids = [int(id) for id in group_ids.split(',')]
 
-        s3.Bucket('amarbleapp').put_object(Body=video.file, Key="media/" + rand_str, ContentType='video/mp4')
+        s3.Bucket(S3_BUCKET_NAME).put_object(Body=video.file, Key="media/" + rand_str, ContentType='video/mp4')
         print("VIDEO UPLOAD: " + rand_str)
         
         caption_rand_str = None
 
         if caption is not None:
             caption_rand_str = str(uuid.uuid4())
-            s3.Bucket('amarbleapp').put_object(Body=caption.file, Key="media/" + caption_rand_str, ContentType="image/png")
+            s3.Bucket(S3_BUCKET_NAME).put_object(Body=caption.file, Key="media/" + caption_rand_str, ContentType="image/png")
             print('CAPTION UPLOAD: ' + caption_rand_str)
 
         for group_id in group_ids:
@@ -138,7 +139,7 @@ class CommentUploadResource:
         if not story:
             raise falcon.HTTPBadRequest()
 
-        s3.Bucket('amarbleapp').put_object(Body=media.file, Key="media/" + rand_str, ContentType="image/png")
+        s3.Bucket(S3_BUCKET_NAME).put_object(Body=media.file, Key="media/" + rand_str, ContentType="image/png")
 
         print("UPLOAD: " + rand_str)
  

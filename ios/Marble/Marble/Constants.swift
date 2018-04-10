@@ -10,11 +10,10 @@ import Foundation
 import UIKit
 
 #if DEV
-//    let API_URL = "http://192.168.10.109:8000"
-    let API_URL = "https://api.amarbleapp.com"
+    let API_URL = "http://192.168.10.105:8000"
+//    let API_URL = "https://api.amarbleapp.com"
 #else
     let API_URL = "https://api.amarbleapp.com"
-//    let API_URL = "http://192.168.10.105:8000"  // FOR TESTING NOTIFICATIONS ONLY (until Marble Dev entitlements setup)
 #endif
 
 struct Constants {
@@ -26,7 +25,7 @@ struct Constants {
         
         static let FormUnderlineGray = UIColor(red: CGFloat(211.0/255.0), green: CGFloat(211/255.0), blue:CGFloat(211/255.0), alpha: CGFloat(1.0))
         
-        static let UnseenHighlight = UIColor(red: CGFloat(17/255.0), green: CGFloat(85/255.0), blue: CGFloat(219/255.0), alpha: 1.0)
+        static let UnseenHighlight = UIColor(red: CGFloat(50/255.0), green: CGFloat(50/255.0), blue: CGFloat(255/255.0), alpha: 1.0)
     }
     
     struct Notifications {

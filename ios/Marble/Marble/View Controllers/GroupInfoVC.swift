@@ -26,8 +26,8 @@ class GroupInfoVC: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        memoriesBtn.backgroundColor = Constants.Colors.MarbleBlue
-        memoriesBtn.layer.cornerRadius = 4
+//        memoriesBtn.backgroundColor = Constants.Colors.MarbleBlue
+//        memoriesBtn.layer.cornerRadius = 4
         
         shareGroupBtn.layer.borderWidth = 1
         shareGroupBtn.layer.cornerRadius = 4
@@ -95,13 +95,13 @@ class GroupInfoVC: UIViewController, UIScrollViewDelegate {
         alert.showInfo((group?.name)!, subTitle: subTitle, circleIconImage: img, iconHeightDeviation: 25)
     }
     
-    @IBAction func memoriesBtnPress(_ sender: Any) {
+//    @IBAction func memoriesBtnPress(_ sender: Any) {
 //        OperationQueue.main.addOperation {
 //            let vc = UIStoryboard(name:"Memories", bundle: nil).instantiateInitialViewController() as! UINavigationController
 //            (vc.topViewController as! MemoriesVC).group = self.group
 //            UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
 //        }
-    }
+//    }
     
     override func viewDidLayoutSubviews() {
         membersTable.frame.size = membersTable.contentSize

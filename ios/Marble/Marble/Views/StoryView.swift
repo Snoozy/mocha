@@ -410,7 +410,11 @@ class StoryView: UIView, UIScrollViewDelegate {
         layoutIfNeeded()
         
         for comment in comments {
-            appendComment(posterName: comment.posterName, timestamp: comment.timestamp, image: comment.image!)
+            if let commentImage = comment.image {
+                appendComment(posterName: comment.posterName, timestamp: comment.timestamp, image: commentImage)
+            } else {
+                print("error adding comment")
+            }
         }
         
         self.userId = story.userId
@@ -531,10 +535,11 @@ class StoryView: UIView, UIScrollViewDelegate {
             var prefs = EasyTipView.Preferences()
             prefs.drawing.font = UIFont(name: "Futura-Medium", size: 13)!
             prefs.drawing.backgroundColor = UIColor.black
+            prefs.drawing.arrowPosition = .bottom
             prefs.drawing.foregroundColor = UIColor.white
             
             sender.setImage(UIImage(named: "star_yellow"), for: .normal)
-            let tipView = EasyTipView(text: "Story saved to Our Memories", preferences: prefs, delegate: nil)
+            let tipView = EasyTipView(text: "Saved to our Memories", preferences: prefs, delegate: nil)
             tipView.show(animated: true, forView: sender, withinSuperview: self)
             Networker.shared.saveMemory(storyId: story!.id, completionHandler: { _ in })
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
