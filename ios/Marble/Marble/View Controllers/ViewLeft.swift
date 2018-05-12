@@ -298,6 +298,8 @@ class ViewLeft: UICollectionViewController {
     }
     
     @IBAction func goToCameraBtnPress(_ sender: Any) {
+        selectPicture()
+        return
         let parentVC = UIApplication.topViewController() as? ViewController
         let screenWidth = UIScreen.main.bounds.size.width
         parentVC?.scrollView.setContentOffset(CGPoint.init(x: screenWidth, y: 0.0), animated: true)
@@ -394,4 +396,41 @@ extension ViewLeft : StoryViewDelegate {
     }
     
 }
+
+extension ViewLeft : UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    func selectPicture() {
+        let picker = UIImagePickerController()
+        picker.allowsEditing = true
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let possibleImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
+            processSelectedImage(img: possibleImage)
+        } else if let possibleImage = info["UIImagePickerControllerOriginalImage"] as? UIImage {
+            processSelectedImage(img: possibleImage)
+        } else if let possibleVideo = info["UIImagePickerControllerMediaURL"] as? NSURL {
+            processSelectedVideo(vid: possibleVideo)
+        } else {
+            return
+        }
+        
+        dismiss(animated: true)
+        
+    }
+    
+    func processSelectedImage(img: UIImage) {
+        print(img.size)
+    }
+    
+    func processSelectedVideo(vid: NSURL) {
+        print(vid)
+    }
+}
+
 

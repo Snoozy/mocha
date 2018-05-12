@@ -12,6 +12,7 @@ class MemoriesCell: UICollectionViewCell {
     
     @IBOutlet weak var previewImage: UIImageView!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var numberLabel: UILabel!
     
     var story: Story?
     

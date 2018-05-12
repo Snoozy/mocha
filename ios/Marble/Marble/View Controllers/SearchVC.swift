@@ -75,6 +75,7 @@ class SearchVC: UITableViewController {
     var responder: SCLAlertViewResponder?
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
+        self.searchBar?.resignFirstResponder()
         
         let cell = tableView.cellForRow(at: indexPath) as! SearchTableViewCell
         let group = cell.group!
@@ -95,8 +96,8 @@ class SearchVC: UITableViewController {
                     let group = json["group"]
                     let groupId = group["group_id"].int!
                     State.shared.addGroup(name: group["name"].stringValue, id: groupId, lastSeen: group["last_seen"].int64 ?? 0, members: group["members"].int ?? 1, code: group["code"].string ?? String(groupId))
-//                    self.performSegue(withIdentifier: "JoinGroupToMainUnwind", sender: nil)
-                // TODO: go to main marble screen
+                    NotificationCenter.default.post(name: Constants.Notifications.RefreshMainGroupState, object: nil)
+                    self.tabBarController?.selectedIndex = 0
                 case .failure:
                     print(response.debugDescription)
                 }
@@ -133,10 +134,15 @@ extension SearchVC : UISearchBarDelegate {
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(false, animated: true)
-        searchBar.setPositionAdjustment(offset, for: .search)
+        if (searchBar.text?.isEmpty)! {
+            searchBar.setPositionAdjustment(offset, for: .search)
+        }
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
         searchBar.resignFirstResponder()
+        searching = false
+        self.tableView.reloadData()
     }
 }

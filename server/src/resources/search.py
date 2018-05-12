@@ -9,7 +9,7 @@ class SearchResource:
     def on_get(self, req, resp, user_id):
         query = req.get_param('query')
         if len(query) > 0:
-            res_raw = req.session.query(Group).filter(Group.name.like('%' + query + '%')).all()
+            res_raw = req.session.query(Group).filter(Group.name.ilike('%' + query + '%')).all()
             results = []
             for r in res_raw:
                 results.append(r.to_dict())

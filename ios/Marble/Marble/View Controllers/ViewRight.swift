@@ -561,6 +561,11 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         postingGroup = group
     }
     
+    @IBAction func cameraRollBtnPress(_ sender: Any) {
+        print("camera roll")
+        
+    }
+    
     func clearPostingGroup() {
         postingGroup = nil
     }
@@ -574,5 +579,41 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     func stopCaptionEditing() {
         captionView.isUserInteractionEnabled = false
         captionView.isHidden = true
+    }
+}
+
+extension ViewRight : UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    func selectPicture() {
+        let picker = UIImagePickerController()
+        picker.allowsEditing = true
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let possibleImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
+            processSelectedImage(img: possibleImage)
+        } else if let possibleImage = info["UIImagePickerControllerOriginalImage"] as? UIImage {
+            processSelectedImage(img: possibleImage)
+        } else if let possibleVideo = info["UIImagePickerControllerMediaURL"] as? NSURL {
+            processSelectedVideo(vid: possibleVideo)
+        } else {
+            return
+        }
+        
+        dismiss(animated: true)
+
+    }
+    
+    func processSelectedImage(img: UIImage) {
+        print(img.size)
+    }
+    
+    func processSelectedVideo(vid: NSURL) {
+        print(vid)
     }
 }

@@ -57,9 +57,15 @@
 		426848411FF09F2F006A7982 /* MemoriesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4268483F1FF09F2F006A7982 /* MemoriesCell.xib */; };
 		427FFC741E3B1F600007159C /* AlamofireNetworkActivityIndicator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 427FFC711E3B1F470007159C /* AlamofireNetworkActivityIndicator.framework */; };
 		427FFC751E3B1F600007159C /* AlamofireNetworkActivityIndicator.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 427FFC711E3B1F470007159C /* AlamofireNetworkActivityIndicator.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		42823DD9209F0A3600BD8649 /* EditClipsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42823DD8209F0A3600BD8649 /* EditClipsVC.swift */; };
+		42823DDA209F0A3600BD8649 /* EditClipsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42823DD8209F0A3600BD8649 /* EditClipsVC.swift */; };
 		4299916F1E4DAF000049608F /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 429991621E4DAEB90049608F /* AlamofireImage.framework */; };
 		429991701E4DAF000049608F /* AlamofireImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 429991621E4DAEB90049608F /* AlamofireImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		42AECD441FA29B5100AA1B3F /* focus.gif in Resources */ = {isa = PBXBuildFile; fileRef = 42665C6A1F78C5F4004BEA74 /* focus.gif */; };
+		42B2665D208B5C06008DFDBC /* Vlogify.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42B2665C208B5C06008DFDBC /* Vlogify.storyboard */; };
+		42B2665E208B5C06008DFDBC /* Vlogify.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42B2665C208B5C06008DFDBC /* Vlogify.storyboard */; };
+		42B26670208B5D89008DFDBC /* VlogifyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B2666F208B5D89008DFDBC /* VlogifyVC.swift */; };
+		42B26671208B5D89008DFDBC /* VlogifyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B2666F208B5D89008DFDBC /* VlogifyVC.swift */; };
 		42C4E5701FB92899003E3CDA /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C4E56B1FB92899003E3CDA /* GradientView.swift */; };
 		42C4E5711FB92899003E3CDA /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C4E56B1FB92899003E3CDA /* GradientView.swift */; };
 		42C4E5721FB92899003E3CDA /* ColorSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C4E56C1FB92899003E3CDA /* ColorSlider.swift */; };
@@ -479,7 +485,10 @@
 		4268483C1FF0990E006A7982 /* MemoriesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoriesCell.swift; sourceTree = "<group>"; };
 		4268483F1FF09F2F006A7982 /* MemoriesCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MemoriesCell.xib; sourceTree = "<group>"; };
 		427FFC6A1E3B1F470007159C /* AlamofireNetworkActivityIndicator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireNetworkActivityIndicator.xcodeproj; path = AlamofireNetworkActivityIndicator/AlamofireNetworkActivityIndicator.xcodeproj; sourceTree = "<group>"; };
+		42823DD8209F0A3600BD8649 /* EditClipsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditClipsVC.swift; sourceTree = "<group>"; };
 		429991551E4DAEB90049608F /* AlamofireImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireImage.xcodeproj; path = AlamofireImage/AlamofireImage.xcodeproj; sourceTree = "<group>"; };
+		42B2665C208B5C06008DFDBC /* Vlogify.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Vlogify.storyboard; sourceTree = "<group>"; };
+		42B2666F208B5D89008DFDBC /* VlogifyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VlogifyVC.swift; sourceTree = "<group>"; };
 		42C4E56B1FB92899003E3CDA /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		42C4E56C1FB92899003E3CDA /* ColorSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorSlider.swift; sourceTree = "<group>"; };
 		42C4E56D1FB92899003E3CDA /* DefaultPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultPreviewView.swift; sourceTree = "<group>"; };
@@ -874,6 +883,7 @@
 				42240CFD1FB41872007BB8FF /* MemberTVCell.xib */,
 				4268482F1FEF3D7C006A7982 /* Memories.storyboard */,
 				4268483F1FF09F2F006A7982 /* MemoriesCell.xib */,
+				42B2665C208B5C06008DFDBC /* Vlogify.storyboard */,
 			);
 			name = Storyboards;
 			path = StoryBoards;
@@ -897,6 +907,8 @@
 				426848321FEF3F12006A7982 /* MemoriesVC.swift */,
 				42DA9D6B201D363A001CEB9B /* ListMemoriesTableVC.swift */,
 				42DA9D7E2021A5BF001CEB9B /* SearchVC.swift */,
+				42B2666F208B5D89008DFDBC /* VlogifyVC.swift */,
+				42823DD8209F0A3600BD8649 /* EditClipsVC.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -1225,6 +1237,7 @@
 				42C97A0C1FB2949F000247F4 /* FontAwesome.otf in Resources */,
 				42C979B01FB293E1000247F4 /* GroupCollectionCell.xib in Resources */,
 				426848311FEF3D7C006A7982 /* Memories.storyboard in Resources */,
+				42B2665E208B5C06008DFDBC /* Vlogify.storyboard in Resources */,
 				42240CF31FB29D0D007BB8FF /* Main.storyboard in Resources */,
 				42240CFF1FB41872007BB8FF /* MemberTVCell.xib in Resources */,
 				42C979BC1FB293E1000247F4 /* LaunchDEV.storyboard in Resources */,
@@ -1237,6 +1250,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				42C979B11FB293E1000247F4 /* Left.storyboard in Resources */,
+				42B2665D208B5C06008DFDBC /* Vlogify.storyboard in Resources */,
 				42C979C91FB293E1000247F4 /* AddMarble.storyboard in Resources */,
 				42C979B31FB293E1000247F4 /* StoryView.xib in Resources */,
 				42C979AF1FB293E1000247F4 /* GroupCollectionCell.xib in Resources */,
@@ -1280,6 +1294,7 @@
 				42C4E5831FB92A49003E3CDA /* HSBColor.swift in Sources */,
 				42C9798C1FB293BE000247F4 /* AddMarbleCodeVC.swift in Sources */,
 				42C979341FB2937B000247F4 /* User.swift in Sources */,
+				42B26671208B5D89008DFDBC /* VlogifyVC.swift in Sources */,
 				42C97A2C1FB294BC000247F4 /* UIImage_ext.swift in Sources */,
 				42C4E5731FB92899003E3CDA /* ColorSlider.swift in Sources */,
 				42C979941FB293BE000247F4 /* SendGroupTV.swift in Sources */,
@@ -1315,6 +1330,7 @@
 				42C979401FB29382000247F4 /* Groups.swift in Sources */,
 				42C979691FB293A6000247F4 /* GroupCollectionCell.swift in Sources */,
 				42C979591FB2938D000247F4 /* UploadNetworker.swift in Sources */,
+				42823DDA209F0A3600BD8649 /* EditClipsVC.swift in Sources */,
 				42C979571FB2938D000247F4 /* AuthNetworker.swift in Sources */,
 				42C97A241FB294BC000247F4 /* Data_ext.swift in Sources */,
 				42240CB11FB2970E007BB8FF /* CornerView.swift in Sources */,
@@ -1386,6 +1402,7 @@
 				42C4E5821FB92A49003E3CDA /* HSBColor.swift in Sources */,
 				42C979781FB293A6000247F4 /* TextCaptionView.swift in Sources */,
 				42240CA61FB296AD007BB8FF /* RoundedView.swift in Sources */,
+				42B26670208B5D89008DFDBC /* VlogifyVC.swift in Sources */,
 				42C97A2B1FB294BC000247F4 /* UIImage_ext.swift in Sources */,
 				42C4E5721FB92899003E3CDA /* ColorSlider.swift in Sources */,
 				42C979DC1FB29458000247F4 /* DeckPresentingAnimationController.swift in Sources */,
@@ -1421,6 +1438,7 @@
 				42C979911FB293BE000247F4 /* CreateMarbleVC.swift in Sources */,
 				42C979351FB2937B000247F4 /* Group.swift in Sources */,
 				42240CA81FB296AD007BB8FF /* CGRect+Corners.swift in Sources */,
+				42823DD9209F0A3600BD8649 /* EditClipsVC.swift in Sources */,
 				42C979931FB293BE000247F4 /* SendGroupTV.swift in Sources */,
 				42C97A231FB294BC000247F4 /* Data_ext.swift in Sources */,
 				42C9798F1FB293BE000247F4 /* GroupInfoVC.swift in Sources */,

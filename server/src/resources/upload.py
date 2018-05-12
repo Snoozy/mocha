@@ -6,6 +6,7 @@ from data.db.models.story import Story
 from data.db.models.comment import Comment
 from data.db.models.user import User
 from data.db.models.group import Group
+from config import config
 from typing import List
 from data.notifications import send_notification, get_user_badge_num
 

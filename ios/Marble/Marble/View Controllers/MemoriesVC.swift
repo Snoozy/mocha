@@ -17,6 +17,8 @@ class MemoriesVC: UICollectionViewController {
     
     var memoryIdx: Int = 0
     
+    @IBOutlet weak var vlogifyBtn: UIBarButtonItem!
+    
     fileprivate let itemsPerRow: CGFloat = 4
     fileprivate let sectionInsets = UIEdgeInsets(top: 5.0, left: 5.0, bottom: 5.0, right: 5.0)
 
@@ -26,6 +28,8 @@ class MemoriesVC: UICollectionViewController {
         super.viewDidLoad()
 
         self.collectionView!.register(UINib(nibName: "MemoriesCell", bundle: nil), forCellWithReuseIdentifier: reuseIdentifier)
+        
+        vlogifyBtn.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 16), NSAttributedStringKey.foregroundColor: UIColor.black], for: .normal)
         
         memories = State.shared.getMemoriesForGroup(groupId: group!.groupId)
         
@@ -42,7 +46,13 @@ class MemoriesVC: UICollectionViewController {
             self.collectionView?.reloadData()
         }
     }
-
+    @IBAction func vlogifyBtnPressed(_ sender: Any) {
+        let vc = UIStoryboard(name: "Vlogify", bundle: nil).instantiateInitialViewController() as! UINavigationController
+        let vlogifyVC = vc.topViewController as! VlogifyVC
+        vlogifyVC.group = group
+        self.present(vc, animated: true, completion: nil)
+    }
+    
     @IBAction func donePressed(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }

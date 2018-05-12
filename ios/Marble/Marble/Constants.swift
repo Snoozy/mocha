@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 #if DEV
-    let API_URL = "http://192.168.10.105:8000"
+    let API_URL = "http://192.168.0.31:8000"
 //    let API_URL = "https://api.amarbleapp.com"
 #else
     let API_URL = "https://api.amarbleapp.com"
