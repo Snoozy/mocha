@@ -1,5 +1,5 @@
 //
-//  StoryViewDelegate.swift
+//  ClipViewDelegate.swift
 //  Marble
 //
 //  Created by Daniel Li on 1/12/18.
@@ -8,11 +8,10 @@
 
 import Foundation
 
-
-protocol StoryViewDelegate {
+protocol ClipViewDelegate {
     
-    func nextStory(_ storyView: StoryView) -> Story?
+    func nextClip(_ storyView: ClipView) -> Clip?
     
-    func prevStory(_ storyView: StoryView) -> Story?
+    func prevClip(_ storyView: ClipView) -> Clip?
     
 }

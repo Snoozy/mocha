@@ -91,6 +91,18 @@
                             <outlet property="delegate" destination="qvt-Kt-KZf" id="ONf-Hi-naW"/>
                         </connections>
                     </collectionView>
+                    <navigationItem key="navigationItem" title="Edit Clips" id="OR2-vJ-bFV">
+                        <barButtonItem key="rightBarButtonItem" title="Create" id="TsV-E5-wfY">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="createBtnPressed:" destination="qvt-Kt-KZf" id="B6M-Ug-jv0"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="createBtn" destination="TsV-E5-wfY" id="j98-cX-cCt"/>
+                        <outlet property="createBtnPressed" destination="TsV-E5-wfY" id="vFD-Mw-cTH"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LG0-cC-6S1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

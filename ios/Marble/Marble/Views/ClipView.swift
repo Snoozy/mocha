@@ -1,5 +1,5 @@
 //
-//  StoryImageView.swift
+//  ClipView.swift
 //  Marble
 //
 //  Created by Daniel Li on 2/10/17.
@@ -10,9 +10,9 @@ import UIKit
 import AVFoundation
 import AVKit
 
-class StoryView: UIView, UIScrollViewDelegate {
+class ClipView: UIView, UIScrollViewDelegate {
 
-    var delegate: StoryViewDelegate?
+    var delegate: ClipViewDelegate?
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var innerView: UIView!
@@ -23,21 +23,14 @@ class StoryView: UIView, UIScrollViewDelegate {
     var cell: GroupCollectionCell?
     var parentVC: UIViewController?
     var userId: Int?
-    var story: Story?
+    var clip: Clip?
     
     // OPTIONS
     var loopVideo: Bool = true
     var commentingEnabled: Bool = true
     var showOverlay: Bool = true
     
-    @IBOutlet weak var addCommentLabel: UILabel!
-    
-    var viewingComments: Bool = false
-    
-    @IBOutlet weak var sendCaptionBtn: UIButton!
-    @IBOutlet weak var cancelCaptionBtn: UIButton!
-    @IBOutlet weak var toTopBtn: UIButton!
-    @IBOutlet weak var saveStoryBtn: UIButton!
+    @IBOutlet weak var saveClipBtn: UIButton!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     
@@ -53,7 +46,7 @@ class StoryView: UIView, UIScrollViewDelegate {
         self.isUserInteractionEnabled = true
         self.addGestureRecognizer(nameTapGest)
         
-        let tapGest = UITapGestureRecognizer(target: self, action: #selector(storyTapped(tapGestureRecognizer:)))
+        let tapGest = UITapGestureRecognizer(target: self, action: #selector(clipTapped(tapGestureRecognizer:)))
         self.addGestureRecognizer(tapGest)
 
         NotificationCenter.default.addObserver(self, selector:#selector(self.playerDidFinishPlaying(note:)),name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
@@ -65,41 +58,23 @@ class StoryView: UIView, UIScrollViewDelegate {
             return 0
         }()
         
-//        styleLayer(layer: addCommentBtn.layer)
-        // Disabling commenting
-        addCommentBtn.isHidden = true
-        
-        sendCaptionBtn.layer.cornerRadius = 5
-        styleLayer(layer: sendCaptionBtn.layer)
-        
-        cancelCaptionBtn.layer.borderWidth = 1
-        cancelCaptionBtn.layer.cornerRadius = 5
-        cancelCaptionBtn.layer.borderColor = UIColor.white.cgColor
-        styleLayer(layer: cancelCaptionBtn.layer)
-        
-        styleLayer(layer: addCommentLabel.layer)
-        
-        styleLayer(layer: toTopBtn.layer)
-        styleLayer(layer: saveStoryBtn.layer)
+        styleLayer(layer: saveClipBtn.layer)
     }
     
-    @IBAction func storyViewPan(_ sender: UIPanGestureRecognizer) {
-        if viewingComments {
-            return
-        }
+    @IBAction func clipViewPan(_ sender: UIPanGestureRecognizer) {
         let translation = sender.translation(in: self)
         
-        let pointOfNoReturn: CGFloat = 70  // at what point the drag will cancel story
+        let pointOfNoReturn: CGFloat = 70  // at what point the drag will cancel clip
         
         if sender.state == .ended {
             panning = false
             if translation.y > pointOfNoReturn {
-                self.group?.storyViewIdx -= 1
+                self.group?.clipViewIdx -= 1
                 self.cell?.refreshPreview()
                 UIView.animate(withDuration: 0.3, animations: {
                     self.alpha = 0.0
                 }, completion: { (_: Bool) in
-                    self.exitStory()
+                    self.exitClip()
                 })
             } else if translation.y >= 0 {
                 UIView.animate(withDuration: 0.3, animations: {
@@ -118,15 +93,12 @@ class StoryView: UIView, UIScrollViewDelegate {
                     }
                 })
             } else if translation.y > -pointOfNoReturn {
-            } else if story?.comments.count ?? 0 > 1 {
             }
         } else if (sender.state == .began) {
             panning = true
             self.backgroundColor = UIColor(white: 0, alpha: 1.0);
             
-            if story?.mediaType == .video && imageView.image != nil {
-                imageView.image = nil
-            }
+            imageView.image = nil
             if imageView.layer.sublayers != nil && (imageView.layer.sublayers?.count)! > 1 {
                 imageView.layer.sublayers = [imageView.layer.sublayers!.last!]
             }
@@ -153,147 +125,21 @@ class StoryView: UIView, UIScrollViewDelegate {
                 self.innerView.frame = CGRect(x: originalRect.x + (translation.y/(scale * 2)), y: innerView.frame.minY, width: originalRect.width - (translation.y/scale), height: originalRect.height - (translation.y/scale))
             } else {
                 self.innerView.center.y = originalCenterYCord
-                if story?.comments.count ?? 0 > 1  {
-                }
             }
-        }
-    }
-    
-    func enableComments() {
-        self.viewingComments = true
-        
-        self.toTopBtn.isHidden = false
-        self.saveStoryBtn.isHidden = true
-        
-        
-        self.sendCaptionBtn.isHidden = true
-        self.cancelCaptionBtn.isHidden = true
-        
-        if commentingEnabled {
-            self.addCommentBtn.isHidden = false
-        }
-
-    }
-    
-    func disableComments() {
-        viewingComments = false
-        toTopBtn.isHidden = true
-        
-        if showOverlay {
-            saveStoryBtn.isHidden = false
-        }
-        
-        self.sendCaptionBtn.isHidden = true
-        self.cancelCaptionBtn.isHidden = true
-    }
-    
-    @IBAction func toTopPress(_ sender: Any) {
-        print("to top")
-        disableComments()
-    }
-    
-    @IBOutlet weak var addCommentBtn: UIButton!
-    
-    var addCaptionView: MediaCaptionView!
-    
-    var captioning: Bool = false
-    
-    @IBAction func cancelCommentPress(_ sender: Any) {
-        print("cancel comment")
-        addCaptionView.removeFromSuperview()
-        
-        sendCaptionBtn.isHidden = true
-        cancelCaptionBtn.isHidden = true
-        addCommentBtn.isHidden = false
-        saveStoryBtn.isHidden = false
-        
-        addCommentLabel.isHidden = true
-        
-        captioning = false
-    }
-    
-    @IBAction func addCommentPress(_ sender: Any) {
-        print("add comment")
-        addCaptionView = MediaCaptionView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height))
-        addCaptionView.configure()
-        
-        viewingComments = true
-        
-        self.innerView.insertSubview(addCaptionView, aboveSubview: imageView)
-        
-        sendCaptionBtn.isHidden = false
-        cancelCaptionBtn.isHidden = false
-        addCommentBtn.isHidden = true
-        
-        addCommentLabel.isHidden = false
-        
-        toTopBtn.isHidden = true
-        saveStoryBtn.isHidden = true
-        
-        addCaptionView.isHidden = false
-        addCaptionView.startEditingTextCaption()
-        
-        captioning = true
-    }
-    
-    @IBAction func sendCaptionPress(_ sender: Any) {
-        print("send caption")
-        if addCaptionView.isEmpty() {
-            let alert = UIAlertController(title: "Comment cannot be empty", message: nil, preferredStyle: .alert)
-            let cancel = UIAlertAction(title: "Cancel", style: .cancel)
-            alert.addAction(cancel)
-            UIApplication.topViewController()?.present(alert, animated: true, completion: nil)
-            return
-        }
-        addCommentLabel.isHidden = true
-        let captionImg = addCaptionView.getCaptionImage()
-        Networker.shared.uploadComment(image: captionImg, storyId: (story?.id)!, completionHandler: { response in
-            switch response.result {
-            case .success(let val):
-                print("comment upload done")
-                let json = JSON(val)
-                let mediaId = json["media_url"].stringValue.components(separatedBy: "/").last
-                var fileUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-                fileUrl.appendPathComponent(mediaId! + ".png")
-                let data = UIImagePNGRepresentation(captionImg)
-                try? data?.write(to: fileUrl)
-                State.shared.getMyStories(completionHandler: {
-                    State.shared.loadStories()
-                })
-            case .failure:
-                self.addCaptionView.removeFromSuperview()
-                print(response.debugDescription)
-            }
-        })
-        
-        self.addCaptionView.textResignFirstResponder()
-        self.addCaptionView.removeFromSuperview()
-        captioning = false
-        
-        enableComments()
-        
-        captionImg.af_inflate()
-        let bounds = self.innerView.bounds
-    }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.y <= 0 {
-            disableComments()
         }
     }
     
     func mediaStart() {
-        captioning = false
-        self.group?.storyViewIdx = 0
-        let stories = State.shared.groupStories[(group?.groupId)!]!
+        self.group?.clipViewIdx = 0
+        let stories = State.shared.groupClips[(group?.groupId)!]!
         if stories.count == 0 {
             return
         }
         
         let lastSeen = (self.group?.lastSeen)!
-        for (idx, story) in stories.enumerated() {
-            if lastSeen < story.timestamp {
-                self.group?.storyViewIdx = idx
+        for (idx, clip) in stories.enumerated() {
+            if lastSeen < clip.timestamp {
+                self.group?.clipViewIdx = idx
                 break
             }
         }
@@ -301,37 +147,33 @@ class StoryView: UIView, UIScrollViewDelegate {
         mediaNext()
     }
     
-    func mediaStartStory(story: Story) {
-        captioning = false
-        self.story = story
-        showStory(story: story)
+    func mediaStartClip(clip: Clip) {
+        self.clip = clip
+        showClip(clip: clip)
         self.isHidden = false
     }
     
     func mediaNext() {
-        if captioning {
-            return
-        }
-        let story = delegate?.nextStory(self)
-        if let story = story {
-            self.story = story
-            showStory(story: story)
+        let clip = delegate?.nextClip(self)
+        if let clip = clip {
+            self.clip = clip
+            showClip(clip: clip)
         } else {
-            exitStory()
+            exitClip()
         }
     }
     
     func mediaBack() {
-        let story = delegate?.prevStory(self)
-        if let story = story {
-            self.story = story
-            showStory(story: story)
+        let clip = delegate?.prevClip(self)
+        if let clip = clip {
+            self.clip = clip
+            showClip(clip: clip)
         } else {
-            exitStory()
+            exitClip()
         }
     }
     
-    func showStory(story: Story) {
+    func showClip(clip: Clip) {
         player?.pause()
         if isIPhoneX() {
             let iphoneXMargin = Constants.IphoneXMargin
@@ -342,58 +184,43 @@ class StoryView: UIView, UIScrollViewDelegate {
             self.innerView.frame.size = self.frame.size
         }
         let bounds = self.innerView.bounds
-        if story.mediaType == .image {
-            let image = story.media
-            self.imageView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height)
-            self.imageView.image = image
-            self.imageView.layer.sublayers = nil
-            player = nil
-            playerLayer = nil
-        } else if story.mediaType == .video {
-            let playerItem = AVPlayerItem(url: story.videoFileUrl!)
-            player = AVPlayer(playerItem: playerItem)
-            playerLayer = AVPlayerLayer(player: player)
-            
-            playerLayer?.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height)
-            playerLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
-            playerLayer?.masksToBounds = true
-            self.imageView.layer.addSublayer(playerLayer!)
-            player?.play()
-            player?.actionAtItemEnd = .none
-        }
+        let playerItem = AVPlayerItem(url: clip.videoFileUrl!)
+        player = AVPlayer(playerItem: playerItem)
+        playerLayer = AVPlayerLayer(player: player)
+        
+        playerLayer?.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height)
+        playerLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        playerLayer?.masksToBounds = true
+        self.imageView.layer.addSublayer(playerLayer!)
+        player?.play()
+        player?.actionAtItemEnd = .none
         
         if showOverlay {
-            if story.isMemory {
-                self.saveStoryBtn.setImage(UIImage(named: "star_yellow"), for: .normal)
+            if clip.isMemory {
+                self.saveClipBtn.setImage(UIImage(named: "star_yellow"), for: .normal)
             } else {
-                self.saveStoryBtn.setImage(UIImage(named: "star"), for: .normal)
+                self.saveClipBtn.setImage(UIImage(named: "star"), for: .normal)
             }
-            saveStoryBtn.isHidden = false
-            nameLabel.text = story.posterName
-            timeLabel.text = calcTime(time: story.timestamp)
+            saveClipBtn.isHidden = false
+            nameLabel.text = clip.posterName
+            timeLabel.text = calcTime(time: clip.timestamp)
         } else {
             nameLabel.isHidden = true
             timeLabel.isHidden = true
-            saveStoryBtn.isHidden = true
-        }
-        
-        if !commentingEnabled {
-            addCommentBtn.isHidden = true
+            saveClipBtn.isHidden = true
         }
         
         layoutIfNeeded()
         
-        self.userId = story.userId
+        self.userId = clip.userId
         
-        self.group?.storyViewIdx += 1
+        self.group?.clipViewIdx += 1
     }
     
-    private func exitStory() {
-        if story?.mediaType == .video {
-            player?.pause()
-            player = nil
-            playerLayer?.removeFromSuperlayer()
-        }
+    private func exitClip() {
+        player?.pause()
+        player = nil
+        playerLayer?.removeFromSuperlayer()
         self.removeFromSuperview()
         showStatusBar()
         self.cell?.refreshPreview()
@@ -412,12 +239,12 @@ class StoryView: UIView, UIScrollViewDelegate {
 //        captionView.nameLabel.text = posterName
 //        captionView.timeLabel.text = calcTime(time: timestamp)
 //        captionView.image = image
-//        captionView.storyViewDelegate = self
+//        captionView.clipViewDelegate = self
 //
 //        captionView.frame = CGRect(x: 0, y: (CGFloat(count) * self.innerView.frame.height), width: self.innerView.frame.width, height: self.innerView.frame.height)
 //        captionView.imageView.frame = self.innerView.frame
 //
-//        if count > 0 || (story?.comments.count ?? 0) < 2 {
+//        if count > 0 || (clip?.comments.count ?? 0) < 2 {
 //            captionView.commentLabel.isHidden = true
 //        }
 //
@@ -427,7 +254,7 @@ class StoryView: UIView, UIScrollViewDelegate {
 //    }
     
     @objc func playerDidFinishPlaying(note: NSNotification){
-        if loopVideo && story?.mediaType == .video {
+        if loopVideo {
             player?.seek(to: kCMTimeZero)
             player?.play()
         } else {
@@ -435,7 +262,7 @@ class StoryView: UIView, UIScrollViewDelegate {
         }
     }
     
-    @objc func storyTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+    @objc func clipTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         if tapGestureRecognizer.state == .ended {
             let touchLocation = tapGestureRecognizer.location(in: self)
             let x = touchLocation.x
@@ -467,7 +294,7 @@ class StoryView: UIView, UIScrollViewDelegate {
             let alert = SCLAlertView(appearance: appearance)
             alert.addButton("Flag Post", action: {
                 self.imageView.becomeFirstResponder()
-                Networker.shared.flagStory(storyId: (self.story?.id)!, completionHandler: { resp in
+                Networker.shared.flagClip(clipId: (self.clip?.id)!, completionHandler: { resp in
                     let appearance = SCLAlertView.SCLAppearance(
                         hideWhenBackgroundViewIsTapped: true
                     )
@@ -481,7 +308,7 @@ class StoryView: UIView, UIScrollViewDelegate {
                     return
                 }
                 State.shared.blockUser(userId: self.userId!, completionHandler: {
-                    self.exitStory()
+                    self.exitClip()
                 })
             })
             alert.addButton("Cancel", backgroundColor: UIColor.white, textColor: Constants.Colors.MarbleBlue, action: {
@@ -491,9 +318,9 @@ class StoryView: UIView, UIScrollViewDelegate {
         }
     }
     
-    @IBAction func saveStoryPressed(_ sender: UIButton) {
-        story?.isMemory = !story!.isMemory
-        if story!.isMemory {
+    @IBAction func saveClipPressed(_ sender: UIButton) {
+        clip?.isMemory = !clip!.isMemory
+        if clip!.isMemory {
             var prefs = EasyTipView.Preferences()
             prefs.drawing.font = UIFont(name: "Futura-Medium", size: 13)!
             prefs.drawing.backgroundColor = UIColor.black
@@ -503,12 +330,12 @@ class StoryView: UIView, UIScrollViewDelegate {
             sender.setImage(UIImage(named: "star_yellow"), for: .normal)
             let tipView = EasyTipView(text: "Saved to our Memories", preferences: prefs, delegate: nil)
             tipView.show(animated: true, forView: sender, withinSuperview: self)
-            Networker.shared.saveMemory(storyId: story!.id, completionHandler: { _ in })
+            Networker.shared.saveMemory(clipId: clip!.id, completionHandler: { _ in })
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
                 tipView.dismiss()
             })
         } else {
-            Networker.shared.removeMemory(storyId: story!.id, completionHandler: { _ in })
+            Networker.shared.removeMemory(clipId: clip!.id, completionHandler: { _ in })
             sender.setImage(UIImage(named: "star"), for: .normal)
         }
     }

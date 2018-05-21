@@ -16,12 +16,12 @@ extension State {
             case .success(let val):
                 let json = JSON(val)
                 if json["status"].int ?? 1 == 0 {
-                    for (id, stories) in self.groupStories {
-                        self.groupStories[id] = stories.filter({
+                    for (id, stories) in self.groupClips {
+                        self.groupClips[id] = stories.filter({
                             print("asdfasdf")
                             return $0.userId != userId
                         })
-                        print(self.groupStories[id] ?? "error")
+                        print(self.groupClips[id] ?? "error")
                     }
                 }
                 completionHandler?()

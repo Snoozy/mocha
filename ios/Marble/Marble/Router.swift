@@ -18,8 +18,8 @@ enum Router : URLConvertible {
     // POST requests
     case SignUp
     case Login
-    case ImageUpload
-    case VideoUpload
+    case ClipUpload
+    case VlogUpload
     case CommentUpload
     case JoinGroup
     case LeaveGroup
@@ -27,10 +27,10 @@ enum Router : URLConvertible {
     case GroupInfo
     case ListGroups
     case FindGroup
-    case GetStories
-    case StorySeen
+    case GetClips
+    case ClipSeen
     case Block
-    case FlagStory
+    case FlagClip
     case GetMemories
     case SaveMemory
     case RemoveMemory
@@ -48,10 +48,10 @@ enum Router : URLConvertible {
                 return "/signup"
             case .Login:
                 return "/login"
-            case .ImageUpload:
-                return "/image/upload"
-            case .VideoUpload:
-                return "/video/upload"
+            case .ClipUpload:
+                return "/clip/upload"
+            case .VlogUpload:
+                return "/vlog/upload"
             case .CommentUpload:
                 return "/comment/upload"
             case .JoinGroup:
@@ -64,14 +64,14 @@ enum Router : URLConvertible {
                 return "/groups/list"
             case .FindGroup:
                 return "/groups/find"
-            case .GetStories:
-                return "/stories"
-            case .StorySeen:
-                return "/stories/seen"
+            case .GetClips:
+                return "/clips"
+            case .ClipSeen:
+                return "/clips/seen"
             case .Block:
                 return "/users/block"
-            case .FlagStory:
-                return "/stories/flag"
+            case .FlagClip:
+                return "/clips/flag"
             case .GroupInfo:
                 return "/groups/info"
             case .GetMemories:

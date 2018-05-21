@@ -12,7 +12,7 @@ import UIKit
 class Group {
     var groupId: Int
     var name: String
-    var storyViewIdx: Int = 0
+    var clipViewIdx: Int = 0
     var members: Int
     var lastSeen: Int64
     var code: String
@@ -26,18 +26,18 @@ class Group {
         self.members = members
         self.membersInfo = []
         self.code = code
-        if State.shared.groupStories[groupId] != nil {
-            for (idx, story) in State.shared.groupStories[groupId]!.enumerated() {
-                if lastSeen < story.timestamp {
-                    storyViewIdx = idx
+        if State.shared.groupClips[groupId] != nil {
+            for (idx, clip) in State.shared.groupClips[groupId]!.enumerated() {
+                if lastSeen < clip.timestamp {
+                    clipViewIdx = idx
                     return
                 }
             }
         }
     }
     
-    func storyIdxValid() -> Bool {
-        return storyViewIdx < (State.shared.groupStories[groupId]?.count)!
+    func clipIdxValid() -> Bool {
+        return clipViewIdx < (State.shared.groupClips[groupId]?.count)!
     }
     
     func updateInfo(name: String, lastSeen: Int64, members: Int) {

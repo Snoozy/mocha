@@ -1,23 +1,24 @@
 import time
 from data.db.models.user import User
-from data.db.models.story import Story
+from data.db.models.clip import Clip
 
-STORY_EXPIRATION_LENGTH = 172800000  # in millis. currently 48 hours
+CLIP_EXPIRATION_LENGTH = 172800000  # in millis. currently 48 hours
 
 
-class GetStoriesResource:
+class GetClipsResource:
     def on_get(self, req, resp, user_id):
         user = req.session.query(User).filter(User.id == user_id).first()
         json = []
         for group in user.groups:
-            time_cutoff = int(time.time() * 1000) - STORY_EXPIRATION_LENGTH
+            time_cutoff = int(time.time() * 1000) - CLIP_EXPIRATION_LENGTH
             user_blocks = [u.id for u in user.blocks]
             if len(user_blocks):
-                stories = group.stories.filter((Story.timestamp > time_cutoff) & (Story.user_id.notin_(user_blocks))).order_by(Story.timestamp).all()
+                clips = group.clips.filter((Clip.timestamp > time_cutoff) & (Clip.user_id.notin_(user_blocks)))\
+                    .order_by(Clip.timestamp).all()
             else:
-                stories = group.stories.filter(Story.timestamp > time_cutoff).order_by(Story.timestamp).all()
-            stories_dict = [story.to_dict() for story in stories]
-            json.append({'group_id': group.id, 'stories': stories_dict})
+                clips = group.clips.filter(Clip.timestamp > time_cutoff).order_by(Clip.timestamp).all()
+            clips_dict = [clip.to_dict() for clip in clips]
+            json.append({'group_id': group.id, 'clips': clips_dict})
         resp.json = {
                 'status': 0,
                 'content': json

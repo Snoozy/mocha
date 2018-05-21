@@ -11,7 +11,7 @@ import Foundation
 
 extension State {
     
-    func getMemoriesForGroup(groupId: Int) -> [Story] {
+    func getMemoriesForGroup(groupId: Int) -> [Clip] {
         if let val = self.groupMemories[groupId] {
             return val
         } else {
@@ -27,31 +27,26 @@ extension State {
 //                print(contentJson)
                 for tuple in (contentJson["content"]) {
                     let groupId = tuple.1["group_id"].int!
-                    let storiesJson = tuple.1["stories"].array
+                    let clipsJson = tuple.1["clips"].array
                     if self.groupMemories[groupId] == nil {
-                        self.groupMemories[groupId] = [Story]()
+                        self.groupMemories[groupId] = [Clip]()
                     }
-                    var newStories = [Story]()
-                    for story in storiesJson! {
-                        let mediaUrl = story["media_url"].stringValue
-                        let name = story["user_name"].stringValue
-                        let userId = story["user_id"].int!
-                        let time = story["timestamp"].int64 ?? 0
-                        let id = story["id"].int!
-                        let mediaType = story["media_type"].stringValue
+                    var newClips = [Clip]()
+                    for clip in clipsJson! {
+                        let mediaUrl = clip["media_url"].stringValue
+                        let name = clip["user_name"].stringValue
+                        let userId = clip["user_id"].int!
+                        let time = clip["timestamp"].int64 ?? 0
+                        let id = clip["id"].int!
+                        let mediaType = clip["media_type"].stringValue
                         
-                        var comments = [Comment]()
+                        let caption = Caption(id: clip["id"].intValue, mediaUrl: clip["media_url"].stringValue, timestamp: clip["timestamp"].int64Value)
                         
-                        for commentJson in story["comments"].arrayValue {
-                            let comment = Comment(id: commentJson["id"].intValue, mediaUrl: commentJson["media_url"].stringValue, posterName: commentJson["user_name"].stringValue, timestamp: commentJson["timestamp"].int64Value, userId: commentJson["user_id"].intValue)
-                            comments.append(comment)
-                        }
-                        
-                        self.addStory(stories: &newStories, cache: self.groupMemories[groupId]!,
+                        self.addClip(clips: &newClips, cache: self.groupMemories[groupId]!,
                                       groupId: groupId, url: mediaUrl, name: name, userId: userId,
-                                      time: time, id: id, mediaType: mediaType, isMemory: true, comments: comments)
+                                      time: time, id: id, mediaType: mediaType, isMemory: true, caption: caption)
                     }
-                    self.groupMemories[groupId] = newStories
+                    self.groupMemories[groupId] = newClips
                 }
                 completionHandler?()
             case .failure:

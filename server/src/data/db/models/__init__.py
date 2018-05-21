@@ -1,1 +1,1 @@
-__all__ = ["group", "story", "user", "membership", "block", "flag", "comment", "device"]
+__all__ = ["group", "clip", "user", "membership", "block", "flag", "comment", "device", "vlog"]

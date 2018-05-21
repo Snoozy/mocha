@@ -13,7 +13,7 @@ private let reuseIdentifier = "MemoriesCell"
 class MemoriesVC: UICollectionViewController {
     
     var group: Group?
-    var memories: [Story] = []
+    var memories: [Clip] = []
     
     var memoryIdx: Int = 0
     
@@ -72,10 +72,10 @@ class MemoriesVC: UICollectionViewController {
         
         cell.loadingIndicator.startAnimating()
         
-        cell.story = memories[indexPath.row]
+        cell.clip = memories[indexPath.row]
         
         DispatchQueue.main.async {
-            cell.story!.loadMedia { (story) in
+            cell.clip!.loadMedia { (clip) in
                 cell.loadingIndicator.stopAnimating()
                 cell.refreshPreview()
             }
@@ -84,19 +84,19 @@ class MemoriesVC: UICollectionViewController {
         return cell
     }
     
-    let storyViewNib = UINib(nibName: "StoryView", bundle: nil)
+    let clipViewNib = UINib(nibName: "ClipView", bundle: nil)
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! MemoriesCell
         
-        let imageViewer = storyViewNib.instantiate(withOwner: nil, options: nil)[0] as! StoryView
+        let imageViewer = clipViewNib.instantiate(withOwner: nil, options: nil)[0] as! ClipView
         imageViewer.isHidden = true
         imageViewer.commentingEnabled = false
         imageViewer.delegate = self
         imageViewer.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         imageViewer.parentVC = self
-        imageViewer.mediaStartStory(story: cell.story!)
+        imageViewer.mediaStartClip(clip: cell.clip!)
         memoryIdx = indexPath.row
         
         imageViewer.window?.windowLevel = UIWindowLevelStatusBar
@@ -106,9 +106,9 @@ class MemoriesVC: UICollectionViewController {
 
 }
 
-extension MemoriesVC : StoryViewDelegate {
+extension MemoriesVC : ClipViewDelegate {
     
-    func nextStory(_ storyView: StoryView) -> Story? {
+    func nextClip(_ clipView: ClipView) -> Clip? {
         if memoryIdx < memories.count - 1 {
             memoryIdx += 1
             return memories[memoryIdx]
@@ -117,7 +117,7 @@ extension MemoriesVC : StoryViewDelegate {
         }
     }
     
-    func prevStory(_ storyView: StoryView) -> Story? {
+    func prevClip(_ clipView: ClipView) -> Clip? {
         if memoryIdx < 1 {
             return nil
         } else {

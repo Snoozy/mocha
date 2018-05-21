@@ -15,16 +15,16 @@ extension Networker {
         self.sessionManager.request(Router.GetMemories).validate().responseJSON(completionHandler: completionHandler)
     }
     
-    func saveMemory(storyId: Int, completionHandler: @escaping (DataResponse<Any>) -> ()) {
+    func saveMemory(clipId: Int, completionHandler: @escaping (DataResponse<Any>) -> ()) {
         let params: Parameters = [
-            "story_id" : storyId
+            "clip_id" : clipId
         ]
         self.sessionManager.request(Router.SaveMemory, method: .post, parameters: params, encoding: URLEncoding.default).validate().responseJSON(completionHandler: completionHandler)
     }
     
-    func removeMemory(storyId: Int, completionHandler: @escaping (DataResponse<Any>) -> ()) {
+    func removeMemory(clipId: Int, completionHandler: @escaping (DataResponse<Any>) -> ()) {
         let params: Parameters = [
-            "story_id" : storyId
+            "clip_id" : clipId
         ]
         self.sessionManager.request(Router.RemoveMemory, method: .post, parameters: params, encoding: URLEncoding.default).validate().responseJSON(completionHandler: completionHandler)
     }

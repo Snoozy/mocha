@@ -48,7 +48,7 @@
             </objects>
             <point key="canvasLocation" x="2372" y="140"/>
         </scene>
-        <!--Memories-->
+        <!--Clips-->
         <scene sceneID="Nrk-1N-ntf">
             <objects>
                 <tableViewController id="3zG-r3-Dlo" customClass="ListMemoriesTableVC" customModule="Marble" customModuleProvider="target" sceneMemberID="viewController">
@@ -91,7 +91,7 @@
                             <outlet property="delegate" destination="3zG-r3-Dlo" id="oop-i5-hfz"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Memories" id="jcJ-Ub-1Ko">
+                    <navigationItem key="navigationItem" title="Clips" id="jcJ-Ub-1Ko">
                         <barButtonItem key="leftBarButtonItem" systemItem="add" id="B0n-PO-X2V">
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
@@ -166,11 +166,11 @@
             </objects>
             <point key="canvasLocation" x="1572" y="940"/>
         </scene>
-        <!--Memories-->
+        <!--Clips-->
         <scene sceneID="bLU-VO-ZY6">
             <objects>
                 <navigationController id="Rwu-Il-ahu" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Memories" image="memories" id="caU-TF-KDm"/>
+                    <tabBarItem key="tabBarItem" title="Clips" image="memories" id="caU-TF-KDm"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="Kff-YF-ezr">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

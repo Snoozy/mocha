@@ -14,16 +14,12 @@ class MemoriesCell: UICollectionViewCell {
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet weak var numberLabel: UILabel!
     
-    var story: Story?
+    var clip: Clip?
     
     func refreshPreview() {
         let image: UIImage = {
-            if story!.mediaType == .image {
-                return story!.media!
-            } else {
-                let img = videoPreviewImage(fileUrl: (story!.videoFileUrl)!)
-                return img!
-            }
+            let img = videoPreviewImage(fileUrl: (clip!.videoFileUrl)!)
+            return img!
         }()
         
         previewImage.image = image.maskRectangle(width: self.bounds.width, height: self.bounds.height)

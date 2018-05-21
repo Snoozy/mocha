@@ -1,5 +1,6 @@
 import falcon
 
+
 class HealthCheckResource:
 
     needs_auth = False

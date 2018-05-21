@@ -15,7 +15,7 @@ class CaptionView: UIImageView {
     @IBOutlet weak var commentLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
     
-    var storyViewDelegate: StoryView?
+    var clipViewDelegate: ClipView?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -35,7 +35,6 @@ class CaptionView: UIImageView {
     }
     
     @objc func commentLabelTapped(sender: UITapGestureRecognizer) {
-        storyViewDelegate?.enableComments()
     }
     
 }

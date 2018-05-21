@@ -18,7 +18,7 @@ class VlogifyVC: UICollectionViewController {
     @IBOutlet weak var nextBarBtn: UIBarButtonItem!
     
     var group: Group?
-    var memories: [Story] = []
+    var memories: [Clip] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,12 +58,12 @@ class VlogifyVC: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MemoriesCell
         
-        cell.story = memories[indexPath.row]
+        cell.clip = memories[indexPath.row]
         
         cell.loadingIndicator.stopAnimating()
         
         DispatchQueue.main.async {
-            cell.story!.loadMedia { (story) in
+            cell.clip!.loadMedia { (clip) in
                 cell.refreshPreview()
                 cell.loadingIndicator.stopAnimating()
             }

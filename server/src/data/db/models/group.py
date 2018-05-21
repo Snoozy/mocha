@@ -12,7 +12,7 @@ class Group(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(20))
-    stories = relationship('Story', lazy='dynamic')
+    clips = relationship('Clip', lazy='dynamic')
     timestamp = Column(BigInteger, default=time_millis)
 
     users = association_proxy('memberships', 'user')

@@ -62,36 +62,28 @@ class GroupCollectionCell: UICollectionViewCell {
     
     func refreshPreview() {
         self.nameBtn.setTitle(group!.name, for: .normal)
-        if (State.shared.groupStories[(group?.groupId)!]?.count)! > 0 {
+        if (State.shared.groupClips[(group?.groupId)!]?.count)! > 0 {
             self.nameBtn.titleLabel?.textColor = UIColor.black
             self.layer.borderWidth = 0
             
-            let stories = State.shared.groupStories[(group?.groupId)!]!
-            var previewStory: Story = stories.first!
+            let stories = State.shared.groupClips[(group?.groupId)!]!
+            var previewClip: Clip = stories.first!
             let lastSeen = group?.lastSeen
             for story in stories {
-                previewStory = story
+                previewClip = story
                 if story.timestamp > lastSeen! {
                     break
                 }
             }
             
-            let seen: Bool = previewStory.timestamp <= lastSeen!
+            let seen: Bool = previewClip.timestamp <= lastSeen!
             
             let image: UIImage = {
-                if previewStory.mediaType == .image {
-                    if let imgMedia = previewStory.media {
-                        return seen ? seenOpaqueOverlay(image: blurImage(image: imgMedia)!) : imgMedia
-                    } else {
-                        return GroupCollectionCell.fallbackPreview!
-                    }
+                let img = videoPreviewImage(fileUrl: (previewClip.videoFileUrl)!)
+                if let img = img {
+                    return seen ? seenOpaqueOverlay(image: blurImage(image: img)!) : img
                 } else {
-                    let img = videoPreviewImage(fileUrl: (previewStory.videoFileUrl)!)
-                    if let img = img {
-                        return seen ? seenOpaqueOverlay(image: blurImage(image: img)!) : img
-                    } else {
-                        return GroupCollectionCell.fallbackPreview!
-                    }
+                    return GroupCollectionCell.fallbackPreview!
                 }
             }()
             let imgMasked = image.circleMasked

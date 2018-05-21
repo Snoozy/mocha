@@ -62,9 +62,9 @@ extension State {
     }
     
     private func groupsRecentSort(this: Group, that: Group) -> Bool {
-        let thisLastStory = self.groupStories[this.groupId]?.last?.timestamp ?? 0
-        let thatLastStory = self.groupStories[that.groupId]?.last?.timestamp ?? 0
-        return thisLastStory > thatLastStory
+        let thisLastClip = self.groupClips[this.groupId]?.last?.timestamp ?? 0
+        let thatLastClip = self.groupClips[that.groupId]?.last?.timestamp ?? 0
+        return thisLastClip > thatLastClip
     }
     
     private func addGroup(groups: inout [Group], cache: [Group], name: String, id: Int, lastSeen: Int64, members: Int, code: String) {

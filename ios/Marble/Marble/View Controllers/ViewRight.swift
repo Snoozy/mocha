@@ -245,7 +245,7 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
                                                     State.shared.addGroup(name: group["name"].stringValue, id: groupId, lastSeen: group["last_seen"].int64 ?? 0, members: group["members"].int ?? 1,  code: group["code"].string ?? String(groupId))
                                                     let parentVC = self.parent as? ViewController
                                                     parentVC?.scrollView.setContentOffset(CGPoint.init(x: 0, y: 0), animated: true)
-                                                    NotificationCenter.default.post(name: Constants.Notifications.StoryUploadFinished, object: self)
+                                                    NotificationCenter.default.post(name: Constants.Notifications.ClipUploadFinished, object: self)
                                                 case .failure:
                                                     print(response.debugDescription)
                                                     let parentVC = self.parent as? ViewController
@@ -444,9 +444,14 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
             vidLayer.frame = CGRect(x: 0, y: 0, width: size.height, height: size.width)
             print(size)
             
+            let captionLayer = CALayer()
+            captionLayer.frame = CGRect(x: 0, y: 0, width: size.height, height: size.width)
+            captionLayer.contents = captionImage!.cgImage
+            
             let parentLayer = CALayer()
             parentLayer.frame = CGRect(x : 0, y: 0, width: size.height, height: size.width)
             parentLayer.addSublayer(vidLayer)
+            parentLayer.addSublayer(captionLayer)
             
             let layerComposition = AVMutableVideoComposition()
             layerComposition.frameDuration = CMTimeMake(1, 30)
@@ -486,7 +491,7 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
                 let fileSize = attr[FileAttributeKey.size] as! UInt64
                 print("video file size: " + String(describing: fileSize))
                 
-                Networker.shared.uploadVideo(videoUrl: vidPath!, caption: self.captionImage, groupIds: groupIds, completionHandler: { response in
+                Networker.shared.uploadClip(videoUrl: vidPath!, groupIds: groupIds, completionHandler: { response in
                     switch response.result {
                     case .success(let val):
                         let json = JSON(val)
@@ -505,7 +510,7 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         removeMediaPreview()
         (self.parent as! ViewController).scrollView.contentOffset.x = 0
         let userInfo = ["group_ids" : groupIds]
-        NotificationCenter.default.post(name: Constants.Notifications.StoryPosted, object: self, userInfo: userInfo)
+        NotificationCenter.default.post(name: Constants.Notifications.ClipPosted, object: self, userInfo: userInfo)
     }
     
     var bgIdentifier: UIBackgroundTaskIdentifier?
@@ -515,7 +520,7 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         removeMediaPreview()
         (self.parent as! ViewController).scrollView.contentOffset.x = 0
         let userInfo = ["group_ids" : groupIds]
-        NotificationCenter.default.post(name: Constants.Notifications.StoryPosted, object: self, userInfo: userInfo)
+        NotificationCenter.default.post(name: Constants.Notifications.ClipPosted, object: self, userInfo: userInfo)
         
         bgIdentifier = UIApplication.shared.beginBackgroundTask {
             if let bgIdentifier = self.bgIdentifier {
@@ -525,7 +530,7 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         renderVideoAndUpload(groupIds: groupIds, completionHandler: { response in
             print("VIDEO UPLOAD DONE")
             print(response.debugDescription)
-            NotificationCenter.default.post(name: Constants.Notifications.StoryUploadFinished, object: self)
+            NotificationCenter.default.post(name: Constants.Notifications.ClipUploadFinished, object: self)
             if let bgIdentifier = self.bgIdentifier {
                 UIApplication.shared.endBackgroundTask(bgIdentifier)
             }

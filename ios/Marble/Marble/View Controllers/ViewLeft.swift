@@ -28,8 +28,8 @@ class ViewLeft: UICollectionViewController {
         collectionView?.addSubview(refreshControl!)
         collectionView?.alwaysBounceVertical = true
         
-        NotificationCenter.default.addObserver(self, selector: #selector(mediaPosted(notification:)), name: Constants.Notifications.StoryPosted, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(mediaUploadFinished(notificaion:)), name: Constants.Notifications.StoryUploadFinished, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(mediaPosted(notification:)), name: Constants.Notifications.ClipPosted, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(mediaUploadFinished(notificaion:)), name: Constants.Notifications.ClipUploadFinished, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(pullDownRefresh), name: Constants.Notifications.RefreshMainGroupState, object: nil)
         
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPress(_:)))
@@ -139,7 +139,7 @@ class ViewLeft: UICollectionViewController {
     func refresh() {
         State.shared.refreshUserGroups(completionHandler: {
             self.refreshControl?.endRefreshing()
-            self.refreshStories()
+            self.refreshClips()
             UIApplication.shared.applicationIconBadgeNumber = State.shared.getUnseenMarblesCount()
             State.shared.getMyMemories()
         })
@@ -147,14 +147,14 @@ class ViewLeft: UICollectionViewController {
     
     let noGroupsView = UINib(nibName: "NoGroupsView", bundle: nil)
     
-    private func refreshStories() {
-        State.shared.getMyStories(completionHandler: {
+    private func refreshClips() {
+        State.shared.getMyClips(completionHandler: {
             if State.shared.userGroups.count > 0 {
                 State.shared.sortGroupsRecent()
                 self.collectionView?.reloadData()
                 self.collectionView?.backgroundView = nil
                 self.collectionView?.layoutIfNeeded()
-                for (groupId, stories) in State.shared.groupStories {
+                for (groupId, stories) in State.shared.groupClips {
                     var groupCell: GroupCollectionCell?
                     for cell in (self.collectionView?.visibleCells)! {
                         if (cell as! GroupCollectionCell).group?.groupId == groupId {
@@ -164,30 +164,30 @@ class ViewLeft: UICollectionViewController {
                     if groupCell == nil {
                         continue
                     }
-                    groupCell?.storyLoadCount = stories.count
-                    if stories.count > 0 {
-                        func lock(obj: AnyObject, blk:() -> ()) {
-                            objc_sync_enter(obj)
-                            blk()
-                            objc_sync_exit(obj)
-                        }
-                        if !State.shared.checkGroupStoriesReady(groupId: groupId) {
-                            groupCell?.startLoading()
-                        }
-                        for story in stories {
-                            story.loadMedia(completionHandler: { story in
-                                lock(obj: groupCell?.storyLoadCount! as AnyObject, blk: {
-                                    groupCell?.storyLoadCount! -= 1
-                                })
-                                if groupCell?.storyLoadCount ?? 0 <= 0 {
-                                    groupCell?.stopLoading()
-                                    groupCell?.refreshPreview()
-                                }
-                            })
-                        }
-                    } else {
-                        groupCell?.refreshPreview()
-                    }
+//                    groupCell?.clipLoadCount = stories.count
+//                    if stories.count > 0 {
+//                        func lock(obj: AnyObject, blk:() -> ()) {
+//                            objc_sync_enter(obj)
+//                            blk()
+//                            objc_sync_exit(obj)
+//                        }
+//                        if !State.shared.checkGroupClipsReady(groupId: groupId) {
+//                            groupCell?.startLoading()
+//                        }
+//                        for clip in stories {
+//                            clip.loadMedia(completionHandler: { clip in
+//                                lock(obj: groupCell?.clipLoadCount! as AnyObject, blk: {
+//                                    groupCell?.clipLoadCount! -= 1
+//                                })
+//                                if groupCell?.clipLoadCount ?? 0 <= 0 {
+//                                    groupCell?.stopLoading()
+//                                    groupCell?.refreshPreview()
+//                                }
+//                            })
+//                        }
+//                    } else {
+//                        groupCell?.refreshPreview()
+//                    }
                 }
             } else {
                 let noGroupsView = self.noGroupsView.instantiate(withOwner: nil, options: nil)[0] as? UIView
@@ -197,7 +197,7 @@ class ViewLeft: UICollectionViewController {
         })
     }
     
-    let storyViewNib = UINib(nibName: "StoryView", bundle: nil)
+    let clipViewNib = UINib(nibName: "ClipView", bundle: nil)
     var lastClick: TimeInterval = 0.0
     var lastIndexPath: IndexPath?
     
@@ -218,14 +218,14 @@ class ViewLeft: UICollectionViewController {
     }
     
     private func cellSingleTap(cell: GroupCollectionCell) {
-        if !State.shared.checkGroupStoriesReady(groupId: (cell.group?.groupId)!) {
+        if !State.shared.checkGroupClipsReady(groupId: (cell.group?.groupId)!) {
             print("stories not ready")
             return
         }
         
         let group = State.shared.findGroupBy(id: (cell.group?.groupId)!)
         
-        if State.shared.groupStories[(group?.groupId)!]?.count == 0 {
+        if State.shared.groupClips[(group?.groupId)!]?.count == 0 {
             let alert = UIAlertController(title: "There aren't any posts here...", message: "Swipe left to add something", preferredStyle: .alert)
             let cancel = UIAlertAction(title: "Ok", style: .cancel)
             alert.addAction(cancel)
@@ -233,7 +233,7 @@ class ViewLeft: UICollectionViewController {
             return
         }
         
-        let imageViewer = storyViewNib.instantiate(withOwner: nil, options: nil)[0] as! StoryView
+        let imageViewer = clipViewNib.instantiate(withOwner: nil, options: nil)[0] as! ClipView
         imageViewer.isHidden = true
         
         imageViewer.group = group
@@ -251,7 +251,7 @@ class ViewLeft: UICollectionViewController {
         
         imageViewer.mediaStart()
         
-        Networker.shared.storySeen(groupId: (group?.groupId)! ,completionHandler: { _ in })  // empty completion handler
+        Networker.shared.clipSeen(groupId: (group?.groupId)! ,completionHandler: { _ in })  // empty completion handler
         group?.lastSeen = Int64(Date().timeIntervalSince1970 * 1000)
         cell.refreshPreview()
         UIApplication.shared.applicationIconBadgeNumber = State.shared.getUnseenMarblesCount()
@@ -372,26 +372,26 @@ extension ViewLeft : UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension ViewLeft : StoryViewDelegate {
+extension ViewLeft : ClipViewDelegate {
     
-    func nextStory(_ storyView: StoryView) -> Story? {
-        let stories = State.shared.groupStories[(storyView.group?.groupId)!]
-        if (storyView.group?.storyIdxValid())! {  // next story
-            let story: Story = (stories?[(storyView.group?.storyViewIdx)!])!
-            return story
+    func nextClip(_ clipView: ClipView) -> Clip? {
+        let stories = State.shared.groupClips[(clipView.group?.groupId)!]
+        if (clipView.group?.clipIdxValid())! {  // next clip
+            let clip: Clip = (stories?[(clipView.group?.clipViewIdx)!])!
+            return clip
         } else {
             return nil
         }
     }
     
-    func prevStory(_ storyView: StoryView) -> Story? {
-        let stories = State.shared.groupStories[(storyView.group?.groupId)!]
-        if (storyView.group?.storyViewIdx)! < 2 {
+    func prevClip(_ clipView: ClipView) -> Clip? {
+        let stories = State.shared.groupClips[(clipView.group?.groupId)!]
+        if (clipView.group?.clipViewIdx)! < 2 {
             return nil
         } else {
-            storyView.group?.storyViewIdx -= 2
-            let story: Story = (stories?[(storyView.group?.storyViewIdx)!])!
-            return story
+            clipView.group?.clipViewIdx -= 2
+            let clip: Clip = (stories?[(clipView.group?.clipViewIdx)!])!
+            return clip
         }
     }
     

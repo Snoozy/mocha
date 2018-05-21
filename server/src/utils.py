@@ -16,3 +16,6 @@ def max_body_length(limit):
 def time_millis():
     return time.time() * 1000
 
+
+CDN_URL = "https://i.marblestatic.com/media/"
+
