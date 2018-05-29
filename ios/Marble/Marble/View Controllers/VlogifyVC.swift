@@ -110,6 +110,7 @@ class VlogifyVC: UICollectionViewController {
                 destVC.clips = clipsSelection.map({ (idx) in
                     self.memories[idx.row]
                 })
+                destVC.group = group
             }
         }
     }

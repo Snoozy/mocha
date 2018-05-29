@@ -14,6 +14,7 @@ private let reuseIdentifier = "ClipCell"
 class EditClipsVC: UICollectionViewController {
 
     var clips: [Clip] = [Clip]()
+    var group: Group?
     
     var clipIdx: Int = 0
     @IBOutlet weak var createBtn: UIBarButtonItem!
@@ -29,12 +30,22 @@ class EditClipsVC: UICollectionViewController {
         collectionView?.contentSize = CGSize(width: clips.count * 266, height: 150)
         if let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout {
             flowLayout.scrollDirection = .horizontal
-            flowLayout.itemSize = CGSize(width: 266, height: 150)
+            flowLayout.itemSize = CGSize(width: 150, height: 256)
             flowLayout.minimumLineSpacing = 0
             flowLayout.minimumInteritemSpacing = CGFloat.greatestFiniteMagnitude
         }
         
         holdGest = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gesture:)))
+        
+        let bgView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height/2))
+        let textLabel = UILabel(frame: CGRect(x: 100, y: 100, width: view.frame.width, height: 20))
+        textLabel.text = "Hold and drag clips to reorder"
+        textLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
+        textLabel.textColor = UIColor.gray
+        textLabel.center = bgView.center
+        textLabel.textAlignment = .center
+        bgView.addSubview(textLabel)
+        self.collectionView?.backgroundView = bgView
     }
     
     @objc func handleLongPress(gesture: UILongPressGestureRecognizer) {
@@ -67,14 +78,31 @@ class EditClipsVC: UICollectionViewController {
         }
         
         let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first! as NSURL
-        let vidPath = documentsUrl.appendingPathComponent("vlogified_" + UUID().uuidString)
+        let vidPath = documentsUrl.appendingPathComponent("vlogified_" + UUID().uuidString + ".mp4")
         
         var builder = TransitionCompositionBuilder(assets: assets, transitionDuration: 0.3)
         let composition = builder?.buildComposition()
         
         let session = composition?.makeExportSession(preset: AVAssetExportPreset1280x720, outputURL: vidPath!, outputFileType: AVFileType.mp4)
         session?.exportAsynchronously {
-            progHUD.removeFromSuperview()
+            DispatchQueue.main.async {
+                progHUD.removeFromSuperview()
+            }
+            print("export complete")
+            let attr = try! FileManager.default.attributesOfItem(atPath: vidPath!.path)
+            let fileSize = attr[FileAttributeKey.size] as! UInt64
+            print("video file size: " + String(describing: fileSize))
+            
+            Networker.shared.uploadVlog(videoUrl: vidPath!, description: "ASDF", groupId: self.group!.groupId, completionHandler: { response in
+                switch response.result {
+                case .success(let val):
+                    let json = JSON(val)
+                    let cacheFilename = vidPath!.deletingLastPathComponent().appendingPathComponent(json["media_id"].stringValue + ".mp4")
+                    try! FileManager.default.moveItem(at: vidPath!, to: cacheFilename)
+                case .failure:
+                    print(response.debugDescription)
+                }
+            })
         }
     }
     

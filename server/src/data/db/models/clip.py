@@ -2,6 +2,7 @@ import time
 
 from sqlalchemy import Column, Integer, String, ForeignKey, BigInteger, SmallInteger
 from sqlalchemy.orm import relationship
+from sqlalchemy.ext.associationproxy import association_proxy
 from ..db import Base
 from .comment import Comment
 from utils import time_millis, CDN_URL
@@ -19,6 +20,8 @@ class Clip(Base):
 
     user = relationship("User", foreign_keys=[user_id])
     group = relationship("Group", foreign_keys=[group_id])
+
+    likes = association_proxy('clip_likes', 'clip_like')
 
     def to_dict(self):
         return {

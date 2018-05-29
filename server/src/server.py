@@ -14,7 +14,7 @@ from resources.health import HealthCheckResource
 from resources.clip import ClipSeenResource, FlagClipResource
 from resources.memories import GetMemoriesResource, SaveMemoryResource, RemoveMemoryResource
 from resources.search import SearchResource, TrendingResource
-from resources.vlogs import VlogUploadResource
+from resources.vlogs import VlogUploadResource, GetVlogsResource
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session
@@ -64,6 +64,8 @@ app.add_route('/' + version + '/groups/info', GroupInfoResource())
 
 app.add_route('/' + version + '/users/block', BlockUserResource())
 app.add_route('/' + version + '/clips/flag', FlagClipResource())
+
+app.add_route('/' + version + '/vlogs', GetVlogsResource())
 
 app.add_route('/' + version + '/search', SearchResource())
 

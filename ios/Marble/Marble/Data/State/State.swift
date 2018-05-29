@@ -20,6 +20,8 @@ class State {
     
     var trendingGroups: [Group] = [Group]()
     
+    var vlogFeed: [Vlog] = [Vlog]()
+    
     var authorizing: Bool = false
     
     var me: User?

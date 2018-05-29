@@ -15,13 +15,15 @@ class Vlog(Base):
     timestamp = Column(BigInteger, default=time_millis)
 
     editor = relationship('User', foreign_keys=[editor_id])
+    group = relationship('Group', foreign_keys=[group_id])
 
     def to_dict(self):
         return {
             'id': self.id,
             'media_url': CDN_URL + self.media_id,
-            'editor_name': self.editor.name,
             'editor_id': self.editor_id,
+            'group_id': self.group.id,
+            'group_name': self.group.name,
             'timestamp': self.timestamp,
             'description': self.description
         }

@@ -1,6 +1,8 @@
 import falcon
 
 from utils import max_body_length
+from data.aws import boto_session
+import uuid
 
 from data.db.models.user import User
 from data.db.models.clip import Clip
@@ -9,6 +11,7 @@ from data.db.models.vlog import Vlog
 from resources.constants import resp_error, resp_success
 
 VLOG_PAGE_SIZE = 15
+S3_BUCKET_NAME = 'marble-s3'
 
 
 class GetVlogsResource:

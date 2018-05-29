@@ -10,8 +10,6 @@ from config import config
 from typing import List
 from data.notifications import send_notification, get_user_badge_num
 
-
-BLANK_CAPTION_RAND_STR = 'a67722d1-c43b-492a-b899-3131057bee3a'
 S3_BUCKET_NAME = 'marble-s3'
 
 

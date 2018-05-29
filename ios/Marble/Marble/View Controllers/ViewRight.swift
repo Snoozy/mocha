@@ -444,14 +444,16 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
             vidLayer.frame = CGRect(x: 0, y: 0, width: size.height, height: size.width)
             print(size)
             
-            let captionLayer = CALayer()
-            captionLayer.frame = CGRect(x: 0, y: 0, width: size.height, height: size.width)
-            captionLayer.contents = captionImage!.cgImage
-            
             let parentLayer = CALayer()
             parentLayer.frame = CGRect(x : 0, y: 0, width: size.height, height: size.width)
             parentLayer.addSublayer(vidLayer)
-            parentLayer.addSublayer(captionLayer)
+            
+            if let capImg = captionImage {
+                let captionLayer = CALayer()
+                captionLayer.frame = CGRect(x: 0, y: 0, width: size.height, height: size.width)
+                captionLayer.contents = capImg.cgImage
+                parentLayer.addSublayer(captionLayer)
+            }
             
             let layerComposition = AVMutableVideoComposition()
             layerComposition.frameDuration = CMTimeMake(1, 30)

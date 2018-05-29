@@ -57,7 +57,9 @@ class ListMemoriesTableVC: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let vc = UIStoryboard(name: "Memories", bundle: nil).instantiateInitialViewController() as! MemoriesVC
-        vc.group = (tableView.cellForRow(at: indexPath) as! ListMemoriesTVCell).group
+        let group = (tableView.cellForRow(at: indexPath) as! ListMemoriesTVCell).group
+        vc.group = group
+        vc.title = group!.name + "'s Clips"
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

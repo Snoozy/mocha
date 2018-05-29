@@ -298,8 +298,6 @@ class ViewLeft: UICollectionViewController {
     }
     
     @IBAction func goToCameraBtnPress(_ sender: Any) {
-        selectPicture()
-        return
         let parentVC = UIApplication.topViewController() as? ViewController
         let screenWidth = UIScreen.main.bounds.size.width
         parentVC?.scrollView.setContentOffset(CGPoint.init(x: screenWidth, y: 0.0), animated: true)

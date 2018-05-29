@@ -12,7 +12,8 @@ class Vlog {
     
     let id: Int
     let mediaUrl: String
-    let posterName: String
+    let groupName: String
+    let groupId: Int
     let timestamp: Int64
     let userId: Int
     
@@ -20,10 +21,11 @@ class Vlog {
     
     var videoFileUrl: URL?
         
-    init(url: String, name: String, userId: Int, time: Int64, id: Int, comments: [Comment] = [Comment]()) {
+    init(id: Int, url: String, groupName: String, groupId: Int, userId: Int, time: Int64, comments: [Comment] = [Comment]()) {
         self.id = id
         self.mediaUrl = url
-        self.posterName = name
+        self.groupName = groupName
+        self.groupId = groupId
         self.timestamp = time
         self.userId = userId
         self.comments = comments

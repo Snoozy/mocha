@@ -83,7 +83,7 @@
         </view>
         <panGestureRecognizer cancelsTouchesInView="NO" minimumNumberOfTouches="1" id="OX5-tO-JW3">
             <connections>
-                <action selector="storyViewPan:" destination="iN0-l3-epB" id="cU6-t8-VRl"/>
+                <action selector="clipViewPan:" destination="iN0-l3-epB" id="Fus-8k-iUZ"/>
             </connections>
         </panGestureRecognizer>
     </objects>

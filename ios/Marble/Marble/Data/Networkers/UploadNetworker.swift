@@ -47,8 +47,8 @@ extension Networker {
         self.backgroundSesionManager.upload(
             multipartFormData: { multipartFormData in
                 multipartFormData.append(String(groupId).data(using: .utf8, allowLossyConversion: false)!, withName: "group_id")
-                multipartFormData.append(videoUrl, withName: "video")
                 multipartFormData.append(description.data(using: .utf8, allowLossyConversion: false)!, withName: "description")
+                multipartFormData.append(videoUrl, withName: "video")
         },
             usingThreshold: SessionManager.multipartFormDataEncodingMemoryThreshold,
             to: Router.VlogUpload,

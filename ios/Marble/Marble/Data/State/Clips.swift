@@ -33,7 +33,7 @@ extension State {
                         
                         let caption = Caption(id: clip["id"].intValue, mediaUrl: clip["media_url"].stringValue, timestamp: clip["timestamp"].int64Value)
                         
-                        self.addClip(clips: &newClips, cache: self.groupMemories[groupId]!,
+                        self.addClip(clips: &newClips, cache: self.groupMemories[groupId] ?? [Clip](),
                                      groupId: groupId, url: mediaUrl, name: name, userId: userId,
                                      time: time, id: id, mediaType: mediaType, isMemory: isMemory, caption: caption)
                     }

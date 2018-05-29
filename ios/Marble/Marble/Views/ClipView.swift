@@ -50,14 +50,7 @@ class ClipView: UIView, UIScrollViewDelegate {
         self.addGestureRecognizer(tapGest)
 
         NotificationCenter.default.addObserver(self, selector:#selector(self.playerDidFinishPlaying(note:)),name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
-        
-        let margin: Int = {
-            if isIPhoneX() {
-                return Constants.IphoneXMargin
-            }
-            return 0
-        }()
-        
+                
         styleLayer(layer: saveClipBtn.layer)
     }
     

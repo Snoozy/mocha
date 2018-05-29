@@ -61,6 +61,14 @@
 		4268483E1FF0990E006A7982 /* MemoriesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4268483C1FF0990E006A7982 /* MemoriesCell.swift */; };
 		426848401FF09F2F006A7982 /* MemoriesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4268483F1FF09F2F006A7982 /* MemoriesCell.xib */; };
 		426848411FF09F2F006A7982 /* MemoriesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4268483F1FF09F2F006A7982 /* MemoriesCell.xib */; };
+		426BA9F420B39D5D0069ABB6 /* HomeTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426BA9F220B39D5D0069ABB6 /* HomeTVCell.swift */; };
+		426BA9F520B39D5D0069ABB6 /* HomeTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426BA9F220B39D5D0069ABB6 /* HomeTVCell.swift */; };
+		426BA9F620B39D5D0069ABB6 /* HomeTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 426BA9F320B39D5D0069ABB6 /* HomeTVCell.xib */; };
+		426BA9F720B39D5D0069ABB6 /* HomeTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 426BA9F320B39D5D0069ABB6 /* HomeTVCell.xib */; };
+		4273C35B20B74D4F0036CF5D /* VlogNetworker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4273C35A20B74D4F0036CF5D /* VlogNetworker.swift */; };
+		4273C35C20B74D4F0036CF5D /* VlogNetworker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4273C35A20B74D4F0036CF5D /* VlogNetworker.swift */; };
+		4273C36E20B75B7E0036CF5D /* Vlogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4273C36D20B75B7E0036CF5D /* Vlogs.swift */; };
+		4273C36F20B75B7E0036CF5D /* Vlogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4273C36D20B75B7E0036CF5D /* Vlogs.swift */; };
 		427FFC741E3B1F600007159C /* AlamofireNetworkActivityIndicator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 427FFC711E3B1F470007159C /* AlamofireNetworkActivityIndicator.framework */; };
 		427FFC751E3B1F600007159C /* AlamofireNetworkActivityIndicator.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 427FFC711E3B1F470007159C /* AlamofireNetworkActivityIndicator.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		42823DD9209F0A3600BD8649 /* EditClipsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42823DD8209F0A3600BD8649 /* EditClipsVC.swift */; };
@@ -497,6 +505,10 @@
 		426848351FEF60D4006A7982 /* Memories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memories.swift; sourceTree = "<group>"; };
 		4268483C1FF0990E006A7982 /* MemoriesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoriesCell.swift; sourceTree = "<group>"; };
 		4268483F1FF09F2F006A7982 /* MemoriesCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MemoriesCell.xib; sourceTree = "<group>"; };
+		426BA9F220B39D5D0069ABB6 /* HomeTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTVCell.swift; sourceTree = "<group>"; };
+		426BA9F320B39D5D0069ABB6 /* HomeTVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeTVCell.xib; sourceTree = "<group>"; };
+		4273C35A20B74D4F0036CF5D /* VlogNetworker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VlogNetworker.swift; sourceTree = "<group>"; };
+		4273C36D20B75B7E0036CF5D /* Vlogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vlogs.swift; sourceTree = "<group>"; };
 		427FFC6A1E3B1F470007159C /* AlamofireNetworkActivityIndicator.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireNetworkActivityIndicator.xcodeproj; path = AlamofireNetworkActivityIndicator/AlamofireNetworkActivityIndicator.xcodeproj; sourceTree = "<group>"; };
 		42823DD8209F0A3600BD8649 /* EditClipsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditClipsVC.swift; sourceTree = "<group>"; };
 		429991551E4DAEB90049608F /* AlamofireImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireImage.xcodeproj; path = AlamofireImage/AlamofireImage.xcodeproj; sourceTree = "<group>"; };
@@ -723,6 +735,7 @@
 				42C9794C1FB2938D000247F4 /* UploadNetworker.swift */,
 				42C9794A1FB2938C000247F4 /* UserNetworker.swift */,
 				42CAB1AC1FDB7E7200D5B022 /* MemoriesNetworker.swift */,
+				4273C35A20B74D4F0036CF5D /* VlogNetworker.swift */,
 			);
 			path = Networkers;
 			sourceTree = "<group>";
@@ -777,6 +790,7 @@
 				42C9793D1FB29382000247F4 /* Clips.swift */,
 				42C9793E1FB29382000247F4 /* Users.swift */,
 				426848351FEF60D4006A7982 /* Memories.swift */,
+				4273C36D20B75B7E0036CF5D /* Vlogs.swift */,
 			);
 			path = State;
 			sourceTree = "<group>";
@@ -844,6 +858,7 @@
 				423D5C4F201686C10054E493 /* ListMemoriesTVCell.swift */,
 				42457446206068A900636A42 /* SearchTableViewCell.swift */,
 				42AE783A20B20EDC00EBD994 /* ProgressHUD.swift */,
+				426BA9F220B39D5D0069ABB6 /* HomeTVCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -910,6 +925,7 @@
 				4268482F1FEF3D7C006A7982 /* Memories.storyboard */,
 				4268483F1FF09F2F006A7982 /* MemoriesCell.xib */,
 				42B2665C208B5C06008DFDBC /* Vlogify.storyboard */,
+				426BA9F320B39D5D0069ABB6 /* HomeTVCell.xib */,
 			);
 			name = Storyboards;
 			path = StoryBoards;
@@ -1255,6 +1271,7 @@
 				42AECD441FA29B5100AA1B3F /* focus.gif in Resources */,
 				42C979C81FB293E1000247F4 /* NoGroupsView.xib in Resources */,
 				42E13DCB1E8E46610016FA76 /* Assets.xcassets in Resources */,
+				426BA9F720B39D5D0069ABB6 /* HomeTVCell.xib in Resources */,
 				426848411FF09F2F006A7982 /* MemoriesCell.xib in Resources */,
 				42C979C01FB293E1000247F4 /* CaptionView.xib in Resources */,
 				42C979B21FB293E1000247F4 /* Left.storyboard in Resources */,
@@ -1290,6 +1307,7 @@
 				42240CF21FB29CE4007BB8FF /* Main.storyboard in Resources */,
 				423D5C47200545830054E493 /* Info.plist in Resources */,
 				42C979B91FB293E1000247F4 /* Launch.storyboard in Resources */,
+				426BA9F620B39D5D0069ABB6 /* HomeTVCell.xib in Resources */,
 				42C979BF1FB293E1000247F4 /* CaptionView.xib in Resources */,
 				42C979BB1FB293E1000247F4 /* LaunchDEV.storyboard in Resources */,
 				42C979C51FB293E1000247F4 /* ViewRight.xib in Resources */,
@@ -1326,6 +1344,7 @@
 				42B26671208B5D89008DFDBC /* VlogifyVC.swift in Sources */,
 				42C97A2C1FB294BC000247F4 /* UIImage_ext.swift in Sources */,
 				42C4E5731FB92899003E3CDA /* ColorSlider.swift in Sources */,
+				4273C36F20B75B7E0036CF5D /* Vlogs.swift in Sources */,
 				42C979941FB293BE000247F4 /* SendGroupTV.swift in Sources */,
 				42C979F21FB29495000247F4 /* UIImage+SwiftyGif.swift in Sources */,
 				42C9792E1FB2934B000247F4 /* Common.swift in Sources */,
@@ -1338,6 +1357,7 @@
 				42240D021FB418DE007BB8FF /* MemberTVCell.swift in Sources */,
 				42C97A011FB2949B000247F4 /* SwiftyCamViewController.swift in Sources */,
 				42DA9D802021A5BF001CEB9B /* SearchVC.swift in Sources */,
+				4273C35C20B74D4F0036CF5D /* VlogNetworker.swift in Sources */,
 				42C979731FB293A6000247F4 /* GroupTVCell.swift in Sources */,
 				42C4E5711FB92899003E3CDA /* GradientView.swift in Sources */,
 				42C979921FB293BE000247F4 /* CreateMarbleVC.swift in Sources */,
@@ -1373,6 +1393,7 @@
 				42C9799A1FB293BE000247F4 /* ViewPickDest.swift in Sources */,
 				42C979901FB293BE000247F4 /* GroupInfoVC.swift in Sources */,
 				423D5C4B2005742E0054E493 /* UIKitExtensions.swift in Sources */,
+				426BA9F520B39D5D0069ABB6 /* HomeTVCell.swift in Sources */,
 				424617C620B00C530084B206 /* Vlog.swift in Sources */,
 				42C97A031FB2949B000247F4 /* SwiftyCamButton.swift in Sources */,
 				42C9792C1FB2934B000247F4 /* Router.swift in Sources */,
@@ -1439,6 +1460,7 @@
 				42B26670208B5D89008DFDBC /* VlogifyVC.swift in Sources */,
 				42C97A2B1FB294BC000247F4 /* UIImage_ext.swift in Sources */,
 				42C4E5721FB92899003E3CDA /* ColorSlider.swift in Sources */,
+				4273C36E20B75B7E0036CF5D /* Vlogs.swift in Sources */,
 				42C979DC1FB29458000247F4 /* DeckPresentingAnimationController.swift in Sources */,
 				42C979521FB2938D000247F4 /* GroupNetworker.swift in Sources */,
 				42C979701FB293A6000247F4 /* NoGroupsView.swift in Sources */,
@@ -1451,6 +1473,7 @@
 				426848331FEF3F12006A7982 /* MemoriesVC.swift in Sources */,
 				42240D011FB418DE007BB8FF /* MemberTVCell.swift in Sources */,
 				42DA9D7F2021A5BF001CEB9B /* SearchVC.swift in Sources */,
+				4273C35B20B74D4F0036CF5D /* VlogNetworker.swift in Sources */,
 				42C9795A1FB2938D000247F4 /* Networker.swift in Sources */,
 				42C97A001FB2949B000247F4 /* SwiftyCamViewController.swift in Sources */,
 				42C4E5701FB92899003E3CDA /* GradientView.swift in Sources */,
@@ -1486,6 +1509,7 @@
 				42C9798D1FB293BE000247F4 /* AuthLoginVC.swift in Sources */,
 				42C97A021FB2949B000247F4 /* SwiftyCamButton.swift in Sources */,
 				423D5C49200545830054E493 /* UIKitExtensions.swift in Sources */,
+				426BA9F420B39D5D0069ABB6 /* HomeTVCell.swift in Sources */,
 				424617C520B00C530084B206 /* Vlog.swift in Sources */,
 				42C9797E1FB293A6000247F4 /* NumPlaceholderButton.swift in Sources */,
 				42C979331FB2937B000247F4 /* User.swift in Sources */,
