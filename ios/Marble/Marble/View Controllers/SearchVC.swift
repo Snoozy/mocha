@@ -35,6 +35,12 @@ class SearchVC: UITableViewController {
         
         self.tableView.register(SearchTableViewCell.self, forCellReuseIdentifier: "SearchTVCell")
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        searchBar?.becomeFirstResponder()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -44,7 +50,7 @@ class SearchVC: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return searching ? 1 : 0
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

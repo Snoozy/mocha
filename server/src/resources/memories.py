@@ -16,7 +16,7 @@ class GetMemoriesResource:
                 memories = group.clips.filter((Clip.is_memory == 1) & (Clip.user_id.notin_(user_blocks))).all()
             else:
                 memories = group.clips.filter(Clip.is_memory == 1).all()
-            memories_dict = [clip.to_dict() for clip in memories]
+            memories_dict = [clip.to_dict(req.session, user) for clip in memories]
             json.append({'group_id': group.id, 'clips': memories_dict})
         resp.json = resp_success({'content': json})
         return

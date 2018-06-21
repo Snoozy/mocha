@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -13,11 +13,16 @@
             <connections>
                 <outlet property="backButton" destination="hFx-m6-NCj" id="W8q-ZZ-yWU"/>
                 <outlet property="cameraFlipButton" destination="Ppf-bj-vyN" id="BX9-so-Hi2"/>
+                <outlet property="cancelBtnBotSpace" destination="Bgf-YT-Zn8" id="yOz-YL-023"/>
                 <outlet property="cancelButtonOut" destination="HhP-Mo-KqM" id="JqT-GO-4PS"/>
                 <outlet property="captionView" destination="UrR-4c-M7D" id="KfM-Fs-0Wu"/>
                 <outlet property="flashButton" destination="Fp8-Ji-qYQ" id="gzg-t3-oMo"/>
+                <outlet property="nextBtnBotSpace" destination="5LJ-ac-wgq" id="V3j-2g-HMU"/>
                 <outlet property="nextButtonOut" destination="TOK-8N-NbL" id="YL4-jB-FlK"/>
                 <outlet property="recordingProgress" destination="igO-4s-pVS" id="gTh-NG-9H3"/>
+                <outlet property="recordingTimer" destination="uWJ-1Z-cee" id="DCT-Yf-S4N"/>
+                <outlet property="recordingTimerTop" destination="ReO-FY-bS6" id="PoK-Kg-I77"/>
+                <outlet property="takePhotoBtnBotSpace" destination="BDX-aq-bAr" id="6lu-ZG-lWV"/>
                 <outlet property="takePhotoButton" destination="4si-Dq-6zy" id="uMb-Ao-pWq"/>
                 <outlet property="takeVideoLongPress" destination="dxc-zd-t9n" id="yBK-ZX-BHR"/>
                 <outlet property="tempImageView" destination="UXt-6l-v0K" id="p6v-og-lDR"/>
@@ -31,7 +36,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4si-Dq-6zy">
-                    <rect key="frame" x="146" y="709" width="83" height="83"/>
+                    <rect key="frame" x="146" y="699" width="83" height="83"/>
                     <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="width" constant="83" id="O3x-hg-I3A"/>
@@ -76,6 +81,16 @@
                         <action selector="flashToggleBtnPress:" destination="-1" eventType="touchUpInside" id="zWL-IR-zuW"/>
                     </connections>
                 </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uWJ-1Z-cee" userLabel="Recording Timer">
+                    <rect key="frame" x="152" y="34" width="70" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="lDK-vK-9H3"/>
+                        <constraint firstAttribute="width" constant="70" id="mbh-HC-Ck5"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="igO-4s-pVS">
                     <rect key="frame" x="0.0" y="5" width="375" height="2"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -95,7 +110,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HhP-Mo-KqM">
-                    <rect key="frame" x="8" y="766" width="68" height="38"/>
+                    <rect key="frame" x="8" y="746" width="68" height="38"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="68" id="QWW-Fh-WWc"/>
                         <constraint firstAttribute="height" constant="38" id="iir-QU-HHk"/>
@@ -109,7 +124,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TOK-8N-NbL">
-                    <rect key="frame" x="306" y="766" width="61" height="38"/>
+                    <rect key="frame" x="306" y="746" width="61" height="38"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="61" id="8yh-4J-3Fh"/>
@@ -126,15 +141,17 @@
             </subviews>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="UrR-4c-M7D" secondAttribute="trailing" id="1Jn-fv-QQO"/>
-                <constraint firstAttribute="bottom" secondItem="TOK-8N-NbL" secondAttribute="bottom" constant="8" id="5LJ-ac-wgq"/>
+                <constraint firstAttribute="bottom" secondItem="TOK-8N-NbL" secondAttribute="bottom" constant="28" id="5LJ-ac-wgq"/>
                 <constraint firstItem="Fp8-Ji-qYQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="29" id="6Vx-Gl-Rbk"/>
-                <constraint firstAttribute="bottom" secondItem="4si-Dq-6zy" secondAttribute="bottom" constant="20" id="BDX-aq-bAr"/>
-                <constraint firstAttribute="bottom" secondItem="HhP-Mo-KqM" secondAttribute="bottom" constant="8" id="Bgf-YT-Zn8"/>
+                <constraint firstAttribute="bottom" secondItem="4si-Dq-6zy" secondAttribute="bottom" constant="30" id="BDX-aq-bAr"/>
+                <constraint firstAttribute="bottom" secondItem="HhP-Mo-KqM" secondAttribute="bottom" constant="28" id="Bgf-YT-Zn8"/>
                 <constraint firstItem="9vT-Lj-HGQ" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="C3y-9I-eNl"/>
                 <constraint firstItem="hFx-m6-NCj" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="29" id="Dzz-n0-9Cz"/>
                 <constraint firstItem="Ppf-bj-vyN" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="29" id="Fj6-LI-4la"/>
+                <constraint firstItem="uWJ-1Z-cee" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="LVt-38-uWM"/>
                 <constraint firstAttribute="bottom" secondItem="9vT-Lj-HGQ" secondAttribute="bottom" id="PNV-h4-Lxx"/>
                 <constraint firstAttribute="trailing" secondItem="9vT-Lj-HGQ" secondAttribute="trailing" id="QVG-HX-6Xi"/>
+                <constraint firstItem="uWJ-1Z-cee" firstAttribute="top" secondItem="igO-4s-pVS" secondAttribute="bottom" constant="27" id="ReO-FY-bS6"/>
                 <constraint firstAttribute="bottom" secondItem="UrR-4c-M7D" secondAttribute="bottom" id="SDn-qd-zoA"/>
                 <constraint firstItem="hFx-m6-NCj" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="6" id="T0n-sk-lne"/>
                 <constraint firstItem="9vT-Lj-HGQ" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="TCe-k9-ytM"/>
@@ -152,7 +169,7 @@
                 <constraint firstItem="Ppf-bj-vyN" firstAttribute="leading" secondItem="Fp8-Ji-qYQ" secondAttribute="trailing" constant="18" id="sMV-d0-dkb"/>
                 <constraint firstItem="9vT-Lj-HGQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="ycZ-Iq-cgs"/>
             </constraints>
-            <point key="canvasLocation" x="3" y="39"/>
+            <point key="canvasLocation" x="2.5" y="39"/>
         </view>
         <pongPressGestureRecognizer cancelsTouchesInView="NO" delaysTouchesEnded="NO" allowableMovement="10" minimumPressDuration="0.29999999999999999" id="dxc-zd-t9n">
             <connections>

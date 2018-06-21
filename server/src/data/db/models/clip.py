@@ -21,9 +21,9 @@ class Clip(Base):
     user = relationship("User", foreign_keys=[user_id])
     group = relationship("Group", foreign_keys=[group_id])
 
-    likes = association_proxy('clip_likes', 'clip_like')
+    likers = association_proxy('clip_likes', 'clip')  # users who liked this
 
-    def to_dict(self):
+    def to_dict(self, session, user):
         return {
             'media_url': CDN_URL + self.media_id,
             'user_name': self.user.name,
@@ -31,4 +31,5 @@ class Clip(Base):
             'timestamp': self.timestamp,
             'id': self.id,
             'is_memory': self.is_memory == 1,
+            'liked': bool(session.query(Clip.id).filter(Clip.likers.contains(user)).first())
         }

@@ -12,7 +12,13 @@ class HomeTVCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        vlogDescription.collapsed = true
+        vlogDescription.text = nil
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -23,5 +29,9 @@ class HomeTVCell: UITableViewCell {
     
     @IBOutlet weak var vidPreviewImage: UIImageView!
     @IBOutlet weak var marbleName: UILabel!
+    @IBOutlet weak var vlogDescription: mUILabel!
+    
+    var playIconBtn: UIButton?
+    var vlog: Vlog?
     
 }

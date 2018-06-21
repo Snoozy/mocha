@@ -30,12 +30,11 @@ extension State {
                         let isMemory = clip["is_memory"].bool ?? false
                         let id = clip["id"].int!
                         let mediaType = clip["media_type"].stringValue
-                        
-                        let caption = Caption(id: clip["id"].intValue, mediaUrl: clip["media_url"].stringValue, timestamp: clip["timestamp"].int64Value)
+                        let liked = clip["liked"].bool ?? false
                         
                         self.addClip(clips: &newClips, cache: self.groupMemories[groupId] ?? [Clip](),
                                      groupId: groupId, url: mediaUrl, name: name, userId: userId,
-                                     time: time, id: id, mediaType: mediaType, isMemory: isMemory, caption: caption)
+                                     time: time, id: id, mediaType: mediaType, isMemory: isMemory, liked: liked)
                     }
                     self.groupClips[groupId] = newClips
                 }
@@ -76,13 +75,13 @@ extension State {
     }
     
     func addClip(clips: inout [Clip], cache: [Clip], groupId: Int, url: String,
-                 name: String, userId: Int, time: Int64, id: Int, mediaType: String, isMemory: Bool, caption: Caption) {
+                 name: String, userId: Int, time: Int64, id: Int, mediaType: String, isMemory: Bool, liked: Bool) {
         let clipCheck = findClip(cache: cache, id: id)
         if let clip = clipCheck {
             clip.isMemory = isMemory
             clips.append(clip)
         } else {
-            clips.append(Clip(url: url, name: name, userId: userId, time: time, id: id, mediaType: mediaType, isMemory: isMemory))
+            clips.append(Clip(url: url, name: name, userId: userId, time: time, id: id, mediaType: mediaType, isMemory: isMemory, liked: liked))
         }
     }
     

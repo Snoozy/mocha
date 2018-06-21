@@ -38,12 +38,11 @@ extension State {
                         let time = clip["timestamp"].int64 ?? 0
                         let id = clip["id"].int!
                         let mediaType = clip["media_type"].stringValue
-                        
-                        let caption = Caption(id: clip["id"].intValue, mediaUrl: clip["media_url"].stringValue, timestamp: clip["timestamp"].int64Value)
+                        let liked = clip["liked"].bool ?? false
                         
                         self.addClip(clips: &newClips, cache: self.groupMemories[groupId] ?? [Clip](),
                                       groupId: groupId, url: mediaUrl, name: name, userId: userId,
-                                      time: time, id: id, mediaType: mediaType, isMemory: true, caption: caption)
+                                      time: time, id: id, mediaType: mediaType, isMemory: true, liked: liked)
                     }
                     self.groupMemories[groupId] = newClips
                 }

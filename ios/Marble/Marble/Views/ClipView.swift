@@ -323,12 +323,12 @@ class ClipView: UIView, UIScrollViewDelegate {
             sender.setImage(UIImage(named: "star_yellow"), for: .normal)
             let tipView = EasyTipView(text: "Saved to our Memories", preferences: prefs, delegate: nil)
             tipView.show(animated: true, forView: sender, withinSuperview: self)
-            Networker.shared.saveMemory(clipId: clip!.id, completionHandler: { _ in })
+            Networker.shared.likeClip(clipId: clip!.id, completionHandler: { _ in })
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
                 tipView.dismiss()
             })
         } else {
-            Networker.shared.removeMemory(clipId: clip!.id, completionHandler: { _ in })
+            Networker.shared.unlikeClip(clipId: clip!.id, completionHandler: { _ in })
             sender.setImage(UIImage(named: "star"), for: .normal)
         }
     }

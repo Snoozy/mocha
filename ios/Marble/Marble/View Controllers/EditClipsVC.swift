@@ -21,6 +21,9 @@ class EditClipsVC: UICollectionViewController {
     
     fileprivate var holdGest: UILongPressGestureRecognizer!
     
+    var descrTextView: UITextView?
+    var placeholderLabel: UILabel?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -35,17 +38,62 @@ class EditClipsVC: UICollectionViewController {
             flowLayout.minimumInteritemSpacing = CGFloat.greatestFiniteMagnitude
         }
         
+        createBtn.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 17), NSAttributedStringKey.foregroundColor: Constants.Colors.MarbleBlue], for: .normal)
+        
         holdGest = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gesture:)))
         
-        let bgView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height/2))
-        let textLabel = UILabel(frame: CGRect(x: 100, y: 100, width: view.frame.width, height: 20))
+        let bgView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
+        
+        let textLabel = UILabel(frame: CGRect(x: 0, y: view.frame.height/4, width: view.frame.width, height: 20))
         textLabel.text = "Hold and drag clips to reorder"
         textLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
         textLabel.textColor = UIColor.gray
-        textLabel.center = bgView.center
         textLabel.textAlignment = .center
         bgView.addSubview(textLabel)
+        
+        descrTextView = UITextView(frame: CGRect(x: 5, y: view.frame.height*(3/4) + 15, width: view.frame.width, height: (view.frame.height/4) - 15))
+        descrTextView!.font = UIFont.systemFont(ofSize: 17.0)
+        descrTextView!.keyboardType = UIKeyboardType.twitter
+        descrTextView!.returnKeyType = UIReturnKeyType.done
+        descrTextView!.delegate = self
+        
+        placeholderLabel = UILabel()
+        placeholderLabel!.text = "Add a description. (250 characters max)"
+        placeholderLabel?.font = UIFont.italicSystemFont(ofSize: (descrTextView!.font?.pointSize)!)
+        placeholderLabel!.sizeToFit()
+        descrTextView!.addSubview(placeholderLabel!)
+        placeholderLabel?.frame.origin = CGPoint(x: 5, y: (descrTextView!.font?.pointSize)! / 2)
+        placeholderLabel!.textColor = UIColor.lightGray
+        placeholderLabel!.isHidden = !descrTextView!.text.isEmpty
+        
+        bgView.addSubview(descrTextView!)
+        
         self.collectionView?.backgroundView = bgView
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: self.view.window)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: self.view.window)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                print(self.view.frame.origin.y)
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            print(self.view.frame.origin.y)
+            self.view.frame.origin.y = 0
+        }
     }
     
     @objc func handleLongPress(gesture: UILongPressGestureRecognizer) {
@@ -69,6 +117,19 @@ class EditClipsVC: UICollectionViewController {
     }
     
     @IBAction func createBtnPressed(_ sender: Any) {
+        if createBtn.title == "Done" {
+            descrTextView?.resignFirstResponder()
+            createBtn.title = "Create"
+            return
+        }
+        
+        if (descrTextView?.text ?? "").count > 250 {
+            let alert = UIAlertController(title: "Description must be under 250 characters.", message: "", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true)
+            return
+        }
+        
         let progHUD = ProgressHUD(text: "Creating Vlog")
         self.view.addSubview(progHUD)
         
@@ -83,17 +144,22 @@ class EditClipsVC: UICollectionViewController {
         var builder = TransitionCompositionBuilder(assets: assets, transitionDuration: 0.3)
         let composition = builder?.buildComposition()
         
+        let descr = self.descrTextView!.text ?? ""
+        
         let session = composition?.makeExportSession(preset: AVAssetExportPreset1280x720, outputURL: vidPath!, outputFileType: AVFileType.mp4)
         session?.exportAsynchronously {
             DispatchQueue.main.async {
                 progHUD.removeFromSuperview()
+                NotificationCenter.default.post(name: Constants.Notifications.ClipUploadFinished, object: nil)
+                self.navigationController?.popToRootViewController(animated: true)
+                self.tabBarController?.selectedIndex = 0
             }
             print("export complete")
             let attr = try! FileManager.default.attributesOfItem(atPath: vidPath!.path)
             let fileSize = attr[FileAttributeKey.size] as! UInt64
             print("video file size: " + String(describing: fileSize))
             
-            Networker.shared.uploadVlog(videoUrl: vidPath!, description: "ASDF", groupId: self.group!.groupId, completionHandler: { response in
+            Networker.shared.uploadVlog(videoUrl: vidPath!, description: descr, groupId: self.group!.groupId, completionHandler: { response in
                 switch response.result {
                 case .success(let val):
                     let json = JSON(val)
@@ -106,12 +172,11 @@ class EditClipsVC: UICollectionViewController {
         }
     }
     
-    // MARK: UICollectionViewDataSource
+    // MARK: - UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return clips.count
@@ -131,6 +196,12 @@ class EditClipsVC: UICollectionViewController {
     let clipViewNib = UINib(nibName: "ClipView", bundle: nil)
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if (descrTextView?.isFirstResponder)! {
+            descrTextView?.resignFirstResponder()
+            createBtn.title = "Create"
+            return
+        }
+        
         let cell = collectionView.cellForItem(at: indexPath) as! MemoriesCell
         
         let imageViewer = clipViewNib.instantiate(withOwner: nil, options: nil)[0] as! ClipView
@@ -163,6 +234,7 @@ class EditClipsVC: UICollectionViewController {
 
 }
 
+// MARK: - ClipViewDelegate
 extension EditClipsVC : ClipViewDelegate {
     func nextClip(_ clipView: ClipView) -> Clip? {
         if clipIdx < clips.count - 1 {
@@ -181,4 +253,17 @@ extension EditClipsVC : ClipViewDelegate {
             return clips[clipIdx]
         }
     }
+}
+
+// MARK: - UITextViewDelegate
+extension EditClipsVC : UITextViewDelegate {
+    
+    func textViewDidChange(_ textView: UITextView) {
+        placeholderLabel?.isHidden = !textView.text.isEmpty
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        createBtn.title = "Done"
+    }
+    
 }

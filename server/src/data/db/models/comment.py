@@ -13,17 +13,17 @@ class Comment(Base):
     id = Column(Integer, primary_key=True)
     vlog_id = Column(Integer, ForeignKey('vlogs.id'), index=True)
     user_id = Column(Integer, ForeignKey('users.id'), index=True)
-    media_id = Column(String)
+    content = Column(String)
     timestamp = Column(BigInteger, default=time_millis)
 
     user = relationship(User)
-    story = relationship('Vlog', backref=backref('comments', lazy='dynamic'))
+    vlog = relationship('Vlog', backref=backref('comments', lazy='dynamic'))
 
     def to_dict(self):
         return {
                 'id': self.id,
                 'vlog_id': self.vlog_id,
-                'media_url': CDN_URL + self.media_id,
+                'content': self.content,
                 'timestamp': self.timestamp,
                 'user': self.user.to_dict(),
                 }

@@ -19,6 +19,8 @@ enum Router : URLConvertible {
     case SignUp
     case Login
     case ClipUpload
+    case ClipLike
+    case ClipUnlike
     case VlogUpload
     case CommentUpload
     case JoinGroup
@@ -32,8 +34,6 @@ enum Router : URLConvertible {
     case Block
     case FlagClip
     case GetMemories
-    case SaveMemory
-    case RemoveMemory
     case Search
     case TrendingGroups
     case GetVlogs
@@ -51,6 +51,10 @@ enum Router : URLConvertible {
                 return "/login"
             case .ClipUpload:
                 return "/clip/upload"
+            case .ClipLike:
+                return "/clip/like"
+            case .ClipUnlike:
+                return "/clip/unlike"
             case .VlogUpload:
                 return "/vlog/upload"
             case .CommentUpload:
@@ -77,10 +81,6 @@ enum Router : URLConvertible {
                 return "/groups/info"
             case .GetMemories:
                 return "/memories"
-            case .SaveMemory:
-                return "/memories/save"
-            case .RemoveMemory:
-                return "/memories/remove"
             case .Search:
                 return "/search"
             case .TrendingGroups:

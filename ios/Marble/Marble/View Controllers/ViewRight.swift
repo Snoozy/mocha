@@ -37,6 +37,13 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     @IBOutlet weak var cameraFlipButton: UIButton!
     @IBOutlet weak var flashButton: UIButton!
     
+    @IBOutlet weak var cancelBtnBotSpace: NSLayoutConstraint!
+    @IBOutlet weak var takePhotoBtnBotSpace: NSLayoutConstraint!
+    @IBOutlet weak var nextBtnBotSpace: NSLayoutConstraint!
+    
+    @IBOutlet weak var recordingTimer: UILabel!
+    @IBOutlet weak var recordingTimerTop: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         captureButton = takePhotoButton
         self.view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
@@ -82,6 +89,17 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         self.view.isUserInteractionEnabled = true
         
         cameraDelegate = self
+        
+        if !isIPhoneX() {
+            takePhotoBtnBotSpace.constant -= 10
+            nextBtnBotSpace.constant -= 20
+            cancelBtnBotSpace.constant -= 20
+            recordingTimerTop.constant -= 10
+            takePhotoButton.layoutIfNeeded()
+            nextButtonOut.layoutIfNeeded()
+            cancelButtonOut.layoutIfNeeded()
+            recordingTimer.layoutIfNeeded()
+        }
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
@@ -141,11 +159,18 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         let audioUrl = url.deletingPathExtension().appendingPathExtension("m4a")
         audioPlayer = try! AVAudioPlayer(contentsOf: audioUrl)
         
-        playerLayer.frame = self.view.bounds
+        if isIPhoneX() {
+            let topMargin = 40
+            let botMargin = 20
+            playerLayer.frame = CGRect(x: CGFloat(0), y: CGFloat(topMargin), width: self.view.bounds.width, height: self.view.bounds.height - CGFloat(topMargin + botMargin))
+        } else {
+            playerLayer.frame = self.view.bounds
+        }
         playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         playerLayer.masksToBounds = true
         videoView.isHidden = false
         videoView.layer.addSublayer(playerLayer)
+        videoView.backgroundColor = UIColor.black
         audioPlayer?.prepareToPlay()
         player?.play()
         audioPlayer?.play()
@@ -312,8 +337,12 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     var photoTaken = Bool()
     
     @IBAction func takePhoto(_ sender: AnyObject) {
-        photoTaken = true
-        didPressTakePhoto()
+        if !photoTaken {
+            photoTaken = true
+            startCaptureVideo()
+        } else {
+            stopCaptureVideo()
+        }
     }
     
     @IBAction func cancelPhoto(_ sender: AnyObject) {
@@ -477,7 +506,6 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
             // export file path
             let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first! as NSURL
             let vidPath = documentsUrl.appendingPathComponent("rendered_" + videoUrl.lastPathComponent)
-            
             
             let assetExport = AVAssetExportSession(asset: composition, presetName: AVAssetExportPreset960x540)
             

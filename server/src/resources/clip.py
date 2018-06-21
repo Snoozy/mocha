@@ -44,5 +44,17 @@ class LikeClipResource:
         if not clip or not user:
             resp.json = resp_error()
             return
-        clip.likes.append(user)
+        clip.likers.append(user)
+        resp.json = resp_success()
+
+
+class UnlikeClipResource:
+    def on_post(self, req, resp, user_id):
+        clip_id = req.get_param('clip_id')
+        user = req.session.query(User).filter(User.id == user_id).first()
+        clip = req.session.query(Clip).filter(Clip.id == int(clip_id)).first()
+        if not clip or not user:
+            resp.json = resp_error()
+            return
+        clip.likers.remove(user)
         resp.json = resp_success()

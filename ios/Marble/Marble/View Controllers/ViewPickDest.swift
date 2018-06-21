@@ -25,6 +25,8 @@ class ViewPickDest: UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet var panGesture: UIPanGestureRecognizer!
     
+    @IBOutlet weak var sendBtnHeight: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -44,6 +46,11 @@ class ViewPickDest: UIViewController, UIGestureRecognizerDelegate {
         originalCenterCord = view.center.x
         
         navBar.addBottomBorderWithColor(color: UIColor(red: 211.0/255.0, green: 211.0/255.0, blue: 211.0/255.0, alpha: 1.0), width: 1.0)
+        
+        if isIPhoneX() {
+            sendBtnHeight.constant += 10
+            sendButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
+        }
     }
     
     @IBAction func sendButtonTouchDown(_ sender: Any) {

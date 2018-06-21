@@ -29,7 +29,7 @@ class MemoriesVC: UICollectionViewController {
 
         self.collectionView!.register(UINib(nibName: "MemoriesCell", bundle: nil), forCellWithReuseIdentifier: reuseIdentifier)
         
-        vlogifyBtn.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 16), NSAttributedStringKey.foregroundColor: UIColor.black], for: .normal)
+        vlogifyBtn.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 16), NSAttributedStringKey.foregroundColor: Constants.Colors.MarbleBlue], for: .normal)
         
         memories = State.shared.getMemoriesForGroup(groupId: group!.groupId)
         

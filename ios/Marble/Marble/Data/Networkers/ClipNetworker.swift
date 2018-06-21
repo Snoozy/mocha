@@ -29,4 +29,19 @@ extension Networker {
         self.sessionManager.request(Router.FlagClip, method: .post, parameters: params, encoding: URLEncoding.default).validate().responseJSON(completionHandler: completionHandler)
     }
     
+    func likeClip(clipId: Int, completionHandler: @escaping (DataResponse<Any>) -> ()) {
+        let params: Parameters = [
+            "clip_id" : clipId
+        ]
+        self.sessionManager.request(Router.ClipLike, method: .post, parameters: params, encoding: URLEncoding.default).validate().responseJSON(completionHandler: completionHandler)
+    }
+    
+    func unlikeClip(clipId: Int, completionHandler: @escaping (DataResponse<Any>) -> ()) {
+        let params: Parameters = [
+            "clip_id" : clipId
+        ]
+        self.sessionManager.request(Router.ClipUnlike, method: .post, parameters: params, encoding: URLEncoding.default).validate().responseJSON(completionHandler: completionHandler)
+    }
+
+    
 }

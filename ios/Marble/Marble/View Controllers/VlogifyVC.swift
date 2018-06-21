@@ -26,12 +26,17 @@ class VlogifyVC: UICollectionViewController {
         self.clearsSelectionOnViewWillAppear = false
         self.collectionView?.allowsMultipleSelection = true
         
-        nextBarBtn.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 16), NSAttributedStringKey.foregroundColor: UIColor.black], for: .normal)
+        nextBarBtn.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 17), NSAttributedStringKey.foregroundColor: Constants.Colors.MarbleBlue], for: .normal)
         nextBarBtn.title = ""
 
         // Register cell classes
         self.collectionView!.register(UINib(nibName: "MemoriesCell", bundle: nil), forCellWithReuseIdentifier: reuseIdentifier)
-        memories = State.shared.getMemoriesForGroup(groupId: group!.groupId)
+        let clips = State.shared.getMemoriesForGroup(groupId: group!.groupId)
+        for clip in clips {
+            if clip.liked {
+                memories.append(clip)
+            }
+        }
         
         collectionView?.alwaysBounceVertical = true
     }

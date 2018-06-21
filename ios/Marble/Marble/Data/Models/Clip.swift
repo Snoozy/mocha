@@ -19,17 +19,19 @@ class Clip {
     let timestamp: Int64
     let userId: Int
     var isMemory: Bool
+    var liked: Bool
     
     var videoFileUrl: URL?
     var mediaReady: Bool = false
     
-    init(url: String, name: String, userId: Int, time: Int64, id: Int, mediaType: String, isMemory: Bool) {
+    init(url: String, name: String, userId: Int, time: Int64, id: Int, mediaType: String, isMemory: Bool, liked: Bool = false) {
         self.id = id
         self.mediaUrl = url
         self.posterName = name
         self.timestamp = time
         self.userId = userId
         self.isMemory = isMemory
+        self.liked = liked
     }
     
     func loadMedia(completionHandler: ((Clip) -> Void)? = nil) {

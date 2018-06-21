@@ -8,6 +8,7 @@ from data.db.models.user import User
 from data.db.models.clip import Clip
 from data.db.models.group import Group
 from data.db.models.vlog import Vlog
+from data.db.models.comment import Comment
 from resources.constants import resp_error, resp_success
 
 VLOG_PAGE_SIZE = 15
@@ -68,12 +69,28 @@ class VlogUploadResource:
         return
 
 
-def send_posted_notifications(poster: User, groups: Group):
-    for group in group:
-        for user in group.users:
-            if user.id != poster.id:
-                badge_num = get_user_badge_num(user)
-                msg = "{} posted to {}".format(poster.name, group.name)
-                for device in user.devices:
-                    print("sending notif to id: " + str(user.id))
-                    send_notification(device, msg, badge_num=badge_num)
+class VlogCommentResource:
+    def on_post(self, req, resp, user_id):
+        user = req.session.query(User).filter(User.id == user_id).first()
+        vlog_id = req.get_params('vlog_id')
+        comment_content = req.get_params('comment_content')
+        if not comment_content or not user or not vlog_id:
+            resp.json = resp_error()
+            return
+        vlog = req.session.query(Vlog).filter(Vlog.id == vlog_id).first()
+        if not vlog:
+            resp.json = resp_error()
+            return
+        new_comment = Comment(vlog_id=vlog.id, user_id=user.id, content=comment_content)
+        vlog.comments.append(new_comment)
+        resp.json = resp_success()
+
+
+def send_posted_notifications(poster: User, group: Group):
+    for user in group.users:
+        if user.id != poster.id:
+            badge_num = get_user_badge_num(user)
+            msg = "{} posted to {}".format(poster.name, group.name)
+            for device in user.devices:
+                print("sending notif to id: " + str(user.id))
+                send_notification(device, msg, badge_num=badge_num)
