@@ -37,11 +37,12 @@ class HomeVC: UITableViewController {
         self.tableView.delaysContentTouches = false
         
         NotificationCenter.default.addObserver(self, selector: #selector(pullDownRefresh), name: Constants.Notifications.RefreshMainGroupState, object: nil)
+        
+        pullDownRefresh()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        refresh()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -50,12 +51,16 @@ class HomeVC: UITableViewController {
     }
     
     @objc func pullDownRefresh() {
+        State.shared.homeTVInfiniteScrollingDone = false
         if self.view.window?.windowLevel != UIWindowLevelStatusBar {
             refresh()
         }
     }
     
     func refresh() {
+        if State.shared.me == nil {
+            State.shared.ping(deviceToken: nil)
+        }
         State.shared.getVlogs(completionHandler: {
             self.stopActivityIndicator()
             self.loading = false
@@ -130,8 +135,22 @@ class HomeVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.section >= State.shared.vlogFeed.count - InfiniteScrollLoadCutoff {
-            print("inf scroll")
+        if !State.shared.homeTVInfiniteScrollingDone && indexPath.section >= State.shared.vlogFeed.count - InfiniteScrollLoadCutoff {
+            print("infinite scroll load")
+            let prevVlogCount = State.shared.vlogFeed.count
+            State.shared.getVlogs(afterId: State.shared.vlogFeed.last!.id) {
+                if prevVlogCount == State.shared.vlogFeed.count {
+                    State.shared.homeTVInfiniteScrollingDone = true
+                    return
+                }
+                if State.shared.vlogFeed.count < prevVlogCount {
+                    return
+                }
+                let idxs = IndexSet(integersIn: prevVlogCount..<State.shared.vlogFeed.count)
+                DispatchQueue.main.async {
+                    self.tableView.insertSections(idxs, with: .automatic)
+                }
+            }
         }
     }
 
@@ -156,7 +175,7 @@ class HomeVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 330
+        return 350
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -194,10 +213,9 @@ class HomeVC: UITableViewController {
         cell.playIconBtn = playIconBtn
         cell.vidPreviewImage.addSubview(playIconBtn)
         
-//        let holdGest = UILongPressGestureRecognizer(target: self, action: #selector(playIconTapped(gest:)))
-//        holdGest.minimumPressDuration = 0
         playIconBtn.isUserInteractionEnabled = true
-//        playIconView.addGestureRecognizer(holdGest)
+        playIconBtn.tag = idx
+        playIconBtn.addTarget(self, action: #selector(playBtnTapped(_:)), for: .touchUpInside)
         
         let tapGestRecognizer = UITapGestureRecognizer(target: self, action: #selector(playTapped(gest:)))
         cell.vidPreviewImage.isUserInteractionEnabled = true
@@ -207,9 +225,12 @@ class HomeVC: UITableViewController {
         cell.vlogDescription.delegate = self
         
         cell.vlogDescription.numberOfLines = 3
-        cell.vlogDescription.collapsedAttributedLink = NSAttributedString(string: "Read More")
+        let attributedStringColor = [NSAttributedStringKey.foregroundColor : Constants.Colors.MarbleBlue]
+        cell.vlogDescription.collapsedAttributedLink = NSAttributedString(string: "More", attributes: attributedStringColor)
         cell.vlogDescription.ellipsis = NSAttributedString(string: "...")
         cell.vlogDescription.collapsed = true
+        
+        cell.commentBtn.setTitle(String(vlog.numComments) + (vlog.numComments == 1 ? " Comment" : " Comments"), for: .normal)
         
         cell.vlogDescription.text = vlog.description
         
@@ -218,24 +239,12 @@ class HomeVC: UITableViewController {
         return cell
     }
     
-//    @objc func playIconTapped(gest: UILongPressGestureRecognizer) {
-//        guard let tappedView = gest.view else {
-//            return
-//        }
-//        let touchPointInTableView = self.tableView.convert(tappedView.center, from: tappedView)
-//        guard let indexPath = self.tableView.indexPathForRow(at: touchPointInTableView) else {
-//            return
-//        }
-//        guard let cell = self.tableView.cellForRow(at: indexPath) as? HomeTVCell else {
-//            return
-//        }
-//        if gest.state == .began {
-//            cell.playIconView?.alpha = 0.4
-//        } else if gest.state == .ended {
-//            cell.playIconView?.alpha = 0.8
-//            playVideo(vlog: cell.vlog!)
-//        }
-//    }
+    @objc func playBtnTapped(_ sender: UIButton) {
+        guard let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: sender.tag)) as? HomeTVCell else {
+            return
+        }
+        playVideo(vlog: cell.vlog!)
+    }
     
     @objc func playTapped(gest: UITapGestureRecognizer) {
         guard let tappedView = gest.view else {

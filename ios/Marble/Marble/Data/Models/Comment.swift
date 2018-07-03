@@ -14,11 +14,13 @@ class Comment {
     let id: Int
     let user: User
     let content: String
+    let timestamp: Int64
     
-    init(id: Int, user: User, content: String) {
+    init(id: Int, user: User, content: String, timestamp: Int64) {
         self.id = id
         self.user = user
         self.content = content
+        self.timestamp = timestamp
     }
-    
+        
 }

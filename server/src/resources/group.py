@@ -8,22 +8,21 @@ from falcon import Request, Response
 class GroupCreateResource:
     def on_post(self, req, resp, user_id):
         name = req.get_param('name')
+        if not name or name == '':
+            resp.json = resp_error()
+            return
         user = req.session.query(User).filter(User.id == user_id).first()
         group = Group(name=name)
         group.users.append(user)
         req.session.add(group)
-        resp.json = {
-            'status': 0
-        }
+        resp.json = resp_success()
 
 
 class FindGroupResource:
     def on_get(self, req, resp, user_id):
         code = req.get_param('code').lstrip("0")
         if not code or code == "":
-            resp.json = {
-                'status': 1
-            }
+            resp.json = resp_error()
             return
         code = int(code) ^ GROUP_ID_XOR
         user = req.session.query(User).filter(User.id == user_id).first()
@@ -60,10 +59,14 @@ class ListGroupsResource:
                     last_seen = m.last_seen
                     break
             g_dict['last_seen'] = last_seen
+
+            # determine if vlog nudge should be shown
+            g_dict['vlog_nudge'] = [1, 2, 3]
+
             group_arr.append(g_dict)
         resp.json = {
             'status': 0,
-            'groups': json.dumps(group_arr)
+            'groups': group_arr
         }
 
 

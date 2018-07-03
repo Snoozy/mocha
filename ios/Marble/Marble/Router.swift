@@ -37,6 +37,8 @@ enum Router : URLConvertible {
     case Search
     case TrendingGroups
     case GetVlogs
+    case VlogNewComment
+    case VlogComments
     
     func asURL() throws -> URL {
         let versionNum = "v1"
@@ -87,6 +89,10 @@ enum Router : URLConvertible {
                 return "/groups/trending"
             case .GetVlogs:
                 return "/vlogs"
+            case .VlogNewComment:
+                return "/vlog/new_comment"
+            case .VlogComments:
+                return "/vlog/comments"
             }
         }()
         

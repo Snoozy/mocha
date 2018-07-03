@@ -189,10 +189,10 @@ class ClipView: UIView, UIScrollViewDelegate {
         player?.actionAtItemEnd = .none
         
         if showOverlay {
-            if clip.isMemory {
-                self.saveClipBtn.setImage(UIImage(named: "star_yellow"), for: .normal)
+            if clip.liked {
+                self.saveClipBtn.setImage(#imageLiteral(resourceName: "heart-filled"), for: .normal)
             } else {
-                self.saveClipBtn.setImage(UIImage(named: "star"), for: .normal)
+                self.saveClipBtn.setImage(#imageLiteral(resourceName: "heart"), for: .normal)
             }
             saveClipBtn.isHidden = false
             nameLabel.text = clip.posterName
@@ -222,29 +222,6 @@ class ClipView: UIView, UIScrollViewDelegate {
     private func showStatusBar() {
         self.parentVC?.view.window?.windowLevel = UIWindowLevelNormal
     }
-    
-//    func appendComment(posterName: String, timestamp: Int64, image: UIImage) {
-//        let captionView = UINib(nibName: "CaptionView", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! CaptionView
-//        captionView.translatesAutoresizingMaskIntoConstraints = true
-//        styleLayer(layer: captionView.nameLabel.layer)
-//        styleLayer(layer: captionView.timeLabel.layer)
-//
-//        captionView.nameLabel.text = posterName
-//        captionView.timeLabel.text = calcTime(time: timestamp)
-//        captionView.image = image
-//        captionView.clipViewDelegate = self
-//
-//        captionView.frame = CGRect(x: 0, y: (CGFloat(count) * self.innerView.frame.height), width: self.innerView.frame.width, height: self.innerView.frame.height)
-//        captionView.imageView.frame = self.innerView.frame
-//
-//        if count > 0 || (clip?.comments.count ?? 0) < 2 {
-//            captionView.commentLabel.isHidden = true
-//        }
-//
-//        captionScrollView.addSubview(captionView)
-//
-//        captionScrollView.contentSize = CGSize(width: self.frame.width, height: CGFloat(count + 1) * self.innerView.frame.height)
-//    }
     
     @objc func playerDidFinishPlaying(note: NSNotification){
         if loopVideo {
@@ -312,24 +289,13 @@ class ClipView: UIView, UIScrollViewDelegate {
     }
     
     @IBAction func saveClipPressed(_ sender: UIButton) {
-        clip?.isMemory = !clip!.isMemory
-        if clip!.isMemory {
-            var prefs = EasyTipView.Preferences()
-            prefs.drawing.font = UIFont(name: "Futura-Medium", size: 13)!
-            prefs.drawing.backgroundColor = UIColor.black
-            prefs.drawing.arrowPosition = .bottom
-            prefs.drawing.foregroundColor = UIColor.white
-            
-            sender.setImage(UIImage(named: "star_yellow"), for: .normal)
-            let tipView = EasyTipView(text: "Saved to our Memories", preferences: prefs, delegate: nil)
-            tipView.show(animated: true, forView: sender, withinSuperview: self)
+        clip?.liked = !clip!.liked
+        if clip!.liked {
+            sender.setImage(#imageLiteral(resourceName: "heart-filled"), for: .normal)
             Networker.shared.likeClip(clipId: clip!.id, completionHandler: { _ in })
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
-                tipView.dismiss()
-            })
         } else {
+            sender.setImage(#imageLiteral(resourceName: "heart"), for: .normal)
             Networker.shared.unlikeClip(clipId: clip!.id, completionHandler: { _ in })
-            sender.setImage(UIImage(named: "star"), for: .normal)
         }
     }
     

@@ -159,7 +159,8 @@ class EditClipsVC: UICollectionViewController {
             let fileSize = attr[FileAttributeKey.size] as! UInt64
             print("video file size: " + String(describing: fileSize))
             
-            Networker.shared.uploadVlog(videoUrl: vidPath!, description: descr, groupId: self.group!.groupId, completionHandler: { response in
+            let clipIds = self.clips.map { $0.id }
+            Networker.shared.uploadVlog(videoUrl: vidPath!, description: descr, clipIds: clipIds, groupId: self.group!.groupId, completionHandler: { response in
                 switch response.result {
                 case .success(let val):
                     let json = JSON(val)

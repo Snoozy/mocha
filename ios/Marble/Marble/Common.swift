@@ -33,23 +33,24 @@ func randomString(length: Int) -> String {
 }
 
 // Converts milliseconds delta to hours string
-func calcTime(time: Int64) -> String {
+func calcTime(time: Int64, verbose: Bool = true) -> String {
     let start: Int64 = Int64(NSDate().timeIntervalSince1970 * 1000)
     let delta = start - time
+    let endingStr = verbose ? " ago" : ""
     if delta < 3600000 {  // less than 1 hr ago
         let temp = delta/60000
         if temp <= 0 {  // less than 1 min ago
-            return "Just now"
+            return verbose ? "Just now" : "now"
         }
-        return String(temp) + "m ago"
+        return String(temp) + "m" + endingStr
     } else if delta < 3600000 * 48 {  // less than 2 days ago
-        return String(delta/3600000) + "h ago"
+        return String(delta/3600000) + "h" + endingStr
     } else if delta < 3600000 * 24 * 30 {  // less than 1 month
-        return String(delta/(3600000 * 24)) + "d ago"
+        return String(delta/(3600000 * 24)) + "d" + endingStr
     } else if delta < 3600000 * 24 * 30 * 12 {  // less than 2 year
-        return String(delta/(3600000 * 24 * 30)) + "mo ago"
+        return String(delta/(3600000 * 24 * 30)) + "mo" + endingStr
     } else {
-        return String(delta/(3600000 * 24 * 30 * 12)) + "y ago"
+        return String(delta/(3600000 * 24 * 30 * 12)) + "y" + endingStr
     }
 }
 

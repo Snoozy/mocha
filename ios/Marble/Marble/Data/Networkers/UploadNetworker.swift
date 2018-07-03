@@ -43,10 +43,12 @@ extension Networker {
         )
     }
     
-    func uploadVlog(videoUrl: URL, description: String, groupId: Int, completionHandler: @escaping(DataResponse<Any>) -> ()) {
+    func uploadVlog(videoUrl: URL, description: String, clipIds: [Int], groupId: Int, completionHandler: @escaping(DataResponse<Any>) -> ()) {
+        let clipIdsStr = clipIds.map { String($0) }.joined(separator: ",")
         self.backgroundSesionManager.upload(
             multipartFormData: { multipartFormData in
                 multipartFormData.append(String(groupId).data(using: .utf8, allowLossyConversion: false)!, withName: "group_id")
+                multipartFormData.append(clipIdsStr.data(using: .utf8, allowLossyConversion: false)!, withName: "clip_ids")
                 multipartFormData.append(description.data(using: .utf8, allowLossyConversion: false)!, withName: "description")
                 multipartFormData.append(videoUrl, withName: "video")
         },

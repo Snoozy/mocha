@@ -9,12 +9,12 @@ from resources.upload import ClipUploadResource
 from resources.auth import PingResource, SignUpResource, LogInResource
 from resources.group import GroupJoinResource, GroupCreateResource, ListGroupsResource,\
     FindGroupResource, GroupLeaveResource, GroupInfoResource
-from resources.user import GetClipsResource, BlockUserResource
+from resources.user import BlockUserResource
 from resources.health import HealthCheckResource
-from resources.clip import ClipSeenResource, FlagClipResource, LikeClipResource, UnlikeClipResource
+from resources.clip import GetClipsResource, ClipSeenResource, FlagClipResource, LikeClipResource, UnlikeClipResource
 from resources.memories import GetMemoriesResource, SaveMemoryResource, RemoveMemoryResource
 from resources.search import SearchResource, TrendingResource
-from resources.vlogs import VlogUploadResource, GetVlogsResource
+from resources.vlogs import VlogUploadResource, GetVlogsResource, VlogNewCommentResource, GetVlogCommentsResource
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session
@@ -44,6 +44,8 @@ app.add_route('/' + version + '/clip/like', LikeClipResource())
 app.add_route('/' + version + '/clip/unlike', UnlikeClipResource())
 
 app.add_route('/' + version + '/vlog/upload', VlogUploadResource())
+app.add_route('/' + version + '/vlog/new_comment', VlogNewCommentResource())
+app.add_route('/' + version + '/vlog/comments', GetVlogCommentsResource())
 
 app.add_route('/' + version + '/ping', PingResource())
 

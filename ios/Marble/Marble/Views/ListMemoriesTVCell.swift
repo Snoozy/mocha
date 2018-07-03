@@ -11,6 +11,7 @@ import UIKit
 class ListMemoriesTVCell: UITableViewCell {
 
     @IBOutlet weak var groupNameLabel: UILabel!
+    @IBOutlet weak var vlogNudgeBtn: UIButton!
     
     var group: Group?
     

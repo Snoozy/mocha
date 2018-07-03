@@ -5,7 +5,7 @@
 //  Created by Daniel Li on 2/6/17.
 //  Copyright © 2017 Marble, LLC. All rights reserved.
 //
-
+ 
 import Foundation
 import UIKit
 
@@ -16,16 +16,18 @@ class Group {
     var members: Int
     var lastSeen: Int64
     var code: String
+    var vlogNudgeClipIds: [Int]
     
     private var membersInfo: [User]
     
-    init(name: String, id: Int, lastSeen: Int64, members: Int, code: String) {
+    init(name: String, id: Int, lastSeen: Int64, members: Int, code: String, vlogNudgeClipIds: [Int] = [Int]()) {
         self.groupId = id
         self.name = name
         self.lastSeen = lastSeen
         self.members = members
         self.membersInfo = []
         self.code = code
+        self.vlogNudgeClipIds = vlogNudgeClipIds
         if State.shared.groupClips[groupId] != nil {
             for (idx, clip) in State.shared.groupClips[groupId]!.enumerated() {
                 if lastSeen < clip.timestamp {
@@ -40,10 +42,13 @@ class Group {
         return clipViewIdx < (State.shared.groupClips[groupId]?.count)!
     }
     
-    func updateInfo(name: String, lastSeen: Int64, members: Int) {
+    func updateInfo(name: String, lastSeen: Int64, members: Int, vlogNudgeClipIds: [Int]?) {
         self.name = name
         self.lastSeen = lastSeen
         self.members = members
+        if let v = vlogNudgeClipIds {
+            self.vlogNudgeClipIds = v
+        }
     }
     
     func getMembers(completionHandler: @escaping ([User]) -> Void) {

@@ -79,26 +79,11 @@ extension State {
         let clipCheck = findClip(cache: cache, id: id)
         if let clip = clipCheck {
             clip.isMemory = isMemory
+            clip.liked = liked
             clips.append(clip)
         } else {
             clips.append(Clip(url: url, name: name, userId: userId, time: time, id: id, mediaType: mediaType, isMemory: isMemory, liked: liked))
         }
-    }
-    
-    func getUnseenMarblesCount() -> Int {
-        var count = 0
-        for group in self.userGroups {
-            let clips = self.groupClips[group.groupId]
-            if let clips = clips, clips.count > 0 {
-                for clip in clips {
-                    if clip.timestamp > group.lastSeen && clip.userId != self.me?.id {
-                        count += 1
-                        break
-                    }
-                }
-            }
-        }
-        return count
     }
     
     private func findClip(cache: [Clip], id: Int) -> Clip? {

@@ -14,8 +14,8 @@ class ClipLike(Base):
     clip_id = Column(Integer, ForeignKey('clips.id'), index=True)
     timestamp = Column(BigInteger, default=time_millis)
 
-    user = relationship(User, backref=backref('clip_likes', lazy='dynamic'))
-    clip = relationship(Clip, backref=backref('clip_likes', lazy='dynamic'))
+    user = relationship(User, backref=backref('clip_likes', lazy='dynamic', cascade='all, delete-orphan'))
+    clip = relationship(Clip, backref=backref('clip_likes', lazy='dynamic', cascade='all, delete-orphan'))
 
     def __init__(self, first=None, second=None):
         if isinstance(first, User):

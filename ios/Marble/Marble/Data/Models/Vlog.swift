@@ -19,13 +19,14 @@ class Vlog {
     let timestamp: Int64
     let userId: Int
     let description: String
+    var numComments: Int
     
     var comments: [Comment]
     
     var videoFileUrl: URL?
     var thumbnail: UIImage?
     
-    init(id: Int, url: String, description: String, groupName: String, groupId: Int, userId: Int, time: Int64, comments: [Comment] = [Comment]()) {
+    init(id: Int, url: String, description: String, groupName: String, groupId: Int, userId: Int, time: Int64, numComments: Int, comments: [Comment] = [Comment]()) {
         self.id = id
         self.mediaUrl = url
         self.groupName = groupName
@@ -34,6 +35,7 @@ class Vlog {
         self.userId = userId
         self.comments = comments
         self.description = description
+        self.numComments = numComments
     }
     
     func getThumbnailImage(completionHandler: ((UIImage?) -> Void)? = nil) {

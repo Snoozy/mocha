@@ -21,13 +21,9 @@ class GroupInfoVC: UIViewController, UIScrollViewDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var membersTable: MembersInfoTV!
-    @IBOutlet weak var marbleCodeLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        memoriesBtn.backgroundColor = Constants.Colors.MarbleBlue
-//        memoriesBtn.layer.cornerRadius = 4
         
         shareGroupBtn.layer.borderWidth = 1
         shareGroupBtn.layer.cornerRadius = 4
@@ -38,8 +34,6 @@ class GroupInfoVC: UIViewController, UIScrollViewDelegate {
         groupName.text = group?.name
         
         scrollView.delegate = self
-        
-        marbleCodeLabel.text = "Marble Code: " + group!.code
         
         membersTable.register(UINib(nibName: "MemberTVCell", bundle: nil), forCellReuseIdentifier: "MemberCell")
         membersTable.dataSource = membersTable

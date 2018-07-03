@@ -32,11 +32,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
-        ViewLeft.startRefreshTimer()
+//        ViewLeft.startRefreshTimer()
     }
     
     func applicationDidEnterBackground(_ application: UIApplication) {
-        ViewLeft.killRefreshTimer()
+//        ViewLeft.killRefreshTimer()
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
