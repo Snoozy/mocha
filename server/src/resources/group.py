@@ -1,5 +1,6 @@
 from data.db.models.user import User
 from data.db.models.group import Group
+from data.db.models.clip import Clip
 import json
 from resources.constants import RESP_ERR_JSON, GROUP_ID_XOR
 from falcon import Request, Response
@@ -61,7 +62,9 @@ class ListGroupsResource:
             g_dict['last_seen'] = last_seen
 
             # determine if vlog nudge should be shown
-            g_dict['vlog_nudge'] = [1, 2, 3]
+            nudge_test = req.session.query(Clip).limit(5).all()
+            nudges = nudge_test
+            g_dict['vlog_nudge_clips'] = [c.to_dict(user) for c in nudges]
 
             group_arr.append(g_dict)
         resp.json = {

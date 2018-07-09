@@ -19,6 +19,14 @@ extension State {
                 var newGroups = [Group]()
                 for group in groupsJson {
                     let groupId = group["group_id"].int!
+                    
+                    var nudgeClips = [Clip]()
+                    for clip in group["vlog_nudge_clips"].arrayValue {
+                        let c = Clip(json: clip)
+                        nudgeClips.append(c)
+                        c.loadMedia()
+                    }
+                    
                     self.addGroup(groups: &newGroups,
                                   cache: self.userGroups,
                                   name: group["name"].stringValue,
@@ -26,7 +34,7 @@ extension State {
                                   lastSeen: group["last_seen"].int64 ?? 0,
                                   members: group["members"].int ?? 1,
                                   code: String(group["code"].int ?? groupId),
-                                  vlogNudgeClipIds: group["vlog_nudge"].stringValue.split(separator: ",").map { Int($0)! }
+                                  vlogNudgeClips: nudgeClips
                     )
                 }
                 self.userGroups = newGroups
@@ -64,7 +72,6 @@ extension State {
     }
     
     func addGroup(name: String, id: Int, lastSeen: Int64, members: Int, code: String) {
-        print(code)
         self.addGroup(groups: &self.userGroups, cache: self.userGroups, name: name, id: id, lastSeen: lastSeen, members: members, code: code)
     }
     
@@ -78,12 +85,12 @@ extension State {
         return thisLastClip > thatLastClip
     }
     
-    private func addGroup(groups: inout [Group], cache: [Group], name: String, id: Int, lastSeen: Int64, members: Int, code: String, vlogNudgeClipIds: [Int] = [Int]()) {
+    private func addGroup(groups: inout [Group], cache: [Group], name: String, id: Int, lastSeen: Int64, members: Int, code: String, vlogNudgeClips: [Clip] = [Clip]()) {
         let groupCheck: Group? = self.findGroupBy(groups: cache, id: id)
         if groupCheck == nil {
-            groups.append(Group(name: name, id: id, lastSeen: lastSeen, members: members, code: code, vlogNudgeClipIds: vlogNudgeClipIds))
+            groups.append(Group(name: name, id: id, lastSeen: lastSeen, members: members, code: code, vlogNudgeClips: vlogNudgeClips))
         } else {
-            groupCheck?.updateInfo(name: name, lastSeen: lastSeen, members: members, vlogNudgeClipIds: vlogNudgeClipIds)
+            groupCheck?.updateInfo(name: name, lastSeen: lastSeen, members: members, vlogNudgeClips: vlogNudgeClips)
             groups.append(groupCheck!)
         }
     }

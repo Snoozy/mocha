@@ -25,7 +25,7 @@ class GetClipsResource:
                     .order_by(Clip.timestamp).all()
             else:
                 clips = group.clips.filter(Clip.timestamp > time_cutoff).order_by(Clip.timestamp).all()
-            clips_dict = [clip.to_dict() for clip in clips]
+            clips_dict = [clip.to_dict(user) for clip in clips]
             json.append({'group_id': group.id, 'clips': clips_dict})
         resp.json = {
                 'status': 0,

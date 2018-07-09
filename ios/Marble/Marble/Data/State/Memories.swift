@@ -32,17 +32,7 @@ extension State {
                     }
                     var newClips = [Clip]()
                     for clip in clipsJson! {
-                        let mediaUrl = clip["media_url"].stringValue
-                        let name = clip["user_name"].stringValue
-                        let userId = clip["user_id"].int!
-                        let time = clip["timestamp"].int64 ?? 0
-                        let id = clip["id"].int!
-                        let mediaType = clip["media_type"].stringValue
-                        let liked = clip["liked"].bool ?? false
-                        
-                        self.addClip(clips: &newClips, cache: self.groupMemories[groupId] ?? [Clip](),
-                                      groupId: groupId, url: mediaUrl, name: name, userId: userId,
-                                      time: time, id: id, mediaType: mediaType, isMemory: true, liked: liked)
+                        self.addClip(clips: &newClips, cache: self.groupMemories[groupId] ?? [Clip](), clip: Clip(json: clip))
                     }
                     self.groupMemories[groupId] = newClips
                 }

@@ -10,6 +10,8 @@ import UIKit
 
 class ListMemoriesTableVC: UITableViewController {
 
+    var vlogifyNavController: UINavigationController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -57,13 +59,10 @@ class ListMemoriesTableVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        let group = State.shared.userGroups[indexPath.row]
-//        if group.vlogNudgeClipIds.count == 0 {
-//            return 100.0  // Larger to accomdate for nudge button
-//        } else {
-            return 70.0
-//        }
+        return 70.0
     }
+    
+    let NUDGE_OVERRIDE = true
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListMemoriesCell", for: indexPath) as! ListMemoriesTVCell
@@ -72,30 +71,20 @@ class ListMemoriesTableVC: UITableViewController {
         cell.groupNameLabel.text = group.name
         cell.group = group
         
-        if group.vlogNudgeClipIds.count == 0 {
-//            let width = cell.frame.width
-//            let sidePadding = CGFloat(width*(1/4))
-//            let nudgeBtn = UIButton(frame: CGRect(x: sidePadding, y: cell.frame.height*(4/7), width: cell.frame.width - CGFloat(2*sidePadding), height: 30))
-//
-//            nudgeBtn.setTitle("+ Vlog", for: .normal)
-//            nudgeBtn.setTitleColor(Constants.Colors.MarbleBlue, for: .normal)
-//            nudgeBtn.layer.borderColor = Constants.Colors.MarbleBlue.cgColor
-//            nudgeBtn.layer.borderWidth = 1
-//            nudgeBtn.layer.cornerRadius = 4
-//
-//            cell.addSubview(nudgeBtn)
+        if group.vlogNudgeClips.count > 0 || NUDGE_OVERRIDE {
             cell.vlogNudgeBtn.isHidden = false
+            
+            let superAttrs: [NSAttributedStringKey: Any] = [.font: UIFont.systemFont(ofSize: UIFont.labelFontSize - 0, weight: UIFont.Weight.regular), .baselineOffset: 8]
+            let superText = NSMutableAttributedString(string:"+", attributes: superAttrs)
             
             let attrText = NSMutableAttributedString()
             attrText
-                .bold("+", font: UIFont.boldSystemFont(ofSize: UIFont.labelFontSize + 4))
-                .bold("Vlog", font: UIFont.systemFont(ofSize: UIFont.labelFontSize, weight: UIFont.Weight.medium))
+                .bold("Vlog", font: UIFont.systemFont(ofSize: UIFont.labelFontSize, weight: UIFont.Weight.semibold))
+                .append(superText)
             cell.vlogNudgeBtn.setAttributedTitle(attrText, for: .normal)
-//            cell.vlogNudgeBtn.layer.borderWidth = 2
-//            cell.vlogNudgeBtn.layer.borderColor = Constants.Colors.MarbleBlue.cgColor
-//            cell.vlogNudgeBtn.layer.cornerRadius = 5
-            
         }
+        
+        cell.delegate = self
 
         return cell
     }
@@ -107,6 +96,39 @@ class ListMemoriesTableVC: UITableViewController {
         vc.group = group
         vc.title = group!.name + "'s Clips"
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+}
+
+extension ListMemoriesTableVC: ListMemoriesTVCellDelegate {
+    
+    func processNudge(group: Group?) {
+        let storyboard = UIStoryboard(name: "Vlogify", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "EditClips") as! EditClipsVC
+        vc.clips = group?.vlogNudgeClips ?? [Clip]()
+        vc.group = group
+        vc.delegate = self
+        let navController = UINavigationController(rootViewController: vc)
+        
+        let btn = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.backAction(_:)))
+        btn.tintColor = UIColor.black
+        vc.navigationItem.setLeftBarButton(btn, animated: false)
+        
+        vlogifyNavController = navController
+        
+        self.present(navController, animated:true, completion: nil)
+    }
+    
+    @objc func backAction(_ sender: UIButton) {
+        vlogifyNavController?.dismiss(animated: true, completion: nil)
+    }
+    
+}
+
+extension ListMemoriesTableVC: EditClipsDelegate {
+    
+    func videoExportDone(_ editClipsVC: EditClipsVC) {
+        vlogifyNavController?.dismiss(animated: true, completion: nil)
     }
     
 }

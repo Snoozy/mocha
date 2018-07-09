@@ -13,6 +13,7 @@ class ListMemoriesTVCell: UITableViewCell {
     @IBOutlet weak var groupNameLabel: UILabel!
     @IBOutlet weak var vlogNudgeBtn: UIButton!
     
+    var delegate: ListMemoriesTVCellDelegate?
     var group: Group?
     
     override func awakeFromNib() {
@@ -30,6 +31,11 @@ class ListMemoriesTVCell: UITableViewCell {
         modal.transitioningDelegate = transitionDelegate
         modal.modalPresentationStyle = .custom
         UIApplication.topViewController()?.present(modal, animated: true, completion: nil)
+    }
+    
+    @IBAction func vlogNudgePressed(_ sender: Any) {
+        print("nudge")
+        delegate?.processNudge(group: group)
     }
     
 }

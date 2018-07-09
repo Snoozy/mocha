@@ -282,6 +282,10 @@
 		42C97A2E1FB294BC000247F4 /* KeychainWrapper_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C97A221FB294BC000247F4 /* KeychainWrapper_ext.swift */; };
 		42CAB1AD1FDB7E7200D5B022 /* MemoriesNetworker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CAB1AC1FDB7E7200D5B022 /* MemoriesNetworker.swift */; };
 		42CAB1AE1FDB7E7200D5B022 /* MemoriesNetworker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CAB1AC1FDB7E7200D5B022 /* MemoriesNetworker.swift */; };
+		42D35E2920EEAFD4003D72F9 /* ListMemoriesTVCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D35E2820EEAFD4003D72F9 /* ListMemoriesTVCellDelegate.swift */; };
+		42D35E2A20EEAFD4003D72F9 /* ListMemoriesTVCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D35E2820EEAFD4003D72F9 /* ListMemoriesTVCellDelegate.swift */; };
+		42D35E2C20F08CD0003D72F9 /* EditClipsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D35E2B20F08CD0003D72F9 /* EditClipsDelegate.swift */; };
+		42D35E2D20F08CD0003D72F9 /* EditClipsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D35E2B20F08CD0003D72F9 /* EditClipsDelegate.swift */; };
 		42DA9D6C201D363A001CEB9B /* ListMemoriesTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42DA9D6B201D363A001CEB9B /* ListMemoriesTableVC.swift */; };
 		42DA9D6D201D363A001CEB9B /* ListMemoriesTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42DA9D6B201D363A001CEB9B /* ListMemoriesTableVC.swift */; };
 		42DA9D7F2021A5BF001CEB9B /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42DA9D7E2021A5BF001CEB9B /* SearchVC.swift */; };
@@ -633,6 +637,8 @@
 		42C97A211FB294BC000247F4 /* UIImage_ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage_ext.swift; sourceTree = "<group>"; };
 		42C97A221FB294BC000247F4 /* KeychainWrapper_ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapper_ext.swift; sourceTree = "<group>"; };
 		42CAB1AC1FDB7E7200D5B022 /* MemoriesNetworker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoriesNetworker.swift; sourceTree = "<group>"; };
+		42D35E2820EEAFD4003D72F9 /* ListMemoriesTVCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListMemoriesTVCellDelegate.swift; sourceTree = "<group>"; };
+		42D35E2B20F08CD0003D72F9 /* EditClipsDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditClipsDelegate.swift; sourceTree = "<group>"; };
 		42DA9D6B201D363A001CEB9B /* ListMemoriesTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListMemoriesTableVC.swift; sourceTree = "<group>"; };
 		42DA9D7E2021A5BF001CEB9B /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
 		42DA9D812021A84A001CEB9B /* UISearchBar_ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISearchBar_ext.swift; sourceTree = "<group>"; };
@@ -673,6 +679,8 @@
 			children = (
 				42C4E5841FB93519003E3CDA /* TextCaptionViewDelegate.swift */,
 				423D5C4C20098F860054E493 /* StoryViewDelegate.swift */,
+				42D35E2820EEAFD4003D72F9 /* ListMemoriesTVCellDelegate.swift */,
+				42D35E2B20F08CD0003D72F9 /* EditClipsDelegate.swift */,
 			);
 			path = Delegates;
 			sourceTree = "<group>";
@@ -1415,6 +1423,7 @@
 				42C979EB1FB29458000247F4 /* DeckPresentationController.swift in Sources */,
 				42C97A161FB294A9000247F4 /* SCLExtensions.swift in Sources */,
 				4268482E1FE5D0CC006A7982 /* UIDevice_ext.swift in Sources */,
+				42D35E2A20EEAFD4003D72F9 /* ListMemoriesTVCellDelegate.swift in Sources */,
 				423D5C4A200574230054E493 /* EasyTipView.swift in Sources */,
 				424617B320B0025D0084B206 /* HomeVC.swift in Sources */,
 				42C979531FB2938D000247F4 /* GroupNetworker.swift in Sources */,
@@ -1477,6 +1486,7 @@
 				42C979381FB2937B000247F4 /* Clip.swift in Sources */,
 				42C9796F1FB293A6000247F4 /* NumberButton.swift in Sources */,
 				42C9794F1FB2938D000247F4 /* ClipNetworker.swift in Sources */,
+				42D35E2D20F08CD0003D72F9 /* EditClipsDelegate.swift in Sources */,
 				42ADCEF420DDC442002756C2 /* NSMutableAttributedString_ext.swift in Sources */,
 				42C97A2E1FB294BC000247F4 /* KeychainWrapper_ext.swift in Sources */,
 				4268483E1FF0990E006A7982 /* MemoriesCell.swift in Sources */,
@@ -1537,6 +1547,7 @@
 				952AF8061DAB363D005E60C7 /* AppDelegate.swift in Sources */,
 				423D5C4D20098F860054E493 /* StoryViewDelegate.swift in Sources */,
 				42C979EA1FB29458000247F4 /* DeckPresentationController.swift in Sources */,
+				42D35E2920EEAFD4003D72F9 /* ListMemoriesTVCellDelegate.swift in Sources */,
 				42C97A151FB294A9000247F4 /* SCLExtensions.swift in Sources */,
 				42C9793F1FB29382000247F4 /* Groups.swift in Sources */,
 				423D5C48200545830054E493 /* EasyTipView.swift in Sources */,
@@ -1599,6 +1610,7 @@
 				42C979681FB293A6000247F4 /* GroupCollectionCell.swift in Sources */,
 				42C9799B1FB293BE000247F4 /* ViewController.swift in Sources */,
 				42C979581FB2938D000247F4 /* UploadNetworker.swift in Sources */,
+				42D35E2C20F08CD0003D72F9 /* EditClipsDelegate.swift in Sources */,
 				42ADCEF320DDC442002756C2 /* NSMutableAttributedString_ext.swift in Sources */,
 				42C97A2D1FB294BC000247F4 /* KeychainWrapper_ext.swift in Sources */,
 				4268483D1FF0990E006A7982 /* MemoriesCell.swift in Sources */,

@@ -10,7 +10,7 @@ import UIKit
 
 private let reuseIdentifier = "MemoriesCell"
 
-class MemoriesVC: UICollectionViewController {
+class MemoriesVC : UICollectionViewController {
     
     var group: Group?
     var memories: [Clip] = []

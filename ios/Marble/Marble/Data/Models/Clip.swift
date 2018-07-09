@@ -34,12 +34,17 @@ class Clip {
         self.liked = liked
     }
     
+    init(json: JSON) {
+        self.mediaUrl = json["media_url"].stringValue
+        self.posterName = json["user_name"].stringValue
+        self.userId = json["user_id"].int!
+        self.timestamp = json["timestamp"].int64 ?? 0
+        self.isMemory = json["is_memory"].bool ?? false
+        self.id = json["id"].int!
+        self.liked = json["liked"].bool ?? false
+    }
+    
     func loadMedia(completionHandler: ((Clip) -> Void)? = nil) {
-        func lock(obj: AnyObject, blk:() -> ()) {
-            objc_sync_enter(obj)
-            blk()
-            objc_sync_exit(obj)
-        }
         if !self.mediaReady {
             let mediaId = mediaUrl.components(separatedBy: "/").last
             let filename = String(mediaId!) + ".mp4"

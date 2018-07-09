@@ -116,13 +116,14 @@ class VlogifyVC: UICollectionViewController {
                     self.memories[idx.row]
                 })
                 destVC.group = group
+                destVC.delegate = self
             }
         }
     }
     
 }
 
-extension VlogifyVC : UICollectionViewDelegateFlowLayout {
+extension VlogifyVC: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return sectionInsets
@@ -145,3 +146,11 @@ extension VlogifyVC : UICollectionViewDelegateFlowLayout {
     
 }
 
+extension VlogifyVC: EditClipsDelegate {
+    
+    func videoExportDone(_ editClipsVC: EditClipsVC) {
+        self.navigationController?.popToRootViewController(animated: true)
+        self.tabBarController?.selectedIndex = 0
+    }
+    
+}

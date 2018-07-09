@@ -16,18 +16,18 @@ class Group {
     var members: Int
     var lastSeen: Int64
     var code: String
-    var vlogNudgeClipIds: [Int]
+    var vlogNudgeClips: [Clip]
     
     private var membersInfo: [User]
     
-    init(name: String, id: Int, lastSeen: Int64, members: Int, code: String, vlogNudgeClipIds: [Int] = [Int]()) {
+    init(name: String, id: Int, lastSeen: Int64, members: Int, code: String, vlogNudgeClips: [Clip] = [Clip]()) {
         self.groupId = id
         self.name = name
         self.lastSeen = lastSeen
         self.members = members
         self.membersInfo = []
         self.code = code
-        self.vlogNudgeClipIds = vlogNudgeClipIds
+        self.vlogNudgeClips = vlogNudgeClips
         if State.shared.groupClips[groupId] != nil {
             for (idx, clip) in State.shared.groupClips[groupId]!.enumerated() {
                 if lastSeen < clip.timestamp {
@@ -42,12 +42,12 @@ class Group {
         return clipViewIdx < (State.shared.groupClips[groupId]?.count)!
     }
     
-    func updateInfo(name: String, lastSeen: Int64, members: Int, vlogNudgeClipIds: [Int]?) {
+    func updateInfo(name: String, lastSeen: Int64, members: Int, vlogNudgeClips: [Clip]?) {
         self.name = name
         self.lastSeen = lastSeen
         self.members = members
-        if let v = vlogNudgeClipIds {
-            self.vlogNudgeClipIds = v
+        if let v = vlogNudgeClips {
+            self.vlogNudgeClips = v
         }
     }
     

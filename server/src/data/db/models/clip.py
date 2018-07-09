@@ -23,7 +23,7 @@ class Clip(Base):
 
     likers = association_proxy('clip_likes', 'user')  # users who liked this
 
-    def to_dict(self, session, user):
+    def to_dict(self, user):
         return {
             'media_url': CDN_URL + self.media_id,
             'user_name': self.user.name,

@@ -59,7 +59,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" alpha="0.59999999999999998" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zjz-7A-DYw">
-                                            <rect key="frame" x="341" y="17" width="33" height="35"/>
+                                            <rect key="frame" x="341" y="18.5" width="33" height="35"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="35" id="BLS-OD-4Zk"/>
                                                 <constraint firstAttribute="width" constant="33" id="sb7-wN-NoT"/>
@@ -78,22 +78,34 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uEe-rr-lRb">
-                                            <rect key="frame" x="284" y="20" width="50" height="30"/>
+                                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uEe-rr-lRb">
+                                            <rect key="frame" x="284" y="16" width="50" height="30"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="50" id="eFQ-XK-ho4"/>
                                                 <constraint firstAttribute="height" constant="30" id="qIM-nk-hfW"/>
                                             </constraints>
-                                            <state key="normal" title="+Vlog"/>
+                                            <state key="normal">
+                                                <attributedString key="attributedTitle">
+                                                    <fragment content="Vlog +">
+                                                        <attributes>
+                                                            <font key="NSFont" metaFont="system" size="15"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                            </state>
+                                            <connections>
+                                                <action selector="vlogNudgePressed:" destination="xMw-N7-2Jm" eventType="touchUpInside" id="YTI-JP-kEk"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="Zjz-7A-DYw" firstAttribute="leading" secondItem="uEe-rr-lRb" secondAttribute="trailing" constant="7" id="3La-aw-oc8"/>
                                         <constraint firstAttribute="trailing" secondItem="Zjz-7A-DYw" secondAttribute="trailing" constant="1" id="AWg-eX-RdP"/>
                                         <constraint firstItem="UXn-Ht-06h" firstAttribute="centerY" secondItem="tlP-1t-ASz" secondAttribute="centerY" id="Kph-lR-A0v"/>
-                                        <constraint firstItem="Zjz-7A-DYw" firstAttribute="centerY" secondItem="tlP-1t-ASz" secondAttribute="centerY" id="SMo-o4-thp"/>
+                                        <constraint firstItem="Zjz-7A-DYw" firstAttribute="centerY" secondItem="tlP-1t-ASz" secondAttribute="centerY" constant="1" id="SMo-o4-thp"/>
                                         <constraint firstItem="UXn-Ht-06h" firstAttribute="leading" secondItem="tlP-1t-ASz" secondAttribute="leadingMargin" constant="12" id="aMZ-FW-Fwg"/>
-                                        <constraint firstItem="uEe-rr-lRb" firstAttribute="centerY" secondItem="tlP-1t-ASz" secondAttribute="centerY" id="eOw-P7-GjE"/>
+                                        <constraint firstItem="uEe-rr-lRb" firstAttribute="centerY" secondItem="tlP-1t-ASz" secondAttribute="centerY" constant="-4" id="eOw-P7-GjE"/>
                                         <constraint firstItem="uEe-rr-lRb" firstAttribute="leading" secondItem="UXn-Ht-06h" secondAttribute="trailing" constant="10" id="gHw-JE-TqZ"/>
                                     </constraints>
                                 </tableViewCellContentView>

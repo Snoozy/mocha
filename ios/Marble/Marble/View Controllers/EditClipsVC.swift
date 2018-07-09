@@ -15,8 +15,10 @@ class EditClipsVC: UICollectionViewController {
 
     var clips: [Clip] = [Clip]()
     var group: Group?
-    
     var clipIdx: Int = 0
+    
+    var delegate: EditClipsDelegate?
+    
     @IBOutlet weak var createBtn: UIBarButtonItem!
     
     fileprivate var holdGest: UILongPressGestureRecognizer!
@@ -150,9 +152,8 @@ class EditClipsVC: UICollectionViewController {
         session?.exportAsynchronously {
             DispatchQueue.main.async {
                 progHUD.removeFromSuperview()
+                self.delegate?.videoExportDone(self)
                 NotificationCenter.default.post(name: Constants.Notifications.ClipUploadFinished, object: nil)
-                self.navigationController?.popToRootViewController(animated: true)
-                self.tabBarController?.selectedIndex = 0
             }
             print("export complete")
             let attr = try! FileManager.default.attributesOfItem(atPath: vidPath!.path)
@@ -166,6 +167,7 @@ class EditClipsVC: UICollectionViewController {
                     let json = JSON(val)
                     let cacheFilename = vidPath!.deletingLastPathComponent().appendingPathComponent(json["media_id"].stringValue + ".mp4")
                     try! FileManager.default.moveItem(at: vidPath!, to: cacheFilename)
+                    self.delegate?.videoUploadDone(self)
                 case .failure:
                     print(response.debugDescription)
                 }
