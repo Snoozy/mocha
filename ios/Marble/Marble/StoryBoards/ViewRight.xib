@@ -19,9 +19,7 @@
                 <outlet property="flashButton" destination="Fp8-Ji-qYQ" id="gzg-t3-oMo"/>
                 <outlet property="nextBtnBotSpace" destination="5LJ-ac-wgq" id="V3j-2g-HMU"/>
                 <outlet property="nextButtonOut" destination="TOK-8N-NbL" id="YL4-jB-FlK"/>
-                <outlet property="recordingProgress" destination="igO-4s-pVS" id="gTh-NG-9H3"/>
-                <outlet property="recordingTimer" destination="uWJ-1Z-cee" id="DCT-Yf-S4N"/>
-                <outlet property="recordingTimerTop" destination="ReO-FY-bS6" id="PoK-Kg-I77"/>
+                <outlet property="recordingTimerLabel" destination="uWJ-1Z-cee" id="DCT-Yf-S4N"/>
                 <outlet property="takePhotoBtnBotSpace" destination="BDX-aq-bAr" id="6lu-ZG-lWV"/>
                 <outlet property="takePhotoButton" destination="4si-Dq-6zy" id="uMb-Ao-pWq"/>
                 <outlet property="takeVideoLongPress" destination="dxc-zd-t9n" id="yBK-ZX-BHR"/>
@@ -91,11 +89,6 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="igO-4s-pVS">
-                    <rect key="frame" x="0.0" y="5" width="375" height="2"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="0.82515517979452058" colorSpace="calibratedRGB"/>
-                </progressView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UXt-6l-v0K">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -148,10 +141,10 @@
                 <constraint firstItem="9vT-Lj-HGQ" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="C3y-9I-eNl"/>
                 <constraint firstItem="hFx-m6-NCj" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="29" id="Dzz-n0-9Cz"/>
                 <constraint firstItem="Ppf-bj-vyN" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="29" id="Fj6-LI-4la"/>
+                <constraint firstItem="uWJ-1Z-cee" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="34" id="Hl0-nK-l0D"/>
                 <constraint firstItem="uWJ-1Z-cee" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="LVt-38-uWM"/>
                 <constraint firstAttribute="bottom" secondItem="9vT-Lj-HGQ" secondAttribute="bottom" id="PNV-h4-Lxx"/>
                 <constraint firstAttribute="trailing" secondItem="9vT-Lj-HGQ" secondAttribute="trailing" id="QVG-HX-6Xi"/>
-                <constraint firstItem="uWJ-1Z-cee" firstAttribute="top" secondItem="igO-4s-pVS" secondAttribute="bottom" constant="27" id="ReO-FY-bS6"/>
                 <constraint firstAttribute="bottom" secondItem="UrR-4c-M7D" secondAttribute="bottom" id="SDn-qd-zoA"/>
                 <constraint firstItem="hFx-m6-NCj" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="6" id="T0n-sk-lne"/>
                 <constraint firstItem="9vT-Lj-HGQ" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="TCe-k9-ytM"/>
@@ -161,11 +154,7 @@
                 <constraint firstAttribute="trailing" secondItem="TOK-8N-NbL" secondAttribute="trailing" constant="8" id="fvp-H0-Gsv"/>
                 <constraint firstItem="9vT-Lj-HGQ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="iES-wT-h7m"/>
                 <constraint firstItem="UrR-4c-M7D" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="iJG-Ej-n4L"/>
-                <constraint firstItem="igO-4s-pVS" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="jCQ-gz-7H0"/>
-                <constraint firstItem="igO-4s-pVS" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="jLe-29-EVd"/>
-                <constraint firstItem="igO-4s-pVS" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="5" id="kQf-8E-X03"/>
                 <constraint firstItem="HhP-Mo-KqM" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="mcv-P5-GV3"/>
-                <constraint firstAttribute="trailing" secondItem="igO-4s-pVS" secondAttribute="trailing" id="rN8-q0-9Cj"/>
                 <constraint firstItem="Ppf-bj-vyN" firstAttribute="leading" secondItem="Fp8-Ji-qYQ" secondAttribute="trailing" constant="18" id="sMV-d0-dkb"/>
                 <constraint firstItem="9vT-Lj-HGQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="ycZ-Iq-cgs"/>
             </constraints>

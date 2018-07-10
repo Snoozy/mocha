@@ -12,20 +12,18 @@ import Alamofire
 import AVKit
 import AudioToolbox
 
-class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
+class ViewRight : SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     
     var imageMedia : UIImage?
     var videoMediaUrl: URL?
     
-    var timer: Timer?
+    var recordingTimer: Timer?
     var timerCount: Int = 0
     
     var loaded: Bool = false
     
     var isRecordingVideo: Bool = false
     var isPlayingVideoPreview: Bool = false
-    
-    @IBOutlet weak var recordingProgress: UIProgressView!
     
     @IBOutlet weak var cancelButtonOut: UIButton!
     @IBOutlet weak var nextButtonOut: UIButton!
@@ -41,8 +39,8 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     @IBOutlet weak var takePhotoBtnBotSpace: NSLayoutConstraint!
     @IBOutlet weak var nextBtnBotSpace: NSLayoutConstraint!
     
-    @IBOutlet weak var recordingTimer: UILabel!
-    @IBOutlet weak var recordingTimerTop: NSLayoutConstraint!
+    @IBOutlet weak var recordingTimerLabel: UILabel!
+    @IBOutlet weak var recordingTimerLabelTop: NSLayoutConstraint!
     
     override func viewDidLoad() {
         captureButton = takePhotoButton
@@ -51,6 +49,7 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         super.viewDidLoad()
         
         swipeToZoomInverted = true
+        timerCount = Constants.MaxRecordingDuration
         
         vPickDest = ViewPickDest(nibName: "ViewPickDest", bundle: nil)
         vPickDest?.view.frame.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
@@ -69,9 +68,6 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         styleLayer(layer: takePhotoButton.layer)
         styleLayer(layer: cancelButtonOut.layer)
         styleLayer(layer: nextButtonOut.layer)
-        
-        recordingProgress.transform = recordingProgress.transform.scaledBy(x: 1, y: 6)
-        recordingProgress.trackTintColor = UIColor.clear
         
         takeVideoLongPress.delegate = self
         
@@ -94,28 +90,30 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
             takePhotoBtnBotSpace.constant -= 10
             nextBtnBotSpace.constant -= 20
             cancelBtnBotSpace.constant -= 20
-            recordingTimerTop.constant -= 10
             takePhotoButton.layoutIfNeeded()
             nextButtonOut.layoutIfNeeded()
             cancelButtonOut.layoutIfNeeded()
-            recordingTimer.layoutIfNeeded()
+            recordingTimerLabel.layoutIfNeeded()
         }
+        
+        displayTimer(showRedDot: true)
     }
     
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
-        print("photo taken")
-        
-        tempImageView.image = photo
-        tempImageView.isHidden = false
-        cancelButtonOut.isHidden = false
-        nextButtonOut.isHidden = false
-        takePhotoButton.isHidden = true
-        tempImageView.isUserInteractionEnabled = true
-        UIApplication.shared.isStatusBarHidden = true
-
-        startCaptionEditing()
-
-        mediaType = .image
+    func displayTimer(showRedDot: Bool) {
+        let recordingDotAttachment = NSTextAttachment()
+        let redDot = { () -> UIImage in
+            let img = UIImage.circleImg(diameter: 14, color: UIColor.red)
+            return showRedDot ? img : img.alpha(0.0)
+        }()
+        recordingDotAttachment.image = redDot
+        recordingDotAttachment.bounds = CGRect(x: -6.0, y: -1.0, width: redDot.size.width, height: redDot.size.height)
+        let attachmentString = NSAttributedString(attachment: recordingDotAttachment)
+        let completeText = NSMutableAttributedString(string: "")
+        completeText.append(attachmentString)
+        let startStr = String((timerCount % 3600) / 60) + ":" + String(format: "%02d", (timerCount % 3600) % 60)
+        completeText.append(NSMutableAttributedString(string: startStr))
+        recordingTimerLabel.textAlignment = .center
+        recordingTimerLabel.attributedText = completeText
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
@@ -125,15 +123,11 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         flashButton.isHidden = true
         cameraFlipButton.isHidden = true
         
-        self.timer = Timer(timeInterval: 0.01, target: self, selector: #selector(timerTick), userInfo: nil, repeats: true)
-        RunLoop.main.add(timer!, forMode: .commonModes)
-        recordingProgress.progress = 0
-        timerCount = 0
-        recordingProgress.isHidden = false
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
         self.setZoomScaleWithLock(to: beginZoomScale)
+        timerCount = Constants.MaxRecordingDuration
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFocusAtPoint point: CGPoint) {
@@ -304,23 +298,33 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     
     func startCaptureVideo() {
         print("start recording")
+        self.recordingTimer = Timer(timeInterval: 1, target: self, selector: #selector(timerTick), userInfo: nil, repeats: true)
+        RunLoop.main.add(recordingTimer!, forMode: .commonModes)
         super.startVideoRecording()
     }
     
+    var recordDotShowing: Bool = true
+    
     @objc func timerTick() {
-        timerCount += 1
-        if timerCount > Constants.MaxVideoLength * 100 {
+        timerCount -= 1
+        if timerCount <= 0 {
             stopCaptureVideo()
+        } else {
+            recordDotShowing = !recordDotShowing
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.recordDotShowing = !self.recordDotShowing
+                self.displayTimer(showRedDot: self.recordDotShowing)
+            }
+            displayTimer(showRedDot: recordDotShowing)
         }
-        recordingProgress.progress += 0.001
     }
     
     func stopCaptureVideo() {
         print("stop recording")
         
-        timer?.invalidate()
+        timerCount = Constants.MaxRecordingDuration
+        recordingTimer?.invalidate()
         isRecordingVideo = false
-        recordingProgress.isHidden = true
         super.stopVideoRecording()
     }
     
@@ -341,6 +345,7 @@ class ViewRight: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
             photoTaken = true
             startCaptureVideo()
         } else {
+            photoTaken = false
             stopCaptureVideo()
         }
     }

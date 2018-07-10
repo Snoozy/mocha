@@ -241,7 +241,7 @@ open class SwiftyCamViewController: UIViewController, AVAudioRecorderDelegate, A
 
 	/// PreviewView for the capture session
 
-	public var previewLayer                 : PreviewView!
+	public var previewLayer                      : PreviewView!
 
 	/// UIView for front facing flash
 
@@ -278,6 +278,10 @@ open class SwiftyCamViewController: UIViewController, AVAudioRecorderDelegate, A
         view.addSubview(previewLayer)
         view.sendSubview(toBack: previewLayer)
 
+        if UIDevice.current.isSimulator {
+            return
+        }
+        
 		// Add Gesture Recognizers
         
         addGestureRecognizers()

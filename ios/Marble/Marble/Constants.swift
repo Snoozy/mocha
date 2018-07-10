@@ -10,9 +10,9 @@ import Foundation
 import UIKit
 
 #if DEV
-//    let API_URL = "http://192.168.2.4:8000"
-    let API_URL = "http://127.0.0.1:8000"
-//    let API_URL = "https://api.amarbleapp.com"
+//    let API_URL = "http://172.31.99.181:8000"
+//    let API_URL = "http://127.0.0.1:8000"
+    let API_URL = "https://api.amarbleapp.com"
 #else
     let API_URL = "https://api.amarbleapp.com"
 #endif
@@ -42,7 +42,6 @@ struct Constants {
     static let ApiUrl = API_URL
     
     // max video length in seconds
-    static let MaxVideoLength = 10
     
     static let MaxVideoSize: Int64 = 15500000
         
@@ -51,4 +50,6 @@ struct Constants {
     static let DoubleTapDelay: Int = 200  // in milliseconds
     
     static let IphoneXMargin: Int = 50
+    
+    static let MaxRecordingDuration: Int = 2 * 60  // in seconds
 }
