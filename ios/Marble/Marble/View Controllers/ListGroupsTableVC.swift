@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ListMemoriesTableVC: UITableViewController {
+class ListGroupsTableVC: UITableViewController {
 
     var vlogifyNavController: UINavigationController?
     
@@ -28,7 +28,7 @@ class ListMemoriesTableVC: UITableViewController {
             self.refreshControl?.endRefreshing()
             self.tableView.reloadData()
         }
-        State.shared.getMyMemories()
+        State.shared.refreshClips()
     }
 
     override func didReceiveMemoryWarning() {
@@ -100,11 +100,11 @@ class ListMemoriesTableVC: UITableViewController {
     
 }
 
-extension ListMemoriesTableVC: ListMemoriesTVCellDelegate {
+extension ListGroupsTableVC: ListMemoriesTVCellDelegate {
     
     func processNudge(group: Group?) {
         let storyboard = UIStoryboard(name: "Vlogify", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "EditClips") as! EditClipsVC
+        let vc = storyboard.instantiateViewController(withIdentifier: "EditVlog") as! EditVlogVC
         vc.clips = group?.vlogNudgeClips ?? [Clip]()
         vc.group = group
         vc.delegate = self
@@ -125,10 +125,11 @@ extension ListMemoriesTableVC: ListMemoriesTVCellDelegate {
     
 }
 
-extension ListMemoriesTableVC: EditClipsDelegate {
+extension ListGroupsTableVC: EditVlogDelegate {
     
-    func videoExportDone(_ editClipsVC: EditClipsVC) {
+    func videoExportDone(_ editVlogVC: EditVlogVC) {
         vlogifyNavController?.dismiss(animated: true, completion: nil)
+        self.view.makeToast("Vlog will continue uploading in the background.", duration: 3.0, position: .top)
     }
     
 }

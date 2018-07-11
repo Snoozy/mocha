@@ -10,10 +10,10 @@ import UIKit
 
 private let reuseIdentifier = "MemoriesCell"
 
-class MemoriesVC : UICollectionViewController {
+class MemoriesVC : UICollectionViewController, UIGestureRecognizerDelegate {
     
     var group: Group?
-    var memories: [Clip] = []
+    var clips: [Clip] = []
     
     var memoryIdx: Int = 0
     
@@ -24,6 +24,8 @@ class MemoriesVC : UICollectionViewController {
 
     var refreshControl: UIRefreshControl?
     
+    var vlogifyVC: VlogifyVC?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -31,29 +33,39 @@ class MemoriesVC : UICollectionViewController {
         
         vlogifyBtn.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 16), NSAttributedStringKey.foregroundColor: Constants.Colors.MarbleBlue], for: .normal)
         
-        memories = State.shared.getMemoriesForGroup(groupId: group!.groupId)
+        clips = State.shared.getClips(forGroup: self.group!.groupId)
         
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(pullDownRefresh), for: .valueChanged)
         collectionView?.addSubview(refreshControl!)
         collectionView?.alwaysBounceVertical = true
+        
+        let edgeGestureRecognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(edgeSwiped(_:)))
+        edgeGestureRecognizer.edges = UIRectEdge.left
+        edgeGestureRecognizer.delegate = self
+        self.view.addGestureRecognizer(edgeGestureRecognizer)
     }
     
     @objc func pullDownRefresh() {
-        State.shared.getMyMemories {
+        State.shared.refreshClips {
             self.refreshControl?.endRefreshing()
-            self.memories = State.shared.getMemoriesForGroup(groupId: self.group!.groupId)
+            self.clips = State.shared.getClips(forGroup: self.group!.groupId)
             self.collectionView?.reloadData()
         }
     }
     @IBAction func vlogifyBtnPressed(_ sender: Any) {
         let vc = UIStoryboard(name: "Vlogify", bundle: nil).instantiateInitialViewController() as! UINavigationController
-        let vlogifyVC = vc.topViewController as! VlogifyVC
-        vlogifyVC.group = group
+        vlogifyVC = vc.topViewController as? VlogifyVC
+        vlogifyVC!.group = group
+        vlogifyVC!.editVlogDelegate = self
         self.present(vc, animated: true, completion: nil)
     }
     
     @IBAction func donePressed(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func edgeSwiped(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -64,7 +76,7 @@ class MemoriesVC : UICollectionViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return memories.count
+        return clips.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -72,12 +84,14 @@ class MemoriesVC : UICollectionViewController {
         
         cell.loadingIndicator.startAnimating()
         
-        cell.clip = memories[indexPath.row]
+        cell.clip = clips[indexPath.row]
         
-        DispatchQueue.main.async {
+        DispatchQueue.global(qos: .userInitiated).async {
             cell.clip!.loadMedia { (clip) in
-                cell.loadingIndicator.stopAnimating()
-                cell.refreshPreview()
+                DispatchQueue.main.async {
+                    cell.loadingIndicator.stopAnimating()
+                    cell.refreshPreview()
+                }
             }
         }
         
@@ -109,9 +123,9 @@ class MemoriesVC : UICollectionViewController {
 extension MemoriesVC : ClipViewDelegate {
     
     func nextClip(_ clipView: ClipView) -> Clip? {
-        if memoryIdx < memories.count - 1 {
+        if memoryIdx < clips.count - 1 {
             memoryIdx += 1
-            return memories[memoryIdx]
+            return clips[memoryIdx]
         } else {
             return nil
         }
@@ -122,7 +136,7 @@ extension MemoriesVC : ClipViewDelegate {
             return nil
         } else {
             memoryIdx -= 1
-            return memories[memoryIdx]
+            return clips[memoryIdx]
         }
     }
     
@@ -150,4 +164,17 @@ extension MemoriesVC : UICollectionViewDelegateFlowLayout {
         return CGSize(width: widthPerItem, height: widthPerItem)
     }
 
+}
+
+extension MemoriesVC : EditVlogDelegate {
+    
+    func videoExportDone(_ editVlogVC: EditVlogVC) {
+        var style = ToastStyle()
+        style.backgroundColor = Constants.Colors.GreenNotifColor
+        style.verticalPadding = 10.0
+        style.horizontalPadding = 15.0
+        self.navigationController?.view.makeToast("Vlog will continue uploading in the background.", duration: 5.0, position: .top, style: style)
+        vlogifyVC?.dismiss(animated: true, completion: nil)
+    }
+    
 }

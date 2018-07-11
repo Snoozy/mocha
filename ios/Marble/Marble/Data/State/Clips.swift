@@ -9,8 +9,12 @@
 import Foundation
 
 extension State {
+        
+    func getClips(forGroup groupId: Int) -> [Clip] {
+        return self.groupClips[groupId] ?? [Clip]()
+    }
     
-    func getMyClips(completionHandler: (() -> Void)? = nil) {
+    func refreshClips(completionHandler: (() -> Void)? = nil) {
         Networker.shared.getClips(completionHandler: { response in
             switch response.result {
             case .success(let val):
@@ -26,7 +30,7 @@ extension State {
                         
                         let c = Clip(json: clipJson)
                         
-                        self.addClip(clips: &newClips, cache: self.groupMemories[groupId] ?? [Clip](), clip: c)
+                        self.addClip(clips: &newClips, cache: self.groupClips[groupId] ?? [Clip](), clip: c)
                     }
                     self.groupClips[groupId] = newClips
                 }
@@ -46,7 +50,7 @@ extension State {
     }
     
     func getAndLoadClips() {
-        self.getMyClips(completionHandler: {
+        self.refreshClips(completionHandler: {
             self.loadClips()
         })
     }

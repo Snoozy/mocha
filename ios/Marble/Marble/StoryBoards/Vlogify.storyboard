@@ -58,7 +58,7 @@
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="nextBtnPress:" destination="L4V-O9-QQ8" id="dIN-km-bAv"/>
-                                <segue destination="qvt-Kt-KZf" kind="show" identifier="EditClips" id="KPW-3N-pVH"/>
+                                <segue destination="qvt-Kt-KZf" kind="show" identifier="EditVlog" id="KPW-3N-pVH"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -70,10 +70,10 @@
             </objects>
             <point key="canvasLocation" x="-28" y="119"/>
         </scene>
-        <!--Edit Clips-->
+        <!--Edit Vlog-->
         <scene sceneID="yjE-4x-bHP">
             <objects>
-                <collectionViewController storyboardIdentifier="EditClips" title="Edit Clips" id="qvt-Kt-KZf" customClass="EditClipsVC" customModule="Marble" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController storyboardIdentifier="EditVlog" title="Edit Vlog" id="qvt-Kt-KZf" customClass="EditVlogVC" customModule="Marble" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" id="BWw-gL-zmq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -91,7 +91,7 @@
                             <outlet property="delegate" destination="qvt-Kt-KZf" id="ONf-Hi-naW"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" title="Edit Clips" id="OR2-vJ-bFV">
+                    <navigationItem key="navigationItem" title="Edit Vlog" id="OR2-vJ-bFV">
                         <barButtonItem key="rightBarButtonItem" title="Create" id="TsV-E5-wfY">
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>

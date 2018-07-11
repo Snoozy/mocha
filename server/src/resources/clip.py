@@ -1,6 +1,6 @@
 import time
 
-from sqlalchemy import and_
+from sqlalchemy import and_, or_
 
 from data.db.models.user import User
 from data.db.models.group import Group
@@ -24,7 +24,7 @@ class GetClipsResource:
                 clips = group.clips.filter((Clip.timestamp > time_cutoff) & (Clip.user_id.notin_(user_blocks)))\
                     .order_by(Clip.timestamp).all()
             else:
-                clips = group.clips.filter(Clip.timestamp > time_cutoff).order_by(Clip.timestamp).all()
+                clips = group.clips.filter((Clip.timestamp > time_cutoff) | (Clip.is_memory == 1)).order_by(Clip.timestamp).all()
             clips_dict = [clip.to_dict(user) for clip in clips]
             json.append({'group_id': group.id, 'clips': clips_dict})
         resp.json = {

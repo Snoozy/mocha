@@ -1,5 +1,5 @@
 //
-//  EditClipsVC.swift
+//  EditVlogVC.swift
 //  Marble
 //
 //  Created by Daniel Li on 5/6/18.
@@ -11,13 +11,13 @@ import AVFoundation
 
 private let reuseIdentifier = "ClipCell"
 
-class EditClipsVC: UICollectionViewController {
+class EditVlogVC: UICollectionViewController {
 
     var clips: [Clip] = [Clip]()
     var group: Group?
     var clipIdx: Int = 0
     
-    var delegate: EditClipsDelegate?
+    var delegate: EditVlogDelegate?
     
     @IBOutlet weak var createBtn: UIBarButtonItem!
     
@@ -238,7 +238,7 @@ class EditClipsVC: UICollectionViewController {
 }
 
 // MARK: - ClipViewDelegate
-extension EditClipsVC : ClipViewDelegate {
+extension EditVlogVC : ClipViewDelegate {
     func nextClip(_ clipView: ClipView) -> Clip? {
         if clipIdx < clips.count - 1 {
             clipIdx += 1
@@ -259,7 +259,7 @@ extension EditClipsVC : ClipViewDelegate {
 }
 
 // MARK: - UITextViewDelegate
-extension EditClipsVC : UITextViewDelegate {
+extension EditVlogVC : UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         placeholderLabel?.isHidden = !textView.text.isEmpty

@@ -13,7 +13,7 @@ from data.db.models.vlog import Vlog
 from data.db.models.comment import Comment
 from resources.constants import resp_error, resp_success
 
-VLOG_PAGE_SIZE = 1
+VLOG_PAGE_SIZE = 10
 S3_BUCKET_NAME = 'marble-s3'
 
 

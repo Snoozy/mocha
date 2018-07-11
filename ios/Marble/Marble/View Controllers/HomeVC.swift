@@ -14,6 +14,7 @@ class HomeVC: UITableViewController {
     
     let InfiniteScrollLoadCutoff: Int = 5
     var loading: Bool = true
+    var updatingInfScroll: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +53,9 @@ class HomeVC: UITableViewController {
     
     @objc func pullDownRefresh() {
         State.shared.homeTVInfiniteScrollingDone = false
+        for vlog in State.shared.vlogFeed {
+            vlog.thumbnailTried = false
+        }
         if self.view.window?.windowLevel != UIWindowLevelStatusBar {
             refresh()
         }
@@ -61,52 +65,16 @@ class HomeVC: UITableViewController {
         if State.shared.me == nil {
             State.shared.ping(deviceToken: nil)
         }
-        State.shared.getVlogs(completionHandler: {
+        State.shared.refreshVlogs(completionHandler: {
             self.stopActivityIndicator()
             self.loading = false
             self.refreshControl?.endRefreshing()
             self.tableView.reloadData()
         })
         State.shared.refreshUserGroups()
-        State.shared.getMyMemories()
+        State.shared.refreshClips()
     }
     
-    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
-        if motion == .motionShake {
-            let alertController = UIAlertController(title: nil, message: "Shake Actions", preferredStyle: .actionSheet)
-            
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
-            })
-            alertController.addAction(cancelAction)
-            
-            let logoutAction = UIAlertAction(title: "Logout", style: .destructive, handler: { action in
-                if KeychainWrapper.clearAuthToken() && KeychainWrapper.clearUserID() {
-                    OperationQueue.main.addOperation {
-                        UIApplication.topViewController()?.present(UIStoryboard(name:"Auth", bundle: nil).instantiateInitialViewController()!, animated: true, completion: nil)
-                    }
-                }
-            })
-            alertController.addAction(logoutAction)
-            
-            let clearCacheAction = UIAlertAction(title: "Clear Cache", style: .destructive, handler: { action in
-                do {
-                    let docDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-                    let paths = try FileManager.default.contentsOfDirectory(atPath: docDir.path)
-                    for file in paths {
-                        print("removing: " + file)
-                        try FileManager.default.removeItem(atPath: docDir.path + "/" + file)
-                    }
-                    self.pullDownRefresh()
-                } catch let error {
-                    print("error clearing cache: \(error.localizedDescription)")
-                }
-            })
-            alertController.addAction(clearCacheAction)
-            
-            self.present(alertController, animated: true, completion: nil)
-        }
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -118,7 +86,7 @@ class HomeVC: UITableViewController {
         loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
         loadingIndicator.hidesWhenStopped = true
         loadingIndicator.center = self.view.center
-        loadingIndicator.backgroundColor = UIColor(red: 219/250, green: 219/250, blue: 219/250, alpha: 1.0)
+        loadingIndicator.backgroundColor = Constants.Colors.HomeBgColor
         self.tableView.backgroundView = loadingIndicator
     }
     
@@ -130,27 +98,48 @@ class HomeVC: UITableViewController {
         loadingIndicator.stopAnimating()
         let view = UIView(frame: self.view.frame)
         view.center = self.view.center
-        view.backgroundColor = UIColor(red: 219/250, green: 219/250, blue: 219/250, alpha: 1.0)
+        view.backgroundColor = Constants.Colors.HomeBgColor
+        if State.shared.vlogFeed.count == 0 {
+            let label = UILabel(frame: CGRect(x: 0, y: (self.tableView.frame.height/2)-100, width: self.tableView.frame.width, height: 25))
+            label.textAlignment = .center
+            label.alpha = 0.6
+            label.font = UIFont.systemFont(ofSize: 18.0, weight: .medium)
+            label.text = "No posts...yet"
+            view.addSubview(label)
+        }
         self.tableView.backgroundView = view
     }
     
+    func synced(_ lock: Any, closure: () -> ()) {
+        objc_sync_enter(lock)
+        closure()
+        objc_sync_exit(lock)
+    }
+    
+    let infScrollSemaphore = DispatchSemaphore(value: 1)
+    
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if !State.shared.homeTVInfiniteScrollingDone && indexPath.section >= State.shared.vlogFeed.count - InfiniteScrollLoadCutoff {
+        if  !State.shared.homeTVInfiniteScrollingDone
+            && indexPath.section == State.shared.vlogFeed.count - InfiniteScrollLoadCutoff {
             print("infinite scroll load")
             let prevVlogCount = State.shared.vlogFeed.count
-            State.shared.getVlogs(afterId: State.shared.vlogFeed.last!.id) {
-                if prevVlogCount == State.shared.vlogFeed.count {
-                    State.shared.homeTVInfiniteScrollingDone = true
-                    return
-                }
-                if State.shared.vlogFeed.count < prevVlogCount {
-                    return
-                }
-                let idxs = IndexSet(integersIn: prevVlogCount..<State.shared.vlogFeed.count)
-                DispatchQueue.main.async {
-                    self.tableView.insertSections(idxs, with: .automatic)
-                }
-            }
+            State.shared.getVlogs(afterId: State.shared.vlogFeed.last!.id, completionHandler: { newCount in
+                self.synced(self, closure: {
+                    DispatchQueue.main.async {
+                        if newCount <= 0 {
+                            State.shared.homeTVInfiniteScrollingDone = true
+                            return
+                        }
+                        if State.shared.vlogFeed.count < prevVlogCount {
+                            return
+                        }
+                        let idxs = IndexSet(integersIn: State.shared.vlogFeed.count - newCount..<State.shared.vlogFeed.count)
+                        print(idxs)
+                        self.tableView.insertSections(idxs, with: .automatic)
+                    }
+                })
+            }, errorHandler: {
+            })
         }
     }
 
@@ -186,6 +175,8 @@ class HomeVC: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "HomeTVCell", for: indexPath) as! HomeTVCell
         
         let idx = indexPath.section
+        
+        print(idx)
         let vlog = State.shared.vlogFeed[idx]
         
         cell.marbleName.text = vlog.groupName
@@ -196,8 +187,6 @@ class HomeVC: UITableViewController {
             DispatchQueue.main.async {
                 if let img = img {
                     cell.vidPreviewImage.image = UIImage(cgImage: (img.cgImage?.cropping(to: cell.vidPreviewImage.frame))!)
-                } else {
-                    print("could not load img")
                 }
             }
         }
@@ -262,7 +251,15 @@ class HomeVC: UITableViewController {
     
     func playVideo(vlog: Vlog) {
         print("play video")
-        let videoURL = URL(string: vlog.mediaUrl)
+        let videoURL = { () -> URL? in
+            if let fileUrl = vlog.videoFileUrl {
+                print("play video file cached")
+                return fileUrl
+            } else {
+                print("playing from remote url")
+                return URL(string: vlog.mediaUrl)
+            }
+        }()
         let player = AVPlayer(url: videoURL!)
         let playerViewController = AVPlayerViewController()
         playerViewController.player = player
@@ -278,10 +275,16 @@ class HomeVC: UITableViewController {
         parentVC?.scrollView.setContentOffset(CGPoint.init(x: screenWidth, y: 0.0), animated: true)
     }
     
+    @IBOutlet weak var addMarbleBtn: UIBarButtonItem!
+    
     @IBAction func AddMarbleBtnPress(_ sender: UIBarButtonItem) {
         OperationQueue.main.addOperation {
             UIApplication.topViewController()?.present(UIStoryboard(name:"AddMarble", bundle: nil).instantiateInitialViewController()!, animated: true, completion: nil)
         }
+    }
+    
+    @objc func addMarbleBtnLongPress() {
+        print("blah")
     }
 
 }

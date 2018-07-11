@@ -25,6 +25,7 @@ class Vlog {
     
     var videoFileUrl: URL?
     var thumbnail: UIImage?
+    var thumbnailTried: Bool = false
     
     init(id: Int, url: String, description: String, groupName: String, groupId: Int, userId: Int, time: Int64, numComments: Int, comments: [Comment] = [Comment]()) {
         self.id = id
@@ -39,22 +40,30 @@ class Vlog {
     }
     
     func getThumbnailImage(completionHandler: ((UIImage?) -> Void)? = nil) {
-        if let thumb = thumbnail {
-            completionHandler?(thumb)
+        if thumbnailTried {
+            completionHandler?(thumbnail)
             return
         }
-        DispatchQueue.global(qos: .background).async {
-            let asset: AVAsset = AVURLAsset(url: URL(string: self.mediaUrl)!)
+        DispatchQueue.global(qos: .userInitiated).async {
+            let asset: AVAsset = {
+                if let fileUrl = self.videoFileUrl{
+                    return AVURLAsset(url: fileUrl)
+                } else {
+                    return AVURLAsset(url: URL(string: self.mediaUrl)!)
+                }
+            }()
             let imageGenerator = AVAssetImageGenerator(asset: asset)
             imageGenerator.appliesPreferredTrackTransform = true
             
             do {
                 let thumbnailImage = try imageGenerator.copyCGImage(at: CMTime(seconds: 2, preferredTimescale: 60) , actualTime: nil)
                 self.thumbnail = UIImage(cgImage: thumbnailImage)
+                self.thumbnailTried = true
                 completionHandler?(self.thumbnail)
                 return
-            } catch let error {
-                print("Error generating thumbnail: \(error)")
+            } catch {
+                self.thumbnailTried = true
+                print("Error generating thumbnail for vlog id: \(self.id)")
             }
             completionHandler?(nil)
         }

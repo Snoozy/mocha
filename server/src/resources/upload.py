@@ -50,7 +50,7 @@ class ClipUploadResource:
             req.session.add(new_clip)
             req.session.commit()
         groups = req.session.query(Group).filter(Group.id.in_(group_ids)).all()
-        send_posted_notifications(user, groups)
+        # send_posted_notifications(user, groups)
 
         resp.json = {
                 'media_id': rand_str

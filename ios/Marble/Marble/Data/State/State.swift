@@ -15,9 +15,7 @@ class State {
     var userGroups: Array<Group> = [Group]()
     
     var groupClips: [Int : [Clip]] = [:]
-    
-    var groupMemories: [Int: [Clip]] = [:]
-    
+            
     var trendingGroups: [Group] = [Group]()
     
     var vlogFeed: [Vlog] = [Vlog]()

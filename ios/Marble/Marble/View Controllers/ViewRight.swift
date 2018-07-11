@@ -68,6 +68,7 @@ class ViewRight : SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         styleLayer(layer: takePhotoButton.layer)
         styleLayer(layer: cancelButtonOut.layer)
         styleLayer(layer: nextButtonOut.layer)
+        styleLayer(layer: recordingTimerLabel.layer)
         
         takeVideoLongPress.delegate = self
         

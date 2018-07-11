@@ -11,8 +11,9 @@ import Alamofire
 
 extension Networker {
     
+    // DEPRECATED. MEMORIES NOW INCORPORATED INTO GETCLIPS CALL
     func getMemories(completionHandler: @escaping (DataResponse<Any>) -> ()) {
         self.sessionManager.request(Router.GetMemories).validate().responseJSON(completionHandler: completionHandler)
     }
-        
+    
 }

@@ -19,7 +19,7 @@ class MemoriesCell: UICollectionViewCell {
     func refreshPreview() {
         let image: UIImage = {
             let img = videoPreviewImage(fileUrl: (clip!.videoFileUrl)!)
-            return img!
+            return img ?? UIImage(color: UIColor.lightGray, size: CGSize(width: self.bounds.width, height: self.bounds.width))!
         }()
         
         previewImage.image = image.maskRectangle(width: self.bounds.width, height: self.bounds.height)

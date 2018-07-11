@@ -10,7 +10,7 @@ import Foundation
 
 extension State {
     
-    func getVlogs(completionHandler: (() -> Void)? = nil) {
+    func refreshVlogs(completionHandler: (() -> Void)? = nil) {
         Networker.shared.getVlogs { (resp) in
             switch resp.result {
             case .success(let val):
@@ -23,15 +23,16 @@ extension State {
         }
     }
     
-    func getVlogs(afterId: Int, completionHandler: (() -> Void)? = nil) {
+    func getVlogs(afterId: Int, completionHandler: ((Int) -> Void)? = nil, errorHandler: (() -> Void)? = nil) {
         Networker.shared.getVlogs(afterId: afterId) { (resp) in
             switch resp.result {
             case .success(let val):
                 let contentJson = JSON(val)
-                self.appendVlogFromJson(contentJson: contentJson)
-                completionHandler?()
+                let newCount = self.appendVlogFromJson(contentJson: contentJson)
+                completionHandler?(newCount)
             case .failure:
                 print(resp.debugDescription)
+                errorHandler?()
             }
         }
     }
@@ -58,8 +59,10 @@ extension State {
         self.vlogFeed = vlogsFromJson(contentJson: contentJson)
     }
     
-    private func appendVlogFromJson(contentJson: JSON) {
-        self.vlogFeed.append(contentsOf: vlogsFromJson(contentJson: contentJson))
+    private func appendVlogFromJson(contentJson: JSON) -> Int {
+        let newVlogs = vlogsFromJson(contentJson: contentJson)
+        self.vlogFeed.append(contentsOf: newVlogs)
+        return newVlogs.count
     }
     
     func getVlogComments(vlogId: Int, completionHandler: @escaping ([Comment]) -> Void) {

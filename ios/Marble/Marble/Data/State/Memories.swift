@@ -11,35 +11,9 @@ import Foundation
 extension State {
     
     func getMemoriesForGroup(groupId: Int) -> [Clip] {
-        if let val = self.groupMemories[groupId] {
-            return val
-        } else {
-            return []
-        }
+        return self.getClips(forGroup: groupId).filter({ (clip) -> Bool in
+            clip.isMemory
+        })
     }
     
-    func getMyMemories(completionHandler: (() -> Void)? = nil) {
-        Networker.shared.getMemories { (response) in
-            switch response.result {
-            case .success(let val):
-                let contentJson = JSON(val)
-//                print(contentJson)
-                for tuple in (contentJson["content"]) {
-                    let groupId = tuple.1["group_id"].int!
-                    let clipsJson = tuple.1["clips"].array
-                    if self.groupMemories[groupId] == nil {
-                        self.groupMemories[groupId] = [Clip]()
-                    }
-                    var newClips = [Clip]()
-                    for clip in clipsJson! {
-                        self.addClip(clips: &newClips, cache: self.groupMemories[groupId] ?? [Clip](), clip: Clip(json: clip))
-                    }
-                    self.groupMemories[groupId] = newClips
-                }
-                completionHandler?()
-            case .failure:
-                print(response.debugDescription)
-            }
-        }
-    }
 }

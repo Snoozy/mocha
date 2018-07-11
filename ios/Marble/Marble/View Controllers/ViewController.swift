@@ -57,6 +57,41 @@ class ViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognize
         return true
     }
     
+    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            let alertController = UIAlertController(title: nil, message: "Shake Actions", preferredStyle: .actionSheet)
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
+            })
+            alertController.addAction(cancelAction)
+            
+            let logoutAction = UIAlertAction(title: "Logout", style: .destructive, handler: { action in
+                if KeychainWrapper.clearAuthToken() && KeychainWrapper.clearUserID() {
+                    OperationQueue.main.addOperation {
+                        UIApplication.topViewController()?.present(UIStoryboard(name:"Auth", bundle: nil).instantiateInitialViewController()!, animated: true, completion: nil)
+                    }
+                }
+            })
+            alertController.addAction(logoutAction)
+            
+            let clearCacheAction = UIAlertAction(title: "Clear Cache", style: .destructive, handler: { action in
+                do {
+                    let docDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                    let paths = try FileManager.default.contentsOfDirectory(atPath: docDir.path)
+                    for file in paths {
+                        print("removing: " + file)
+                        try FileManager.default.removeItem(atPath: docDir.path + "/" + file)
+                    }
+                } catch let error {
+                    print("error clearing cache: \(error.localizedDescription)")
+                }
+            })
+            alertController.addAction(clearCacheAction)
+            
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
+    
     // MARK: - UIScrollViewDelegate
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

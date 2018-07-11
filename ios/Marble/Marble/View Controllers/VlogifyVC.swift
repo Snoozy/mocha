@@ -19,6 +19,8 @@ class VlogifyVC: UICollectionViewController {
     
     var group: Group?
     var memories: [Clip] = []
+    
+    var editVlogDelegate: EditVlogDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +33,7 @@ class VlogifyVC: UICollectionViewController {
 
         // Register cell classes
         self.collectionView!.register(UINib(nibName: "MemoriesCell", bundle: nil), forCellWithReuseIdentifier: reuseIdentifier)
-        let clips = State.shared.getMemoriesForGroup(groupId: group!.groupId)
+        let clips = State.shared.getClips(forGroup: self.group!.groupId)
         for clip in clips {
             if clip.liked {
                 memories.append(clip)
@@ -110,13 +112,13 @@ class VlogifyVC: UICollectionViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "EditClips" {
-            if let destVC = segue.destination as? EditClipsVC {
+        if segue.identifier == "EditVlog" {
+            if let destVC = segue.destination as? EditVlogVC {
                 destVC.clips = clipsSelection.map({ (idx) in
                     self.memories[idx.row]
                 })
                 destVC.group = group
-                destVC.delegate = self
+                destVC.delegate = self.editVlogDelegate
             }
         }
     }
@@ -142,15 +144,6 @@ extension VlogifyVC: UICollectionViewDelegateFlowLayout {
         let availableWidth = collectionView.bounds.width - paddingSpace
         let widthPerItem = (availableWidth / itemsPerRow)
         return CGSize(width: widthPerItem, height: widthPerItem)
-    }
-    
-}
-
-extension VlogifyVC: EditClipsDelegate {
-    
-    func videoExportDone(_ editClipsVC: EditClipsVC) {
-        self.navigationController?.popToRootViewController(animated: true)
-        self.tabBarController?.selectedIndex = 0
     }
     
 }

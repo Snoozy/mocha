@@ -27,6 +27,10 @@ struct Constants {
         static let FormUnderlineGray = UIColor(red: CGFloat(211.0/255.0), green: CGFloat(211/255.0), blue:CGFloat(211/255.0), alpha: CGFloat(1.0))
         
         static let UnseenHighlight = UIColor(red: CGFloat(50/255.0), green: CGFloat(50/255.0), blue: CGFloat(255/255.0), alpha: 1.0)
+        
+        static let HomeBgColor = UIColor(red: 226/250, green: 226/250, blue: 226/250, alpha: 1.0)
+        
+        static let GreenNotifColor = UIColor(red: 44/250, green: 214/250, blue: 44/250, alpha: 1.0)
     }
     
     struct Notifications {

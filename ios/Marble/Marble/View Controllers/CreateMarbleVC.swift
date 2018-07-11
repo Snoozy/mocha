@@ -76,21 +76,15 @@ class CreateMarbleVC: UIViewController, UITextFieldDelegate {
                 switch response.result {
                 case .success:
                     alert.dismiss(animated: true, completion: {
-                        let response = response.result.value as! NSDictionary
-                        if let status = response["status"] as? Int {
-                            if status == 0 {  // group create success
-                                self.performSegue(withIdentifier: "CreateGroupUnwind", sender: nil)
-                            } else {  // error occurred
-                                let alert = UIAlertController(title: "Error", message: "Group creation failed", preferredStyle: .alert)
-                                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { alert in
-                                    self.marbleNameField.text = ""
-                                }))
-                                self.present(alert, animated: true, completion: nil)
-                            }
-                        }
+                        self.dismiss(animated: true, completion: nil)
                     })
                 case .failure:
                     print(response.debugDescription)
+                    let alert = UIAlertController(title: "Error", message: "Group creation failed", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { alert in
+                        self.marbleNameField.text = ""
+                    }))
+                    self.present(alert, animated: true, completion: nil)
                 }
             })
         }

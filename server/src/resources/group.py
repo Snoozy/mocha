@@ -2,7 +2,7 @@ from data.db.models.user import User
 from data.db.models.group import Group
 from data.db.models.clip import Clip
 import json
-from resources.constants import RESP_ERR_JSON, GROUP_ID_XOR
+from resources.constants import RESP_ERR_JSON, GROUP_ID_XOR, resp_success, resp_error
 from falcon import Request, Response
 
 
@@ -42,9 +42,8 @@ class FindGroupResource:
                 'last_seen': last_seen
             }
         else:
-            resp.json = {
-                'status': 1
-            }
+            resp.json = resp_error()
+            raise falcon.HTTPBadRequest()
 
 
 class ListGroupsResource:
