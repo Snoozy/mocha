@@ -186,7 +186,14 @@ class HomeVC: UITableViewController {
         vlog.getThumbnailImage { (img) in
             DispatchQueue.main.async {
                 if let img = img {
-                    cell.vidPreviewImage.image = UIImage(cgImage: (img.cgImage?.cropping(to: cell.vidPreviewImage.frame))!)
+                    let imageWidth = img.size.width
+                    let imageHeight = img.size.height
+                    let width = self.tableView.bounds.width
+                    let height = cell.vidPreviewImage.bounds.height
+                    let origin = CGPoint(x: (imageWidth - width)/2, y: (imageHeight - height)/2)
+                    let size = CGSize(width: width, height: height)
+                    
+                    cell.vidPreviewImage.image = img.crop(rect: CGRect(origin: origin, size: size))
                 }
             }
         }

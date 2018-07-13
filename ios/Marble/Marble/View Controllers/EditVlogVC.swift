@@ -132,6 +132,7 @@ class EditVlogVC: UICollectionViewController {
             return
         }
         
+        
         let progHUD = ProgressHUD(text: "Creating Vlog")
         self.view.addSubview(progHUD)
         
@@ -139,6 +140,7 @@ class EditVlogVC: UICollectionViewController {
         for clip in clips {
             assets.append(AVAsset(url: clip.videoFileUrl!))
         }
+        
         
         let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first! as NSURL
         let vidPath = documentsUrl.appendingPathComponent("vlogified_" + UUID().uuidString + ".mp4")

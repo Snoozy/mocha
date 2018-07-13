@@ -58,7 +58,7 @@
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="nextBtnPress:" destination="L4V-O9-QQ8" id="dIN-km-bAv"/>
-                                <segue destination="qvt-Kt-KZf" kind="show" identifier="EditVlog" id="KPW-3N-pVH"/>
+                                <segue destination="qvt-Kt-KZf" kind="show" identifier="EditVlog" id="76c-5e-fwE"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -95,7 +95,7 @@
                         <barButtonItem key="rightBarButtonItem" title="Create" id="TsV-E5-wfY">
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
-                                <action selector="createBtnPressed:" destination="qvt-Kt-KZf" id="khi-zZ-dg6"/>
+                                <action selector="createBtnPressed:" destination="qvt-Kt-KZf" id="v4P-n3-CHb"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

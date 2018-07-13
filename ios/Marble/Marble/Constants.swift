@@ -30,7 +30,7 @@ struct Constants {
         
         static let HomeBgColor = UIColor(red: 226/250, green: 226/250, blue: 226/250, alpha: 1.0)
         
-        static let GreenNotifColor = UIColor(red: 44/250, green: 214/250, blue: 44/250, alpha: 1.0)
+        static let GreenNotifColor = UIColor(red: 35/250, green: 188/250, blue: 35/250, alpha: 1.0)
     }
     
     struct Notifications {

@@ -58,6 +58,7 @@ class Vlog {
             do {
                 let thumbnailImage = try imageGenerator.copyCGImage(at: CMTime(seconds: 2, preferredTimescale: 60) , actualTime: nil)
                 self.thumbnail = UIImage(cgImage: thumbnailImage)
+                print(self.thumbnail?.size)
                 self.thumbnailTried = true
                 completionHandler?(self.thumbnail)
                 return
