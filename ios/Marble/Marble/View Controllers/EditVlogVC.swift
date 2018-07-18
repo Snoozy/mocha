@@ -118,6 +118,8 @@ class EditVlogVC: UICollectionViewController {
         super.didReceiveMemoryWarning()
     }
     
+    var bgIdentifier: UIBackgroundTaskIdentifier?
+    
     @IBAction func createBtnPressed(_ sender: Any) {
         if createBtn.title == "Done" {
             descrTextView?.resignFirstResponder()
@@ -132,6 +134,11 @@ class EditVlogVC: UICollectionViewController {
             return
         }
         
+        bgIdentifier = UIApplication.shared.beginBackgroundTask {
+            if let bgIdentifier = self.bgIdentifier {
+                UIApplication.shared.endBackgroundTask(bgIdentifier)
+            }
+        }
         
         let progHUD = ProgressHUD(text: "Creating Vlog")
         self.view.addSubview(progHUD)
@@ -170,8 +177,14 @@ class EditVlogVC: UICollectionViewController {
                     let cacheFilename = vidPath!.deletingLastPathComponent().appendingPathComponent(json["media_id"].stringValue + ".mp4")
                     try! FileManager.default.moveItem(at: vidPath!, to: cacheFilename)
                     self.delegate?.videoUploadDone(self)
+                    if let bgIdentifier = self.bgIdentifier {
+                        UIApplication.shared.endBackgroundTask(bgIdentifier)
+                    }
                 case .failure:
                     print(response.debugDescription)
+                    if let bgIdentifier = self.bgIdentifier {
+                        UIApplication.shared.endBackgroundTask(bgIdentifier)
+                    }
                 }
             })
         }

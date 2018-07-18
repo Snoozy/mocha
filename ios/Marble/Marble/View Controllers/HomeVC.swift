@@ -39,6 +39,8 @@ class HomeVC: UITableViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(pullDownRefresh), name: Constants.Notifications.RefreshMainGroupState, object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(clipUploadStarted), name: Constants.Notifications.ClipUploadStarted, object: nil)
+        
         pullDownRefresh()
     }
     
@@ -49,6 +51,17 @@ class HomeVC: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         UIApplication.shared.statusBarStyle = .default
+    }
+    
+    @objc func clipUploadStarted() {
+        DispatchQueue.main.async {
+            var style = ToastStyle()
+            style.backgroundColor = Constants.Colors.InfoNotifColor
+            style.verticalPadding = 10.0
+            style.horizontalPadding = 15.0
+            self.navigationController?.view.makeToast("Clip will continue uploading in the background", duration: 5.0, position: .top, style: style)
+        }
+        NotificationCenter.default.post(name: Constants.Notifications.RefreshMainGroupState, object: nil)
     }
     
     @objc func pullDownRefresh() {
@@ -290,10 +303,6 @@ class HomeVC: UITableViewController {
         }
     }
     
-    @objc func addMarbleBtnLongPress() {
-        print("blah")
-    }
-
 }
 
 extension HomeVC : ExpandableLabelDelegate {

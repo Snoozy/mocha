@@ -123,12 +123,12 @@ class ViewRight : SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         backButton.isHidden = true
         flashButton.isHidden = true
         cameraFlipButton.isHidden = true
-        
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
         self.setZoomScaleWithLock(to: beginZoomScale)
         timerCount = Constants.MaxRecordingDuration
+        displayTimer(showRedDot: true)
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFocusAtPoint point: CGPoint) {
@@ -301,6 +301,7 @@ class ViewRight : SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         print("start recording")
         self.recordingTimer = Timer(timeInterval: 1, target: self, selector: #selector(timerTick), userInfo: nil, repeats: true)
         RunLoop.main.add(recordingTimer!, forMode: .commonModes)
+        photoTaken = true
         super.startVideoRecording()
     }
     
@@ -346,7 +347,6 @@ class ViewRight : SwiftyCamViewController, SwiftyCamViewControllerDelegate {
             photoTaken = true
             startCaptureVideo()
         } else {
-            photoTaken = false
             stopCaptureVideo()
         }
     }
@@ -542,13 +542,6 @@ class ViewRight : SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         }
     }
     
-    func imageMediaSent(groupIds: [Int]) {
-        removeMediaPreview()
-        (self.parent as! ViewController).scrollView.contentOffset.x = 0
-        let userInfo = ["group_ids" : groupIds]
-        NotificationCenter.default.post(name: Constants.Notifications.ClipPosted, object: self, userInfo: userInfo)
-    }
-    
     var bgIdentifier: UIBackgroundTaskIdentifier?
     
     func sendVideoMedia(groupIds: [Int]) {
@@ -556,8 +549,8 @@ class ViewRight : SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         removeMediaPreview()
         (self.parent as! ViewController).scrollView.contentOffset.x = 0
         let userInfo = ["group_ids" : groupIds]
-        NotificationCenter.default.post(name: Constants.Notifications.ClipPosted, object: self, userInfo: userInfo)
-        
+        NotificationCenter.default.post(name: Constants.Notifications.ClipUploadStarted, object: self, userInfo: userInfo)
+                
         bgIdentifier = UIApplication.shared.beginBackgroundTask {
             if let bgIdentifier = self.bgIdentifier {
                 UIApplication.shared.endBackgroundTask(bgIdentifier)
@@ -600,11 +593,6 @@ class ViewRight : SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     
     func postToGroup(group: Group) {
         postingGroup = group
-    }
-    
-    @IBAction func cameraRollBtnPress(_ sender: Any) {
-        print("camera roll")
-        
     }
     
     func clearPostingGroup() {

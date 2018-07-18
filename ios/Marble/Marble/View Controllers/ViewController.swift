@@ -45,7 +45,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognize
         initialHeight = view.frame.height
         
         State.shared.refreshUserGroups()
-        
     }
     
     override func didReceiveMemoryWarning() {

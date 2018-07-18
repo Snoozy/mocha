@@ -38,7 +38,6 @@ class SearchVC: UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        searchBar?.becomeFirstResponder()
     }
 
     override func didReceiveMemoryWarning() {

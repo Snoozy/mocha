@@ -35,7 +35,8 @@ class MediaCaptionView: UIView, TextCaptionViewDelegate {
     
     lazy var undoButton: UIButton = {
         let undoButton = UIButton(type: .system)
-        undoButton.setImage(UIImage(named: "reload"), for: .normal)
+        let reload = UIImage(named: "reload")?.withHorizontallyFlippedOrientation()
+        undoButton.setImage(reload, for: .normal)
         undoButton.addTarget(self, action: #selector(undoButtonTouch(btn:)), for: .touchUpInside)
         undoButton.isHidden = true
         self.addSubview(undoButton)
@@ -113,9 +114,13 @@ class MediaCaptionView: UIView, TextCaptionViewDelegate {
             undoButton.heightAnchor.constraint(equalToConstant: 35)
         ])
         
+        let topPadding = {
+            return isIPhoneX() ? 65 : 50
+        }()
+        
         NSLayoutConstraint.activate([
             drawButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12),
-            drawButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 85),
+            drawButton.topAnchor.constraint(equalTo: self.topAnchor, constant: CGFloat(topPadding)),
             drawButton.widthAnchor.constraint(equalToConstant: 35),
             drawButton.heightAnchor.constraint(equalToConstant: 35)
         ])

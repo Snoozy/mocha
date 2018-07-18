@@ -248,9 +248,10 @@ class ClipView: UIView, UIScrollViewDelegate {
     }
     
     var responder: SCLAlertViewResponder?
+    var disablePostActionsPopup: Bool = false
     
     @objc func longPressed(_ sender: UILongPressGestureRecognizer) {
-        if sender.state == UIGestureRecognizerState.began {
+        if !disablePostActionsPopup && sender.state == UIGestureRecognizerState.began {
             let appearance = SCLAlertView.SCLAppearance(
                 kTitleTop: 45.0,
                 kWindowHeight: 10.0,

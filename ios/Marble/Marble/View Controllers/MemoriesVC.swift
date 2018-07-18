@@ -28,7 +28,7 @@ class MemoriesVC : UICollectionViewController, UIGestureRecognizerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.collectionView!.register(UINib(nibName: "MemoriesCell", bundle: nil), forCellWithReuseIdentifier: reuseIdentifier)
         
         vlogifyBtn.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 16), NSAttributedStringKey.foregroundColor: Constants.Colors.MarbleBlue], for: .normal)
@@ -70,7 +70,7 @@ class MemoriesVC : UICollectionViewController, UIGestureRecognizerDelegate {
     }
     
     // MARK: UICollectionViewDataSource
-
+    
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -78,7 +78,7 @@ class MemoriesVC : UICollectionViewController, UIGestureRecognizerDelegate {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return clips.count
     }
-
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MemoriesCell
         
@@ -170,7 +170,7 @@ extension MemoriesVC : EditVlogDelegate {
     
     func videoExportDone(_ editVlogVC: EditVlogVC) {
         var style = ToastStyle()
-        style.backgroundColor = Constants.Colors.GreenNotifColor
+        style.backgroundColor = Constants.Colors.InfoNotifColor
         style.verticalPadding = 10.0
         style.horizontalPadding = 15.0
         self.navigationController?.view.makeToast("Vlog will continue uploading in the background.", duration: 5.0, position: .top, style: style)

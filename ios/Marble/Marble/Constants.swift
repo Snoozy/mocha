@@ -30,11 +30,11 @@ struct Constants {
         
         static let HomeBgColor = UIColor(red: 226/250, green: 226/250, blue: 226/250, alpha: 1.0)
         
-        static let GreenNotifColor = UIColor(red: 35/250, green: 188/250, blue: 35/250, alpha: 1.0)
+        static let InfoNotifColor = Constants.Colors.MarbleBlue
     }
     
     struct Notifications {
-        static let ClipPosted = Notification.Name("com.amarbleapp.clipPosted")
+        static let ClipUploadStarted = Notification.Name("com.amarbleapp.clipUploadStarted")
         static let ClipUploadFinished = Notification.Name("com.amarbleapp.clipUploadFinished")
         static let RefreshMainGroupState = Notification.Name("com.amarbleapp.refreshMainGroupState")
     }
