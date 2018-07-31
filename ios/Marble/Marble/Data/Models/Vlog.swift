@@ -20,6 +20,7 @@ class Vlog {
     let userId: Int
     let description: String
     var numComments: Int
+    let views: Int
     
     var comments: [Comment]
     
@@ -27,7 +28,7 @@ class Vlog {
     var thumbnail: UIImage?
     var thumbnailTried: Bool = false
     
-    init(id: Int, url: String, description: String, groupName: String, groupId: Int, userId: Int, time: Int64, numComments: Int, comments: [Comment] = [Comment]()) {
+    init(id: Int, url: String, description: String, groupName: String, groupId: Int, userId: Int, time: Int64, numComments: Int, views: Int, comments: [Comment] = [Comment]()) {
         self.id = id
         self.mediaUrl = url
         self.groupName = groupName
@@ -37,6 +38,7 @@ class Vlog {
         self.comments = comments
         self.description = description
         self.numComments = numComments
+        self.views = views
     }
     
     func getThumbnailImage(completionHandler: ((UIImage?) -> Void)? = nil) {

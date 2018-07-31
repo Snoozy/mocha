@@ -38,6 +38,17 @@ class Group {
         }
     }
     
+    convenience init(json: JSON, vlogNudgeClips: [Clip] = [Clip]()) {
+        self.init(
+            name: json["name"].stringValue,
+            id: json["group_id"].intValue,
+            lastSeen: json["last_seen"].int64Value,
+            members: json["members"].int ?? 1,
+            code: String(json["code"].string ?? "-1"),
+            vlogNudgeClips: vlogNudgeClips
+        )
+    }
+    
     func clipIdxValid() -> Bool {
         return clipViewIdx < (State.shared.groupClips[groupId]?.count)!
     }

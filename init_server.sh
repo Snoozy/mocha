@@ -12,6 +12,9 @@ do
     rsync -avzq --exclude 'config' server/ ubuntu@${server}:~/server
     rsync -avzq --no-R --no-implied-dirs ~/.marble/config.prod ubuntu@${server}:~/server/config
     ssh ubuntu@${server} bash -c "'
+        sudo apt-get update
+        sudo apt-get install python3-pip libpq-dev python3.6-dev -y
+        python3.6 -m venv mvenv
         . mvenv/bin/activate
         cd server/
         pip install -r requirements.txt > /dev/null

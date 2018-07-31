@@ -9,6 +9,7 @@ import os
 import base64
 from data.aws import boto_session
 from config import config
+from resources.constants import resp_error, resp_success
 
 username_regex = re.compile('^[a-z0-9\.\-_]+$')
 
@@ -121,6 +122,9 @@ class PingResource:
         resp.status = falcon.HTTP_UNAUTHORIZED
 
     def on_post(self, req, resp, user_id):
+        # Inspect build/version params to send popup message to clients
+        # resp.json = resp_error("Please update your Marble app to the latest version")
+        # raise falcon.HTTPBadRequest()
         if user_id is not None:
             device_token = req.get_param('device_token')
             user = req.session.query(User).filter(User.id == user_id).first()

@@ -48,8 +48,9 @@ extension State {
             let editorId = vlogJson["editor_id"].intValue
             let timestamp = vlogJson["timestamp"].int64Value
             let numComments = vlogJson["comments_count"].intValue
+            let views = vlogJson["views"].intValue
             
-            let newVlog = Vlog(id: vlogId, url: mediaUrl, description: description, groupName: groupName, groupId: groupId, userId: editorId, time: timestamp, numComments: numComments)
+            let newVlog = Vlog(id: vlogId, url: mediaUrl, description: description, groupName: groupName, groupId: groupId, userId: editorId, time: timestamp, numComments: numComments, views: views)
             newVlogs.append(newVlog)
         }
         return newVlogs

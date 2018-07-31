@@ -38,30 +38,18 @@ class HomeVC: UITableViewController {
         self.tableView.delaysContentTouches = false
         
         NotificationCenter.default.addObserver(self, selector: #selector(pullDownRefresh), name: Constants.Notifications.RefreshMainGroupState, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(clipUploadStarted), name: Constants.Notifications.ClipUploadStarted, object: nil)
-        
+                
         pullDownRefresh()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        self.tableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         UIApplication.shared.statusBarStyle = .default
-    }
-    
-    @objc func clipUploadStarted() {
-        DispatchQueue.main.async {
-            var style = ToastStyle()
-            style.backgroundColor = Constants.Colors.InfoNotifColor
-            style.verticalPadding = 10.0
-            style.horizontalPadding = 15.0
-            self.navigationController?.view.makeToast("Clip will continue uploading in the background", duration: 5.0, position: .top, style: style)
-        }
-        NotificationCenter.default.post(name: Constants.Notifications.RefreshMainGroupState, object: nil)
     }
     
     @objc func pullDownRefresh() {
@@ -84,8 +72,6 @@ class HomeVC: UITableViewController {
             self.refreshControl?.endRefreshing()
             self.tableView.reloadData()
         })
-        State.shared.refreshUserGroups()
-        State.shared.refreshClips()
     }
     
     override func didReceiveMemoryWarning() {
@@ -192,7 +178,7 @@ class HomeVC: UITableViewController {
         print(idx)
         let vlog = State.shared.vlogFeed[idx]
         
-        cell.marbleName.text = vlog.groupName
+        cell.marbleName.setTitle(vlog.groupName, for: .normal)
         cell.vidPreviewImage.backgroundColor = UIColor.lightGray
         cell.vlog = vlog
         
@@ -271,6 +257,12 @@ class HomeVC: UITableViewController {
     
     func playVideo(vlog: Vlog) {
         print("play video")
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+        }
+        catch {
+            print("Error changing audio session")
+        }
         let videoURL = { () -> URL? in
             if let fileUrl = vlog.videoFileUrl {
                 print("play video file cached")
@@ -283,9 +275,12 @@ class HomeVC: UITableViewController {
         let player = AVPlayer(url: videoURL!)
         let playerViewController = AVPlayerViewController()
         playerViewController.player = player
+        playerViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        playerViewController.view.frame = self.view.frame
         UIApplication.shared.statusBarStyle = .lightContent
-        self.present(playerViewController, animated: true) {
+        UIApplication.topViewController()?.present(playerViewController, animated: true) {
             playerViewController.player!.play()
+            Networker.shared.vlogViewed(vlogId: vlog.id, completionHandler: {_ in })
         }
     }
     

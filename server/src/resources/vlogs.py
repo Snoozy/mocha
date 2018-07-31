@@ -112,6 +112,22 @@ class VlogNewCommentResource:
         resp.json = resp_success({'comment': new_comment.to_dict()})
 
 
+class VlogViewedResource:
+    def on_post(self, req, resp, user_id):
+        vlog_id = req.get_param('vlog_id')
+        if not vlog_id:
+            resp.json = resp_error('No vlog id')
+            raise falcon.HTTPBadRequest()
+        vlog = req.session.query(Vlog).filter(Vlog.id == vlog_id).first()
+        if not vlog:
+            resp.json = resp_error('Bad vlog id')
+            raise falcon.HTTPBadRequest()
+        if not vlog.views:
+            vlog.views = 0
+        vlog.views = vlog.views + 1
+        resp.json = resp_success()
+
+
 def send_posted_notifications(poster: User, group: Group):
     for user in group.users:
         if user.id != poster.id:

@@ -21,6 +21,13 @@ class ListGroupsTableVC: UITableViewController {
         refreshControl?.addTarget(self, action: #selector(pullDownRefresh), for: .valueChanged)
         tableView?.addSubview(refreshControl!)
         tableView?.alwaysBounceVertical = true
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(pullDownRefresh), name: Constants.Notifications.RefreshMainGroupState, object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.tableView.reloadData()
     }
     
     @objc func pullDownRefresh() {
@@ -54,7 +61,6 @@ class ListGroupsTableVC: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        State.shared.sortGroupsRecent()
         return State.shared.userGroups.count
     }
     
@@ -62,7 +68,7 @@ class ListGroupsTableVC: UITableViewController {
         return 70.0
     }
     
-    let NUDGE_OVERRIDE = true
+    let NUDGE_OVERRIDE = false
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ListMemoriesCell", for: indexPath) as! ListMemoriesTVCell

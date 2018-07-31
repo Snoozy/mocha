@@ -7,14 +7,14 @@
 //
 
 import UIKit
-
+import AudioToolbox
 
 class ViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var scrollView: UIScrollView!
     
     let vRight = ViewRight(nibName: "ViewRight", bundle: nil)
-    var initialHeight: CGFloat?
+    var vLeft: UIViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,11 +25,11 @@ class ViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognize
 
         scrollView.delegate = self
         
-        let leftStory = UIStoryboard.init(name: "Left", bundle: nil).instantiateInitialViewController()
+        vLeft = UIStoryboard.init(name: "Left", bundle: nil).instantiateInitialViewController()
         
-        addChildViewController(leftStory!)
-        scrollView.addSubview((leftStory?.view)!)
-        leftStory?.didMove(toParentViewController: self)
+        addChildViewController(vLeft!)
+        scrollView.addSubview(vLeft!.view)
+        vLeft!.didMove(toParentViewController: self)
         
         addChildViewController(vRight)
         scrollView.addSubview(vRight.view)
@@ -41,10 +41,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognize
         vRight.view.frame = vRightFrame
         
         scrollView.contentSize = CGSize(width: view.frame.width * 2, height: view.frame.height)
-            
-        initialHeight = view.frame.height
         
         State.shared.refreshUserGroups()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(clipUploadStarted), name: Constants.Notifications.ClipUploadStarted, object: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -98,15 +98,23 @@ class ViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognize
             scrollView.contentOffset.x = view.frame.width
         } else {
             if scrollView.bounds.intersects(vRight.view.frame) {
-                self.view.frame = CGRect(x: 0, y: 0, width: (self.view.frame.width), height: initialHeight! + 20)
-                UIApplication.shared.isStatusBarHidden = true
+                self.view.window?.windowLevel = UIWindowLevelStatusBar
             } else {
-                UIApplication.shared.isStatusBarHidden = false
-                self.view.frame = CGRect(x: 0, y: 0, width: (self.view.frame.width), height: initialHeight!)
-                UIApplication.shared.statusBarStyle = .default
+                self.view.window?.windowLevel = UIWindowLevelNormal
             }
             setNeedsStatusBarAppearanceUpdate()
         }
+    }
+    
+    @objc func clipUploadStarted() {
+        DispatchQueue.main.async {
+            var style = ToastStyle()
+            style.backgroundColor = Constants.Colors.InfoNotifColor
+            style.verticalPadding = 10.0
+            style.horizontalPadding = 15.0
+            self.view.makeToast("Clip will continue uploading in the background", duration: 5.0, position: .top, style: style)
+        }
+        NotificationCenter.default.post(name: Constants.Notifications.RefreshMainGroupState, object: nil)
     }
     
 }

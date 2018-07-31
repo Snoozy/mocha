@@ -103,19 +103,19 @@ class MemoriesVC : UICollectionViewController, UIGestureRecognizerDelegate {
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! MemoriesCell
         
-        let imageViewer = clipViewNib.instantiate(withOwner: nil, options: nil)[0] as! ClipView
-        imageViewer.isHidden = true
-        imageViewer.commentingEnabled = false
-        imageViewer.delegate = self
-        imageViewer.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        let clipViewer = clipViewNib.instantiate(withOwner: nil, options: nil)[0] as! ClipView
+        clipViewer.isHidden = true
+        clipViewer.commentingEnabled = false
+        clipViewer.delegate = self
+        clipViewer.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
-        imageViewer.parentVC = self
-        imageViewer.mediaStartClip(clip: cell.clip!)
+        clipViewer.parentVC = self
+        clipViewer.mediaStartClip(clip: cell.clip!)
         memoryIdx = indexPath.row
         
-        imageViewer.window?.windowLevel = UIWindowLevelStatusBar
+        clipViewer.window?.windowLevel = UIWindowLevelStatusBar
         self.view.window?.windowLevel = UIWindowLevelStatusBar
-        self.view.window?.addSubview(imageViewer)
+        self.view.window?.addSubview(clipViewer)
     }
 
 }

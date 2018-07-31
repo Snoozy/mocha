@@ -10,10 +10,11 @@ import Foundation
 import UIKit
 
 #if DEV
-//    let API_URL = "http://172.31.99.181:8000"
-//    let API_URL = "http://127.0.0.1:8000"
-    let API_URL = "https://api.amarbleapp.com"
+//    let API_URL = "http://192.168.10.102:8000"
+    let API_URL = "http://127.0.0.1:8000"
+//    let API_URL = "https://api.amarbleapp.com"
 #else
+//    let API_URL = "http://192.168.10.102:8000"
     let API_URL = "https://api.amarbleapp.com"
 #endif
 
@@ -55,5 +56,5 @@ struct Constants {
     
     static let IphoneXMargin: Int = 50
     
-    static let MaxRecordingDuration: Int = 2 * 60  // in seconds
+    static let MaxRecordingDuration: Int = 60  // in seconds
 }

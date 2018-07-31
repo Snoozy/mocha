@@ -74,9 +74,24 @@ class CreateMarbleVC: UIViewController, UITextFieldDelegate {
             
             Networker.shared.createGroupWith(name: name, completionHandler: { response in
                 switch response.result {
-                case .success:
+                case .success(let val):
+                    NotificationCenter.default.post(name: Constants.Notifications.RefreshMainGroupState, object: nil)
+                    
+                    let json = JSON(val)
+                    
+                    let gJson = json["group"]
+                    let group = Group(json: gJson)
+                    print(group)
+                    print(gJson)
+                    State.shared.userGroups.insert(group, at: 0)
+                    
                     alert.dismiss(animated: true, completion: {
-                        self.dismiss(animated: true, completion: nil)
+                        self.dismiss(animated: true, completion: {
+                            guard let vc = UIApplication.topViewController() as? ViewController else { return }
+                            if let tabController = vc.vLeft as? UITabBarController {
+                                tabController.selectedIndex = 1
+                            }
+                        })
                     })
                 case .failure:
                     print(response.debugDescription)

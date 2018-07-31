@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Flurry_iOS_SDK
 
 extension State {
     
@@ -25,8 +26,9 @@ extension State {
                     }
                 }
                 completionHandler?()
-            case .failure:
+            case .failure(let val):
                 print(response.debugDescription)
+                Flurry.logError("Failed_Api_Request", message: response.debugDescription, error: val)
             }
         })
     }
@@ -38,8 +40,19 @@ extension State {
                 let json = JSON(val)
                 print(json)
                 self.me = User(id: json["user_id"].intValue, username: json["username"].stringValue, name: json["name"].stringValue)
-            case .failure:
-                print(response.debugDescription)
+            case .failure(let val):
+                let json = JSON(response.data!)
+                if let msg = json["error"].string {
+                    let alertController = UIAlertController(title: msg, message: "", preferredStyle: .alert)
+                    let OKAction = UIAlertAction(title: "OK", style: .default) { (action) in
+                        
+                    }
+                    alertController.addAction(OKAction)
+                    UIApplication.topViewController()?.present(alertController, animated: true, completion: nil)
+                } else {
+                    print(response.debugDescription)
+                    Flurry.logError("Failed_Api_Request", message: response.debugDescription, error: val)
+                }
             }
         })
     }

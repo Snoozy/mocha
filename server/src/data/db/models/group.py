@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, BigInteger
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import relationship
 
-from resources.constants import GROUP_ID_XOR
+from etc.common import group_code_from_id
 from utils import time_millis
 from ..db import Base
 
@@ -21,6 +21,6 @@ class Group(Base):
         return {
             'name': self.name,
             'group_id': self.id,
-            'code': int(self.id) ^ GROUP_ID_XOR,
+            'code': group_code_from_id(int(self.id)),
             'members': self.memberships.count()
         }

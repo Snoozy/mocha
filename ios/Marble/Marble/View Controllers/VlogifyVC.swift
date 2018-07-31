@@ -35,12 +35,24 @@ class VlogifyVC: UICollectionViewController {
         self.collectionView!.register(UINib(nibName: "MemoriesCell", bundle: nil), forCellWithReuseIdentifier: reuseIdentifier)
         let clips = State.shared.getClips(forGroup: self.group!.groupId)
         for clip in clips {
-            if clip.liked {
-                memories.append(clip)
-            }
+            memories.append(clip)
         }
         
         collectionView?.alwaysBounceVertical = true
+        let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        lpgr.delaysTouchesBegan = true
+        lpgr.minimumPressDuration = 0.3
+        self.collectionView?.addGestureRecognizer(lpgr)
+        
+        let headerView = UIView(frame: CGRect(x: 0, y: -50, width: self.view.frame.width, height: 50))
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
+        label.text = "Hold to preview. Tap to select."
+        label.alpha = 0.7
+        label.textAlignment = .center
+        headerView.addSubview(label)
+        collectionView?.addSubview(headerView)
+        collectionView?.contentInset.top = 50
+        
     }
     
     @objc func pullDownRefresh() {
@@ -85,7 +97,7 @@ class VlogifyVC: UICollectionViewController {
         
         cell.alpha = 0.8
         cell.numberLabel.isHidden = false
-        cell.numberLabel.text = String(clipsSelection.count + 1)
+        cell.numberLabel.text = String("✓")
         clipsSelection.append(indexPath)
         
         if clipsSelection.count > 0 {
@@ -120,6 +132,34 @@ class VlogifyVC: UICollectionViewController {
                 destVC.group = group
                 destVC.delegate = self.editVlogDelegate
             }
+        }
+    }
+    
+    let clipViewNib = UINib(nibName: "ClipView", bundle: nil)
+    
+    @objc func handleLongPress(gesture: UILongPressGestureRecognizer) {
+        if gesture.state != .began {
+            return
+        }
+        
+        let p = gesture.location(in: self.collectionView)
+        
+        if let indexPath = self.collectionView?.indexPathForItem(at: p) {
+            let cell = self.collectionView?.cellForItem(at: indexPath) as! MemoriesCell
+            
+            let clipViewer = clipViewNib.instantiate(withOwner: nil, options: nil)[0] as! ClipView
+            clipViewer.isHidden = true
+            clipViewer.commentingEnabled = false
+            clipViewer.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            
+            clipViewer.parentVC = self
+            clipViewer.mediaStartClip(clip: cell.clip!)
+            
+            clipViewer.window?.windowLevel = UIWindowLevelStatusBar
+            self.view.window?.windowLevel = UIWindowLevelStatusBar
+            self.view.window?.addSubview(clipViewer)
+        } else {
+            print("couldn't find index path")
         }
     }
     

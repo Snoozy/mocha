@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Flurry_iOS_SDK
 
 extension State {
     
@@ -33,14 +34,15 @@ extension State {
                                   id: groupId,
                                   lastSeen: group["last_seen"].int64 ?? 0,
                                   members: group["members"].int ?? 1,
-                                  code: String(group["code"].int ?? groupId),
+                                  code: String(group["code"].string ?? "-1"),
                                   vlogNudgeClips: nudgeClips
                     )
                 }
                 self.userGroups = newGroups
                 completionHandler?()
-            case .failure:
+            case .failure(let val):
                 print(response.debugDescription)
+                Flurry.logError("Failed_Api_Request", message: response.debugDescription, error: val)
             }
         })
     }
@@ -53,22 +55,29 @@ extension State {
                 var groups = [Group]()
                 if let gJson = json["results"].array {
                     for g in gJson {
-                        groups.append(Group(name: g["name"].stringValue,
-                                            id: g["group_id"].intValue,
-                                            lastSeen: g["last_seen"].int64Value,
-                                            members: g["members"].int ?? 1,
-                                            code: String(g["code"].intValue)))
+                        groups.append(Group(json: g))
                     }
                     self.trendingGroups = groups
                 }
-            case .failure:
+            case .failure(let val):
                 print(response.debugDescription)
+                Flurry.logError("Failed_Api_Request", message: response.debugDescription, error: val)
             }
         }
     }
     
-    func sortGroupsRecent() {
-        self.userGroups.sort(by: groupsRecentSort)
+    func addGroup(group: Group, groups: inout [Group], cache: [Group]) {
+        let groupCheck: Group? = self.findGroupBy(groups: cache, id: group.groupId)
+        if groupCheck == nil {
+            groups.append(group)
+        } else {
+            groupCheck?.updateInfo(name: group.name, lastSeen: group.lastSeen, members: group.members, vlogNudgeClips: group.vlogNudgeClips)
+            groups.append(groupCheck!)
+        }
+    }
+    
+    func addGroup(group: Group) {
+        self.addGroup(group: group, groups: &self.userGroups, cache: self.userGroups)
     }
     
     func addGroup(name: String, id: Int, lastSeen: Int64, members: Int, code: String) {
@@ -79,20 +88,8 @@ extension State {
         return findGroupBy(groups: self.userGroups, id: id)
     }
     
-    private func groupsRecentSort(this: Group, that: Group) -> Bool {
-        let thisLastClip = self.groupClips[this.groupId]?.last?.timestamp ?? 0
-        let thatLastClip = self.groupClips[that.groupId]?.last?.timestamp ?? 0
-        return thisLastClip > thatLastClip
-    }
-    
     private func addGroup(groups: inout [Group], cache: [Group], name: String, id: Int, lastSeen: Int64, members: Int, code: String, vlogNudgeClips: [Clip] = [Clip]()) {
-        let groupCheck: Group? = self.findGroupBy(groups: cache, id: id)
-        if groupCheck == nil {
-            groups.append(Group(name: name, id: id, lastSeen: lastSeen, members: members, code: code, vlogNudgeClips: vlogNudgeClips))
-        } else {
-            groupCheck?.updateInfo(name: name, lastSeen: lastSeen, members: members, vlogNudgeClips: vlogNudgeClips)
-            groups.append(groupCheck!)
-        }
+        self.addGroup(group: Group(name: name, id: id, lastSeen: lastSeen, members: members, code: code, vlogNudgeClips: vlogNudgeClips), groups: &groups, cache: cache)
     }
     
     private func findGroupBy(groups: [Group], id: Int) -> Group? {

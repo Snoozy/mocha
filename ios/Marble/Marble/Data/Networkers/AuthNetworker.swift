@@ -15,10 +15,15 @@ extension Networker {
         let params: Parameters = {
             if (deviceToken != nil) {
                 return [
-                    "device_token": deviceToken!
+                    "device_token": deviceToken!,
+                    "version": Bundle.main.releaseVersionNumber!,
+                    "build": Bundle.main.buildVersionNumber!,
                 ]
             } else {
-                return [:]
+                return [
+                    "version": Bundle.main.releaseVersionNumber!,
+                    "build": Bundle.main.buildVersionNumber!,
+                ]
             }
         }()
         self.sessionManager.request(Router.Ping, method: .post, parameters: params, encoding: URLEncoding.default).validate().responseJSON(completionHandler: completionHandler)

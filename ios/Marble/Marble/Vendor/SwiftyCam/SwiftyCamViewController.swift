@@ -853,7 +853,12 @@ open class SwiftyCamViewController: UIViewController, AVAudioRecorderDelegate, A
 		}
 	}
     
+    var qrEnabled: Bool = false
+    
     fileprivate func configureQrOutput() {
+        if !qrEnabled {
+            return
+        }
         let captureMetadataOutput = AVCaptureMetadataOutput()
         if self.session.canAddOutput(captureMetadataOutput) {
             print("adding qr code output")

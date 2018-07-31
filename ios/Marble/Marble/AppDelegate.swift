@@ -10,6 +10,7 @@ import UIKit
 import AlamofireNetworkActivityIndicator
 import UserNotifications
 import AVFoundation
+import Flurry_iOS_SDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -28,15 +29,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if launchOptions?[UIApplicationLaunchOptionsKey.remoteNotification] != nil {
             NotificationCenter.default.post(name: Constants.Notifications.RefreshMainGroupState, object: self)
         }
+        
+        let builder = FlurrySessionBuilder.init()
+            .withAppVersion(Bundle.main.releaseVersionNumber ?? "0")
+            .withLogLevel(FlurryLogLevelCriticalOnly)
+            .withCrashReporting(true)
+            .withSessionContinueSeconds(10)
+        
+        Flurry.startSession("GTZHFWDFM7WY3G6PW6CG", with: builder)
+        
+        if let url = launchOptions?[.url] as? URL {
+            return executeDeepLink(with: url)
+        }
         return true
     }
     
-    func applicationWillEnterForeground(_ application: UIApplication) {
-//        ViewLeft.startRefreshTimer()
-    }
-    
-    func applicationDidEnterBackground(_ application: UIApplication) {
-//        ViewLeft.killRefreshTimer()
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        return url.scheme == "marble" && executeDeepLink(with: url)
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
@@ -57,6 +66,87 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
         Networker.shared.sessionManager.backgroundCompletionHandler = completionHandler
     }
-
+    
+    private func executeDeepLink(with url: URL) -> Bool {
+        print("qwerqwer")
+        let recognizer = DeepLinkRecognizer(deepLinkTypes: [
+            JoinGroupDeepLink.self
+            ])
+        
+        guard let deepLink = recognizer.deepLink(matching: url) else {
+            print("Unable to match URL: \(url.absoluteString)")
+            return false 
+        }
+        
+        switch deepLink {
+        case let link as JoinGroupDeepLink: return joinGroup(with: link)
+        default: fatalError("Unsupported DeepLink: \(type(of: deepLink))")
+        }
+        
+    }
+    
+    var responder: SCLAlertViewResponder?
+    
+    private func joinGroup(with deepLink: JoinGroupDeepLink) -> Bool {
+        guard let viewController = UIApplication.topViewController() else { return false }
+        let alert = UIAlertController(title: nil, message: "Loading...", preferredStyle: .alert)
+        
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        loadingIndicator.startAnimating();
+        
+        alert.view.addSubview(loadingIndicator)
+        viewController.present(alert, animated: true, completion: nil)
+        
+        Networker.shared.findGroupBy(code: deepLink.groupCode, completionHandler: { response in
+            viewController.dismiss(animated: false, completion: nil)
+            switch response.result {
+            case .success:
+                let response = response.result.value as! NSDictionary
+                if let status = response["status"] as? Int {
+                    if status == 0 {  // successfuly found group
+                        
+                        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+                        
+                        let name = response["group_name"] as! String
+                        let memberCount = response["member_count"] as! Int
+                        let groupCode = response["code"] as! String
+                        
+                        let appearance = SCLAlertView.SCLAppearance(
+                            showCloseButton: false,
+                            hideWhenBackgroundViewIsTapped: true
+                        )
+                        
+                        let alert = SCLAlertView(appearance: appearance)
+                        alert.addButton("Join Marble", action: {
+                            Networker.shared.joinGroup(code: groupCode, completionHandler: { response in
+                                switch response.result {
+                                case .success(let value):
+                                    print("segue")
+                                    let json = JSON(value)
+                                    print(json)
+                                    let group = json["group"]
+                                    let groupId = group["group_id"].int!
+                                    State.shared.addGroup(name: group["name"].stringValue, id: groupId, lastSeen: group["last_seen"].int64 ?? 0, members: group["members"].int ?? 1,  code: group["code"].string ?? String(groupId))
+                                    NotificationCenter.default.post(name: Constants.Notifications.RefreshMainGroupState, object: self)
+                                case .failure:
+                                    print(response.debugDescription)
+                                }
+                            })
+                        })
+                        alert.addButton("Cancel", backgroundColor: UIColor.white, textColor: Constants.Colors.MarbleBlue, action: {
+                            self.responder?.close()
+                        })
+                        self.responder = alert.showInfo(name, subTitle: String(memberCount) + (memberCount > 1 ? " members" : " member"))
+                    }
+                }
+            case .failure:
+                print(response.debugDescription)
+            }
+            
+        })
+        return true
+    }
+    
 }
-

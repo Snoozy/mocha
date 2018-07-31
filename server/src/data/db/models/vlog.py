@@ -13,6 +13,7 @@ class Vlog(Base):
     editor_id = Column(Integer, ForeignKey('users.id'), index=True)
     description = Column(String)
     clip_ids = Column(String)  # list separated by ','
+    views = Column(Integer, default=0)
     timestamp = Column(BigInteger, default=time_millis)
 
     editor = relationship('User', foreign_keys=[editor_id])
@@ -27,5 +28,6 @@ class Vlog(Base):
             'group_name': self.group.name,
             'timestamp': self.timestamp,
             'description': self.description,
+            'views': self.views,
             'comments_count': self.comments.count()
         }

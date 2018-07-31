@@ -40,6 +40,8 @@
 		423D5C4E20098F860054E493 /* StoryViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423D5C4C20098F860054E493 /* StoryViewDelegate.swift */; };
 		423D5C50201686C10054E493 /* ListMemoriesTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423D5C4F201686C10054E493 /* ListMemoriesTVCell.swift */; };
 		423D5C51201686C10054E493 /* ListMemoriesTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423D5C4F201686C10054E493 /* ListMemoriesTVCell.swift */; };
+		42425A9A20FFB71300BA0EDC /* Bundle_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42425A9920FFB71300BA0EDC /* Bundle_ext.swift */; };
+		42425A9B20FFB71300BA0EDC /* Bundle_ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42425A9920FFB71300BA0EDC /* Bundle_ext.swift */; };
 		42457447206068A900636A42 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42457446206068A900636A42 /* SearchTableViewCell.swift */; };
 		42457448206068A900636A42 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42457446206068A900636A42 /* SearchTableViewCell.swift */; };
 		424617B220B0025D0084B206 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424617B120B0025D0084B206 /* HomeVC.swift */; };
@@ -303,8 +305,14 @@
 		42E13DD31E8E46610016FA76 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 420A006D1E31C6D400525DB0 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		42E13DD41E8E46610016FA76 /* AlamofireNetworkActivityIndicator.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 427FFC711E3B1F470007159C /* AlamofireNetworkActivityIndicator.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		42E13DDD1E8E4B4B0016FA76 /* Info-Dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42E13DDC1E8E4B4B0016FA76 /* Info-Dev.plist */; };
+		42E2780C2106DD12003FA633 /* DeepLinking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E2780B2106DD12003FA633 /* DeepLinking.swift */; };
+		42E2780D2106DD12003FA633 /* DeepLinking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E2780B2106DD12003FA633 /* DeepLinking.swift */; };
+		42E278102106DD84003FA633 /* JoinGroupDeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E2780F2106DD84003FA633 /* JoinGroupDeepLink.swift */; };
+		42E278112106DD84003FA633 /* JoinGroupDeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E2780F2106DD84003FA633 /* JoinGroupDeepLink.swift */; };
+		90DEEBB04C3487FFDEE16056 /* Pods_Marble_Dev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D29D5DB1A8FD776A7537FB /* Pods_Marble_Dev.framework */; };
 		952AF8061DAB363D005E60C7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952AF8051DAB363D005E60C7 /* AppDelegate.swift */; };
 		952AF80D1DAB363D005E60C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 952AF80C1DAB363D005E60C7 /* Assets.xcassets */; };
+		A078C8155C346698D9532DAD /* Pods_Marble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9283BC39B421A0258FD0B310 /* Pods_Marble.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -494,6 +502,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		32F36EC01F5AC08C92E390C7 /* Pods-Marble.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Marble.release.xcconfig"; path = "Pods/Target Support Files/Pods-Marble/Pods-Marble.release.xcconfig"; sourceTree = "<group>"; };
 		420A00611E31C6D400525DB0 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
 		42240C9F1FB296AC007BB8FF /* Corner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Corner.swift; sourceTree = "<group>"; };
 		42240CA01FB296AC007BB8FF /* CornerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CornerView.swift; sourceTree = "<group>"; };
@@ -513,6 +522,7 @@
 		423D5C46200545820054E493 /* UIKitExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIKitExtensions.swift; sourceTree = "<group>"; };
 		423D5C4C20098F860054E493 /* StoryViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewDelegate.swift; sourceTree = "<group>"; };
 		423D5C4F201686C10054E493 /* ListMemoriesTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListMemoriesTVCell.swift; sourceTree = "<group>"; };
+		42425A9920FFB71300BA0EDC /* Bundle_ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bundle_ext.swift; sourceTree = "<group>"; };
 		42457446206068A900636A42 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		424617B120B0025D0084B206 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		424617C420B00C530084B206 /* Vlog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vlog.swift; sourceTree = "<group>"; };
@@ -647,10 +657,17 @@
 		42DA9D812021A84A001CEB9B /* UISearchBar_ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISearchBar_ext.swift; sourceTree = "<group>"; };
 		42E13DD81E8E46610016FA76 /* Marble Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Marble Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		42E13DDC1E8E4B4B0016FA76 /* Info-Dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-Dev.plist"; sourceTree = "<group>"; };
+		42E2780B2106DD12003FA633 /* DeepLinking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinking.swift; sourceTree = "<group>"; };
+		42E2780F2106DD84003FA633 /* JoinGroupDeepLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinGroupDeepLink.swift; sourceTree = "<group>"; };
+		77778E91203707711A8C4C84 /* Pods-Marble.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Marble.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Marble/Pods-Marble.debug.xcconfig"; sourceTree = "<group>"; };
+		9283BC39B421A0258FD0B310 /* Pods_Marble.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Marble.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		952AF8021DAB363D005E60C7 /* Marble.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Marble.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		952AF8051DAB363D005E60C7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		952AF80C1DAB363D005E60C7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		952AF8111DAB363D005E60C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D4D29D5DB1A8FD776A7537FB /* Pods_Marble_Dev.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Marble_Dev.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E13CF16CC9121EF0C6A50509 /* Pods-Marble Dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Marble Dev.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Marble Dev/Pods-Marble Dev.debug.xcconfig"; sourceTree = "<group>"; };
+		E8419FF9043C860A480EFB3D /* Pods-Marble Dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Marble Dev.release.xcconfig"; path = "Pods/Target Support Files/Pods-Marble Dev/Pods-Marble Dev.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -661,6 +678,7 @@
 				42E13DC11E8E46610016FA76 /* AlamofireImage.framework in Frameworks */,
 				42E13DC21E8E46610016FA76 /* Alamofire.framework in Frameworks */,
 				42E13DC31E8E46610016FA76 /* AlamofireNetworkActivityIndicator.framework in Frameworks */,
+				90DEEBB04C3487FFDEE16056 /* Pods_Marble_Dev.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -671,6 +689,7 @@
 				4299916F1E4DAF000049608F /* AlamofireImage.framework in Frameworks */,
 				420A007A1E31C7CF00525DB0 /* Alamofire.framework in Frameworks */,
 				427FFC741E3B1F600007159C /* AlamofireNetworkActivityIndicator.framework in Frameworks */,
+				A078C8155C346698D9532DAD /* Pods_Marble.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -922,6 +941,7 @@
 				42DA9D812021A84A001CEB9B /* UISearchBar_ext.swift */,
 				4273C37320BE04020036CF5D /* mUILabel.swift */,
 				42ADCEF220DDC442002756C2 /* NSMutableAttributedString_ext.swift */,
+				42425A9920FFB71300BA0EDC /* Bundle_ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -943,6 +963,7 @@
 				42C4439520C5CC4D00451847 /* ExpandableLabel.swift */,
 				42556B7920DC646100453FFA /* GrowingTextView.swift */,
 				42C7826720F694E900B32D3F /* Toast.swift */,
+				42E2780B2106DD12003FA633 /* DeepLinking.swift */,
 			);
 			path = Vendor;
 			sourceTree = "<group>";
@@ -1008,6 +1029,14 @@
 			path = "View Controllers";
 			sourceTree = "<group>";
 		};
+		42E2780E2106DD42003FA633 /* DeepLinks */ = {
+			isa = PBXGroup;
+			children = (
+				42E2780F2106DD84003FA633 /* JoinGroupDeepLink.swift */,
+			);
+			path = DeepLinks;
+			sourceTree = "<group>";
+		};
 		42F2CBCE1F71DB9E0042F691 /* SwiftyCam */ = {
 			isa = PBXGroup;
 			children = (
@@ -1040,6 +1069,15 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
+		59F72C9AD84E7C3A71348941 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9283BC39B421A0258FD0B310 /* Pods_Marble.framework */,
+				D4D29D5DB1A8FD776A7537FB /* Pods_Marble_Dev.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		952AF7F91DAB363D005E60C7 = {
 			isa = PBXGroup;
 			children = (
@@ -1048,6 +1086,8 @@
 				429991551E4DAEB90049608F /* AlamofireImage.xcodeproj */,
 				427FFC6A1E3B1F470007159C /* AlamofireNetworkActivityIndicator.xcodeproj */,
 				420A00611E31C6D400525DB0 /* Alamofire.xcodeproj */,
+				D4AB5DC2C314BD2C0920AC2E /* Pods */,
+				59F72C9AD84E7C3A71348941 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1063,8 +1103,9 @@
 		952AF8041DAB363D005E60C7 /* Marble */ = {
 			isa = PBXGroup;
 			children = (
-				4203A1291F6E06DB0094ED3A /* Delegates */,
 				42651EA31EB879E4006BEF33 /* Marble.entitlements */,
+				42E2780E2106DD42003FA633 /* DeepLinks */,
+				4203A1291F6E06DB0094ED3A /* Delegates */,
 				42AE784120B284BD00EBD994 /* Video */,
 				42F790631E39C78500D3B2AF /* Data */,
 				42C979271FB2934A000247F4 /* Router.swift */,
@@ -1086,6 +1127,17 @@
 			path = Marble;
 			sourceTree = "<group>";
 		};
+		D4AB5DC2C314BD2C0920AC2E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				77778E91203707711A8C4C84 /* Pods-Marble.debug.xcconfig */,
+				32F36EC01F5AC08C92E390C7 /* Pods-Marble.release.xcconfig */,
+				E13CF16CC9121EF0C6A50509 /* Pods-Marble Dev.debug.xcconfig */,
+				E8419FF9043C860A480EFB3D /* Pods-Marble Dev.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1093,10 +1145,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 42E13DD51E8E46610016FA76 /* Build configuration list for PBXNativeTarget "Marble Dev" */;
 			buildPhases = (
+				1E1961843B0E898E9B779BBB /* [CP] Check Pods Manifest.lock */,
 				42E13D971E8E46610016FA76 /* Sources */,
 				42E13DC01E8E46610016FA76 /* Frameworks */,
 				42E13DC41E8E46610016FA76 /* Resources */,
 				42E13DD11E8E46610016FA76 /* Embed Frameworks */,
+				A28240D83DD24041721D4535 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1114,10 +1168,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 952AF8141DAB363D005E60C7 /* Build configuration list for PBXNativeTarget "Marble" */;
 			buildPhases = (
+				9785AAD924AC24FEAC5791CE /* [CP] Check Pods Manifest.lock */,
 				952AF7FE1DAB363D005E60C7 /* Sources */,
 				952AF7FF1DAB363D005E60C7 /* Frameworks */,
 				952AF8001DAB363D005E60C7 /* Resources */,
 				420A007E1E31C7CF00525DB0 /* Embed Frameworks */,
+				85A03A24AFB5AE993C71A0DF /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1161,6 +1217,9 @@
 							};
 							com.apple.Push = {
 								enabled = 1;
+							};
+							com.apple.SafariKeychain = {
+								enabled = 0;
 							};
 						};
 					};
@@ -1381,6 +1440,81 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1E1961843B0E898E9B779BBB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Marble Dev-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		85A03A24AFB5AE993C71A0DF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Marble/Pods-Marble-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Flurry-iOS-SDK/Flurry_iOS_SDK.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Flurry_iOS_SDK.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Marble/Pods-Marble-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9785AAD924AC24FEAC5791CE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Marble-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A28240D83DD24041721D4535 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Marble Dev/Pods-Marble Dev-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Flurry-iOS-SDK/Flurry_iOS_SDK.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Flurry_iOS_SDK.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Marble Dev/Pods-Marble Dev-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		42E13D971E8E46610016FA76 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -1419,6 +1553,7 @@
 				42C979731FB293A6000247F4 /* GroupTVCell.swift in Sources */,
 				42C4E5711FB92899003E3CDA /* GradientView.swift in Sources */,
 				42C979921FB293BE000247F4 /* CreateMarbleVC.swift in Sources */,
+				42425A9B20FFB71300BA0EDC /* Bundle_ext.swift in Sources */,
 				42C979981FB293BE000247F4 /* AuthSignUpVC.swift in Sources */,
 				42C97A261FB294BC000247F4 /* UIApplication_ext.swift in Sources */,
 				42C9796D1FB293A6000247F4 /* MediaCaptionView.swift in Sources */,
@@ -1479,6 +1614,7 @@
 				42C9795B1FB2938D000247F4 /* Networker.swift in Sources */,
 				42C979791FB293A6000247F4 /* TextCaptionView.swift in Sources */,
 				42AE783C20B20EDC00EBD994 /* ProgressHUD.swift in Sources */,
+				42E2780D2106DD12003FA633 /* DeepLinking.swift in Sources */,
 				42C7826920F694E900B32D3F /* Toast.swift in Sources */,
 				42C9793A1FB2937B000247F4 /* Caption.swift in Sources */,
 				42C979DF1FB29458000247F4 /* DeckSegue.swift in Sources */,
@@ -1503,6 +1639,7 @@
 				42C979771FB293A6000247F4 /* DrawCaptionView.swift in Sources */,
 				42C979D01FB29443000247F4 /* SwiftyJSON.swift in Sources */,
 				42C979CE1FB29443000247F4 /* SwiftyDraw.swift in Sources */,
+				42E278112106DD84003FA633 /* JoinGroupDeepLink.swift in Sources */,
 				42C979E11FB29458000247F4 /* DeckTransitioningDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1544,6 +1681,7 @@
 				4273C35B20B74D4F0036CF5D /* VlogNetworker.swift in Sources */,
 				42C9795A1FB2938D000247F4 /* Networker.swift in Sources */,
 				42C97A001FB2949B000247F4 /* SwiftyCamViewController.swift in Sources */,
+				42425A9A20FFB71300BA0EDC /* Bundle_ext.swift in Sources */,
 				42C4E5701FB92899003E3CDA /* GradientView.swift in Sources */,
 				42C9796E1FB293A6000247F4 /* NumberButton.swift in Sources */,
 				42C9794E1FB2938D000247F4 /* ClipNetworker.swift in Sources */,
@@ -1604,6 +1742,7 @@
 				42C97A091FB2949F000247F4 /* FontAwesomeView.swift in Sources */,
 				42CAB1AD1FDB7E7200D5B022 /* MemoriesNetworker.swift in Sources */,
 				42C979EF1FB29495000247F4 /* SwiftyGifManager.swift in Sources */,
+				42E2780C2106DD12003FA633 /* DeepLinking.swift in Sources */,
 				42C7826820F694E900B32D3F /* Toast.swift in Sources */,
 				42C979761FB293A6000247F4 /* DrawCaptionView.swift in Sources */,
 				42AE783B20B20EDC00EBD994 /* ProgressHUD.swift in Sources */,
@@ -1628,6 +1767,7 @@
 				42C979971FB293BE000247F4 /* AuthSignUpVC.swift in Sources */,
 				42C979541FB2938D000247F4 /* UserNetworker.swift in Sources */,
 				42C9797A1FB293A6000247F4 /* CaptionView.swift in Sources */,
+				42E278102106DD84003FA633 /* JoinGroupDeepLink.swift in Sources */,
 				42C979E01FB29458000247F4 /* DeckTransitioningDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1670,6 +1810,7 @@
 /* Begin XCBuildConfiguration section */
 		42E13DD61E8E46610016FA76 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E13CF16CC9121EF0C6A50509 /* Pods-Marble Dev.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1691,6 +1832,7 @@
 		};
 		42E13DD71E8E46610016FA76 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E8419FF9043C860A480EFB3D /* Pods-Marble Dev.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1818,6 +1960,7 @@
 		};
 		952AF8151DAB363D005E60C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 77778E91203707711A8C4C84 /* Pods-Marble.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1841,6 +1984,7 @@
 		};
 		952AF8161DAB363D005E60C7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 32F36EC01F5AC08C92E390C7 /* Pods-Marble.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;

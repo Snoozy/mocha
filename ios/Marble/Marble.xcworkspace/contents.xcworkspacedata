@@ -4,4 +4,10 @@
    <FileRef
       location = "container:Marble.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:Marble.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
 </Workspace>

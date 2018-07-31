@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Flurry_iOS_SDK
 
 extension State {
         
@@ -35,8 +36,9 @@ extension State {
                     self.groupClips[groupId] = newClips
                 }
                 completionHandler?()
-            case .failure:
+            case .failure(let val):
                 print(response.debugDescription)
+                Flurry.logError("Failed_Api_Request", message: response.debugDescription, error: val)
             }
         })
     }

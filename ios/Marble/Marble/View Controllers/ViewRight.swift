@@ -81,8 +81,6 @@ class ViewRight : SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         cancelButtonOut.isHidden = true
         nextButtonOut.isHidden = true
         
-        NotificationCenter.default.addObserver(self, selector:#selector(self.playerDidFinishPlaying(note:)),name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
-        
         self.view.isUserInteractionEnabled = true
         
         cameraDelegate = self
@@ -123,6 +121,8 @@ class ViewRight : SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         backButton.isHidden = true
         flashButton.isHidden = true
         cameraFlipButton.isHidden = true
+        
+        NotificationCenter.default.addObserver(self, selector:#selector(self.playerDidFinishPlaying(note:)),name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
@@ -186,13 +186,11 @@ class ViewRight : SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         return
     }
     
-    @objc func playerDidFinishPlaying(note: NSNotification){
-        if mediaType == .video {
-            player?.seek(to: kCMTimeZero)
-            audioPlayer?.currentTime = 0
-            player?.play()
-            audioPlayer?.play()
-        }
+    @objc func playerDidFinishPlaying(note: NSNotification) {
+        player?.seek(to: kCMTimeZero)
+        audioPlayer?.currentTime = 0
+        player?.play()
+        audioPlayer?.play()
     }
     
     override func didReceiveMemoryWarning() {
@@ -207,7 +205,7 @@ class ViewRight : SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         return true
     }
     
-    var ignoreQR: Bool = false
+    var ignoreQR: Bool = true
     var responder: SCLAlertViewResponder?
     let qrLockQueue = DispatchQueue(label: "com.amarbleapp.QrLockQueue")
     
@@ -353,9 +351,7 @@ class ViewRight : SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     
     @IBAction func cancelPhoto(_ sender: AnyObject) {
         removeMediaPreview()
-        if mediaType == .video {
-            deleteVideoFile()
-        }
+        deleteVideoFile()
     }
     
     func removeMediaPreview() {
@@ -376,9 +372,13 @@ class ViewRight : SwiftyCamViewController, SwiftyCamViewControllerDelegate {
         videoView.isHidden = true
         isPlayingVideoPreview = false
         player?.pause()
+        audioPlayer?.pause()
         player = nil
+        audioPlayer = nil
         
         mediaType = nil
+        
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
     }
     
     func deleteVideoFile() {

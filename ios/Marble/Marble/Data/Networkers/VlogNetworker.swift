@@ -37,4 +37,11 @@ extension Networker {
         self.sessionManager.request(Router.VlogNewComment, method: .post, parameters: params, encoding: URLEncoding.default).validate().responseJSON(completionHandler: completionHandler)
     }
     
+    func vlogViewed(vlogId: Int, completionHandler: @escaping (DataResponse<Any>) -> ()) {
+        let params: Parameters = [
+            "vlog_id": vlogId
+        ]
+        self.sessionManager.request(Router.VlogViewed, method: .post, parameters: params, encoding: URLEncoding.default).validate().responseJSON(completionHandler: completionHandler)
+    }
+    
 }

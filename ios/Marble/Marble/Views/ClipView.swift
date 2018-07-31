@@ -147,20 +147,28 @@ class ClipView: UIView, UIScrollViewDelegate {
     }
     
     func mediaNext() {
-        let clip = delegate?.nextClip(self)
-        if let clip = clip {
-            self.clip = clip
-            showClip(clip: clip)
+        if let delegate = delegate {
+            let clip = delegate.nextClip(self)
+            if let clip = clip {
+                self.clip = clip
+                showClip(clip: clip)
+            } else {
+                exitClip()
+            }
         } else {
             exitClip()
         }
     }
     
     func mediaBack() {
-        let clip = delegate?.prevClip(self)
-        if let clip = clip {
-            self.clip = clip
-            showClip(clip: clip)
+        if let delegate = delegate {
+            let clip = delegate.prevClip(self)
+            if let clip = clip {
+                self.clip = clip
+                showClip(clip: clip)
+            } else {
+                exitClip()
+            }
         } else {
             exitClip()
         }

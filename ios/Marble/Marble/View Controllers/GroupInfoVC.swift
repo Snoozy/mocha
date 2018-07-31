@@ -77,25 +77,18 @@ class GroupInfoVC: UIViewController, UIScrollViewDelegate {
     }
     
     @IBAction func shareGroupBtnPress(_ sender: Any) {
-        let appearance = SCLAlertView.SCLAppearance(
-            kCircleIconHeight: 100,
-            hideWhenBackgroundViewIsTapped: true
-        )
-        let alert = SCLAlertView(appearance: appearance)
-        let subTitle = String(format: "Members: " + String(describing:(group?.members)!))
-        let qrCodeImg = createMarbleQRCode(content: String(format: "marble.group:%d", (group?.groupId)!), color: CIColor(color: Constants.Colors.MarbleBlue))
-        let context = CIContext(options: nil)
-        let img = UIImage(cgImage: context.createCGImage(qrCodeImg!, from: (qrCodeImg?.extent)!)!)
-        alert.showInfo((group?.name)!, subTitle: subTitle, circleIconImage: img, iconHeightDeviation: 25)
+        let text = "Join my group on Marble! "
+        let webUrl = URL(string: "http://amarbleapp.com/groups/join?g=" + String(group!.code))!
+        
+        let stuffToShare = [ text, webUrl ] as [Any]
+        let activityViewController = UIActivityViewController(activityItems: stuffToShare, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
+        
+        activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.postToFacebook ]
+        
+        // present the view controller
+        self.present(activityViewController, animated: true, completion: nil)
     }
-    
-//    @IBAction func memoriesBtnPress(_ sender: Any) {
-//        OperationQueue.main.addOperation {
-//            let vc = UIStoryboard(name:"Memories", bundle: nil).instantiateInitialViewController() as! UINavigationController
-//            (vc.topViewController as! MemoriesVC).group = self.group
-//            UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
-//        }
-//    }
     
     override func viewDidLayoutSubviews() {
         membersTable.frame.size = membersTable.contentSize

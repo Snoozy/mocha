@@ -14,6 +14,8 @@ class HomeTVCell: UITableViewCell {
         super.awakeFromNib()
         vlogDescription.collapsed = true
         vlogDescription.text = nil
+        
+        
     }
     
     override func prepareForReuse() {
@@ -27,7 +29,7 @@ class HomeTVCell: UITableViewCell {
     }
     
     @IBOutlet weak var vidPreviewImage: UIImageView!
-    @IBOutlet weak var marbleName: UILabel!
+    @IBOutlet weak var marbleName: UIButton!
     @IBOutlet weak var vlogDescription: mUILabel!
     @IBOutlet weak var commentBtn: UIButton!
     
@@ -42,6 +44,17 @@ class HomeTVCell: UITableViewCell {
         modal.transitioningDelegate = transitionDelegate
         modal.modalPresentationStyle = .custom
         UIApplication.topViewController()?.present(modal, animated: true, completion: nil)
+    }
+    
+    @IBAction func marbleNamePressed(_ sender: Any) {
+        if let group = State.shared.findGroupBy(id: vlog?.groupId ?? 0) {
+            let modal = GroupInfoVC(nibName: "GroupInfo", bundle: nil)
+            modal.setGroup(group: group)
+            let transitionDelegate = DeckTransitioningDelegate()
+            modal.transitioningDelegate = transitionDelegate
+            modal.modalPresentationStyle = .custom
+            UIApplication.topViewController()?.present(modal, animated: true, completion: nil)
+        }
     }
     
 }
